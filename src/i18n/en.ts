@@ -106,6 +106,8 @@ export const en = {
   // --- Booking page (Bentral) ---
   'booking.title': '[MOCK] Book your stay', // TODO
   'booking.intro': '[MOCK] Short intro above the reservation widget.', // TODO
+  'booking.widgetTitle': '[MOCK] Reservation system', // TODO (iframe title — a11y)
+  'booking.placeholder': '[MOCK] Reservation widget will appear here.', // TODO (shown until Bentral embed is pasted)
 
   // --- Hidden advertising landing (/lp) ---
   'lp.hero.title': '[MOCK] Special offer headline', // TODO

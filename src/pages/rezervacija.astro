@@ -1,0 +1,21 @@
+---
+// rezervacija.astro — Booking page (TASK-024).
+// Hosts the isolated Bentral reservation widget (BentralEmbed) with a short [MOCK] heading.
+// Per-page SEO flows through BaseLayout props; visible strings come from the i18n dictionary.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import BentralEmbed from '../components/booking/BentralEmbed.astro';
+import { useTranslations, defaultLocale } from '../i18n';
+
+const t = useTranslations(defaultLocale);
+const pageTitle = `${t('booking.title')} — ${t('site.name')}`;
+---
+
+<BaseLayout title={pageTitle} description={t('booking.intro')}>
+  <section class="booking">
+    <div class="booking__inner">
+      <SectionHeader title={t('booking.title')} subtitle={t('booking.intro')} align="center" />
+      <BentralEmbed />
+    </div>
+  </section>
+</BaseLayout>

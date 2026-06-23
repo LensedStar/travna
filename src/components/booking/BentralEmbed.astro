@@ -1,0 +1,43 @@
+---
+// BentralEmbed.astro — ISOLATED Bentral reservation embed (TASK-024).
+//
+// This is the ONLY file to touch when the real Bentral widget is supplied. Replacing the
+// placeholder iframe below with the real Bentral embed code / object ID must require editing
+// NOTHING ELSE — no other component, page or style file changes.
+//
+// Rules (CLAUDE.md §11):
+//  - The widget lives ONLY on /rezervacija, inside this isolated wrapper.
+//  - iframe: sensible min-height (via .booking__frame), `title`, loading="lazy".
+//  - Do NOT pass user PII to the widget.
+//  - Do not fight the widget's internal styling — the site only frames around it.
+//
+// Visible/a11y strings come from the i18n dictionary (no hardcoded copy).
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+
+// [MOCK] placeholder embed target. The real Bentral object renders from a Bentral-hosted URL
+// (e.g. https://www.bentral.com/...) pasted by Webline/client at launch.
+// TODO: replace `placeholderSrc` (and the iframe `src` below) with the real Bentral embed URL.
+const placeholderSrc = 'about:blank';
+---
+
+<div class="booking__embed">
+  {/*
+    ================================================================================
+    TODO: PASTE THE REAL BENTRAL EMBED HERE.
+    Replace the placeholder <iframe> below with the Bentral-provided <iframe> (or
+    object-id snippet). Keep `title`, `loading="lazy"` and the `.booking__frame`
+    class so the site styling and a11y/lazy-loading behaviour are preserved.
+    Do NOT pass any user PII to the widget URL.
+    ================================================================================
+  */}
+  <iframe
+    class="booking__frame"
+    src={placeholderSrc}
+    title={t('booking.widgetTitle')}
+    loading="lazy"></iframe>
+
+  {/* Placeholder note — visible until the real embed replaces the iframe above. */}
+  <p class="booking__placeholder">{t('booking.placeholder')}</p>
+</div>

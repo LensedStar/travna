@@ -179,3 +179,23 @@
 - Шаг 3: grep of the three `.astro` files for `<style` → none (no inline styles / magic numbers in components).
 - Bonus: `npm run build` completes clean (no SCSS deprecation/errors).
 **Files changed:** src/components/ui/Button.astro, src/components/ui/Card.astro, src/components/ui/SectionHeader.astro, src/styles/blocks/_buttons.scss, src/styles/blocks/_cards.scss, src/styles/blocks/_section-header.scss, src/styles/main.scss, tasks.json (status), progress.md
+
+## TASK-024 — Bentral: isolated BentralEmbed component + /rezervacija page
+**Date:** 2026-06-23
+**Status:** done
+**Summary:** Built the isolated Bentral reservation slot and its booking page so the real widget can be pasted later with a single-file edit (CLAUDE.md §11).
+- `src/components/booking/BentralEmbed.astro`: isolated wrapper holding a clearly-marked **placeholder `<iframe>`** with a prominent `TODO: PASTE THE REAL BENTRAL EMBED HERE` comment block. The iframe has `title` (from i18n `booking.widgetTitle`, a11y), `loading="lazy"`, and a sensible `min-height` (via the `.booking__frame` class). `src="about:blank"` `[MOCK]` placeholder target. No user PII is passed to the widget. A `.booking__placeholder` note (from i18n `booking.placeholder`) shows while the slot is empty and is documented to be removed in this same file when the real embed lands.
+- `src/pages/rezervacija.astro`: renders through `BaseLayout` with a short `[MOCK]` heading via `SectionHeader` (`booking.title` + `booking.intro`) and drops in `<BentralEmbed />`. Per-page SEO flows through BaseLayout props (title = `booking.title — site.name`, description = `booking.intro`).
+- `src/styles/blocks/_booking.scss`: frames **around** the widget only (large rounding `--radius-lg`, enveloping `--shadow-card`, `--color-mist` empty-state bg), never touching Bentral internals. Token-only — no raw hex/spacing/radius/shadow literals; the iframe `min-height` is derived from the spacing scale (`calc(var(--space-3xl) * 5.5)`). Container `max-width: 60rem` is a structural width (same precedent as the `60ch` in `_section-header.scss`).
+- `src/styles/main.scss`: `@use 'blocks/booking';` added after the primitive blocks.
+- `src/i18n/en.ts`: added two `[MOCK]` keys — `booking.widgetTitle` (iframe a11y title) + `booking.placeholder` (empty-state note). No hardcoded strings in the component/page.
+**Decisions / notes:**
+- Isolation guarantee: the real embed replaces only the placeholder `<iframe>` (and optionally the placeholder `<p>`) inside `BentralEmbed.astro` — page, layout, styles and i18n stay untouched.
+- iframe background is transparent so the warm `.booking__embed` frame + centered placeholder note read as an intentional empty-state until the widget is pasted.
+**Verified (test_steps):**
+- Шаг 1: `npm run build` clean; `/rezervacija/index.html` generated; markup shows `.booking`, `.booking__inner`, `.booking__embed`, the iframe and the `.booking__placeholder` note — the framed reservation placeholder renders.
+- Шаг 2: the embed is isolated — the iframe/placeholder live only in `src/components/booking/BentralEmbed.astro` (the page just imports the component).
+- Шаг 3: rendered iframe has `title="[MOCK] Reservation system"` and `loading="lazy"` (grep of built HTML).
+- Bonus: `_booking.scss` has no raw hex; compiled `.booking__frame` resolves `min-height` to `calc(var(--space-3xl) * 5.5)` from tokens.
+**Files changed:** src/components/booking/BentralEmbed.astro, src/pages/rezervacija.astro, src/styles/blocks/_booking.scss, src/styles/main.scss, src/i18n/en.ts, tasks.json (status), progress.md
+**Note:** `about:blank` src, `booking.*` copy and the OG/SITE_URL placeholders remain `[MOCK]`/TODO for Webline to replace with the real Bentral embed at launch.

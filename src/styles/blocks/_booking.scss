@@ -1,0 +1,47 @@
+// blocks/_booking.scss — styles for the Booking page (/rezervacija) and the isolated
+// BentralEmbed wrapper (TASK-024). Token-only: no raw colors/spacing/radius/shadow literals.
+// The site only frames AROUND the widget (CLAUDE.md §11) — it never styles Bentral internals.
+
+.booking {
+  padding-block: var(--space-2xl);
+  padding-inline: var(--space-md);
+}
+
+.booking__inner {
+  // Container width keeps the framed widget readable on wide screens (structural, like 60ch headers).
+  max-width: 60rem;
+  margin-inline: auto;
+}
+
+// Soft, warm frame around the reservation widget — large rounding + enveloping shadow from tokens.
+.booking__embed {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-mist);
+  box-shadow: var(--shadow-card);
+}
+
+.booking__frame {
+  display: block;
+  width: 100%;
+  // Sensible min-height for an empty reservation widget — derived from the spacing scale.
+  min-height: calc(var(--space-3xl) * 5.5);
+  border: 0;
+  background-color: transparent;
+}
+
+// Placeholder note shown while the embed slot is empty. Sits above the blank iframe and is
+// non-interactive; remove it in BentralEmbed.astro once the real Bentral embed is pasted.
+.booking__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  text-align: center;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  pointer-events: none;
+}
