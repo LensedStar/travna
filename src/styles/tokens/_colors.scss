@@ -1,0 +1,19 @@
+// tokens/_colors.scss — color design tokens (single source of truth).
+// Semantic role names (by role, NOT literal color names like amber/green), per PRD §8.2.
+// SCSS map is the source; values are emitted to :root as CSS custom properties and
+// consumed elsewhere only as var(--color-*). Changing a value here restyles the whole site.
+
+$colors: (
+  'bg':         #F3E9D8, // warm background base
+  'wood':       #C8884B, // warm accent 1 — buttons, icons
+  'forest':     #3E5A40, // nature co-accent — sections, lines, hover, motifs
+  'terracotta': #A65A3A, // deep accent — primary CTAs
+  'mist':       #B8BCA8, // fog neutral
+  'text':       #3A2E26, // cocoa-brown text (not black)
+);
+
+:root {
+  @each $name, $value in $colors {
+    --color-#{$name}: #{$value};
+  }
+}

@@ -1,0 +1,15 @@
+// tokens/_radius.scss — corner-radius design tokens (single source of truth).
+// Large soft rounding is part of the rustic/cozy identity (PRD §8.2). Emitted to :root;
+// blocks consume only var(--radius-*).
+
+$radius: (
+  'sm': 0.5rem,
+  'md': 1rem,
+  'lg': 1.75rem,
+);
+
+:root {
+  @each $name, $value in $radius {
+    --radius-#{$name}: #{$value};
+  }
+}

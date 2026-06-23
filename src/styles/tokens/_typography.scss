@@ -1,0 +1,43 @@
+// tokens/_typography.scss — typography design tokens (single source of truth).
+// Font families, type scale, line-heights and weights. Emitted to :root as CSS custom
+// properties; blocks consume only var(--font-*) / var(--text-*) / var(--leading-*) / var(--weight-*).
+// Fonts are self-hosted via @font-face in base/_global.scss (TASK-005) — no Google Fonts CDN.
+
+$font-heading: ("Fraunces", serif); // warm character — cozy/rustic
+$font-body:    ("Lato", sans-serif); // calm, readable
+
+// Type scale (fluid where it helps the rustic, photo-led layout breathe).
+$text: (
+  'h1':    clamp(2.25rem, 4vw + 1rem, 3.5rem),
+  'h2':    clamp(1.75rem, 2.5vw + 0.75rem, 2.5rem),
+  'h3':    clamp(1.35rem, 1.5vw + 0.6rem, 1.75rem),
+  'body':  1rem,
+  'small': 0.875rem,
+);
+
+$leading: (
+  'tight':  1.15,
+  'snug':   1.35,
+  'normal': 1.6,
+);
+
+$weight: (
+  'regular': 400,
+  'medium':  600,
+  'bold':    700,
+);
+
+:root {
+  --font-heading: #{$font-heading};
+  --font-body: #{$font-body};
+
+  @each $name, $value in $text {
+    --text-#{$name}: #{$value};
+  }
+  @each $name, $value in $leading {
+    --leading-#{$name}: #{$value};
+  }
+  @each $name, $value in $weight {
+    --weight-#{$name}: #{$value};
+  }
+}

@@ -1,0 +1,10 @@
+// tokens/_index.scss — assembles the design-token layer.
+// @forwarded so other layers can `@use 'tokens'` for the SCSS maps/variables, while loading
+// this module also emits every token to :root as CSS custom properties (var(--token)).
+
+@forward 'colors';
+@forward 'typography';
+@forward 'radius';
+@forward 'shadows';
+@forward 'spacing';
+@forward 'motion';

@@ -1,0 +1,11 @@
+// tokens/_shadows.scss — shadow/depth design tokens (single source of truth).
+// Enveloping, soft shadows (PRD §8.2) — NOT harsh drop shadows. Tinted with the cocoa text
+// hue rather than pure black so depth stays warm. Emitted to :root; blocks consume var(--shadow-*).
+
+$shadow-soft: 0 2px 10px rgba(58, 46, 38, 0.08);
+$shadow-card: 0 10px 30px rgba(58, 46, 38, 0.12);
+
+:root {
+  --shadow-soft: #{$shadow-soft};
+  --shadow-card: #{$shadow-card};
+}

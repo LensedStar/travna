@@ -77,3 +77,26 @@
 - Шаг 3: i18n is not hard-bound to one locale — `locales` array, `languages`/`ui` maps, `resolveLocale`/`getLocaleFromUrl`, and the Astro `i18n` config are all locale-parameterized with commented `sl`/`ru` extension points.
 - Note: skipped `astro check` (would interactively install `@astrojs/check`+`typescript`, out of task scope); the production build compiles all TS via esbuild without errors.
 **Files changed:** src/i18n/en.ts, src/i18n/index.ts, src/i18n/types.ts, astro.config.mjs, src/pages/index.astro, tasks.json (status), progress.md
+
+## TASK-004 — Design tokens: colors, typography, radius, shadows, spacing, motion
+**Date:** 2026-06-23
+**Status:** done
+**Summary:** Authored the design-token layer as the single source of truth, exposed entirely as `:root` CSS custom properties (consumed elsewhere only as `var(--token)`).
+- Each token partial declares a Sass map/variable (the source) and emits it to `:root` via an `@each` loop, so changing one map value restyles the whole site with zero per-component edits.
+- `tokens/_colors.scss`: 6 semantic colors (role names, not literal) — `--color-bg #F3E9D8`, `--color-wood #C8884B`, `--color-forest #3E5A40`, `--color-terracotta #A65A3A`, `--color-mist #B8BCA8`, `--color-text #3A2E26`.
+- `tokens/_typography.scss`: `--font-heading` (Fraunces, serif) + `--font-body` (Lato, sans-serif); type scale `--text-h1/h2/h3/body/small` (h1–h3 fluid via `clamp()`); line-heights `--leading-tight/snug/normal`; weights `--weight-regular/medium/bold`.
+- `tokens/_radius.scss`: `--radius-sm/md/lg` (large soft rounding for the rustic identity).
+- `tokens/_shadows.scss`: `--shadow-soft`, `--shadow-card` (enveloping, warm — tinted with the cocoa text hue, not pure black).
+- `tokens/_spacing.scss`: `--space-xs..3xl` scale.
+- `tokens/_motion.scss`: `--motion-duration` (400ms), `--motion-duration-fast` (200ms), `--motion-ease` (warm ease-out cubic-bezier).
+- `tokens/_index.scss`: `@forward`s all six partials so other layers can `@use 'tokens'` for the maps while loading also emits the `:root` CSS.
+- `main.scss`: now `@use 'tokens';` FIRST (before base/reset, base/global) so custom properties exist before `base/_global.scss` consumes them; removed the TASK-004 TODO.
+**Decisions / notes:**
+- Raw hex/rgba values live ONLY in token files (the source) — this is the allowed place per the anti-hardcode rule; blocks/components stay token-only.
+- Font families self-host later (TASK-005) via `@font-face`; the family tokens already reference `"Fraunces"`/`"Lato"`.
+- Used the Sass module system (`@use`/`@forward`) throughout — no `@import`, no deprecation warnings.
+**Verified (test_steps):**
+- Шаг 1: `npm run build` → clean (no SCSS errors/deprecations); grep of the compiled CSS confirms every token group is present in `:root` (6 colors, font families, text-h1..small, leading, weight, radius sm/md/lg, shadow soft/card, space xs..3xl, motion duration/fast/ease).
+- Шаг 2: `var(--color-forest)` resolves and is already consumed by the global `:focus-visible` outline — color applies.
+- Шаг 3: tokens are driven from single Sass maps, so editing one value (e.g. `--color-wood` in `_colors.scss`) propagates site-wide from one place.
+**Files changed:** src/styles/tokens/_colors.scss, _typography.scss, _radius.scss, _shadows.scss, _spacing.scss, _motion.scss, _index.scss, src/styles/main.scss, tasks.json (status), progress.md

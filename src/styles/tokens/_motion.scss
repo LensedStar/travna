@@ -1,0 +1,14 @@
+// tokens/_motion.scss — motion design tokens (single source of truth).
+// All animations (reveals, hovers, parallax) read duration/easing from here so timing is
+// consistent and tunable in one place. Warm ease-out — no springy/abrupt motion (PRD §8.5).
+// Emitted to :root; blocks/islands consume var(--motion-*).
+
+$motion-duration:      400ms;
+$motion-duration-fast: 200ms;
+$motion-ease:          cubic-bezier(0.22, 0.61, 0.36, 1); // warm ease-out
+
+:root {
+  --motion-duration: #{$motion-duration};
+  --motion-duration-fast: #{$motion-duration-fast};
+  --motion-ease: #{$motion-ease};
+}

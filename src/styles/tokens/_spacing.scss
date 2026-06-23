@@ -1,0 +1,19 @@
+// tokens/_spacing.scss — spacing-scale design tokens (single source of truth).
+// Generous whitespace is part of the clean-but-warm direction (PRD §8.1). Emitted to :root;
+// blocks consume only var(--space-*) — no magic numbers for margins/padding/gaps.
+
+$space: (
+  'xs':  0.5rem,
+  'sm':  0.75rem,
+  'md':  1.25rem,
+  'lg':  2rem,
+  'xl':  3rem,
+  '2xl': 4.5rem,
+  '3xl': 7rem,
+);
+
+:root {
+  @each $name, $value in $space {
+    --space-#{$name}: #{$value};
+  }
+}

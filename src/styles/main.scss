@@ -3,8 +3,8 @@
 // Layer order: tokens -> base -> blocks. The utils layer (functions/mixins) is @used by the
 // partials that need it, so it is not assembled here directly.
 //
-// TODO(TASK-004): @forward the tokens layer here (e.g. `@forward 'tokens';`) once design tokens exist.
 // TODO(TASK-009+): @use each `blocks/_*.scss` partial as section styles are built.
 
+@use 'tokens'; // emits all design tokens to :root as CSS custom properties (must load first)
 @use 'base/reset';
 @use 'base/global';
