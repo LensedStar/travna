@@ -1,0 +1,9 @@
+# Netlify configuration — Dom na Travni gori
+# TODO: Real domain (SITE_URL) is set by Webline at launch; not configured here.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"

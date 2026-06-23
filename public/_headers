@@ -1,0 +1,18 @@
+# Netlify security headers — Dom na Travni gori
+# Baseline headers kept intentionally compatible with the third parties this
+# site embeds: Bentral (reservation iframe), Google Maps (footer iframe) and
+# Google Analytics 4. No restrictive Content-Security-Policy is set here so
+# those embeds/scripts are not blocked.
+# TODO (Webline): tighten into an explicit CSP once the real Bentral object,
+# Maps embed URL and GA measurement ID are known. Required allowances to keep:
+#   - frame-src:   https://*.bentral.com  https://*.google.com  https://www.google.com
+#   - script-src:  https://www.googletagmanager.com  https://www.google-analytics.com
+#   - connect-src: https://www.google-analytics.com  https://*.google-analytics.com
+#   - img-src:     https://*.google-analytics.com  https://www.googletagmanager.com
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  X-DNS-Prefetch-Control: on

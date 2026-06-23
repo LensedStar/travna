@@ -1,0 +1,8 @@
+# robots.txt — Dom na Travni gori
+# TODO: Sitemap host (SITE_URL) is the [MOCK] placeholder until Webline sets the real domain at launch.
+
+User-agent: *
+Allow: /
+Disallow: /lp
+
+Sitemap: https://example.com/sitemap-index.xml

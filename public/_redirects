@@ -1,0 +1,4 @@
+# Netlify redirects — Dom na Travni gori
+# No redirects required in Phase 1. Netlify Forms success handling (/thank-you/)
+# is wired via the form markup (TASK-022/023), not here.
+# TODO (Webline): add domain-level redirects (e.g. apex<->www) at launch if needed.
