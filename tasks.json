@@ -43,7 +43,7 @@
         "Ожидаемый результат: Базовый Astro-проект работает, Tailwind отсутствует, структура создана"
       ],
       "dependencies": [],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-002",
