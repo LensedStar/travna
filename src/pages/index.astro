@@ -3,18 +3,21 @@
 // TODO: implement real Home (TASK-016) using BaseLayout, Header, Footer and section components.
 // main.scss is imported here so global styles apply now; TASK-007 moves this import into BaseLayout.
 import '../styles/main.scss';
+import { useTranslations, defaultLocale } from '../i18n';
+
+const t = useTranslations(defaultLocale);
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dom na Travni gori</title>
+    <title>{t('site.name')}</title>
   </head>
   <body>
     <main>
-      <h1>Dom na Travni gori</h1>
-      <p><!-- [MOCK] --> Project scaffold is running.</p>
+      <h1>{t('site.name')}</h1>
+      <p>{t('site.tagline')}</p>
     </main>
   </body>
 </html>

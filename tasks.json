@@ -147,7 +147,7 @@
         "Ожидаемый результат: EN-словарь работает, архитектура i18n-ready"
       ],
       "dependencies": ["TASK-001"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-007",

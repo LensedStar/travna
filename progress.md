@@ -61,3 +61,19 @@
 - Шаг 3: temporarily added `blocks/_test.scss` (`.task003-smoke-test`) + `@use 'blocks/test'`; confirmed the rule reached both `dev` output and `dist/index.html`, then removed the temp block and rebuilt clean.
 - Bonus: final `npm run build` completes with no deprecation/error lines.
 **Files changed:** src/styles/main.scss, src/styles/base/_reset.scss, src/styles/base/_global.scss, src/styles/utils/_functions.scss, src/styles/utils/_mixins.scss, src/pages/index.astro, astro.config.mjs, tasks.json (status), progress.md
+
+## TASK-006 — i18n scaffold: EN-only + en.ts dictionary + SL/RU-ready architecture
+**Date:** 2026-06-23
+**Status:** done
+**Summary:** Stood up the i18n-ready layer (English only in Phase 1, no functional locale switching).
+- `src/i18n/en.ts`: the English UI dictionary — single source of truth for ALL visible strings. Flat dotted keys grouped by area (`site.*`, `a11y.*`, `nav.*`, `lang.*`, `cta.*`, `home.*`, `accommodation.*`, `activities.*`, `menu.*`, `contact.*`/form, `thankYou.*`, `booking.*`, `lp.*`, `footer.*`, `consent.*`). Every value is `[MOCK]` placeholder with a `// TODO` (brand strings `site.name` left as the real name; `lang.*` codes are UI labels). `as const` so keys are literal-typed.
+- `src/i18n/types.ts`: derives `UIKey = keyof typeof en` and `UIDict = Record<UIKey, string>` from the EN dictionary, so future `sl.ts`/`ru.ts` are checked against the SAME key set (no missing translations) without circular imports.
+- `src/i18n/index.ts`: locale registry + helpers — `defaultLocale='en'`, `locales=['en']`, `languages` map, `ui` map (all with commented `sl`/`ru` slots), plus `resolveLocale()`, `getLocaleFromUrl()` (ready to read a `/sl/`,`/ru/` prefix), and `useTranslations(locale)` returning a typed `t(key)` with fallback to the default dictionary. Plain TS module → importable in both `.astro` frontmatter and `.jsx` islands.
+- `astro.config.mjs`: added Astro `i18n` block — `defaultLocale: 'en'`, `locales: ['en']`, `routing.prefixDefaultLocale: false`. Currently resolves only `en`; documented that adding a locale needs only a new dictionary + content + adding the code here (no component rewrites).
+- `src/pages/index.astro`: the placeholder home now pulls its visible strings via `useTranslations(defaultLocale)` (`t('site.name')`, `t('site.tagline')`) instead of hardcoded text — demonstrates the helper in `.astro` and satisfies test step 1. (Page remains a placeholder; real Home is TASK-016.)
+**Verified (test_steps):**
+- Шаг 1: `npm run build` → clean; `dist/index.html` `<title>`/`<h1>` render `Dom na Travni gori` (from `site.name`) and the `[MOCK]` tagline (from `site.tagline`) — strings come from `en.ts`.
+- Шаг 2: only component present is `index.astro`; grep confirms it uses `useTranslations`/`t('…')` with no hardcoded visible literals.
+- Шаг 3: i18n is not hard-bound to one locale — `locales` array, `languages`/`ui` maps, `resolveLocale`/`getLocaleFromUrl`, and the Astro `i18n` config are all locale-parameterized with commented `sl`/`ru` extension points.
+- Note: skipped `astro check` (would interactively install `@astrojs/check`+`typescript`, out of task scope); the production build compiles all TS via esbuild without errors.
+**Files changed:** src/i18n/en.ts, src/i18n/index.ts, src/i18n/types.ts, astro.config.mjs, src/pages/index.astro, tasks.json (status), progress.md
