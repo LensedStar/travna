@@ -1,0 +1,10 @@
+// main.scss — global SCSS entry point.
+// Assembles all layers with the Sass module system (@use / @forward) — NEVER @import.
+// Layer order: tokens -> base -> blocks. The utils layer (functions/mixins) is @used by the
+// partials that need it, so it is not assembled here directly.
+//
+// TODO(TASK-004): @forward the tokens layer here (e.g. `@forward 'tokens';`) once design tokens exist.
+// TODO(TASK-009+): @use each `blocks/_*.scss` partial as section styles are built.
+
+@use 'base/reset';
+@use 'base/global';

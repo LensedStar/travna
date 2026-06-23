@@ -1,0 +1,14 @@
+// base/_global.scss — global element defaults, consuming design tokens via CSS custom properties.
+// NOTE: tokens (--color-*, --font-*) are defined by TASK-004 (tokens layer). Until then these
+// var() references resolve to nothing (valid CSS) — no hardcoded colors/fonts live here.
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 2px;
+}

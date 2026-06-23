@@ -15,4 +15,12 @@ export default defineConfig({
     mdx(),
     sitemap(),
   ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        // Use the modern Sass API so the SCSS layer builds without the legacy-js-api deprecation.
+        scss: { api: 'modern' },
+      },
+    },
+  },
 });

@@ -44,3 +44,20 @@
 - Шаг 3: `dist/robots.txt` contains `Disallow: /lp` (grep count = 1). `_headers`/`_redirects` also present in `dist/`.
 - Bonus: confirmed no `tailwind` reference in `package.json`/`astro.config.mjs`/`netlify.toml`.
 **Files changed:** netlify.toml, public/_headers, public/_redirects, public/robots.txt, tasks.json (status), progress.md
+
+## TASK-003 — SCSS architecture: tokens/base/utils/blocks skeleton + main.scss
+**Date:** 2026-06-23
+**Status:** done
+**Summary:** Stood up the classic-SCSS layer skeleton assembled via the Sass module system (`@use`/`@forward`), no `@import`.
+- `src/styles/utils/_functions.scss` and `_mixins.scss`: comment-only stubs ready for later tasks to `@use`.
+- `src/styles/base/_reset.scss`: minimal modern reset (box-sizing, margin zero, media block defaults, list/anchor resets) — no colors/fonts.
+- `src/styles/base/_global.scss`: global element defaults consuming tokens via `var(--font-body)`, `var(--color-text)`, `var(--color-bg)`, plus a `:focus-visible` outline. NOTE: tokens themselves arrive in TASK-004; these `var()` refs are valid CSS that resolve once tokens land — no hardcoded values here.
+- `src/styles/main.scss`: entry point that `@use`s `base/reset` and `base/global`. Documented layer order (tokens → base → blocks) with TODOs for TASK-004 (forward tokens) and TASK-009+ (use blocks).
+- **Wiring decision:** acceptance says "main.scss connected in BaseLayout", but BaseLayout is TASK-007 (which depends on TASK-003 → circular). Resolved by importing `main.scss` in the current `src/pages/index.astro` so global styles apply now; TASK-007 will move this import into `BaseLayout.astro` and replace the placeholder page.
+- **Decision:** added `vite.css.preprocessorOptions.scss.api = 'modern'` in `astro.config.mjs` to silence the Dart-Sass `legacy-js-api` deprecation (emitted by Vite's default Sass invocation, unrelated to our `@use`-only code), so the SCSS build is warning-free. sass 1.101.0 + vite 5.4.21 support the modern API.
+**Verified (test_steps):**
+- Шаг 1: `npm run dev` → `astro v4.16.19 ready in 291 ms`, HTTP 200, no SCSS compile errors/warnings/deprecations; styles served (reset `box-sizing` present in page).
+- Шаг 2: `main.scss` uses `@use` only — `grep @import src/styles` matches a single occurrence that is a comment ("NEVER @import"), not a directive.
+- Шаг 3: temporarily added `blocks/_test.scss` (`.task003-smoke-test`) + `@use 'blocks/test'`; confirmed the rule reached both `dev` output and `dist/index.html`, then removed the temp block and rebuilt clean.
+- Bonus: final `npm run build` completes with no deprecation/error lines.
+**Files changed:** src/styles/main.scss, src/styles/base/_reset.scss, src/styles/base/_global.scss, src/styles/utils/_functions.scss, src/styles/utils/_mixins.scss, src/pages/index.astro, astro.config.mjs, tasks.json (status), progress.md
