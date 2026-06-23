@@ -136,3 +136,24 @@
 - Bonus: `npm run build` completes clean (no SCSS deprecation/errors).
 **Files changed:** src/layouts/BaseLayout.astro, src/components/layout/Header.astro, src/components/layout/Footer.astro, src/styles/blocks/_layout.scss, src/styles/main.scss, src/pages/index.astro, tasks.json (status), progress.md
 **Note:** Header/Footer are intentionally minimal stubs to be completed in TASK-010 / TASK-013; the `[MOCK]` `og:image` and `SITE_URL` are placeholders for Webline to replace at launch.
+
+## TASK-008 — Content collections (MDX/data): activities, menu, valueProps, gallery
+**Date:** 2026-06-23
+**Status:** done
+**Summary:** Authored the typed content layer so every list-driven page renders from data, not hardcoded markup (PRD §6).
+- `src/content/config.ts`: defines four `defineCollection`s with zod schemas, all `type: 'data'` (JSON) since their content is structured fields, not prose. The entry filename is the stable item `id` from PRD §6.
+  - `activities` — `{ title, image, description, order }` (PRD §6.3).
+  - `valueProps` — `{ icon, label, description?, order }` (PRD §6.2). `order` added for deterministic card ordering.
+  - `gallery` — `{ src, alt, order }` (PRD §6.5). `order` added for deterministic slide order.
+  - `menu` — single structured document `{ scanPdf, sections: [{ id, title, items: [{ name, description?, price? }] }] }` (PRD §6.4). One entry holds all sections + the scanned-PDF reference.
+- **Decision — JSON data collections, not MDX:** all four are field-shaped, so `type: 'data'` gives schema validation and clean typing; MDX bodies aren't needed for these. (Task title allows "MDX/data".)
+- **Decision — `price` as string:** keeps currency/format flexible for `[MOCK]` placeholders without numeric assumptions.
+- **Decision — i18n-ready:** schemas are shaped so a `locale` field / per-locale entries can be added later without changing the layout consumers (noted in `config.ts` header).
+- Added `[MOCK]` entries to every collection: valueProps (nature/calm/base/cozy ×4), activities (hiking/cycling/sights ×3 — placeholder names only, **no invented facts/distances**), gallery (interior/fireplace/forest/terrace ×4), menu (1 doc, 3 sections: Starters/Mains/Drinks). Image/PDF paths are `[MOCK]` placeholder refs with TODO. All values tagged `[MOCK]` + TODO.
+- Removed the now-redundant `.gitkeep` files from the four populated content dirs (consistent with the TASK-005 fonts pattern).
+**Verified (test_steps):**
+- Шаг 1: `npm run build` → clean (no errors/deprecations); `[types] Generated` confirms all four collections validate against their schemas.
+- Шаг 2: each collection has `[MOCK]` entries (valueProps 4, activities 3, gallery 4, menu 1 doc w/ 3 sections).
+- Шаг 3: a temporary `collsmoke.astro` calling `getCollection(...)` rendered `data-acts="3"` / first activity `[MOCK] Hiking` (sorted by `order`), `data-vps="4"`, `data-gal="4"`, `data-menu-sections="3"` + scanPdf path — data comes from the collections. Temp page removed; final build clean.
+**Files changed:** src/content/config.ts, src/content/{activities,valueProps,gallery,menu}/*.json (13 entries), removed 4 .gitkeep, tasks.json (status), progress.md
+**Note:** image/PDF paths are `[MOCK]` placeholders (assets added later by Webline/client); consuming pages are built in TASK-015 (valueProps), TASK-017/018 (gallery), TASK-019 (activities), TASK-020/021 (menu).

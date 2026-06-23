@@ -1,0 +1,29 @@
+{
+  "scanPdf": "/menu/menu-scan.[MOCK].pdf",
+  "sections": [
+    {
+      "id": "starters",
+      "title": "[MOCK] Starters",
+      "items": [
+        { "name": "[MOCK] Starter item one", "description": "[MOCK] Optional description. TODO.", "price": "[MOCK] €0,00" },
+        { "name": "[MOCK] Starter item two", "price": "[MOCK] €0,00" }
+      ]
+    },
+    {
+      "id": "mains",
+      "title": "[MOCK] Mains",
+      "items": [
+        { "name": "[MOCK] Main item one", "description": "[MOCK] Optional description. TODO.", "price": "[MOCK] €0,00" },
+        { "name": "[MOCK] Main item two", "price": "[MOCK] €0,00" }
+      ]
+    },
+    {
+      "id": "drinks",
+      "title": "[MOCK] Drinks",
+      "items": [
+        { "name": "[MOCK] Drink item one", "price": "[MOCK] €0,00" },
+        { "name": "[MOCK] Drink item two", "price": "[MOCK] €0,00" }
+      ]
+    }
+  ]
+}
