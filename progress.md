@@ -117,3 +117,22 @@
 - Шаг 3: all four `@font-face` blocks include `font-display:swap` (grep count = 4 faces, 4 swap) in the build output.
 - Bonus: `npm run build` completes clean; `dist/fonts/` contains all four woff2 files.
 **Files changed:** public/fonts/*.woff2 (4 added), public/fonts/.gitkeep (removed), src/styles/base/_global.scss, tasks.json (status), progress.md
+
+## TASK-007 — BaseLayout.astro: head, meta, canonical, OG, skip-link, lang
+**Date:** 2026-06-23
+**Status:** done
+**Summary:** Authored the single layout every page uses, and routed the placeholder home through it.
+- `src/layouts/BaseLayout.astro`: typed `Props { title, description, canonicalURL?, ogImage?, noindex? }`. Sets `<!doctype html>` + `<html lang="en">`; base meta (charset, viewport, generator); `<title>`, `<meta name="description">`; self-referencing `<link rel="canonical">` defaulting to the current path resolved against `Astro.site` (the `SITE_URL` placeholder). Open Graph (`og:type=website`, title/description/url/image/site_name) + Twitter (`summary_large_image` + title/description/image). `noindex` prop conditionally emits `<meta name="robots" content="noindex, nofollow">` (for `/lp`, TASK-025). Skip-to-content link `→ #main-content`, then global `<Header />`, `<main id="main-content"><slot/></main>`, `<Footer />`. Imports `../styles/main.scss` (which `@font-face`s the self-hosted fonts) so global styles + fonts load from the layout.
+- **Decision — ogImage default:** `'/images/og-default.png'` `[MOCK]` (TODO: add the real asset). Resolved to an absolute URL via `Astro.site` for OG/Twitter.
+- **Decision — favicon:** removed the `<link rel="icon" href="/favicon.svg">` I initially added, since no favicon asset exists yet (would be a broken reference / Best-Practices hit); favicon is not in this task's scope.
+- **Ordering resolution (Header/Footer):** acceptance requires "Header and Footer connected in layout," but `Header.astro` (TASK-010) and `Footer.astro` (TASK-013) come later and depend on TASK-009. Created minimal **placeholder** `src/components/layout/Header.astro` + `Footer.astro` (brand name + footer rights, both via the i18n dictionary, each tagged `TODO(TASK-010/013)`), wired into BaseLayout. Their full nav / Book CTA / Google Map are built in their own tasks — no over-building here.
+- `src/styles/blocks/_layout.scss`: new block holding the `.skip-link` styles (off-screen `translateY(-150%)` until `:focus`, then slides in) — token-only (`--color-forest`/`--color-bg`/`--space-*`/`--radius-sm`/`--motion-*`), with `prefers-reduced-motion` disabling the transition. `@use`d in `main.scss`.
+- `src/pages/index.astro`: placeholder home now renders through `BaseLayout` (passing `title`/`description` from i18n) instead of its own `<html>` scaffold; moved the `main.scss` import out of the page and into BaseLayout (completing the deferral noted in TASK-003). Page stays a `[MOCK]` placeholder — real Home is TASK-016.
+**Verified (test_steps):**
+- Шаг 1: `dist/index.html` contains `<html lang="en">` and `<link rel="canonical" href="https://example.com/">`.
+- Шаг 2: all OG tags (`og:type/title/description/url/image/site_name`) + `twitter:card=summary_large_image` present in `<head>`.
+- Шаг 3: temporary `noindexprobe.astro` passing `noindex={true}` rendered `<meta name="robots" content="noindex, nofollow">`; probe removed and rebuilt clean. (Home, with no `noindex`, correctly has no robots meta.)
+- Шаг 4: `.skip-link` (href `#main-content`) is the first focusable element in `<body>` and targets `<main id="main-content">`; CSS reveals it on `:focus`.
+- Bonus: `npm run build` completes clean (no SCSS deprecation/errors).
+**Files changed:** src/layouts/BaseLayout.astro, src/components/layout/Header.astro, src/components/layout/Footer.astro, src/styles/blocks/_layout.scss, src/styles/main.scss, src/pages/index.astro, tasks.json (status), progress.md
+**Note:** Header/Footer are intentionally minimal stubs to be completed in TASK-010 / TASK-013; the `[MOCK]` `og:image` and `SITE_URL` are placeholders for Webline to replace at launch.

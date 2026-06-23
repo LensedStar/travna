@@ -1,0 +1,28 @@
+// blocks/_layout.scss — global layout chrome owned by BaseLayout (TASK-007).
+// Currently: the skip-to-content link (a11y). Header/Footer get their own block files in
+// TASK-010 / TASK-013. Token-only: no raw colors/spacing/radius literals here.
+
+.skip-link {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 1000;
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--color-forest);
+  color: var(--color-bg);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  // Hidden off-screen until focused via keyboard, then slides into view.
+  transform: translateY(-150%);
+  transition: transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+}

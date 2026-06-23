@@ -171,7 +171,7 @@
         "Ожидаемый результат: BaseLayout корректно формирует head и каркас"
       ],
       "dependencies": ["TASK-003", "TASK-005", "TASK-006"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-008",

@@ -1,0 +1,72 @@
+---
+// BaseLayout.astro — the single layout used by every page (TASK-007).
+// Builds <head> (meta, canonical, Open Graph / Twitter), sets <html lang="en">, loads the global
+// SCSS (which @font-faces the self-hosted fonts), renders the skip link + global Header/Footer,
+// and exposes a content slot. Per-page SEO (title/description/og/JSON-LD) flows in via props — no
+// hardcoded meta in pages. The `noindex` prop powers the hidden /lp landing (TASK-025).
+import { useTranslations, defaultLocale } from '../i18n';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import '../styles/main.scss';
+
+interface Props {
+  title: string;
+  description: string;
+  // Self-referencing canonical. Defaults to the current path resolved against SITE_URL (Astro.site).
+  canonicalURL?: string | URL;
+  // [MOCK] OG share image. TODO: replace public/images/og-default.png before launch.
+  ogImage?: string;
+  // Adds <meta name="robots" content="noindex, nofollow"> (used by /lp).
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site),
+  ogImage = '/images/og-default.png', // [MOCK] TODO: add the real OG image
+  noindex = false,
+} = Astro.props;
+
+const t = useTranslations(defaultLocale);
+
+// Absolute URLs for OG/canonical based on the SITE_URL placeholder (Astro.site, set in astro.config.mjs).
+const canonical = new URL(canonicalURL, Astro.site).toString();
+const ogImageURL = new URL(ogImage, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content={t('site.name')} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">{t('a11y.skipToContent')}</a>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

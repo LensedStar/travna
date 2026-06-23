@@ -1,0 +1,13 @@
+---
+// Header.astro — PLACEHOLDER stub so BaseLayout can wire global chrome (TASK-007).
+// TODO(TASK-010): implement the real header — [MOCK] text logo, primary nav (i18n),
+// prominent "Book" CTA -> /rezervacija, slots for LanguageSwitcher (TASK-011) + MobileNav (TASK-012).
+// Visible text comes from the i18n dictionary — no hardcoded strings.
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+---
+
+<header class="site-header">
+  <a class="site-header__brand" href="/">{t('site.name')}</a>
+</header>

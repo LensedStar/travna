@@ -8,3 +8,4 @@
 @use 'tokens'; // emits all design tokens to :root as CSS custom properties (must load first)
 @use 'base/reset';
 @use 'base/global';
+@use 'blocks/layout'; // global chrome (skip link) owned by BaseLayout

@@ -1,0 +1,13 @@
+---
+// Footer.astro — PLACEHOLDER stub so BaseLayout can render a global footer on every page (TASK-007).
+// TODO(TASK-013): implement the real footer — [MOCK] contact block, social links, legal entity,
+// and the embedded Google Map (lazy iframe with title) + short "how to reach us" note (all via i18n).
+// Visible text comes from the i18n dictionary — no hardcoded strings.
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+---
+
+<footer class="site-footer">
+  <p class="site-footer__rights">{t('site.name')} — {t('footer.rights')}</p>
+</footer>
