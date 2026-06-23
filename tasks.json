@@ -1,0 +1,755 @@
+{
+  "project": "Dom na Travni gori — mountain house / nature stay website",
+  "stack": "Astro 4.x + React islands + SCSS (classic, no Tailwind) + MDX + Netlify + Bentral",
+  "agent_instructions": {
+    "before_start": [
+      "Read CLAUDE.md, PRD-DomNaTravniGori.md, this file and git log --oneline -20",
+      "Pick one task with status pending and the highest priority",
+      "Verify that dependencies of this task have status done"
+    ],
+    "during_work": [
+      "Work only on the selected task",
+      "Commit after each logical change referencing the task ID",
+      "Do not touch code unrelated to the current task",
+      "All text is [MOCK] placeholder — never write real copy or invent facts",
+      "No Tailwind. No raw hex/magic numbers in blocks — tokens only. Styles in SCSS files, not in components"
+    ],
+    "before_finish": [
+      "Execute all test_steps from the task",
+      "Change status to done only after all tests pass",
+      "Write a summary in progress.md",
+      "It is FORBIDDEN to delete or edit tasks — only change status"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "category": "infrastructure",
+      "priority": "critical",
+      "description": "Инициализация Astro-проекта с зависимостями (без Tailwind)",
+      "acceptance_criteria": [
+        "Astro 4.x проект создан командой npm create astro",
+        "Установлены: @astrojs/react, @astrojs/mdx, @astrojs/sitemap, sass",
+        "Tailwind НЕ устанавливается и не используется нигде",
+        "Файлы astro.config.mjs, package.json присутствуют; интеграции react, mdx, sitemap подключены",
+        "Команда npm run dev запускается без ошибок",
+        "Структура папок соответствует CLAUDE.md секции 5"
+      ],
+      "test_steps": [
+        "Шаг 1: Выполнить npm run dev",
+        "Шаг 2: Открыть http://localhost:4321 — страница открывается без ошибок",
+        "Шаг 3: Проверить отсутствие tailwind в package.json и astro.config.mjs",
+        "Шаг 4: Проверить наличие папок src/components, src/islands, src/content, src/i18n, src/styles, src/layouts, src/pages",
+        "Ожидаемый результат: Базовый Astro-проект работает, Tailwind отсутствует, структура создана"
+      ],
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-002",
+      "category": "infrastructure",
+      "priority": "critical",
+      "description": "Настройка Netlify: netlify.toml, _headers, _redirects",
+      "acceptance_criteria": [
+        "Файл netlify.toml создан: build command npm run build, publish = dist",
+        "NODE_VERSION = 20 прописан в [build.environment]",
+        "Файл public/_headers создан с базовыми security-заголовками, совместимыми с Bentral, Google Maps и GA",
+        "Файл public/robots.txt создан (allow публичные страницы, Disallow /lp, ссылка на sitemap)"
+      ],
+      "test_steps": [
+        "Шаг 1: Проверить содержимое netlify.toml",
+        "Шаг 2: Выполнить npm run build — сборка завершается без ошибок, папка dist создана",
+        "Шаг 3: Проверить public/robots.txt — присутствует Disallow: /lp",
+        "Ожидаемый результат: Конфигурация Netlify корректна, сборка проходит"
+      ],
+      "dependencies": ["TASK-001"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-003",
+      "category": "infrastructure",
+      "priority": "critical",
+      "description": "SCSS-архитектура: каркас папок tokens/base/utils/blocks и main.scss",
+      "acceptance_criteria": [
+        "Созданы папки src/styles/tokens, src/styles/base, src/styles/utils, src/styles/blocks",
+        "src/styles/main.scss собирает слои через @use / @forward",
+        "base/_reset.scss и base/_global.scss присутствуют",
+        "utils/_mixins.scss и utils/_functions.scss присутствуют (могут быть заготовками)",
+        "main.scss подключён в BaseLayout и применяется глобально",
+        "Сборка SCSS проходит без deprecation-ошибок (@use, не @import)"
+      ],
+      "test_steps": [
+        "Шаг 1: npm run dev — стили применяются, ошибок компиляции SCSS нет",
+        "Шаг 2: Проверить, что main.scss использует @use/@forward, а не @import",
+        "Шаг 3: Добавить тестовое правило в blocks и убедиться, что оно применяется",
+        "Ожидаемый результат: SCSS-слой собран и подключён глобально"
+      ],
+      "dependencies": ["TASK-001"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-004",
+      "category": "infrastructure",
+      "priority": "high",
+      "description": "Дизайн-токены: цвета, типографика, скругления, тени, отступы, движение",
+      "acceptance_criteria": [
+        "tokens/_colors.scss задаёт: --color-bg #F3E9D8, --color-wood #C8884B, --color-forest #3E5A40, --color-terracotta #A65A3A, --color-mist #B8BCA8, --color-text #3A2E26",
+        "tokens/_typography.scss задаёт --font-heading (Fraunces) и --font-body (Lato) + шкалу --text-h1..--text-small, line-height, weights",
+        "tokens/_radius.scss, _shadows.scss, _spacing.scss, _motion.scss заданы (--radius-*, --shadow-*, --space-*, --motion-duration, --motion-ease)",
+        "Все токены эмитятся в :root как CSS custom properties и доступны как var(--token)",
+        "Имена токенов семантические (wood/forest/terracotta/mist), не цветовые (amber/green)"
+      ],
+      "test_steps": [
+        "Шаг 1: DevTools → :root — все переменные присутствуют",
+        "Шаг 2: Применить var(--color-forest) к тестовому элементу — цвет применяется",
+        "Шаг 3: Поменять значение --color-wood в одном месте — изменение видно на тестовом элементе",
+        "Ожидаемый результат: Токены определены, глобальны и меняются из одного места"
+      ],
+      "dependencies": ["TASK-003"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-005",
+      "category": "infrastructure",
+      "priority": "high",
+      "description": "Self-hosted шрифты Fraunces + Lato (без Google Fonts CDN)",
+      "acceptance_criteria": [
+        "Файлы шрифтов размещены в public/fonts/ (woff2)",
+        "@font-face подключён в base/_global.scss с font-display: swap",
+        "Fraunces применяется к заголовкам, Lato — к body (через токены --font-heading/--font-body)",
+        "Нет запросов к fonts.googleapis.com / внешним CDN"
+      ],
+      "test_steps": [
+        "Шаг 1: DevTools Network — нет запросов к fonts.googleapis.com",
+        "Шаг 2: H1/H2 используют Fraunces, body — Lato",
+        "Шаг 3: Проверить font-display: swap во всех @font-face",
+        "Ожидаемый результат: Шрифты загружаются локально"
+      ],
+      "dependencies": ["TASK-004"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-006",
+      "category": "infrastructure",
+      "priority": "critical",
+      "description": "i18n-каркас: EN-only + словарь en.ts + архитектура под SL/RU",
+      "acceptance_criteria": [
+        "src/i18n/en.ts содержит все UI-строки (nav, buttons, form, footer, секции) — [MOCK] значения",
+        "Astro i18n настроен с defaultLocale 'en'; locales готовы под добавление 'sl','ru', но сейчас резолвится только en",
+        "Хелпер доступа к строкам доступен в .astro и .jsx компонентах",
+        "В компонентах нет хардкод-строк — только обращения к словарю",
+        "Добавление второй локали потребует только нового словаря + контента + включения роутинга (без переписывания компонентов)"
+      ],
+      "test_steps": [
+        "Шаг 1: Открыть /, строки берутся из en.ts",
+        "Шаг 2: Грепнуть компоненты на наличие хардкод-текста — отсутствует",
+        "Шаг 3: Проверить, что архитектура i18n не привязана к одной локали жёстко",
+        "Ожидаемый результат: EN-словарь работает, архитектура i18n-ready"
+      ],
+      "dependencies": ["TASK-001"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-007",
+      "category": "infrastructure",
+      "priority": "critical",
+      "description": "BaseLayout.astro: head, мета, canonical, OG, skip-link, lang",
+      "acceptance_criteria": [
+        "src/layouts/BaseLayout.astro принимает пропсы title, description, canonicalURL, ogImage, noindex",
+        "<html lang='en'> устанавливается корректно",
+        "Базовые мета: title, description, viewport, charset; canonical из SITE_URL placeholder",
+        "OG-теги og:title/description/image/url/type + twitter:card=summary_large_image",
+        "Проп noindex добавляет <meta name='robots' content='noindex, nofollow'> (для /lp)",
+        "Skip-to-content ссылка присутствует; main.scss и шрифты подключены; слот контента работает",
+        "Header и Footer подключены в layout"
+      ],
+      "test_steps": [
+        "Шаг 1: Открыть любую страницу — <html lang='en'>, canonical присутствует",
+        "Шаг 2: Проверить OG-теги в <head>",
+        "Шаг 3: Передать noindex=true — появляется robots noindex",
+        "Шаг 4: Tab с начала страницы — появляется skip-link",
+        "Ожидаемый результат: BaseLayout корректно формирует head и каркас"
+      ],
+      "dependencies": ["TASK-003", "TASK-005", "TASK-006"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-008",
+      "category": "infrastructure",
+      "priority": "high",
+      "description": "Контент-коллекции (MDX/data): activities, menu, valueProps, gallery",
+      "acceptance_criteria": [
+        "src/content/config.ts описывает схемы коллекций activities, menu, valueProps, gallery",
+        "В каждой коллекции есть минимум [MOCK]-записи с понятными плейсхолдерами и // TODO",
+        "Поля соответствуют PRD секции 6 (модель контента)",
+        "Контент рендерится из коллекций, а не хардкодится в разметке"
+      ],
+      "test_steps": [
+        "Шаг 1: npm run build — коллекции валидируются по схеме без ошибок",
+        "Шаг 2: Проверить наличие [MOCK]-записей в каждой коллекции",
+        "Шаг 3: Тестовый вывод записи из activities — данные приходят из коллекции",
+        "Ожидаемый результат: Контент-коллекции созданы и типизированы"
+      ],
+      "dependencies": ["TASK-001"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-009",
+      "category": "ui",
+      "priority": "high",
+      "description": "UI-примитивы: Button, Card, SectionHeader (.astro + SCSS-блоки)",
+      "acceptance_criteria": [
+        "src/components/ui/Button.astro, Card.astro, SectionHeader.astro созданы (чистые .astro, без client JS)",
+        "Стили в blocks/_buttons.scss и blocks/_cards.scss — не внутри компонентов",
+        "Button поддерживает варианты primary (terracotta) и secondary; крупные мягкие скругления через --radius-*",
+        "Card использует --shadow-card и --radius-lg; ховер мягкий",
+        "Нет сырых hex/пикселей — только токены"
+      ],
+      "test_steps": [
+        "Шаг 1: Отрендерить Button primary/secondary — стили из токенов применяются",
+        "Шаг 2: Грепнуть blocks на сырые hex — отсутствуют",
+        "Шаг 3: Проверить, что в .astro нет inline <style> с магическими числами",
+        "Ожидаемый результат: Примитивы готовы и токен-driven"
+      ],
+      "dependencies": ["TASK-004", "TASK-007"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-010",
+      "category": "ui",
+      "priority": "high",
+      "description": "Header.astro: лого-плейсхолдер, навигация, кнопка Book",
+      "acceptance_criteria": [
+        "[MOCK] текстовый логотип 'Dom na Travni gori' в --font-heading",
+        "Навигация: Home, Accommodation, Activities, Menu, Contact (строки из i18n)",
+        "Заметная кнопка Book → /rezervacija (primary)",
+        "Стили в blocks/_header.scss; адаптивность (десктоп/мобайл)",
+        "Слот под LanguageSwitcher и MobileNav (подключаются в отдельных тасках)"
+      ],
+      "test_steps": [
+        "Шаг 1: Открыть страницу — header с лого, nav и Book",
+        "Шаг 2: Клик Book — переход на /rezervacija",
+        "Шаг 3: На 375px header не ломается",
+        "Ожидаемый результат: Header корректен на десктопе и мобайле"
+      ],
+      "dependencies": ["TASK-009"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-011",
+      "category": "ui",
+      "priority": "medium",
+      "description": "LanguageSwitcher.jsx (React island, заглушка)",
+      "acceptance_criteria": [
+        "src/islands/LanguageSwitcher.jsx — раскрывающийся список EN ▾ с пунктами SI, RU",
+        "Переключение НЕ меняет контент (нефункционально) — помечено // i18n stub — non-functional in Phase 1",
+        "Открытие/закрытие по клику и с клавиатуры (доступность)",
+        "Подключён как island в Header с client:idle или client:visible",
+        "Стили в SCSS-блоке, не инлайн"
+      ],
+      "test_steps": [
+        "Шаг 1: Клик по EN ▾ — открывается список с SI, RU",
+        "Шаг 2: Выбор пункта — контент НЕ меняется (заглушка)",
+        "Шаг 3: Навигация по списку с клавиатуры работает",
+        "Ожидаемый результат: Переключатель присутствует как UI-заглушка"
+      ],
+      "dependencies": ["TASK-010"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-012",
+      "category": "ui",
+      "priority": "medium",
+      "description": "MobileNav.jsx (React island): мобильное меню",
+      "acceptance_criteria": [
+        "src/islands/MobileNav.jsx — бургер-меню для мобильных",
+        "Открытие/закрытие, блокировка скролла body при открытом меню",
+        "Доступность: фокус-трап, закрытие по Esc, aria-expanded",
+        "Пункты совпадают с десктоп-навигацией (из i18n) + кнопка Book",
+        "Стили в SCSS-блоке"
+      ],
+      "test_steps": [
+        "Шаг 1: На 375px — бургер открывает меню со всеми пунктами",
+        "Шаг 2: Esc и клик вне меню закрывают его",
+        "Шаг 3: Фокус остаётся внутри открытого меню",
+        "Ожидаемый результат: Мобильная навигация работает и доступна"
+      ],
+      "dependencies": ["TASK-010"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-013",
+      "category": "ui",
+      "priority": "high",
+      "description": "Footer.astro: контакты, соцсети, юрлицо [MOCK] + Google Maps на каждой странице",
+      "acceptance_criteria": [
+        "Footer содержит [MOCK]: телефон, email, Instagram, Facebook, юрлицо 'Dom na TRAVNI GORI d.o.o.' + адрес",
+        "Встроенная Google Maps карта с пином (embed) + краткий [MOCK] текст 'как добраться'",
+        "iframe карты: loading='lazy', title присутствует",
+        "Footer подключён в BaseLayout и отображается на ВСЕХ страницах",
+        "Все тексты — из i18n; стили в blocks/_footer.scss"
+      ],
+      "test_steps": [
+        "Шаг 1: Открыть несколько страниц — footer с картой присутствует на каждой",
+        "Шаг 2: Карта подгружается (lazy), iframe имеет title",
+        "Шаг 3: Контакты и юрлицо — видны как [MOCK]",
+        "Ожидаемый результат: Footer с картой на всех страницах"
+      ],
+      "dependencies": ["TASK-007", "TASK-009"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-014",
+      "category": "ui",
+      "priority": "high",
+      "description": "ParallaxHero.jsx (React island): hero главной с параллаксом гор/тумана",
+      "acceptance_criteria": [
+        "src/islands/ParallaxHero.jsx — слои (горы + туман) двигаются с разной скоростью при скролле",
+        "Анимируются только transform/opacity",
+        "prefers-reduced-motion: параллакс отключается, hero статичен",
+        "[MOCK] фоновое изображение, заголовок и подзаголовок из i18n",
+        "Две CTA: primary 'Check availability' → /rezervacija, secondary 'Explore the area' → /activities",
+        "Стили в blocks/_hero.scss"
+      ],
+      "test_steps": [
+        "Шаг 1: Скролл на главной — слои hero двигаются с параллаксом",
+        "Шаг 2: Включить reduced-motion — параллакс отключён, hero статичен",
+        "Шаг 3: Клик CTA — корректные переходы",
+        "Ожидаемый результат: Hero с атмосферным параллаксом и a11y"
+      ],
+      "dependencies": ["TASK-009"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-015",
+      "category": "ui",
+      "priority": "high",
+      "description": "Главная: секция value props (карточки из коллекции)",
+      "acceptance_criteria": [
+        "3–4 округлые карточки с иконкой (line-style, Lucide/Phosphor) + [MOCK] подписью",
+        "Данные из коллекции valueProps",
+        "Иконки — единый вес линий; стили из blocks/_cards.scss",
+        "Адаптивно: сетка перестраивается на мобильных без overflow"
+      ],
+      "test_steps": [
+        "Шаг 1: Главная — секция value props с карточками из коллекции",
+        "Шаг 2: На 375px карточки складываются в колонку, нет горизонтального скролла",
+        "Шаг 3: Иконки line-style, единый вес",
+        "Ожидаемый результат: Секция value props корректна"
+      ],
+      "dependencies": ["TASK-009", "TASK-008"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-016",
+      "category": "ui",
+      "priority": "high",
+      "description": "Главная: превью Accommodation, превью Activities, блок Book-direct",
+      "acceptance_criteria": [
+        "Превью Accommodation: [MOCK] изображение + абзац → ссылка на /accommodation",
+        "Превью Activities: [MOCK] интро + ссылки в /activities",
+        "Блок 'Book direct': 3 преимущества [MOCK] + CTA → /rezervacija",
+        "Все тексты из i18n; секции — отдельные компоненты в src/components/sections",
+        "Стили в соответствующих SCSS-блоках"
+      ],
+      "test_steps": [
+        "Шаг 1: Главная — три секции присутствуют и ссылки ведут верно",
+        "Шаг 2: Тексты из i18n (нет хардкода)",
+        "Шаг 3: Мобильная адаптивность ок",
+        "Ожидаемый результат: Главная собрана из секций-превью"
+      ],
+      "dependencies": ["TASK-014", "TASK-015"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-017",
+      "category": "ui",
+      "priority": "high",
+      "description": "AccommodationSlider.jsx (React island): слайдер фото",
+      "acceptance_criteria": [
+        "src/islands/AccommodationSlider.jsx — слайдер изображений из коллекции gallery [MOCK]",
+        "Управление: prev/next, свайп на тач, клавиатура (стрелки), aria-роли",
+        "Без layout shift; изображения с width/height и lazy",
+        "Стили в blocks/_accommodation.scss"
+      ],
+      "test_steps": [
+        "Шаг 1: Слайдер листается мышью, свайпом и клавиатурой",
+        "Шаг 2: Нет скачков layout при смене слайда",
+        "Шаг 3: Доступность: aria присутствует, фокус виден",
+        "Ожидаемый результат: Слайдер работает на тач и десктоп, доступен"
+      ],
+      "dependencies": ["TASK-008", "TASK-009"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-018",
+      "category": "ui",
+      "priority": "high",
+      "description": "Страница Accommodation: слайдер + описание + удобства (без карточек по номерам)",
+      "acceptance_criteria": [
+        "src/pages/accommodation.astro: AccommodationSlider + описательный [MOCK] блок (стиль Alpennelke)",
+        "НЕТ разбивки по номерам/юнитам — только атмосферное описание (выбор юнита делает Bentral)",
+        "Ряд удобств [MOCK] (иконки + подписи: Wi-Fi, парковка, кухня, камин/печь, отопление, терраса и т.д.)",
+        "CTA → /rezervacija",
+        "Тексты из i18n; стили в blocks/_accommodation.scss"
+      ],
+      "test_steps": [
+        "Шаг 1: /accommodation — слайдер + описание + удобства",
+        "Шаг 2: Убедиться, что нет карточек по отдельным номерам",
+        "Шаг 3: CTA ведёт на /rezervacija",
+        "Ожидаемый результат: Страница размещения корректна"
+      ],
+      "dependencies": ["TASK-017"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-019",
+      "category": "ui",
+      "priority": "medium",
+      "description": "Страница Activities / Surroundings (из коллекции)",
+      "acceptance_criteria": [
+        "src/pages/activities.astro: интро [MOCK] + блоки активностей из коллекции activities",
+        "Каждый блок: [MOCK] изображение + заголовок + 1–2 предложения [MOCK]",
+        "Никаких выдуманных фактов/дистанций — только плейсхолдеры",
+        "CTA → /rezervacija или /contact; макет управляется коллекцией (добавление пункта без правки разметки)"
+      ],
+      "test_steps": [
+        "Шаг 1: /activities — блоки рендерятся из коллекции",
+        "Шаг 2: Добавить запись в коллекцию — появляется новый блок без правки layout",
+        "Шаг 3: Мобильная адаптивность ок",
+        "Ожидаемый результат: Страница активностей управляется данными"
+      ],
+      "dependencies": ["TASK-008", "TASK-009"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-020",
+      "category": "ui",
+      "priority": "medium",
+      "description": "Страница Menu: онлайн-меню из структурированных данных",
+      "acceptance_criteria": [
+        "src/pages/menu.astro: секции меню (напр. Starters/Mains/Drinks) [MOCK] из коллекции menu",
+        "Позиция: имя [MOCK] + опц. описание [MOCK] + опц. цена [MOCK]",
+        "Тексты заголовков из i18n; данные позиций из коллекции",
+        "Стили в blocks/_menu.scss; адаптивно"
+      ],
+      "test_steps": [
+        "Шаг 1: /menu — секции и позиции рендерятся из коллекции",
+        "Шаг 2: На 375px меню читаемо, без overflow",
+        "Шаг 3: Изменить позицию в коллекции — отражается на странице",
+        "Ожидаемый результат: Онлайн-меню работает из данных"
+      ],
+      "dependencies": ["TASK-008", "TASK-009"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-021",
+      "category": "ui",
+      "priority": "medium",
+      "description": "Страница Menu: встроенный PDF-скан меню + скачивание",
+      "acceptance_criteria": [
+        "[MOCK] PDF размещён в public/menu/menu-scan.pdf",
+        "Инлайн-просмотр PDF на странице + кнопка Download",
+        "Graceful degradation на мобильных: если инлайн-просмотр не поддерживается — fallback-ссылка",
+        "Тексты (заголовок, кнопка) из i18n"
+      ],
+      "test_steps": [
+        "Шаг 1: /menu — PDF превью отображается (где поддерживается)",
+        "Шаг 2: Кнопка Download скачивает файл",
+        "Шаг 3: На мобильном — есть рабочий fallback на просмотр/скачивание",
+        "Ожидаемый результат: PDF-меню встроено и скачивается"
+      ],
+      "dependencies": ["TASK-020"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-022",
+      "category": "integration",
+      "priority": "high",
+      "description": "ContactForm.jsx (React island): Netlify Forms, honeypot, валидация, consent",
+      "acceptance_criteria": [
+        "src/islands/ContactForm.jsx с полями: Name (required), Email (required), Phone (optional), Check-in/Check-out (optional), Message (optional)",
+        "Netlify: data-netlify='true', скрытое поле form-name, имя формы contact-en",
+        "Honeypot поле name='bot-field', скрыто через CSS (не type=hidden)",
+        "Клиентская валидация перед отправкой; чекбокс согласия required (без него отправка блокируется)",
+        "Без PII в URL query string; успешное состояние/redirect на /thank-you/",
+        "Стили в blocks/_contact.scss"
+      ],
+      "test_steps": [
+        "Шаг 1: Отправка без обязательных полей/согласия — блокируется с понятным сообщением",
+        "Шаг 2: Корректная отправка — успех/redirect на /thank-you/",
+        "Шаг 3: Проверить honeypot bot-field скрыт через CSS",
+        "Шаг 4: Убедиться, что данные не уходят в query string",
+        "Ожидаемый результат: Форма валидна, отправляется в Netlify, защищена honeypot"
+      ],
+      "dependencies": ["TASK-009"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-023",
+      "category": "ui",
+      "priority": "high",
+      "description": "Страница Contact: форма + контактные данные + карта; страница /thank-you",
+      "acceptance_criteria": [
+        "src/pages/contact.astro: ContactForm + контактные данные [MOCK] (телефон, email, соцсети)",
+        "src/pages/thank-you.astro: страница успеха [MOCK] с возвратом на главную",
+        "Карта присутствует (footer глобально; опц. дублируется инлайн)",
+        "Тексты из i18n"
+      ],
+      "test_steps": [
+        "Шаг 1: /contact — форма и контакты отображаются",
+        "Шаг 2: Успешная отправка ведёт на /thank-you",
+        "Шаг 3: /thank-you открывается без 404",
+        "Ожидаемый результат: Контактный флоу завершён"
+      ],
+      "dependencies": ["TASK-022", "TASK-013"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-024",
+      "category": "integration",
+      "priority": "critical",
+      "description": "Bentral: изолированный компонент BentralEmbed + страница /rezervacija",
+      "acceptance_criteria": [
+        "src/components/booking/BentralEmbed.astro — изолированная обёртка с ЧЁТКО помеченным плейсхолдером iframe и // TODO: вставить Bentral embed",
+        "src/pages/rezervacija.astro использует BentralEmbed + краткий [MOCK] заголовок",
+        "iframe: разумный min-height, title, loading='lazy'; PII в виджет не передаётся",
+        "Замена плейсхолдера на реальный embed требует правки ТОЛЬКО BentralEmbed.astro",
+        "Обвязка стилизована под сайт (без вмешательства во внутренности виджета); стили в blocks/_booking.scss"
+      ],
+      "test_steps": [
+        "Шаг 1: /rezervacija — отображается рамка/плейсхолдер брони",
+        "Шаг 2: Проверить, что embed изолирован в одном компоненте",
+        "Шаг 3: iframe имеет title и lazy",
+        "Ожидаемый результат: Bentral-слот готов к вставке кода без затрагивания остального кода"
+      ],
+      "dependencies": ["TASK-007", "TASK-009"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-025",
+      "category": "ui",
+      "priority": "high",
+      "description": "Скрытый рекламный лендинг /lp (noindex, mobile-first, swappable CTA → бронь)",
+      "acceptance_criteria": [
+        "src/pages/lp.astro: одноцелевая mobile-first страница без общей навигации",
+        "Структура: hero [MOCK] оффер → 3 причины забронировать [MOCK] → соцдоказательство [MOCK] → повтор CTA",
+        "Главный CTA = Booking (→ /rezervacija)",
+        "CTA вынесен в один swappable-компонент (через проп/конфиг), чтобы позже сменить цель на заявку/оффер без переделки страницы",
+        "noindex,nofollow через проп BaseLayout; страница исключена из sitemap и не линкуется из публичной навигации",
+        "CTA брони помечен как ключевая конверсия (для будущего трекинга); стили в blocks/_landing.scss"
+      ],
+      "test_steps": [
+        "Шаг 1: /lp — нет общей навигации, один явный путь к брони",
+        "Шаг 2: В <head> присутствует robots noindex,nofollow",
+        "Шаг 3: Поменять проп CTA — цель меняется без переписывания страницы",
+        "Шаг 4: На 375px страница цельная и без overflow",
+        "Ожидаемый результат: Скрытый лендинг готов, не индексируется, CTA swappable"
+      ],
+      "dependencies": ["TASK-007", "TASK-009", "TASK-024"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-026",
+      "category": "ui",
+      "priority": "medium",
+      "description": "Сдержанные scroll-reveal анимации (fade-in + translateY) с reduced-motion",
+      "acceptance_criteria": [
+        "Секции мягко проявляются при входе во вьюпорт (fade + небольшой translateY)",
+        "Анимируются только transform/opacity; тайминги/изинг из --motion-* токенов",
+        "prefers-reduced-motion отключает reveal-анимации",
+        "Без агрессивных/пружинных эффектов; реализация переиспользуема (общий util/директива)"
+      ],
+      "test_steps": [
+        "Шаг 1: Скролл по страницам — секции мягко появляются",
+        "Шаг 2: reduced-motion — анимации отключены, контент сразу виден",
+        "Шаг 3: Проверить, что анимируются только transform/opacity",
+        "Ожидаемый результат: Мягкие reveal-анимации с учётом a11y"
+      ],
+      "dependencies": ["TASK-016", "TASK-018", "TASK-019", "TASK-020"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-027",
+      "category": "integration",
+      "priority": "high",
+      "description": "On-page SEO: уникальные мета, OG, JSON-LD LodgingBusiness на всех публичных страницах",
+      "acceptance_criteria": [
+        "Каждая публичная страница: уникальный <title> с 'Dom na Travni gori' и уникальный meta description (из frontmatter/i18n)",
+        "OG-теги og:title/description/image[MOCK]/url/type + twitter:card на всех страницах",
+        "JSON-LD LodgingBusiness/LocalBusiness с [MOCK] полями в <head>",
+        "Canonical self-referencing из SITE_URL; /lp помечен noindex и НЕ получает индексных тегов",
+        "Нет хардкод-мета в компонентах — через пропсы BaseLayout"
+      ],
+      "test_steps": [
+        "Шаг 1: Проверить title/description уникальны на каждой публичной странице",
+        "Шаг 2: JSON-LD присутствует и валиден (Rich Results Test)",
+        "Шаг 3: /lp — noindex, без canonical-индексации",
+        "Ожидаемый результат: SEO-мета корректны на всех страницах"
+      ],
+      "dependencies": ["TASK-016", "TASK-018", "TASK-019", "TASK-020", "TASK-023", "TASK-024", "TASK-025"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-028",
+      "category": "integration",
+      "priority": "high",
+      "description": "sitemap.xml (исключая /lp) и robots.txt (Disallow /lp)",
+      "acceptance_criteria": [
+        "@astrojs/sitemap генерирует sitemap.xml при сборке",
+        "Страница /lp ИСКЛЮЧЕНА из sitemap (filter)",
+        "robots.txt: allow публичные, Disallow /lp, ссылка на sitemap",
+        "В sitemap присутствуют все публичные страницы"
+      ],
+      "test_steps": [
+        "Шаг 1: npm run build — dist/sitemap-index.xml/sitemap-0.xml созданы",
+        "Шаг 2: Проверить, что /lp отсутствует в sitemap",
+        "Шаг 3: robots.txt содержит Disallow: /lp и ссылку на sitemap",
+        "Ожидаемый результат: Sitemap и robots корректны, /lp скрыт"
+      ],
+      "dependencies": ["TASK-027"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-029",
+      "category": "integration",
+      "priority": "medium",
+      "description": "GA4 + механизм consent (загрузка после согласия) + подготовка под рекламу",
+      "acceptance_criteria": [
+        "GA4 через placeholder GA_MEASUREMENT_ID [MOCK]",
+        "Лёгкий consent-механизм (баннер); GA4 грузится ТОЛЬКО после согласия (EU/GDPR)",
+        "Структура готова под добавление Meta Pixel/конверсий позже (управление кампаниями вне объёма)",
+        "ID через env/placeholder, не закоммичен; до согласия — никаких запросов к аналитике"
+      ],
+      "test_steps": [
+        "Шаг 1: Первый визит — GA не грузится до согласия (DevTools Network)",
+        "Шаг 2: После согласия — GA4 инициализируется",
+        "Шаг 3: Проверить, что measurement ID — placeholder, не реальный секрет в репо",
+        "Ожидаемый результат: GA4 за consent-гейтом, ads-prep заложен"
+      ],
+      "dependencies": ["TASK-007"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-030",
+      "category": "integration",
+      "priority": "high",
+      "description": "Оптимизация изображений: WebP, lazy, явные размеры",
+      "acceptance_criteria": [
+        "Все растровые изображения через Astro <Image> → WebP (кроме SVG/favicon)",
+        "loading='lazy' на non-critical; hero — eager",
+        "Явные width/height на всех изображениях; responsive srcset где уместно",
+        "Сторонние iframe (Bentral, Maps) — loading='lazy'"
+      ],
+      "test_steps": [
+        "Шаг 1: DevTools Network → Img — форматы WebP",
+        "Шаг 2: Проверить loading и размеры на изображениях; hero eager",
+        "Шаг 3: iframe карты/брони — lazy",
+        "Ожидаемый результат: Изображения и embeds оптимизированы"
+      ],
+      "dependencies": ["TASK-026"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-031",
+      "category": "integration",
+      "priority": "high",
+      "description": "Доступность: alt, label, клавиатура, контраст, skip-link, reduced-motion",
+      "acceptance_criteria": [
+        "У каждого <img> описательный alt; у каждого поля формы — связанный <label>",
+        "Все интерактивные элементы (слайдер, мобайл-меню, переключатель, форма) доступны с клавиатуры",
+        "Контраст токен-комбинаций ≥ 4.5:1 (WCAG AA)",
+        "Skip-to-content присутствует; prefers-reduced-motion соблюдён везде",
+        "<html lang='en'> корректен"
+      ],
+      "test_steps": [
+        "Шаг 1: Пройти сайт только с клавиатуры — все элементы достижимы",
+        "Шаг 2: Проверить контраст основных пар токенов (axe/Lighthouse)",
+        "Шаг 3: reduced-motion — движение отключено",
+        "Ожидаемый результат: Базовый уровень WCAG AA достигнут"
+      ],
+      "dependencies": ["TASK-030"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-032",
+      "category": "integration",
+      "priority": "high",
+      "description": "Lighthouse аудит: Performance 90+, SEO 90+, Accessibility 90+, Best Practices 90+",
+      "acceptance_criteria": [
+        "Lighthouse Performance ≥ 90, SEO ≥ 90, Accessibility ≥ 90, Best Practices ≥ 90",
+        "FCP < 1.5s, LCP < 2.5s, CLS < 0.1",
+        "Критические issues устранены"
+      ],
+      "test_steps": [
+        "Шаг 1: Задеплоить prod-like (Netlify preview)",
+        "Шаг 2: Lighthouse на главной — все пороги достигнуты",
+        "Шаг 3: Повторить для accommodation, menu, contact, lp",
+        "Ожидаемый результат: Метрики Lighthouse в норме"
+      ],
+      "dependencies": ["TASK-031", "TASK-028", "TASK-029"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-033",
+      "category": "integration",
+      "priority": "high",
+      "description": "Cross-browser и device QA: iOS Safari, Android Chrome, Desktop",
+      "acceptance_criteria": [
+        "iOS Safari 17+: все секции, слайдер, форма, мобайл-меню, Bentral, карта работают",
+        "Android Chrome 120+: аналогично",
+        "Desktop Chrome/Firefox/Safari: без ошибок",
+        "Нет console.error ни на одной странице; нет горизонтального скролла на мобильных"
+      ],
+      "test_steps": [
+        "Шаг 1: iOS Safari — проверить слайдер, форму, мобайл-меню, бронь",
+        "Шаг 2: Android Chrome — то же",
+        "Шаг 3: Desktop Chrome/Firefox/Safari — нет console.error",
+        "Шаг 4: Mobile — нет горизонтального скролла",
+        "Ожидаемый результат: Кросс-браузерная совместимость подтверждена"
+      ],
+      "dependencies": ["TASK-032"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-034",
+      "category": "integration",
+      "priority": "high",
+      "description": "Аудит anti-hardcode: нет Tailwind, сырых hex, magic numbers, inline-стилей",
+      "acceptance_criteria": [
+        "Греп по проекту: нет tailwind-классов и зависимости",
+        "В blocks/компонентах нет сырых hex и магических пикселей цвета/радиуса/тени — только var(--token)",
+        "Нет инлайн <style> с захардкоженными значениями; стили живут в SCSS-файлах",
+        "Смена 6 цветовых + 2 шрифтовых токенов перекрашивает весь сайт без правок по компонентам"
+      ],
+      "test_steps": [
+        "Шаг 1: grep на 'tailwind', '#' в SCSS-блоках — нарушений нет",
+        "Шаг 2: Поменять --color-wood и --font-heading — изменения видны по всему сайту",
+        "Шаг 3: Проверить отсутствие inline-style с магическими числами",
+        "Ожидаемый результат: Дизайн полностью токен-driven, без хардкода"
+      ],
+      "dependencies": ["TASK-033"],
+      "status": "pending"
+    },
+    {
+      "id": "TASK-035",
+      "category": "integration",
+      "priority": "medium",
+      "description": "Pre-launch чеклист [MOCK]: плейсхолдеры, SITE_URL, домен, Bentral, контент-хендофф",
+      "acceptance_criteria": [
+        "grep по '[MOCK]' и 'TODO' — все плейсхолдеры собраны в чеклист в progress.md",
+        "SITE_URL/GA_MEASUREMENT_ID/Bentral embed/контакты/лого/фото отмечены как требующие замены клиентом/Webline",
+        "Документировано, что DNS/домен и реальный Bentral embed подставляются вне кода",
+        "Список финального контента (тексты/фото) передан как открытые [MOCK]-пункты"
+      ],
+      "test_steps": [
+        "Шаг 1: Выполнить grep '[MOCK]' — список полон и отражён в progress.md",
+        "Шаг 2: Проверить, что нигде нет случайно зашитого реального контента вместо плейсхолдера",
+        "Шаг 3: Чеклист замены готов к передаче",
+        "Ожидаемый результат: Проект готов к наполнению и запуску, все плейсхолдеры учтены"
+      ],
+      "dependencies": ["TASK-034"],
+      "status": "pending"
+    }
+  ]
+}
