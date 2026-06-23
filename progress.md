@@ -100,3 +100,20 @@
 - Шаг 2: `var(--color-forest)` resolves and is already consumed by the global `:focus-visible` outline — color applies.
 - Шаг 3: tokens are driven from single Sass maps, so editing one value (e.g. `--color-wood` in `_colors.scss`) propagates site-wide from one place.
 **Files changed:** src/styles/tokens/_colors.scss, _typography.scss, _radius.scss, _shadows.scss, _spacing.scss, _motion.scss, _index.scss, src/styles/main.scss, tasks.json (status), progress.md
+
+## TASK-005 — Self-hosted fonts Fraunces + Lato (no Google Fonts CDN)
+**Date:** 2026-06-23
+**Status:** done
+**Summary:** Vendored the brand fonts locally and wired them through the existing typography tokens — zero external font CDN at runtime.
+- Downloaded woff2 files into `public/fonts/` (build-time vendoring from the Fontsource CDN; both families are SIL OFL open fonts). Files: `fraunces-latin-wght-normal.woff2`, `fraunces-latin-wght-italic.woff2` (variable, weight axis 100–900, normal + italic), `lato-latin-400-normal.woff2`, `lato-latin-700-normal.woff2`. Verified all four carry the `wOF2` magic header.
+- **Decision (Fraunces):** used the single variable woff2 (full weight range) instead of multiple static cuts — covers heading weights in one request, better for performance, and the type scale/weight tokens (400/600/700) all resolve within the axis.
+- **Decision (Lato):** Lato has no 600 weight upstream (available: 100/300/400/700/900), so shipped static 400 + 700 only. The `--weight-medium: 600` token falls to the nearest face — no synthetic-bold concerns for body copy.
+- `src/styles/base/_global.scss`: added four `@font-face` blocks, each with `font-display: swap`; Fraunces normal/italic via `format("woff2-variations")`, Lato via `format("woff2")`. The family-name literals here are the `@font-face` definitions backing the `--font-heading`/`--font-body` tokens — blocks still consume only `var(--font-*)`.
+- Added an `h1–h6 { font-family: var(--font-heading); }` rule so headings use Fraunces via the token (body already uses `var(--font-body)` = Lato).
+- Removed the now-redundant `public/fonts/.gitkeep` (directory is populated).
+**Verified (test_steps):**
+- Шаг 1: built output references only self-hosted `/fonts/*.woff2`; grep for `googleapis`/`gstatic` in `dist/index.html` → none. No external font CDN request.
+- Шаг 2: headings resolve to `var(--font-heading)` (Fraunces), body to `var(--font-body)` (Lato) — both present in compiled CSS.
+- Шаг 3: all four `@font-face` blocks include `font-display:swap` (grep count = 4 faces, 4 swap) in the build output.
+- Bonus: `npm run build` completes clean; `dist/fonts/` contains all four woff2 files.
+**Files changed:** public/fonts/*.woff2 (4 added), public/fonts/.gitkeep (removed), src/styles/base/_global.scss, tasks.json (status), progress.md

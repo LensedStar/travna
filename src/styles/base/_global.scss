@@ -2,10 +2,50 @@
 // NOTE: tokens (--color-*, --font-*) are defined by TASK-004 (tokens layer). Until then these
 // var() references resolve to nothing (valid CSS) — no hardcoded colors/fonts live here.
 
+// Self-hosted fonts (TASK-005) — served from public/fonts/, NO Google Fonts / external CDN.
+// Headings: Fraunces (variable, weight axis 100–900). Body: Lato (static 400/700).
+// The font-family literals here are the @font-face *definitions* that back the
+// --font-heading / --font-body tokens; blocks still consume only var(--font-*).
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/fraunces-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/fraunces-latin-wght-italic.woff2") format("woff2-variations");
+}
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/lato-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("/fonts/lato-latin-700-normal.woff2") format("woff2");
+}
+
 body {
   font-family: var(--font-body);
   color: var(--color-text);
   background-color: var(--color-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
 
 :focus-visible {
