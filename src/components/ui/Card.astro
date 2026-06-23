@@ -1,0 +1,17 @@
+---
+// Card.astro — UI primitive (pure .astro, no client JS).
+// A soft, rounded, enveloping-shadow container. Renders an <a> when `href` is given (whole-card
+// link), otherwise a <div>. Styling lives in src/styles/blocks/_cards.scss (semantic .card class).
+// Content is provided via <slot> so the card stays layout-agnostic and reusable.
+interface Props {
+  href?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, class: className, ...rest } = Astro.props;
+const classes = ['card', className].filter(Boolean).join(' ');
+const Tag = href ? 'a' : 'div';
+---
+<Tag class={classes} {...(href ? { href } : {})} {...rest}>
+  <slot />
+</Tag>

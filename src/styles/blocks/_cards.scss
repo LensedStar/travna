@@ -1,0 +1,29 @@
+// blocks/_cards.scss — styles for the Card.astro primitive (TASK-009).
+// Token-only: soft large rounding (--radius-lg) + enveloping soft shadow (--shadow-card).
+// Gentle hover lift; animate transform only and honor prefers-reduced-motion.
+
+.card {
+  display: block;
+  padding: var(--space-lg);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  transition: transform var(--motion-duration) var(--motion-ease);
+}
+
+.card:hover {
+  // Subtle lift; offset derived from the spacing scale (no magic number).
+  transform: translateY(calc(var(--space-xs) * -0.25));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}

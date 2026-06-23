@@ -1,0 +1,65 @@
+// blocks/_buttons.scss — styles for the Button.astro primitive (TASK-009).
+// Token-only: no raw hex / magic numbers. Large soft rounding (--radius-lg) is part of the
+// rustic identity; primary = terracotta CTA, secondary = forest outline. Animate transform/opacity
+// only and honor prefers-reduced-motion.
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  border: 0;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease),
+    background-color var(--motion-duration-fast) var(--motion-ease),
+    color var(--motion-duration-fast) var(--motion-ease),
+    box-shadow var(--motion-duration-fast) var(--motion-ease);
+}
+
+.btn:hover {
+  // Subtle warm lift; offset derived from the spacing scale (no magic number).
+  transform: translateY(calc(var(--space-xs) * -0.25));
+  box-shadow: var(--shadow-soft);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+// Primary — deep terracotta CTA on the warm background base.
+.btn--primary {
+  background-color: var(--color-terracotta);
+  color: var(--color-bg);
+}
+
+// Secondary — forest outline that fills on hover (inset ring keeps box size stable).
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-forest);
+  box-shadow: inset 0 0 0 calc(var(--space-xs) * 0.25) var(--color-forest);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-forest);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+
+  .btn:hover {
+    transform: none;
+  }
+}

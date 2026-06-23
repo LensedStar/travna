@@ -157,3 +157,25 @@
 - Шаг 3: a temporary `collsmoke.astro` calling `getCollection(...)` rendered `data-acts="3"` / first activity `[MOCK] Hiking` (sorted by `order`), `data-vps="4"`, `data-gal="4"`, `data-menu-sections="3"` + scanPdf path — data comes from the collections. Temp page removed; final build clean.
 **Files changed:** src/content/config.ts, src/content/{activities,valueProps,gallery,menu}/*.json (13 entries), removed 4 .gitkeep, tasks.json (status), progress.md
 **Note:** image/PDF paths are `[MOCK]` placeholders (assets added later by Webline/client); consuming pages are built in TASK-015 (valueProps), TASK-017/018 (gallery), TASK-019 (activities), TASK-020/021 (menu).
+
+## TASK-009 — UI primitives: Button, Card, SectionHeader (.astro + SCSS blocks)
+**Date:** 2026-06-23
+**Status:** done
+**Summary:** Authored the three reusable UI primitives as pure `.astro` components (zero client-side JS), with all styling in dedicated `src/styles/blocks/*` files — components carry only semantic class names, no inline `<style>`.
+- `src/components/ui/Button.astro`: renders `<a>` when `href` is set, otherwise `<button>` (default `type="button"`). Props: `href?`, `variant` (`primary` | `secondary`, default primary), `type?`, `class?`, plus passthrough `...rest`. Label via `<slot>` (caller supplies i18n text). Classes composed as `btn btn--<variant>`.
+- `src/components/ui/Card.astro`: soft rounded container; renders `<a>` (whole-card link) when `href` is set, otherwise `<div>` (via a capitalized `Tag` variable). Content via `<slot>`. Class `card`.
+- `src/components/ui/SectionHeader.astro`: optional `eyebrow` + `title` (h2) + optional `subtitle`, `align` (`left` | `center`). All visible text passed as props (from the i18n dictionary) — no hardcoded strings. Classes `section-header section-header--<align>` + BEM `__eyebrow/__title/__subtitle`.
+- `src/styles/blocks/_buttons.scss`: `.btn` base + `.btn--primary` (terracotta bg, bg-color text) + `.btn--secondary` (forest inset-ring outline that fills on hover). Large soft rounding via `--radius-lg`; subtle hover lift + `--shadow-soft`; transitions use `--motion-*`; `prefers-reduced-motion` disables motion.
+- `src/styles/blocks/_cards.scss`: `.card` uses `--shadow-card` + `--radius-lg`, gentle hover lift; reduced-motion respected.
+- `src/styles/blocks/_section-header.scss`: heading via `--font-heading` + `--text-h2`, eyebrow in `--color-wood`; generous bottom spacing.
+- `src/styles/main.scss`: `@use`s the three new block partials (after `blocks/layout`).
+**Decisions / notes:**
+- Added a dedicated `blocks/_section-header.scss` (CLAUDE.md §5's block list is not exhaustive — `_layout.scss` already exists outside it), since SectionHeader needs styles and the task names only `_buttons`/`_cards` for Button/Card.
+- Token-only purity: micro hover-lift offsets and the secondary outline ring width are derived from the spacing scale via `calc(var(--space-xs) * …)` instead of magic px, so no raw numbers/hex appear in any block.
+- Components stay layout-agnostic (slot/props), reused by later section tasks (TASK-010, TASK-015, TASK-016, TASK-018, …).
+**Verified (test_steps):**
+- Шаг 1: temporary `task009smoke.astro` rendered `<Button variant="primary">` / `variant="secondary"` and two Cards; build output shows `class="btn btn--primary"`, `class="btn btn--secondary"`, `class="card"` and the compiled CSS resolves to tokens (`.btn--primary{background-color:var(--color-terracotta);color:var(--color-bg)}`, `.card{…box-shadow:var(--shadow-card);border-radius:var(--radius-lg)…}`). Probe page removed and rebuilt clean.
+- Шаг 2: grep of `_buttons.scss`/`_cards.scss`/`_section-header.scss` for raw hex (`#[0-9a-fA-F]{3,6}`) → none.
+- Шаг 3: grep of the three `.astro` files for `<style` → none (no inline styles / magic numbers in components).
+- Bonus: `npm run build` completes clean (no SCSS deprecation/errors).
+**Files changed:** src/components/ui/Button.astro, src/components/ui/Card.astro, src/components/ui/SectionHeader.astro, src/styles/blocks/_buttons.scss, src/styles/blocks/_cards.scss, src/styles/blocks/_section-header.scss, src/styles/main.scss, tasks.json (status), progress.md

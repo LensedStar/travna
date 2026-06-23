@@ -1,0 +1,41 @@
+// blocks/_section-header.scss — styles for the SectionHeader.astro primitive (TASK-009).
+// Token-only: heading uses --font-heading + type scale; eyebrow uses the wood accent.
+// Generous spacing below the header keeps the photo-led layout breathing (PRD §8.1).
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: 60ch;
+  margin-bottom: var(--space-xl);
+}
+
+.section-header--center {
+  align-items: center;
+  text-align: center;
+  margin-inline: auto;
+}
+
+.section-header__eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-wood);
+}
+
+.section-header__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+.section-header__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}

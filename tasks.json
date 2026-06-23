@@ -212,7 +212,7 @@
         "Ожидаемый результат: Примитивы готовы и токен-driven"
       ],
       "dependencies": ["TASK-004", "TASK-007"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-010",

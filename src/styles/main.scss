@@ -9,3 +9,6 @@
 @use 'base/reset';
 @use 'base/global';
 @use 'blocks/layout'; // global chrome (skip link) owned by BaseLayout
+@use 'blocks/buttons'; // Button.astro primitive (TASK-009)
+@use 'blocks/cards'; // Card.astro primitive (TASK-009)
+@use 'blocks/section-header'; // SectionHeader.astro primitive (TASK-009)
