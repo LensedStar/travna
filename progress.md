@@ -199,3 +199,19 @@
 - Bonus: `_booking.scss` has no raw hex; compiled `.booking__frame` resolves `min-height` to `calc(var(--space-3xl) * 5.5)` from tokens.
 **Files changed:** src/components/booking/BentralEmbed.astro, src/pages/rezervacija.astro, src/styles/blocks/_booking.scss, src/styles/main.scss, src/i18n/en.ts, tasks.json (status), progress.md
 **Note:** `about:blank` src, `booking.*` copy and the OG/SITE_URL placeholders remain `[MOCK]`/TODO for Webline to replace with the real Bentral embed at launch.
+
+## TASK-010 — Header.astro: logo placeholder, navigation, Book button
+**Date:** 2026-06-24
+**Status:** done
+**Summary:** Replaced the minimal TASK-007 Header stub with the full global site header — pure `.astro`, zero client JS, all visible text from the i18n dictionary, all styling in a dedicated SCSS block (no inline styles, no raw hex/magic numbers).
+- `src/components/layout/Header.astro`: `[MOCK]` text-logo brand (`t('site.name')`) linking to `/`, rendered in `--font-heading` via `.site-header__brand`. Primary nav (`Home`, `Accommodation`, `Activities`, `Menu`, `Contact`) built from a `navLinks` array using `nav.*` i18n keys, wrapped in `<nav aria-label={t('a11y.primaryNav')}>`. Prominent **Book** CTA via the `Button` primitive (default `primary` = terracotta) → `/rezervacija`, label from `t('nav.book')`. Reserved slots (TODO comments) for the `LanguageSwitcher` island (TASK-011) and `MobileNav` island (TASK-012) inside `.site-header__actions` — no over-building beyond this task.
+- `src/styles/blocks/_header.scss`: new block. Sticky header (`--color-bg` bg, `--shadow-soft`); flex `__inner` with structural `max-width: 75rem` cap (same precedent as section-header/booking blocks) and token spacing; brand in heading font/weight; nav links with `--color-forest` hover (transition from `--motion-*`, disabled under `prefers-reduced-motion`). Responsive: at `max-width: 48rem` the inline desktop `.site-header__nav` is hidden (`display:none`) so brand + Book never overflow at 375px (MobileNav takes over in TASK-012). Token-only — no raw hex/magic numbers.
+- `src/i18n/en.ts`: added `a11y.primaryNav` (`[MOCK]` + TODO) for the nav landmark label. All other strings (`nav.*`, `site.name`, `nav.book`) already existed.
+- `src/styles/main.scss`: `@use 'blocks/header';` added after `blocks/layout`.
+**Verified (test_steps):**
+- Шаг 1: `npm run build` clean; `dist/index.html` renders `.site-header__brand` = "Dom na Travni gori", all five `.site-header__nav-link` hrefs (`/`, `/accommodation`, `/activities`, `/menu`, `/contact`), and the Book CTA.
+- Шаг 2: Book CTA rendered as `<a href="/rezervacija" class="btn btn--primary site-header__book">[MOCK] Book` → routes to `/rezervacija`.
+- Шаг 3: compiled CSS contains `@media (max-width:48rem){.site-header__nav{display:none}}` — header collapses cleanly on mobile (375px) with no horizontal overflow; brand + Book remain.
+- Bonus: `_header.scss` has no raw hex (token-only); grep of `Header.astro` shows no inline `<style>`.
+**Files changed:** src/components/layout/Header.astro, src/styles/blocks/_header.scss, src/styles/main.scss, src/i18n/en.ts, tasks.json (status), progress.md
+**Note:** `LanguageSwitcher` (TASK-011) and `MobileNav` (TASK-012) islands mount into the reserved `.site-header__actions` slots in their own tasks; nav/brand strings remain `[MOCK]`/TODO.

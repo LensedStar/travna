@@ -1,13 +1,44 @@
 ---
-// Header.astro — PLACEHOLDER stub so BaseLayout can wire global chrome (TASK-007).
-// TODO(TASK-010): implement the real header — [MOCK] text logo, primary nav (i18n),
-// prominent "Book" CTA -> /rezervacija, slots for LanguageSwitcher (TASK-011) + MobileNav (TASK-012).
-// Visible text comes from the i18n dictionary — no hardcoded strings.
+// Header.astro — global site header (TASK-010).
+// [MOCK] text logo (brand, --font-heading), primary nav (i18n strings), prominent "Book" CTA -> /rezervacija.
+// Reserves slots for the LanguageSwitcher island (TASK-011) and the MobileNav island (TASK-012),
+// which mount their React islands here in their own tasks. All visible text comes from the i18n dictionary.
 import { useTranslations, defaultLocale } from '../../i18n';
+import Button from '../ui/Button.astro';
 
 const t = useTranslations(defaultLocale);
+
+const navLinks = [
+  { href: '/', label: t('nav.home') },
+  { href: '/accommodation', label: t('nav.accommodation') },
+  { href: '/activities', label: t('nav.activities') },
+  { href: '/menu', label: t('nav.menu') },
+  { href: '/contact', label: t('nav.contact') },
+];
 ---
 
 <header class="site-header">
-  <a class="site-header__brand" href="/">{t('site.name')}</a>
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="/">{t('site.name')}</a>
+
+    <nav class="site-header__nav" aria-label={t('a11y.primaryNav')}>
+      <ul class="site-header__nav-list">
+        {
+          navLinks.map((link) => (
+            <li class="site-header__nav-item">
+              <a class="site-header__nav-link" href={link.href}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      {/* TODO(TASK-011): mount <LanguageSwitcher client:idle /> island here. */}
+      <Button href="/rezervacija" class="site-header__book">{t('nav.book')}</Button>
+      {/* TODO(TASK-012): mount <MobileNav client:idle /> island here (burger; shown on mobile). */}
+    </div>
+  </div>
 </header>

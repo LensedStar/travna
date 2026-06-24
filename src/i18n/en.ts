@@ -17,6 +17,7 @@ export const en = {
   'a11y.openMenu': '[MOCK] Open menu', // TODO
   'a11y.closeMenu': '[MOCK] Close menu', // TODO
   'a11y.mapTitle': '[MOCK] Map to Dom na Travni gori', // TODO
+  'a11y.primaryNav': '[MOCK] Primary navigation', // TODO
 
   // --- Header / navigation ---
   'nav.home': '[MOCK] Home', // TODO

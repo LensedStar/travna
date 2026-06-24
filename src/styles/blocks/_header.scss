@@ -1,0 +1,70 @@
+// blocks/_header.scss — styles for the global Header.astro (TASK-010).
+// Token-only: no raw hex / magic numbers (colors/spacing/radius/shadow/fonts come from tokens).
+// The max-width is a structural layout cap (same precedent as the section-header/booking blocks).
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: var(--space-sm) var(--space-lg);
+}
+
+.site-header__brand {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.site-header__nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-header__nav-link {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.site-header__nav-link:hover {
+  color: var(--color-forest);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+// Mobile: hide the inline desktop nav — the MobileNav island (TASK-012) takes over here.
+// Brand + Book CTA stay, so the header never overflows at small widths (e.g. 375px).
+@media (max-width: 48rem) {
+  .site-header__nav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__nav-link {
+    transition: none;
+  }
+}
