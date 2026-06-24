@@ -1,0 +1,100 @@
+// blocks/_hero.scss — Home hero with atmospheric parallax (TASK-014).
+// Token-only: no raw hex / magic numbers. Layers animate via transform only (set inline by the
+// ParallaxHero island); this block holds layout, the warm scrim, and [MOCK] layer images.
+// prefers-reduced-motion is honored both here and in the island (parallax disabled).
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Structural full-bleed height (like the structural max-widths used elsewhere).
+  min-height: 80vh;
+  padding: var(--space-3xl) var(--space-lg);
+  // Fallback nature tone behind the [MOCK] layer images so text stays readable if art is missing.
+  background-color: var(--color-forest);
+  text-align: center;
+}
+
+// Parallax layers sit behind the content and extend past the hero so movement never reveals edges.
+.hero__layers {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.hero__layer {
+  position: absolute;
+  inset: 0;
+  // Taller than the hero so the translate range stays covered.
+  height: 120%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  will-change: transform;
+}
+
+// TODO: replace these [MOCK] placeholder images with real mountain + fog art.
+.hero__layer--mountains {
+  background-image: url('/images/hero-mountains.[MOCK].webp');
+  background-color: var(--color-mist);
+}
+
+.hero__layer--fog {
+  background-image: url('/images/hero-fog.[MOCK].png');
+}
+
+// Warm scrim improves contrast of light text over the photography (token-driven, no raw rgba).
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: color-mix(in srgb, var(--color-text) 45%, transparent);
+}
+
+.hero__content {
+  max-width: 50rem; // structural reading width
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  color: var(--color-bg);
+}
+
+.hero__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-bg);
+}
+
+.hero__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  line-height: var(--leading-snug);
+  color: var(--color-bg);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+// Secondary CTA on the dark hero: cream outline (the default forest variant would vanish on the scrim).
+.hero__cta-secondary {
+  color: var(--color-bg);
+  box-shadow: inset 0 0 0 calc(var(--space-xs) * 0.25) var(--color-bg);
+}
+
+.hero__cta-secondary:hover {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}

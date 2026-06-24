@@ -1,14 +1,21 @@
 ---
-// [MOCK] placeholder home page — now rendered through BaseLayout (TASK-007).
-// TODO: implement the real Home (TASK-016) with Header nav, hero parallax and section components.
+// [MOCK] placeholder home page — rendered through BaseLayout (TASK-007).
+// The ParallaxHero island is mounted here (TASK-014). TODO: TASK-016 adds the remaining Home
+// sections (value props, accommodation/activities previews, book-direct strip).
 // Visible strings come from the i18n dictionary — no hardcoded copy.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ParallaxHero from '../islands/ParallaxHero.jsx';
 import { useTranslations, defaultLocale } from '../i18n';
 
 const t = useTranslations(defaultLocale);
 ---
 
 <BaseLayout title={t('site.name')} description={t('site.tagline')}>
-  <h1>{t('site.name')}</h1>
-  <p>{t('site.tagline')}</p>
+  <ParallaxHero
+    client:load
+    title={t('home.hero.title')}
+    subtitle={t('home.hero.subtitle')}
+    ctaPrimaryLabel={t('cta.checkAvailability')}
+    ctaSecondaryLabel={t('cta.exploreArea')}
+  />
 </BaseLayout>

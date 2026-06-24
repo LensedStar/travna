@@ -318,7 +318,7 @@
         "Ожидаемый результат: Hero с атмосферным параллаксом и a11y"
       ],
       "dependencies": ["TASK-009"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-015",
