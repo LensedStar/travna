@@ -338,7 +338,7 @@
         "Ожидаемый результат: Секция value props корректна"
       ],
       "dependencies": ["TASK-009", "TASK-008"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-016",

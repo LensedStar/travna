@@ -1,10 +1,11 @@
 ---
 // [MOCK] placeholder home page — rendered through BaseLayout (TASK-007).
-// The ParallaxHero island is mounted here (TASK-014). TODO: TASK-016 adds the remaining Home
-// sections (value props, accommodation/activities previews, book-direct strip).
+// The ParallaxHero island (TASK-014) + ValueProps section (TASK-015) are mounted here.
+// TODO: TASK-016 adds the remaining Home sections (accommodation/activities previews, book-direct strip).
 // Visible strings come from the i18n dictionary — no hardcoded copy.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ParallaxHero from '../islands/ParallaxHero.jsx';
+import ValueProps from '../components/sections/ValueProps.astro';
 import { useTranslations, defaultLocale } from '../i18n';
 
 const t = useTranslations(defaultLocale);
@@ -18,4 +19,5 @@ const t = useTranslations(defaultLocale);
     ctaPrimaryLabel={t('cta.checkAvailability')}
     ctaSecondaryLabel={t('cta.exploreArea')}
   />
+  <ValueProps />
 </BaseLayout>

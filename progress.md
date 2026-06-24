@@ -251,3 +251,24 @@
 - Bonus: `_hero.scss` has no raw hex (grep clean); `ParallaxHero.jsx` has no inline `<style>`.
 **Files changed:** src/islands/ParallaxHero.jsx, src/styles/blocks/_hero.scss, src/styles/main.scss, src/pages/index.astro, tasks.json (status), progress.md
 **Note:** hero layer images (`/images/hero-mountains.[MOCK].webp`, `/images/hero-fog.[MOCK].png`) are `[MOCK]` placeholders for Webline to add at launch; until then the hero shows the `--color-forest`/`--color-mist` fallback tones.
+
+## TASK-015 — Home: value-props section (cards from collection)
+**Date:** 2026-06-24
+**Status:** done
+**Summary:** Built the Home "why stay with us" section as a pure `.astro` section component driven entirely by the `valueProps` content collection, with line-style icons and a dedicated SCSS block — zero client JS, no hardcoded copy, token-only styling.
+- `src/components/sections/ValueProps.astro`: `getCollection('valueProps')` sorted by `order`, rendered as a `<ul>` grid of `Card` primitives. Each card holds an `Icon` (line-style), the `[MOCK]` label (`<h3>`) and the optional `[MOCK]` description — label/description come from the collection (the content source per CLAUDE.md §8); the section title comes from i18n (`home.valueProps.title`). No hardcoded strings.
+- `src/components/ui/Icon.astro`: new UI primitive rendering line-style SVG icons by `name` (Lucide/Phosphor aesthetic). 24×24 viewBox, `fill="none"`, `stroke="currentColor"`, shared `stroke-width="1.75"` (consistent line weight), round caps/joins, `aria-hidden`. Path data for the four `[MOCK]` icons used by the collection (`trees`, `feather`, `map`, `flame`); color is inherited so callers theme it via a token. Unknown name → empty (no crash).
+- `src/styles/blocks/_value-props.scss`: new block. Section vertical rhythm (`--space-3xl`), centred `max-width: 75rem` container (same structural-width precedent as header/footer/booking), responsive `grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr))` that reflows to one column on mobile. Card body is a centred flex column (`height:100%` so cards in a row match); fog-tinted icon disc via `color-mix(in srgb, var(--color-mist) 45%, transparent)` (token-driven, no raw rgba), icon color `--color-forest` (nature accent). Label in `--font-heading`/`--text-h3`, text in `--font-body`. Token-only — no raw hex/magic numbers.
+- `src/styles/main.scss`: `@use 'blocks/value-props';` after `blocks/section-header`.
+- `src/pages/index.astro`: mounted `<ValueProps />` after the hero (so the section shows on Home for the test); updated the stale header comment to reflect that value-props is TASK-015 (remaining previews are TASK-016).
+**Decisions / notes:**
+- Card surface styling (rounding/shadow/hover) is reused from the shared `.card` block per the acceptance ("стили из blocks/_cards.scss"); this block only adds the section grid + icon/label, so card visuals stay defined once.
+- Added a focused `Icon.astro` primitive (line-style icons are required by the acceptance and no icon library is installed) instead of adding a dependency; it only defines the icons this task needs and is shaped to extend (used later for amenities, etc.).
+- SVG `viewBox`/`stroke-width` are intrinsic SVG geometry, not styling tokens — same reasoning as the existing structural `max-width`/`60ch` precedents; on-screen icon size is token-driven (`--space-xl` glyph inside a `--space-2xl` disc).
+**Verified (test_steps):**
+- Шаг 1: `npm run build` clean (only the pre-existing `[MOCK]` hero-image warnings); `dist/index.html` renders `.value-props` → `.value-props__grid` with all four collection cards in `order` (`[MOCK] Nature all around`, `Calm & quiet`, `Perfect base for trips`, `Cozy authentic house`), each with an `<svg class="icon value-props__icon">`; section title `[MOCK] Why stay with us` from i18n.
+- Шаг 2: compiled CSS shows `grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))` with `--space-lg` container gutters → collapses to a single column at 375px with no horizontal overflow.
+- Шаг 3: all four icons share `stroke-width="1.75"` with `fill="none"`/`stroke="currentColor"` (grep count 4) — line-style, single consistent weight; path/polygon data renders un-escaped via `set:html`.
+- Bonus: `_value-props.scss` has no raw hex (grep clean); neither `ValueProps.astro` nor `Icon.astro` has an inline `<style>`.
+**Files changed:** src/components/sections/ValueProps.astro, src/components/ui/Icon.astro, src/styles/blocks/_value-props.scss, src/styles/main.scss, src/pages/index.astro, tasks.json (status), progress.md
+**Note:** icon names + card label/description are `[MOCK]` placeholders for Webline/client to finalize; the section title remains `[MOCK]`/TODO in `en.ts`.

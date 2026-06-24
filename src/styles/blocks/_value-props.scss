@@ -1,0 +1,65 @@
+// blocks/_value-props.scss — Home value-props section (TASK-015).
+// Responsive card grid (reflows to one column on mobile, no horizontal overflow). Card surface
+// styling comes from the shared .card block; this block owns the section layout + icon/label.
+// Token-only — no raw hex / magic numbers.
+
+.value-props {
+  padding-block: var(--space-3xl);
+}
+
+.value-props__inner {
+  // Structural content cap (same precedent as the header/footer blocks), centred with gutters.
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.value-props__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--space-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.value-props__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  height: 100%;
+  text-align: center;
+}
+
+.value-props__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  border-radius: var(--radius-lg);
+  // Soft fog-tinted disc behind the line icon (token-driven, no raw rgba).
+  background-color: color-mix(in srgb, var(--color-mist) 45%, transparent);
+  color: var(--color-forest);
+}
+
+.value-props__icon {
+  width: var(--space-xl);
+  height: var(--space-xl);
+}
+
+.value-props__label {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.value-props__text {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}

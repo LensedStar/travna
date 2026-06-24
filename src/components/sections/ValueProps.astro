@@ -1,0 +1,32 @@
+---
+// ValueProps.astro — Home "why stay with us" section (TASK-015).
+// 3–4 rounded cards (icon + [MOCK] label) rendered from the `valueProps` content collection so
+// cards can be added/removed without editing this layout (CLAUDE.md §8). Pure .astro, zero client JS.
+// Section title comes from i18n; card label/description come from the collection (the content source).
+import { getCollection } from 'astro:content';
+import Card from '../ui/Card.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+const props = (await getCollection('valueProps')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="value-props">
+  <div class="value-props__inner">
+    <SectionHeader title={t('home.valueProps.title')} align="center" />
+    <ul class="value-props__grid">
+      {props.map(({ data }) => (
+        <li>
+          <Card class="value-props__card">
+            <span class="value-props__icon-wrap">
+              <Icon name={data.icon} class="value-props__icon" />
+            </span>
+            <h3 class="value-props__label">{data.label}</h3>
+            {data.description && <p class="value-props__text">{data.description}</p>}
+          </Card>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
