@@ -272,3 +272,25 @@
 - Bonus: `_value-props.scss` has no raw hex (grep clean); neither `ValueProps.astro` nor `Icon.astro` has an inline `<style>`.
 **Files changed:** src/components/sections/ValueProps.astro, src/components/ui/Icon.astro, src/styles/blocks/_value-props.scss, src/styles/main.scss, src/pages/index.astro, tasks.json (status), progress.md
 **Note:** icon names + card label/description are `[MOCK]` placeholders for Webline/client to finalize; the section title remains `[MOCK]`/TODO in `en.ts`.
+
+## TASK-016 — Home: Accommodation preview, Activities preview, Book-direct strip
+**Date:** 2026-06-24
+**Status:** done
+**Summary:** Assembled the remaining Home sections as three pure `.astro` section components (zero client JS), each in `src/components/sections/`, with all visible text pulled from the i18n dictionary and all styling in dedicated `src/styles/blocks/*` files — no inline `<style>`, no raw hex / magic numbers.
+- `src/components/sections/AccommodationPreview.astro`: `[MOCK]` media placeholder + `SectionHeader` (`home.accommodation.title`) + one `[MOCK]` paragraph (`home.accommodation.text`) + secondary `Button` → `/accommodation` (`cta.viewAccommodation`). The image slot is a token-styled placeholder surface (`.accommodation-preview__media`) following the hero precedent (no broken `<img>`); marked `TODO(TASK-030)` to swap for an optimized Astro `<Image>`.
+- `src/components/sections/ActivitiesPreview.astro`: centred `[MOCK]` intro via `SectionHeader` (`home.activities.title` + `home.activities.text`) + secondary `Button` → `/activities` (`cta.viewActivities`).
+- `src/components/sections/BookDirect.astro`: forest-band strip with `SectionHeader` (`home.bookDirect.title`), a 3-item benefits list (`home.bookDirect.benefit1..3`) each with a line-style `check` icon, and a primary `Button` → `/rezervacija` (`cta.bookNow`).
+- `src/components/ui/Icon.astro`: added one line-style `check` glyph (consistent 1.75 stroke weight) for the book-direct benefits — the Icon primitive is designed to extend (TASK-015 precedent).
+- New SCSS blocks `_accommodation-preview.scss`, `_activities-preview.scss`, `_book-direct.scss` (responsive `auto-fit` grid / `flex-wrap`, structural `max-width: 75rem` cap like the other section blocks, fog/wood token bands via `color-mix`, token-only). `@use`d in `main.scss` after `value-props`.
+- `src/pages/index.astro`: mounted `<AccommodationPreview />`, `<ActivitiesPreview />`, `<BookDirect />` after `<ValueProps />`; updated the header comment (Home now content-complete for previews; full Accommodation/Activities pages remain TASK-018/019).
+**Decisions / notes:**
+- CTA hrefs (`/accommodation`, `/activities`, `/rezervacija`) are navigation targets, not visible copy — hardcoded like the existing Header nav links; only labels come from i18n.
+- Used the styled-placeholder media surface (token background + `[MOCK]` `background-image` url) instead of an `<img>` so the build stays clean and shows no broken-image icon until Webline adds the real asset (same approach the hero uses).
+- Section heading colour override on the forest `book-direct` band keeps AA contrast (cream on forest).
+**Verified (test_steps):**
+- Шаг 1: `npm run build` clean (only the pre-existing `[MOCK]` placeholder-image warnings); `dist/index.html` contains `.accommodation-preview`, `.activities-preview`, `.book-direct`, with `href="/accommodation"`, `href="/activities"`, `href="/rezervacija"` all routing correctly.
+- Шаг 2: all copy resolves from i18n (`[MOCK] Your cozy mountain retreat`, `[MOCK] Explore the surroundings`, `[MOCK] Book direct`, the three benefits) — grep for raw `home.*` keys returns 0; no hardcoded literals in the components.
+- Шаг 3: blocks use `repeat(auto-fit, minmax(...))` / `flex-wrap` → reflow to a single column on mobile with no horizontal overflow (same pattern as the accepted value-props/footer blocks); 3 benefit items + 3 `check` icons render.
+- Bonus: the three new blocks have no raw hex (grep clean); none of the three section components carry an inline `<style>`.
+**Files changed:** src/components/sections/AccommodationPreview.astro, ActivitiesPreview.astro, BookDirect.astro, src/components/ui/Icon.astro, src/styles/blocks/_accommodation-preview.scss, _activities-preview.scss, _book-direct.scss, src/styles/main.scss, src/pages/index.astro, tasks.json (status), progress.md
+**Note:** `home.*` copy + the `accommodation-preview.[MOCK].webp` image remain `[MOCK]`/TODO for Webline/client to finalize.

@@ -359,7 +359,7 @@
         "Ожидаемый результат: Главная собрана из секций-превью"
       ],
       "dependencies": ["TASK-014", "TASK-015"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-017",

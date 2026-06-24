@@ -1,0 +1,45 @@
+// blocks/_accommodation-preview.scss — Home accommodation teaser (TASK-016).
+// Two-column media + copy that stacks on mobile (no horizontal overflow). Token-only — no raw
+// hex / magic numbers. The media is a [MOCK] placeholder surface (real photo added in TASK-030).
+
+.accommodation-preview {
+  padding-block: var(--space-3xl);
+}
+
+.accommodation-preview__inner {
+  // Structural content cap (same precedent as the other section blocks), centred with gutters.
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+// [MOCK] image slot — warm fog-tinted placeholder so the layout reads without a real asset yet.
+// TODO(TASK-030): replace with an optimized Astro <Image> (interior / wood / forest photo).
+.accommodation-preview__media {
+  min-height: calc(var(--space-3xl) * 3.5);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  background-color: var(--color-mist);
+  background-image: url('/images/accommodation-preview.[MOCK].webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.accommodation-preview__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.accommodation-preview__text {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}

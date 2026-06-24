@@ -1,0 +1,20 @@
+---
+// ActivitiesPreview.astro — Home activities/surroundings teaser (TASK-016).
+// [MOCK] short intro + link into /activities. Pure .astro, zero client JS.
+// Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_activities-preview.scss.
+import Button from '../ui/Button.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+---
+<section class="activities-preview">
+  <div class="activities-preview__inner">
+    <SectionHeader
+      title={t('home.activities.title')}
+      subtitle={t('home.activities.text')}
+      align="center"
+    />
+    <Button href="/activities" variant="secondary">{t('cta.viewActivities')}</Button>
+  </div>
+</section>

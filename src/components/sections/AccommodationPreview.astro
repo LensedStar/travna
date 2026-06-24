@@ -1,0 +1,21 @@
+---
+// AccommodationPreview.astro — Home accommodation teaser (TASK-016).
+// [MOCK] image + one short paragraph → link to /accommodation. Pure .astro, zero client JS.
+// Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-preview.scss.
+// TODO(TASK-030): swap the .accommodation-preview__media placeholder for an optimized Astro <Image>.
+import Button from '../ui/Button.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+---
+<section class="accommodation-preview">
+  <div class="accommodation-preview__inner">
+    <div class="accommodation-preview__media" aria-hidden="true"></div>
+    <div class="accommodation-preview__body">
+      <SectionHeader title={t('home.accommodation.title')} />
+      <p class="accommodation-preview__text">{t('home.accommodation.text')}</p>
+      <Button href="/accommodation" variant="secondary">{t('cta.viewAccommodation')}</Button>
+    </div>
+  </div>
+</section>

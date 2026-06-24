@@ -1,0 +1,32 @@
+---
+// BookDirect.astro — Home "book direct" value strip (TASK-016).
+// 3 [MOCK] benefits + CTA → /rezervacija. Pure .astro, zero client JS.
+// Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_book-direct.scss.
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+const benefits = [
+  t('home.bookDirect.benefit1'),
+  t('home.bookDirect.benefit2'),
+  t('home.bookDirect.benefit3'),
+];
+---
+<section class="book-direct">
+  <div class="book-direct__inner">
+    <SectionHeader title={t('home.bookDirect.title')} align="center" />
+    <ul class="book-direct__benefits">
+      {benefits.map((benefit) => (
+        <li class="book-direct__benefit">
+          <span class="book-direct__icon-wrap">
+            <Icon name="check" class="book-direct__icon" />
+          </span>
+          <span class="book-direct__benefit-label">{benefit}</span>
+        </li>
+      ))}
+    </ul>
+    <Button href="/rezervacija" variant="primary">{t('cta.bookNow')}</Button>
+  </div>
+</section>

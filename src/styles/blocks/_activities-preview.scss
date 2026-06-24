@@ -1,0 +1,18 @@
+// blocks/_activities-preview.scss — Home activities/surroundings teaser (TASK-016).
+// Centred intro + CTA on a soft fog band. Token-only — no raw hex / magic numbers.
+
+.activities-preview {
+  padding-block: var(--space-3xl);
+  background-color: color-mix(in srgb, var(--color-mist) 30%, transparent);
+}
+
+.activities-preview__inner {
+  // Structural content cap, centred with gutters.
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
