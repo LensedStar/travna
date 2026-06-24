@@ -215,3 +215,21 @@
 - Bonus: `_header.scss` has no raw hex (token-only); grep of `Header.astro` shows no inline `<style>`.
 **Files changed:** src/components/layout/Header.astro, src/styles/blocks/_header.scss, src/styles/main.scss, src/i18n/en.ts, tasks.json (status), progress.md
 **Note:** `LanguageSwitcher` (TASK-011) and `MobileNav` (TASK-012) islands mount into the reserved `.site-header__actions` slots in their own tasks; nav/brand strings remain `[MOCK]`/TODO.
+
+## TASK-013 — Footer.astro: contacts, social, legal [MOCK] + Google Maps on every page
+**Date:** 2026-06-24
+**Status:** done
+**Summary:** Replaced the minimal TASK-007 Footer stub with the full global footer — pure `.astro`, all visible text from the i18n dictionary, all styling in a dedicated SCSS block (no inline styles, no raw hex/magic numbers). Rendered on every page via `BaseLayout`.
+- `src/components/layout/Footer.astro`: three `[MOCK]` columns — Contact (phone `tel:` + email `mailto:`), Social (Instagram + Facebook external links with `target="_blank" rel="noopener noreferrer"`), Legal (entity `[MOCK] Dom na TRAVNI GORI d.o.o.` + address). Embedded **Google Maps** iframe (`loading="lazy"`, `title` from `a11y.mapTitle`, `referrerpolicy="no-referrer-when-downgrade"`) + a short `[MOCK]` "how to reach us" note (`footer.directions`), plus the rights line.
+- **Decision — visible text vs config values:** all visible copy (titles, phone/email/address display, entity, directions, rights, social labels) comes from `src/i18n/en.ts`. Non-visible hrefs/embed `src` (tel/mailto/social URLs, map embed URL) are kept as clearly-marked `[MOCK]` TODO constants in the component frontmatter — they are configuration, not UI copy, so this respects the "no hardcoded visible strings" rule without inventing a `site` content collection (out of this task's scope).
+- **Decision — map src:** uses the keyless `maps.google.com/maps?q=…&output=embed` form pointing at "Travna Gora, Slovenia" (the region is stated in the PRD §1.1, not invented) so the map actually loads for the test. Marked `[MOCK]` TODO for Webline to swap for the exact property-pin embed at launch. No precise coordinates/pin asserted.
+- `src/i18n/en.ts`: added `footer.contact.phone`, `footer.contact.email`, `footer.social.instagram`, `footer.social.facebook`, `footer.legal.entity`, `footer.legal.address` (`[MOCK]` + TODO; social labels are brand names). Existing `footer.*` titles/directions/rights and `a11y.mapTitle` reused.
+- `src/styles/blocks/_footer.scss`: new block. Forest background with bg-cream text (high contrast for AA), `auto-fit minmax(14rem,1fr)` column grid that collapses to one column on mobile (no overflow at 375px), map frame with `min-height: calc(var(--space-3xl) * 4)` (same derived-value precedent as the booking block), `--radius-lg` + `--shadow-soft`, link hover in `--color-wood`, `prefers-reduced-motion` disables the link transition. Token-only — no raw hex/magic numbers.
+- `src/styles/main.scss`: `@use 'blocks/footer';` added after `blocks/header`.
+**Verified (test_steps):**
+- Шаг 1: `npm run build` clean; `class="site-footer"` present in both `dist/index.html` and `dist/rezervacija/index.html` — footer (with map) renders on every page (it lives in `BaseLayout`).
+- Шаг 2: built iframe is `<iframe class="site-footer__map-frame" src="…output=embed" title="[MOCK] Map to Dom na Travni gori" loading="lazy" referrerpolicy="…">` — map is lazy and titled.
+- Шаг 3: `[MOCK] info@example.com`, `[MOCK] Dom na TRAVNI GORI d.o.o.`, `[MOCK] Street 1…` all present in the built HTML — contacts + legal entity visible as `[MOCK]`.
+- Bonus: `_footer.scss` has no raw hex (token-only); `Footer.astro` has no inline `<style>`.
+**Files changed:** src/components/layout/Footer.astro, src/styles/blocks/_footer.scss, src/styles/main.scss, src/i18n/en.ts, tasks.json (status), progress.md
+**Note:** tel/mailto/social URLs and the map embed remain `[MOCK]`/TODO for Webline; the precise property-pin Google Maps embed is inserted at launch.

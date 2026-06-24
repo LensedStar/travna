@@ -1,13 +1,82 @@
 ---
-// Footer.astro — PLACEHOLDER stub so BaseLayout can render a global footer on every page (TASK-007).
-// TODO(TASK-013): implement the real footer — [MOCK] contact block, social links, legal entity,
-// and the embedded Google Map (lazy iframe with title) + short "how to reach us" note (all via i18n).
-// Visible text comes from the i18n dictionary — no hardcoded strings.
+// Footer.astro — global site footer rendered on EVERY page via BaseLayout (TASK-013).
+// [MOCK] contact block, social links, legal entity, and an embedded Google Map (lazy iframe with
+// title) + a short "how to reach us" note. All visible text comes from the i18n dictionary — no
+// hardcoded strings in the component.
 import { useTranslations, defaultLocale } from '../../i18n';
 
 const t = useTranslations(defaultLocale);
+
+// [MOCK] config values (non-visible hrefs / embed src — not UI copy).
+// TODO(Webline): replace with the real phone, email, social profiles and the exact Google Maps
+// embed (pin at the property). The map src below points at the region stated in the PRD; swap it
+// for the precise property-pin embed at launch.
+const telHref = 'tel:+3860000000'; // [MOCK] TODO
+const mailHref = 'mailto:info@example.com'; // [MOCK] TODO
+const instagramUrl = 'https://instagram.com/'; // [MOCK] TODO
+const facebookUrl = 'https://facebook.com/'; // [MOCK] TODO
+const mapEmbedUrl = 'https://maps.google.com/maps?q=Travna%20Gora%2C%20Slovenia&output=embed'; // [MOCK] TODO: exact property pin
 ---
 
 <footer class="site-footer">
-  <p class="site-footer__rights">{t('site.name')} — {t('footer.rights')}</p>
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <section class="site-footer__col">
+        <h2 class="site-footer__heading">{t('footer.contact.title')}</h2>
+        <ul class="site-footer__list">
+          <li>
+            <a class="site-footer__link" href={telHref}>{t('footer.contact.phone')}</a>
+          </li>
+          <li>
+            <a class="site-footer__link" href={mailHref}>{t('footer.contact.email')}</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="site-footer__col">
+        <h2 class="site-footer__heading">{t('footer.social.title')}</h2>
+        <ul class="site-footer__list">
+          <li>
+            <a
+              class="site-footer__link"
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t('footer.social.instagram')}
+            </a>
+          </li>
+          <li>
+            <a
+              class="site-footer__link"
+              href={facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t('footer.social.facebook')}
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="site-footer__col">
+        <h2 class="site-footer__heading">{t('footer.legal.title')}</h2>
+        <p class="site-footer__text">{t('footer.legal.entity')}</p>
+        <p class="site-footer__text">{t('footer.legal.address')}</p>
+      </section>
+    </div>
+
+    <div class="site-footer__map">
+      <iframe
+        class="site-footer__map-frame"
+        src={mapEmbedUrl}
+        title={t('a11y.mapTitle')}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+      <p class="site-footer__directions">{t('footer.directions')}</p>
+    </div>
+
+    <p class="site-footer__rights">{t('site.name')} — {t('footer.rights')}</p>
+  </div>
 </footer>

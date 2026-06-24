@@ -121,8 +121,14 @@ export const en = {
 
   // --- Footer ---
   'footer.contact.title': '[MOCK] Contact', // TODO
+  'footer.contact.phone': '[MOCK] +386 0 000 000', // TODO
+  'footer.contact.email': '[MOCK] info@example.com', // TODO
   'footer.social.title': '[MOCK] Follow us', // TODO
+  'footer.social.instagram': 'Instagram', // brand name (link label)
+  'footer.social.facebook': 'Facebook', // brand name (link label)
   'footer.legal.title': '[MOCK] Legal', // TODO
+  'footer.legal.entity': '[MOCK] Dom na TRAVNI GORI d.o.o.', // TODO
+  'footer.legal.address': '[MOCK] Street 1, 0000 City, Slovenia', // TODO
   'footer.directions': '[MOCK] Short “how to reach us” note.', // TODO
   'footer.rights': '[MOCK] All rights reserved.', // TODO
 

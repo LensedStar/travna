@@ -296,7 +296,7 @@
         "Ожидаемый результат: Footer с картой на всех страницах"
       ],
       "dependencies": ["TASK-007", "TASK-009"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-014",

@@ -1,0 +1,88 @@
+// blocks/_footer.scss — styles for the global Footer.astro (TASK-013).
+// Token-only: no raw hex / magic numbers (colors/spacing/radius/shadow/fonts come from tokens).
+// The max-width is a structural layout cap (same precedent as the header/section-header blocks);
+// the map min-height is derived from the spacing scale (same precedent as the booking block).
+
+.site-footer {
+  background-color: var(--color-forest);
+  color: var(--color-bg);
+  margin-top: var(--space-3xl);
+}
+
+.site-footer__inner {
+  display: grid;
+  gap: var(--space-2xl);
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+}
+
+.site-footer__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-xl);
+}
+
+.site-footer__heading {
+  margin-bottom: var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  color: var(--color-bg);
+}
+
+.site-footer__list {
+  display: grid;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__link {
+  color: var(--color-bg);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.site-footer__link:hover {
+  color: var(--color-wood);
+}
+
+.site-footer__text {
+  margin: 0 0 var(--space-xs);
+  color: var(--color-bg);
+}
+
+.site-footer__map {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.site-footer__map-frame {
+  width: 100%;
+  min-height: calc(var(--space-3xl) * 4);
+  border: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.site-footer__directions {
+  margin: 0;
+  color: var(--color-mist);
+  font-size: var(--text-small);
+}
+
+.site-footer__rights {
+  margin: 0;
+  padding-top: var(--space-md);
+  color: var(--color-mist);
+  font-size: var(--text-small);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer__link {
+    transition: none;
+  }
+}
