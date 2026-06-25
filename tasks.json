@@ -503,7 +503,7 @@
         "Ожидаемый результат: Контактный флоу завершён"
       ],
       "dependencies": ["TASK-022", "TASK-013"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-024",

@@ -356,3 +356,20 @@
 - Bonus: `npm run build` clean (only pre-existing `[MOCK]` image warnings); `ContactForm.*.js` bundles + hydrates; `_contact.scss` has no raw hex; island has no inline `<style>`; all 7 fields have associated `<label for>`.
 **Files changed:** src/islands/ContactForm.jsx (new), src/styles/blocks/_contact.scss (new), src/styles/main.scss, src/i18n/en.ts, tasks.json (status), progress.md
 **Note:** `contact.form.*` copy remains `[MOCK]`/TODO; Webline configures Netlify email notifications (not in code). The form is mounted on the real `/contact` page in TASK-023.
+
+## TASK-023 — Contact page: form + contact details + map; /thank-you page
+**Date:** 2026-06-25
+**Status:** done
+**Summary:** Wired the ContactForm island (TASK-022) into the real `/contact` page and added the `/thank-you` success page it redirects to — both pure data/i18n driven, token-only styling appended to the existing `_contact.scss` block, no inline `<style>`, no raw hex.
+- `src/pages/contact.astro`: renders through `BaseLayout` (per-page SEO via props — title `contact.title — site.name`, description `contact.intro`). Centred `SectionHeader` (`contact.title` + `contact.intro`) → two-column responsive `.contact__layout` with the `<ContactForm client:visible>` (fed a `strings` object of all 12 form keys from i18n) and a `.contact__details` aside ([MOCK] phone `tel:`, email `mailto:`, Instagram + Facebook external links). The form's static HTML is present in the build so Netlify's form detection still works under `client:visible`.
+- **Map:** the Google Map lives in the global footer (`BaseLayout`), so it is present on `/contact` too (acceptance allows footer-global; not duplicated inline). Verified `site-footer__map-frame` count = 1 in the built page.
+- `src/pages/thank-you.astro`: `[MOCK]` success page — `SectionHeader` (`thankYou.title` + `thankYou.text`) + a primary `Button` → `/` (`thankYou.backHome`). Generated at `/thank-you/index.html` (matches the form's `action="/thank-you/"`), so the post-submit redirect target exists (no 404).
+- **Decisions / notes:** contact-detail hrefs (tel/mailto/social) are non-visible config `[MOCK]` constants mirroring the footer's placeholders (same precedent as Footer.astro); only labels come from i18n (reused `footer.contact.*` / `footer.social.*` + `contact.details.title`). CTA/back-home href `/` is a navigation target (hardcoded like the Header nav). No new i18n keys were needed — all `contact.*`, `thankYou.*` keys already existed.
+- `src/styles/blocks/_contact.scss`: appended the page-level `.contact` (responsive `auto-fit` form+details grid, structural `max-width:75rem` cap) and `.thank-you` (centred, `50rem` measure) blocks + a `prefers-reduced-motion` guard on the detail-link transition. Token-only; the block was already `@use`d in `main.scss` (no main.scss change).
+**Verified (test_steps):**
+- Шаг 1: `dist/contact/index.html` renders the form (`name="contact-en"`, `data-netlify="true"`) and the `.contact__details` block with `[MOCK] +386 0 000 000`, `[MOCK] info@example.com`, Instagram, Facebook, `[MOCK] Contact details` — form + contacts shown.
+- Шаг 2: the form's `action="/thank-you/"` → successful submission redirects to the thank-you page.
+- Шаг 3: `dist/thank-you/index.html` exists (no 404), rendering `[MOCK] Thank you` + `[MOCK] Back to home` (`href="/"`).
+- Bonus: `npm run build` clean (only the pre-existing `[MOCK]` placeholder-image warnings); 5 pages built; `_contact.scss` has no raw hex; neither new page has an inline `<style>`; footer map present on `/contact` (count = 1).
+**Files changed:** src/pages/contact.astro, src/pages/thank-you.astro, src/styles/blocks/_contact.scss, tasks.json (status), progress.md
+**Note:** tel/mailto/social hrefs and all `contact.*`/`thankYou.*` copy remain `[MOCK]`/TODO for Webline/client; Netlify email notifications are configured by Webline (not in code).

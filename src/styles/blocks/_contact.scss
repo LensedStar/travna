@@ -115,3 +115,74 @@
     transition: none;
   }
 }
+
+// --- Contact page layout (TASK-023): form + [MOCK] contact details ---------------------
+.contact {
+  padding-block: var(--space-3xl);
+}
+
+.contact__inner {
+  max-width: 75rem; // structural container cap (same precedent as the other page blocks)
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.contact__layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+.contact__details-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  margin-block-end: var(--space-md);
+}
+
+.contact__details-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.contact__details-link {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-forest);
+  }
+}
+
+// --- Thank-you page (TASK-023): form success state -------------------------------------
+.thank-you {
+  padding-block: var(--space-3xl);
+}
+
+.thank-you__inner {
+  max-width: 50rem; // structural reading/measure cap
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  text-align: center;
+}
+
+.thank-you__cta {
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-xl);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__details-link {
+    transition: none;
+  }
+}

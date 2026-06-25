@@ -1,0 +1,82 @@
+---
+// contact.astro — Contact page (TASK-023).
+// Inquiry form (ContactForm island, Netlify Forms) + [MOCK] contact details (phone, email, social).
+// The Google Map is rendered globally in the footer (BaseLayout) on every page, so it is present here
+// too. All visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_contact.scss.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import ContactForm from '../islands/ContactForm.jsx';
+import { useTranslations, defaultLocale } from '../i18n';
+
+const t = useTranslations(defaultLocale);
+const pageTitle = `${t('contact.title')} — ${t('site.name')}`;
+
+// All visible form copy is sourced from i18n and handed to the island (no hardcoded strings there).
+const formStrings = {
+  name: t('contact.form.name'),
+  email: t('contact.form.email'),
+  phone: t('contact.form.phone'),
+  checkin: t('contact.form.checkin'),
+  checkout: t('contact.form.checkout'),
+  message: t('contact.form.message'),
+  consent: t('contact.form.consent'),
+  submit: t('contact.form.submit'),
+  required: t('contact.form.required'),
+  invalidEmail: t('contact.form.invalidEmail'),
+  consentRequired: t('contact.form.consentRequired'),
+  honeypot: t('contact.form.honeypot'),
+};
+
+// [MOCK] config values (non-visible hrefs — not UI copy). Mirror the footer's placeholders.
+// TODO(Webline): replace with the real phone, email and social profiles at launch.
+const telHref = 'tel:+3860000000'; // [MOCK] TODO
+const mailHref = 'mailto:info@example.com'; // [MOCK] TODO
+const instagramUrl = 'https://instagram.com/'; // [MOCK] TODO
+const facebookUrl = 'https://facebook.com/'; // [MOCK] TODO
+---
+
+<BaseLayout title={pageTitle} description={t('contact.intro')}>
+  <section class="contact">
+    <div class="contact__inner">
+      <SectionHeader title={t('contact.title')} subtitle={t('contact.intro')} align="center" />
+
+      <div class="contact__layout">
+        <div class="contact__form">
+          <ContactForm client:visible strings={formStrings} />
+        </div>
+
+        <aside class="contact__details">
+          <h2 class="contact__details-title">{t('contact.details.title')}</h2>
+          <ul class="contact__details-list">
+            <li>
+              <a class="contact__details-link" href={telHref}>{t('footer.contact.phone')}</a>
+            </li>
+            <li>
+              <a class="contact__details-link" href={mailHref}>{t('footer.contact.email')}</a>
+            </li>
+            <li>
+              <a
+                class="contact__details-link"
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t('footer.social.instagram')}
+              </a>
+            </li>
+            <li>
+              <a
+                class="contact__details-link"
+                href={facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t('footer.social.facebook')}
+              </a>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

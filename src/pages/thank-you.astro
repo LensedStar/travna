@@ -1,0 +1,24 @@
+---
+// thank-you.astro — form success page (TASK-023).
+// The ContactForm posts to Netlify which redirects here (/thank-you/) on success. Shows a short
+// [MOCK] confirmation and a link back home. All visible strings come from the i18n dictionary;
+// styling lives in src/styles/blocks/_contact.scss.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
+import { useTranslations, defaultLocale } from '../i18n';
+
+const t = useTranslations(defaultLocale);
+const pageTitle = `${t('thankYou.title')} — ${t('site.name')}`;
+---
+
+<BaseLayout title={pageTitle} description={t('thankYou.text')}>
+  <section class="thank-you">
+    <div class="thank-you__inner">
+      <SectionHeader title={t('thankYou.title')} subtitle={t('thankYou.text')} align="center" />
+      <div class="thank-you__cta">
+        <Button href="/" variant="primary">{t('thankYou.backHome')}</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
