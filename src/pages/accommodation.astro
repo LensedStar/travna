@@ -1,0 +1,72 @@
+---
+// accommodation.astro — Accommodation page (TASK-018).
+// Photo slider (AccommodationSlider island) + warm atmospheric [MOCK] description + amenities row + CTA.
+// NO per-room/per-unit breakdown — unit selection and pricing are handled by Bentral on /rezervacija.
+// All visible strings come from the i18n dictionary; gallery images from the `gallery` collection.
+// Styling lives in src/styles/blocks/_accommodation.scss.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Icon from '../components/ui/Icon.astro';
+import Button from '../components/ui/Button.astro';
+import AccommodationSlider from '../islands/AccommodationSlider.jsx';
+import { useTranslations, defaultLocale } from '../i18n';
+
+const t = useTranslations(defaultLocale);
+const pageTitle = `${t('accommodation.title')} — ${t('site.name')}`;
+
+// Slider images come from the gallery collection (sorted), so photos can be added/removed without
+// touching this layout. The island can't call getCollection itself, so we pass the data in as a prop.
+const images = (await getCollection('gallery'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map(({ data }) => ({ src: data.src, alt: data.alt }));
+
+// Amenities row: icon name is config, the visible label comes from i18n ([MOCK]). TODO: confirm the
+// final amenity set with the client — placeholders only, no invented facts.
+const amenities = [
+  { icon: 'wifi', label: t('accommodation.amenities.wifi') },
+  { icon: 'car', label: t('accommodation.amenities.parking') },
+  { icon: 'utensils', label: t('accommodation.amenities.kitchen') },
+  { icon: 'flame', label: t('accommodation.amenities.fireplace') },
+  { icon: 'thermometer', label: t('accommodation.amenities.heating') },
+  { icon: 'armchair', label: t('accommodation.amenities.terrace') },
+];
+---
+
+<BaseLayout title={pageTitle} description={t('accommodation.description')}>
+  <section class="accommodation">
+    <div class="accommodation__inner">
+      <SectionHeader title={t('accommodation.title')} align="center" />
+
+      <AccommodationSlider
+        client:visible
+        images={images}
+        label={t('accommodation.slider.label')}
+        prevLabel={t('accommodation.slider.prev')}
+        nextLabel={t('accommodation.slider.next')}
+      />
+
+      <div class="accommodation__description">
+        <p>{t('accommodation.description')}</p>
+      </div>
+
+      <div class="accommodation__amenities">
+        <h2 class="accommodation__amenities-title">{t('accommodation.amenities.title')}</h2>
+        <ul class="accommodation__amenities-grid">
+          {amenities.map((amenity) => (
+            <li class="accommodation__amenity">
+              <span class="accommodation__amenity-icon-wrap">
+                <Icon name={amenity.icon} class="accommodation__amenity-icon" />
+              </span>
+              <span class="accommodation__amenity-label">{amenity.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="accommodation__cta">
+        <Button href="/rezervacija" variant="primary">{t('accommodation.cta')}</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

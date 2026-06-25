@@ -114,3 +114,89 @@
     transition: none;
   }
 }
+
+// --- Accommodation page (TASK-018): slider + description + amenities + CTA ---
+
+.accommodation {
+  padding-block: var(--space-3xl);
+}
+
+.accommodation__inner {
+  // Structural content cap (same precedent as the other blocks), centred with gutters.
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.accommodation__description {
+  max-width: 50rem; // comfortable reading measure for the atmospheric copy
+  margin-inline: auto;
+  margin-block-start: var(--space-2xl);
+  text-align: center;
+}
+
+.accommodation__description p {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+.accommodation__amenities {
+  margin-block-start: var(--space-3xl);
+  text-align: center;
+}
+
+.accommodation__amenities-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  margin-block-end: var(--space-xl);
+}
+
+.accommodation__amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--space-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.accommodation__amenity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.accommodation__amenity-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  border-radius: var(--radius-lg);
+  // Soft fog-tinted disc behind the line icon (token-driven, no raw rgba) — matches value-props.
+  background-color: color-mix(in srgb, var(--color-mist) 45%, transparent);
+  color: var(--color-forest);
+}
+
+.accommodation__amenity-icon {
+  width: var(--space-xl);
+  height: var(--space-xl);
+}
+
+.accommodation__amenity-label {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.accommodation__cta {
+  margin-block-start: var(--space-3xl);
+  text-align: center;
+}

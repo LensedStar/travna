@@ -313,3 +313,24 @@
 - Bonus: all 4 images carry `width="1200"`/`height="800"`; first eager, rest lazy; `npm run build` clean after removing the probe; `_accommodation.scss` has no raw hex; island has no inline `<style>`.
 **Files changed:** src/islands/AccommodationSlider.jsx (committed), src/styles/blocks/_accommodation.scss (new), src/styles/main.scss, tasks.json (status), progress.md
 **Note:** gallery image paths/alt remain `[MOCK]`/TODO (Webline adds real photos); the slider consumes the collection so swapping images needs no markup change. The island is mounted into a real page in TASK-018.
+
+## TASK-018 — Accommodation page: slider + description + amenities (no per-room cards)
+**Date:** 2026-06-25
+**Status:** done
+**Summary:** Built the Accommodation page assembling the existing AccommodationSlider island (TASK-017) with a warm atmospheric [MOCK] description, an amenities row, and a booking CTA — pure data/i18n driven, token-only styling, no per-unit breakdown (unit selection/pricing stays with Bentral on /rezervacija).
+- `src/pages/accommodation.astro`: renders through `BaseLayout` (per-page SEO via props — title `accommodation.title — site.name`, description `accommodation.description`). Layout top→bottom: centred `SectionHeader` (`accommodation.title`) → `<AccommodationSlider client:visible>` fed the `gallery` collection (sorted by `order`, mapped to `{src, alt}` — the island can't call `getCollection`, so the page passes data in, keeping photos editable without markup changes) → atmospheric `[MOCK]` description paragraph (`accommodation.description`) → amenities row → primary `Button` → `/rezervacija` (`accommodation.cta`).
+- **Amenities:** 6-item row (Wi-Fi, parking, kitchen, fireplace, heating, terrace) built from a frontmatter array where the icon `name` is config and the visible label comes from i18n (`accommodation.amenities.*`). No content collection was added (collections are fixed to activities/menu/valueProps/gallery — out of scope to add one), and no facts are invented — placeholder labels only.
+- `src/i18n/en.ts`: added `accommodation.amenities.{wifi,parking,kitchen,fireplace,heating,terrace}`, `accommodation.cta` (all `[MOCK]` + TODO). Existing `accommodation.title/description/amenities.title/slider.*` reused.
+- `src/components/ui/Icon.astro`: extended the line-style icon set (consistent `stroke-width="1.75"`, Lucide aesthetic) with `wifi`, `car` (parking), `utensils` (kitchen), `thermometer` (heating), `armchair` (terrace); `flame` (already present) covers fireplace. Icon primitive is designed to extend (TASK-015/016 precedent).
+- `src/styles/blocks/_accommodation.scss`: appended the page-level block (`.accommodation`, `__inner` with the structural `max-width: 75rem` cap, centred `__description` at a `50rem` reading measure, `__amenities` heading, responsive `__amenities-grid` `repeat(auto-fit, minmax(9rem, 1fr))` that reflows to one column on mobile, fog-tinted icon disc via `color-mix` matching value-props, `__cta`). Token-only — no raw hex / magic numbers. The slider styles already lived here from TASK-017.
+**Decisions / notes:**
+- Slider mounted with `client:visible` (defers hydration until scrolled into view — perf-friendly for TASK-030/032) rather than `client:load`.
+- CTA href `/rezervacija` is a navigation target (hardcoded like the Header nav links); only the label comes from i18n.
+- Amenity icon disc reuses the value-props pattern (same fog `color-mix`, `--color-forest` glyph) for visual consistency without duplicating the `.card` surface.
+**Verified (test_steps):**
+- Шаг 1: `npm run build` clean (only the pre-existing `[MOCK]` placeholder-image warnings); `dist/accommodation/index.html` renders the SectionHeader, the hydrated slider (`astro-island` + `AccommodationSlider.*.js`) with all 4 gallery images (`interior/fireplace/forest/terrace.[MOCK].webp`), the `.accommodation__description` paragraph, and the 6 amenities (`[MOCK] Wi-Fi/Parking/Kitchen/Fireplace/Heating/Terrace`, each with a 1.75-stroke line icon).
+- Шаг 2: grep for `room|unit|per-room` in the built page → none (no per-room/unit cards).
+- Шаг 3: page CTA rendered as `<a href="/rezervacija" class="btn btn--primary">[MOCK] Check availability` → routes to /rezervacija.
+- Bonus: `_accommodation.scss` has no raw hex (grep clean); `accommodation.astro` has no inline `<style>`; amenity labels all resolve from i18n.
+**Files changed:** src/pages/accommodation.astro, src/components/ui/Icon.astro, src/styles/blocks/_accommodation.scss, src/i18n/en.ts, tasks.json (status), progress.md
+**Note:** gallery image paths/alt, amenity labels and `accommodation.*` copy remain `[MOCK]`/TODO for Webline/client to finalize; swapping photos needs no markup change (collection-driven).

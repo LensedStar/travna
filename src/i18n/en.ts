@@ -67,6 +67,13 @@ export const en = {
   'accommodation.title': '[MOCK] Accommodation', // TODO
   'accommodation.description': '[MOCK] Warm, atmospheric description of the house.', // TODO
   'accommodation.amenities.title': '[MOCK] What you’ll find', // TODO
+  'accommodation.amenities.wifi': '[MOCK] Wi-Fi', // TODO
+  'accommodation.amenities.parking': '[MOCK] Parking', // TODO
+  'accommodation.amenities.kitchen': '[MOCK] Kitchen', // TODO
+  'accommodation.amenities.fireplace': '[MOCK] Fireplace', // TODO
+  'accommodation.amenities.heating': '[MOCK] Heating', // TODO
+  'accommodation.amenities.terrace': '[MOCK] Terrace', // TODO
+  'accommodation.cta': '[MOCK] Check availability', // TODO
   'accommodation.slider.label': '[MOCK] Photo gallery', // TODO
   'accommodation.slider.prev': '[MOCK] Previous photo', // TODO
   'accommodation.slider.next': '[MOCK] Next photo', // TODO
