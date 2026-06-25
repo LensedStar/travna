@@ -294,3 +294,22 @@
 - Bonus: the three new blocks have no raw hex (grep clean); none of the three section components carry an inline `<style>`.
 **Files changed:** src/components/sections/AccommodationPreview.astro, ActivitiesPreview.astro, BookDirect.astro, src/components/ui/Icon.astro, src/styles/blocks/_accommodation-preview.scss, _activities-preview.scss, _book-direct.scss, src/styles/main.scss, src/pages/index.astro, tasks.json (status), progress.md
 **Note:** `home.*` copy + the `accommodation-preview.[MOCK].webp` image remain `[MOCK]`/TODO for Webline/client to finalize.
+
+## TASK-017 — AccommodationSlider.jsx (React island): photo slider
+**Date:** 2026-06-25
+**Status:** done
+**Summary:** Completed the Accommodation photo slider island (the `.jsx` existed untracked from a prior session but had no styles, no wiring, and was uncommitted) by adding its dedicated SCSS block and verifying behaviour/a11y. All visible strings come from i18n via props; zero hardcoded copy; token-only styling.
+- `src/islands/AccommodationSlider.jsx` (already present, committed now): renders the `gallery` collection images passed in as props from the `.astro` caller (islands can't call `getCollection`). Controls: prev/next buttons, touch swipe (40px threshold), and ArrowLeft/ArrowRight when the slider region is focused; index wraps at both ends. Accessible: `role="region"` + `aria-roledescription="carousel"` + `aria-label`, per-slide `role="group"`/`aria-roledescription="slide"`, `aria-live="polite"` track, dot controls with `aria-current`, `tabIndex={0}`. Non-active slides use the `hidden` attribute + `aria-hidden`. Images carry explicit `width="1200"`/`height="800"`, `loading` eager on the first slide and lazy on the rest, `decoding="async"`.
+- `src/styles/blocks/_accommodation.scss` (new): owns all `.slider*` styling. **No layout shift** — `.slider__viewport` reserves a constant `aspect-ratio: 3 / 2` (matches the 1200×800 source) with `object-fit: cover`, so swapping slides never changes frame height. Prev/next controls + dots styled with tokens (soft `--shadow-soft`, `--radius-lg`, fog/forest token colors, `color-mix` for translucency — no raw rgba), `:focus-visible` outline on the region, and a `prefers-reduced-motion` block disabling the control/dot transitions. Token-only: grep for raw hex → none. Structural `max-width: 60rem` cap follows the existing block precedent.
+- `src/styles/main.scss`: added `@use 'blocks/accommodation';` after `blocks/booking`.
+**Decisions / notes:**
+- The slider markup/behaviour lives in the island; styling lives in the SCSS block (per CLAUDE.md §6) — the component carries only semantic class names, no inline `<style>`.
+- `aspect-ratio: 3 / 2` is intrinsic image geometry (matches `width`/`height`), not a spacing magic number — same reasoning as the existing structural `max-width`/`60ch` precedents.
+- The full Accommodation page (`/accommodation` with description + amenities + CTA) is TASK-018; this task is the island + block only, so verification used a temporary `task017smoke.astro` probe (mounting the island through BaseLayout with the gallery collection), removed before commit.
+**Verified (test_steps):**
+- Шаг 1 (navigate via mouse/swipe/keyboard): island bundles + hydrates (`dist/_astro/AccommodationSlider.*.js`, `astro-island` present). Markup confirms prev/next `<button>`s (`slider__control--prev/next`) with i18n `aria-label`s, the focusable region with `onKeyDown` arrow handling, and `onTouchStart/End` swipe handlers in the JSX.
+- Шаг 2 (no layout shift): compiled CSS shows `.slider__viewport{…aspect-ratio:3/2;…}` — frame height is reserved and constant across slides.
+- Шаг 3 (aria present, focus visible): rendered HTML has region/carousel + group/slide roles (×4 slides), `aria-live="polite"`, labelled controls (`[MOCK] Previous/Next photo`, `[MOCK] Photo gallery`); `.slider:focus-visible` outline present in CSS.
+- Bonus: all 4 images carry `width="1200"`/`height="800"`; first eager, rest lazy; `npm run build` clean after removing the probe; `_accommodation.scss` has no raw hex; island has no inline `<style>`.
+**Files changed:** src/islands/AccommodationSlider.jsx (committed), src/styles/blocks/_accommodation.scss (new), src/styles/main.scss, tasks.json (status), progress.md
+**Note:** gallery image paths/alt remain `[MOCK]`/TODO (Webline adds real photos); the slider consumes the collection so swapping images needs no markup change. The island is mounted into a real page in TASK-018.
