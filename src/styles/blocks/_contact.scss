@@ -1,0 +1,117 @@
+// blocks/_contact.scss — Contact inquiry form (ContactForm island, TASK-022).
+// Owns the form styling only; the form markup/behaviour lives in src/islands/ContactForm.jsx.
+// Token-only — no raw hex / magic numbers. The honeypot field is hidden here via CSS (NOT type=hidden).
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 40rem; // structural reading/measure cap (same precedent as the other blocks)
+  margin-inline: auto;
+}
+
+// Honeypot — visually removed but still present in the DOM for bots to fill.
+.contact-form__honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: calc(var(--space-xs) * -0.0625); // -1px equivalent, derived from the spacing scale
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.contact-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.contact-form__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--space-lg);
+}
+
+.contact-form__label {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.contact-form__req {
+  color: var(--color-terracotta);
+}
+
+.contact-form__input,
+.contact-form__textarea {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 0;
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 0 calc(var(--space-xs) * 0.25) var(--color-mist);
+  background-color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  transition: box-shadow var(--motion-duration-fast) var(--motion-ease);
+}
+
+.contact-form__textarea {
+  resize: vertical;
+}
+
+.contact-form__input:focus-visible,
+.contact-form__textarea:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 calc(var(--space-xs) * 0.4) var(--color-forest);
+}
+
+.contact-form__input[aria-invalid='true'],
+.contact-form__textarea[aria-invalid='true'] {
+  box-shadow: inset 0 0 0 calc(var(--space-xs) * 0.4) var(--color-terracotta);
+}
+
+.contact-form__error {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: var(--color-terracotta);
+}
+
+.contact-form__field--consent {
+  gap: var(--space-sm);
+}
+
+.contact-form__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.contact-form__consent input {
+  margin-block-start: calc(var(--space-xs) * 0.5);
+  accent-color: var(--color-forest);
+  flex-shrink: 0;
+}
+
+.contact-form__submit {
+  align-self: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-form__input,
+  .contact-form__textarea {
+    transition: none;
+  }
+}

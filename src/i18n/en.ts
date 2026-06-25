@@ -105,6 +105,7 @@ export const en = {
   'contact.form.required': '[MOCK] This field is required.', // TODO
   'contact.form.invalidEmail': '[MOCK] Please enter a valid email.', // TODO
   'contact.form.consentRequired': '[MOCK] Please accept the privacy policy.', // TODO
+  'contact.form.honeypot': '[MOCK] Do not fill this out if you are human', // honeypot label (CSS-hidden anti-spam)
 
   // --- Thank-you page ---
   'thankYou.title': '[MOCK] Thank you', // TODO

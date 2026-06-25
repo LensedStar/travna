@@ -334,3 +334,25 @@
 - Bonus: `_accommodation.scss` has no raw hex (grep clean); `accommodation.astro` has no inline `<style>`; amenity labels all resolve from i18n.
 **Files changed:** src/pages/accommodation.astro, src/components/ui/Icon.astro, src/styles/blocks/_accommodation.scss, src/i18n/en.ts, tasks.json (status), progress.md
 **Note:** gallery image paths/alt, amenity labels and `accommodation.*` copy remain `[MOCK]`/TODO for Webline/client to finalize; swapping photos needs no markup change (collection-driven).
+
+## TASK-022 — ContactForm.jsx (React island): Netlify Forms, honeypot, validation, consent
+**Date:** 2026-06-25
+**Status:** done
+**Summary:** Built the Contact inquiry form as a React island wired for Netlify Forms — all visible strings from i18n via a `strings` prop, all styling in a dedicated SCSS block, token-only, no inline `<style>`.
+- `src/islands/ContactForm.jsx`: real `<form name="contact-en" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field" noValidate>`. Fields: Name (required), Email (required), Phone (optional, `type=tel`), Check-in / Check-out (optional, `type=date`), Message (optional textarea) — plus a REQUIRED privacy-consent checkbox. Hidden `form-name` field (the only `type=hidden`, needed by Netlify). Client-side validation (`onSubmit`) runs before submission: empty name → required msg, empty/invalid email → required/invalidEmail msg, unchecked consent → consentRequired msg; on any error it `preventDefault()`s (blocking the POST), renders inline `role="alert"` messages, sets `aria-invalid`/`aria-describedby`, and focuses the first invalid field. When valid, the native POST goes to Netlify which redirects to `/thank-you/` — **method POST means no PII in the URL query string**. Fields are always rendered so Astro's build-time static HTML carries the form for Netlify's form detection.
+- **Honeypot:** `name="bot-field"` input (NOT `type=hidden`) inside `.contact-form__honeypot`, hidden purely via CSS (clip/position off-screen) — bots fill it, humans don't.
+- `src/styles/blocks/_contact.scss` (new): owns `.contact-form*` styling — flex column layout, `auto-fit` check-in/out row (reflows to one column on mobile), inset-ring inputs (mist → forest on focus, terracotta on `aria-invalid`), consent row, error text in terracotta, honeypot CSS-hidden. Token-only: no raw hex / magic numbers (off-screen 1px values derived from the spacing scale). Reduced-motion disables input transitions.
+- `src/styles/main.scss`: `@use 'blocks/contact';` after `blocks/accommodation`.
+- `src/i18n/en.ts`: added `contact.form.honeypot` (`[MOCK]` honeypot label). All other form strings (`contact.form.*`) already existed.
+**Decisions / notes:**
+- Strings passed as a single `strings` object prop (12 keys) rather than 12 positional props — cleaner for the form; still 100% i18n-sourced, no hardcoded copy. The wiring page (`/contact`) is TASK-023.
+- Native form submission (not `fetch`) so Netlify's built-in handling + `/thank-you/` redirect work without a backend; validation only intercepts to block invalid submits.
+- The island is the only deliverable here; verified with a temporary `task022smoke.astro` probe (mounted via BaseLayout, fed the i18n strings), removed before commit.
+**Verified (test_steps):**
+- Шаг 1 (block on missing required/consent): `validate()` collects errors for empty name, empty/invalid email, and unchecked consent; `handleSubmit` `preventDefault()`s and shows `role="alert"` messages + `aria-invalid` — submission blocked with clear messages.
+- Шаг 2 (valid → redirect): rendered form is `method="POST" action="/thank-you/"` with `data-netlify="true"` + hidden `form-name=contact-en` → Netlify processes and redirects to `/thank-you/`.
+- Шаг 3 (honeypot CSS-hidden): built HTML `<input name="bot-field" tabindex="-1" ...>` (no `type=hidden`); compiled CSS `.contact-form__honeypot{position:absolute;width:1px;height:1px;clip:rect(0,0,0,0);...}` hides it.
+- Шаг 4 (no PII in query string): form method is POST, not GET.
+- Bonus: `npm run build` clean (only pre-existing `[MOCK]` image warnings); `ContactForm.*.js` bundles + hydrates; `_contact.scss` has no raw hex; island has no inline `<style>`; all 7 fields have associated `<label for>`.
+**Files changed:** src/islands/ContactForm.jsx (new), src/styles/blocks/_contact.scss (new), src/styles/main.scss, src/i18n/en.ts, tasks.json (status), progress.md
+**Note:** `contact.form.*` copy remains `[MOCK]`/TODO; Webline configures Netlify email notifications (not in code). The form is mounted on the real `/contact` page in TASK-023.
