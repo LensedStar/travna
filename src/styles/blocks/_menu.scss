@@ -80,3 +80,49 @@
   line-height: var(--leading-normal);
   color: var(--color-text);
 }
+
+// Embedded scanned-menu PDF preview + download (TASK-021).
+.menu__pdf {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-top: var(--space-3xl);
+}
+
+.menu__pdf-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-forest);
+}
+
+.menu__pdf-frame {
+  width: 100%;
+  // Tall preview frame derived from the spacing scale (same precedent as the booking block).
+  min-height: calc(var(--space-3xl) * 5);
+  border: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  background-color: var(--color-mist);
+}
+
+.menu__pdf-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--space-xl);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  text-align: center;
+
+  a {
+    color: var(--color-forest);
+    text-decoration: underline;
+  }
+}
+
+.menu__pdf-actions {
+  display: flex;
+}

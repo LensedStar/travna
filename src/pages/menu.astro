@@ -1,12 +1,13 @@
 ---
-// menu.astro — Menu page: online menu rendered from the `menu` content collection (TASK-020).
+// menu.astro — Menu page: online menu rendered from the `menu` content collection (TASK-020)
+// plus the embedded scanned-menu PDF preview + download (TASK-021).
 // Sections (e.g. Starters / Mains / Drinks) + items (name + optional description + optional price)
 // come from the collection, so the menu can be edited WITHOUT touching this layout.
 // Page chrome strings come from the i18n dictionary; styling lives in src/styles/blocks/_menu.scss.
-// NOTE: the embedded scanned PDF + download is a separate task (TASK-021) and is not built here.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
 import { useTranslations, defaultLocale } from '../i18n';
 
 const t = useTranslations(defaultLocale);
@@ -15,6 +16,8 @@ const pageTitle = `${t('menu.title')} — ${t('site.name')}`;
 // The menu is a single structured document (sections + items); item data comes from the collection.
 const [menu] = await getCollection('menu');
 const sections = menu.data.sections;
+// [MOCK] scanned-menu PDF served from /public/menu — TODO: Webline/client replaces with the real scan.
+const scanPdf = menu.data.scanPdf;
 ---
 
 <BaseLayout title={pageTitle} description={t('menu.intro')}>
@@ -39,6 +42,20 @@ const sections = menu.data.sections;
             </ul>
           </section>
         ))}
+      </div>
+
+      <div class="menu__pdf">
+        <h2 class="menu__pdf-title">{t('menu.pdf.title')}</h2>
+        {/* Inline PDF preview where the browser supports it; the inner content is the
+            graceful-degradation fallback (e.g. many mobile browsers can't render PDF inline). */}
+        <object class="menu__pdf-frame" data={scanPdf} type="application/pdf" aria-label={t('menu.pdf.title')}>
+          <p class="menu__pdf-fallback">
+            <a href={scanPdf} target="_blank" rel="noopener noreferrer">{t('menu.pdf.fallback')}</a>
+          </p>
+        </object>
+        <div class="menu__pdf-actions">
+          <Button href={scanPdf} variant="secondary" download>{t('menu.pdf.download')}</Button>
+        </div>
       </div>
     </div>
   </section>

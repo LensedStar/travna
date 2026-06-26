@@ -561,3 +561,22 @@
 - Bonus: `npm run build` clean (8 pages, no warnings); compiled CSS confirms the footer/switcher fixes (`directions`/`rights`/`link:hover` use `--color-bg`; switcher option hover uses `--color-text`). `<html lang="en">` present on all pages.
 **Files changed:** src/styles/blocks/_footer.scss, src/styles/blocks/_language-switcher.scss, tasks.json (status), progress.md
 **Note:** brand token hex values left untouched (PRD §8.2 / CLAUDE.md §6); the terracotta/cream 4.21:1 near-miss is the single flagged item for the client to resolve at launch via a one-line token nudge.
+
+## TASK-021 — Menu page: embedded scanned PDF + download
+**Date:** 2026-06-26
+**Status:** done
+**Summary:** Added the embedded scanned-menu PDF preview + download to the existing `/menu` page (built in TASK-020) — inline `<object>` viewer with a graceful-degradation fallback link, plus a Download button. All visible strings come from i18n; styling lives in `_menu.scss` (token-only, no inline `<style>`, no raw hex).
+- `public/menu/menu-scan.[MOCK].pdf` (new): a valid minimal single-page `[MOCK]` PDF (generated once via a throwaway Node script that builds the body + a correct xref table, then removed — same convention as TASK-030). Header `%PDF-1.4`, ends `%%EOF`. Path matches the `menu` collection's `scanPdf` field (`/menu/menu-scan.[MOCK].pdf`), so swapping in the real scan needs no markup change. Removed the now-redundant `public/menu/.gitkeep` (dir populated — same pattern as TASK-005/008/030).
+- `src/pages/menu.astro`: after the online-menu sections, added a `.menu__pdf` block — `menu.pdf.title` heading, an inline `<object class="menu__pdf-frame" data={scanPdf} type="application/pdf" aria-label={…}>` for the in-page preview (where the browser supports it), with the **graceful-degradation fallback** as the object's inner content (`menu.pdf.fallback` link opening the PDF in a new tab — shown when inline rendering is unsupported, e.g. many mobile browsers), and a Download button (reusing the `Button` primitive as `<a … download>` → the PDF, label `menu.pdf.download`). `scanPdf` is read from the collection (`menu.data.scanPdf`).
+- `src/styles/blocks/_menu.scss`: appended `.menu__pdf*` styles — frame `width:100%`, tall `min-height: calc(var(--space-3xl) * 5)` (derived from the spacing scale, same precedent as the booking block), `--radius-lg` + `--shadow-card` + `--color-mist` background; centred fallback text with a forest underlined link; actions row. Token-only.
+**Decisions / notes:**
+- Used `<object>` (not `<iframe>`/`<embed>`) for the preview because its inner content is the native graceful-degradation fallback — satisfies "fallback link if inline viewer unsupported" without JS feature-detection.
+- The i18n keys (`menu.pdf.title/download/fallback`) already existed in `en.ts` (no new strings); `scanPdf` href is config (a navigation/asset target), not visible copy.
+- Acceptance says PDF at `public/menu/menu-scan.pdf`; the project's established `scanPdf` path is the `[MOCK]`-tagged `/menu/menu-scan.[MOCK].pdf` (set in the menu collection back in TASK-008), so the file is placed to match that existing reference — Webline replaces it with the real scan at launch.
+**Verified (test_steps):**
+- Шаг 1 (inline preview where supported): `dist/menu/index.html` renders `<object class="menu__pdf-frame" data="/menu/menu-scan.[MOCK].pdf" type="application/pdf" aria-label="[MOCK] Full menu (PDF)">`; `dist/menu/menu-scan.[MOCK].pdf` is shipped (640 bytes, valid `%PDF-1.4`…`%%EOF`).
+- Шаг 2 (Download): rendered `<a href="/menu/menu-scan.[MOCK].pdf" class="btn btn--secondary" download="true">[MOCK] Download menu (PDF)</a>` → downloads the file.
+- Шаг 3 (mobile fallback): the `<object>` inner `.menu__pdf-fallback` `<a href=… target="_blank" rel="noopener noreferrer">[MOCK] Open the menu in a new tab</a>` renders when inline preview is unsupported.
+- Bonus: `npm run build` clean (8 pages, zero warnings); `_menu.scss` has no raw hex; `menu.astro` has no inline `<style>`; all PDF strings resolve from i18n.
+**Files changed:** public/menu/menu-scan.[MOCK].pdf (new), removed public/menu/.gitkeep, src/pages/menu.astro, src/styles/blocks/_menu.scss, tasks.json (status), progress.md
+**Note:** the `[MOCK]` PDF is a flat placeholder — Webline/client drops the real scanned menu at `public/menu/menu-scan.[MOCK].pdf` (or updates the collection's `scanPdf` path) at launch; no markup change needed.
