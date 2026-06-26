@@ -608,7 +608,7 @@
         "Ожидаемый результат: Sitemap и robots корректны, /lp скрыт"
       ],
       "dependencies": ["TASK-027"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-029",

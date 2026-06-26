@@ -479,3 +479,16 @@
 - Bonus: `npm run build` completes clean (8 pages; only the pre-existing `[MOCK]` hero-image warnings).
 **Files changed:** src/layouts/BaseLayout.astro, tasks.json (status), progress.md
 **Note:** all JSON-LD fields (phone/email/address/image) + the OG image + `SITE_URL` remain `[MOCK]`/TODO for Webline/client to replace with real lodging data before launch; geo/priceRange/amenities are deferred TODOs to avoid inventing facts.
+
+## TASK-028 — sitemap.xml (excluding /lp) and robots.txt (Disallow /lp)
+**Date:** 2026-06-26
+**Status:** done
+**Summary:** Verification-and-ownership task: the two artefacts it requires were already authored by earlier tasks — the `@astrojs/sitemap` integration + `/lp` filter (TASK-025, in `astro.config.mjs`) and `public/robots.txt` with `Allow: /`, `Disallow: /lp`, and the `Sitemap:` reference (TASK-002). This task confirms both are correct and complete; no code changes were needed.
+- `astro.config.mjs`: `sitemap({ filter: (page) => !page.includes('/lp') })` — generates `sitemap-index.xml` + `sitemap-0.xml` at build and excludes the hidden ad landing.
+- `public/robots.txt`: `User-agent: *` / `Allow: /` / `Disallow: /lp` / `Sitemap: https://example.com/sitemap-index.xml` (host is the `[MOCK]` `SITE_URL` placeholder, swapped by Webline at launch).
+**Verified (test_steps):**
+- Шаг 1: `npm run build` clean (8 pages; only the pre-existing `[MOCK]` hero-image warnings); `[@astrojs/sitemap] sitemap-index.xml created at dist`. Both `dist/sitemap-index.xml` and `dist/sitemap-0.xml` exist.
+- Шаг 2: `dist/sitemap-0.xml` lists exactly the 7 indexable pages (`/`, `/accommodation/`, `/activities/`, `/contact/`, `/menu/`, `/rezervacija/`, `/thank-you/`) — `/lp` is absent (filtered). All public pages present.
+- Шаг 3: `dist/robots.txt` contains `Disallow: /lp` and the `Sitemap:` line referencing `sitemap-index.xml`.
+**Files changed:** tasks.json (status only), progress.md
+**Note:** sitemap/robots host remains the `[MOCK]` `https://example.com` placeholder (SITE_URL), replaced by Webline at launch. `/thank-you` is intentionally indexable (not `noindex`), so it appears in the sitemap; only `/lp` is excluded per the acceptance.
