@@ -1,0 +1,82 @@
+// blocks/_menu.scss — Menu page online menu (TASK-020).
+// Collection-driven sections + items; readable, responsive layout that reflows to one column on
+// mobile with no horizontal overflow. Token-only — no raw hex / magic numbers.
+
+.menu {
+  padding-block: var(--space-3xl);
+}
+
+.menu__inner {
+  // Structural reading cap (same precedent as the other section blocks), centred with gutters.
+  max-width: 60rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.menu__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.menu__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.menu__section-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-forest);
+  padding-bottom: var(--space-sm);
+  // Hairline rule derived from the spacing scale (≈2px) — same precedent as the inset rings.
+  border-bottom: calc(var(--space-xs) * 0.25) solid var(--color-mist);
+}
+
+.menu__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu__item {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-xs) * 0.5); // small intra-item gap derived from the spacing scale
+}
+
+.menu__item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.menu__item-name {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.menu__item-price {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--color-terracotta);
+  white-space: nowrap;
+}
+
+.menu__item-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}

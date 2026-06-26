@@ -1,0 +1,45 @@
+---
+// menu.astro — Menu page: online menu rendered from the `menu` content collection (TASK-020).
+// Sections (e.g. Starters / Mains / Drinks) + items (name + optional description + optional price)
+// come from the collection, so the menu can be edited WITHOUT touching this layout.
+// Page chrome strings come from the i18n dictionary; styling lives in src/styles/blocks/_menu.scss.
+// NOTE: the embedded scanned PDF + download is a separate task (TASK-021) and is not built here.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import { useTranslations, defaultLocale } from '../i18n';
+
+const t = useTranslations(defaultLocale);
+const pageTitle = `${t('menu.title')} — ${t('site.name')}`;
+
+// The menu is a single structured document (sections + items); item data comes from the collection.
+const [menu] = await getCollection('menu');
+const sections = menu.data.sections;
+---
+
+<BaseLayout title={pageTitle} description={t('menu.intro')}>
+  <section class="menu">
+    <div class="menu__inner">
+      <SectionHeader title={t('menu.title')} subtitle={t('menu.intro')} align="center" />
+
+      <div class="menu__sections">
+        {sections.map((section) => (
+          <section class="menu__section">
+            <h2 class="menu__section-title">{section.title}</h2>
+            <ul class="menu__items">
+              {section.items.map((item) => (
+                <li class="menu__item">
+                  <div class="menu__item-head">
+                    <span class="menu__item-name">{item.name}</span>
+                    {item.price && <span class="menu__item-price">{item.price}</span>}
+                  </div>
+                  {item.description && <p class="menu__item-desc">{item.description}</p>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
