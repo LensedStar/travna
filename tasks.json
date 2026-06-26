@@ -669,7 +669,7 @@
         "Ожидаемый результат: Базовый уровень WCAG AA достигнут"
       ],
       "dependencies": ["TASK-030"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-032",

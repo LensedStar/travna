@@ -65,7 +65,8 @@
 
 .language-switcher__option:hover,
 .language-switcher__option:focus-visible {
-  color: var(--color-forest);
+  // Cocoa text on the mist hover background = 6.8:1 (AA). Forest text would be 3.9:1, below AA (TASK-031).
+  color: var(--color-text);
   background-color: var(--color-mist);
 }
 
