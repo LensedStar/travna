@@ -6,6 +6,7 @@
 import { useTranslations, defaultLocale } from '../../i18n';
 import Button from '../ui/Button.astro';
 import LanguageSwitcher from '../../islands/LanguageSwitcher.jsx';
+import MobileNav from '../../islands/MobileNav.jsx';
 
 const t = useTranslations(defaultLocale);
 
@@ -50,7 +51,15 @@ const langOptions = [
         options={langOptions}
       />
       <Button href="/rezervacija" class="site-header__book">{t('nav.book')}</Button>
-      {/* TODO(TASK-012): mount <MobileNav client:idle /> island here (burger; shown on mobile). */}
+      <MobileNav
+        client:idle
+        links={navLinks}
+        bookHref="/rezervacija"
+        bookLabel={t('nav.book')}
+        openLabel={t('a11y.openMenu')}
+        closeLabel={t('a11y.closeMenu')}
+        navLabel={t('a11y.primaryNav')}
+      />
     </div>
   </div>
 </header>

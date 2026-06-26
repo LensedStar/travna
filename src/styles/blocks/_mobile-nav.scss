@@ -1,0 +1,108 @@
+// blocks/_mobile-nav.scss — styles for the MobileNav island (TASK-012).
+// Token-only: no raw hex / magic numbers (colors/spacing/radius/shadow/fonts/motion come from tokens).
+// The burger is shown only on mobile (the desktop nav is hidden at the same 48rem breakpoint in _header.scss).
+
+.mobile-nav {
+  display: none; // hidden on desktop; the inline nav is used there
+}
+
+.mobile-nav__toggle,
+.mobile-nav__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs);
+  color: var(--color-text);
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+// Burger glyph — three stacked bars, sizes derived from the spacing scale (no magic numbers).
+.mobile-nav__burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: var(--space-lg);
+  height: calc(var(--space-md) + var(--space-xs));
+}
+
+.mobile-nav__bar {
+  display: block;
+  width: 100%;
+  height: calc(var(--space-xs) / 2);
+  background-color: currentColor;
+  border-radius: var(--radius-sm);
+}
+
+.mobile-nav__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: flex-end;
+  background-color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+
+.mobile-nav__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: min(80vw, 20rem);
+  height: 100%;
+  padding: var(--space-xl) var(--space-lg);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-card);
+  overflow-y: auto;
+}
+
+.mobile-nav__close {
+  align-self: flex-end;
+  font-size: var(--text-h3);
+  line-height: 1;
+}
+
+.mobile-nav__close-icon {
+  display: block;
+  line-height: 1;
+}
+
+.mobile-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mobile-nav__link {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.mobile-nav__link:hover,
+.mobile-nav__link:focus-visible {
+  color: var(--color-forest);
+}
+
+.mobile-nav__book {
+  align-self: flex-start;
+}
+
+// Show the burger only on mobile — mirrors the _header.scss breakpoint that hides the desktop nav.
+@media (max-width: 48rem) {
+  .mobile-nav {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav__link {
+    transition: none;
+  }
+}
