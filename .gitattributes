@@ -1,0 +1,6 @@
+# Treat binary assets as binary so Git never applies line-ending normalization
+# (CRLF conversion would corrupt e.g. the scanned-menu PDF's byte offsets).
+*.pdf binary
+*.woff2 binary
+*.png binary
+*.webp binary
