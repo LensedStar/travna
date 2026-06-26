@@ -1,0 +1,70 @@
+// blocks/_activities.scss — Activities / Surroundings page (TASK-019).
+// Intro + responsive grid of collection-driven activity blocks (reflows to one column on mobile,
+// no horizontal overflow). Token-only — no raw hex / magic numbers.
+
+.activities {
+  padding-block: var(--space-3xl);
+}
+
+.activities__inner {
+  // Structural content cap (same precedent as the other section blocks), centred with gutters.
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.activities__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-xl);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.activities__card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  background-color: var(--color-bg);
+}
+
+// [MOCK] image — fog-tinted fallback behind the (placeholder) photo so the card reads without a real
+// asset yet. aspect-ratio reserves a constant frame so swapping/loading photos causes no layout shift.
+.activities__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background-color: var(--color-mist);
+}
+
+.activities__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+}
+
+.activities__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.activities__text {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+.activities__cta {
+  margin-top: var(--space-2xl);
+  text-align: center;
+}

@@ -1,0 +1,51 @@
+---
+// activities.astro — Activities / Surroundings page (TASK-019).
+// [MOCK] intro + activity blocks rendered from the `activities` content collection, so items can be
+// added/removed WITHOUT editing this layout. No invented facts — placeholder copy only.
+// All visible chrome strings come from the i18n dictionary; styling lives in src/styles/blocks/_activities.scss.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
+import { useTranslations, defaultLocale } from '../i18n';
+
+const t = useTranslations(defaultLocale);
+const pageTitle = `${t('activities.title')} — ${t('site.name')}`;
+
+// Activity blocks come from the collection (sorted), so adding an entry adds a block with no layout edit.
+const activities = (await getCollection('activities')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title={pageTitle} description={t('activities.intro')}>
+  <section class="activities">
+    <div class="activities__inner">
+      <SectionHeader title={t('activities.title')} subtitle={t('activities.intro')} align="center" />
+
+      <ul class="activities__grid">
+        {activities.map(({ data }) => (
+          <li class="activities__item">
+            <article class="activities__card">
+              <img
+                class="activities__image"
+                src={data.image}
+                alt={data.title}
+                width="800"
+                height="600"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="activities__body">
+                <h2 class="activities__title">{data.title}</h2>
+                <p class="activities__text">{data.description}</p>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ul>
+
+      <div class="activities__cta">
+        <Button href="/rezervacija" variant="primary">{t('cta.checkAvailability')}</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
