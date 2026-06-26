@@ -1,0 +1,28 @@
+---
+// LandingCTA.astro — swappable conversion CTA for the hidden landing (/lp) (TASK-025).
+// The landing's conversion goal lives in ONE place (the `goals` config below). To change the goal
+// later — e.g. from booking to an inquiry form or a special-offer capture — change the `goal` prop
+// (or add a new entry here); the /lp page itself does not need rebuilding.
+// The booking CTA is marked as the key conversion via `data-conversion` for future campaign tracking.
+import Button from '../ui/Button.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+interface Props {
+  // i18n-ready: extend with 'inquiry' | 'offer' later — add the entry to `goals`, change this prop.
+  goal?: 'booking';
+  class?: string;
+}
+const { goal = 'booking', class: className } = Astro.props;
+const t = useTranslations(defaultLocale);
+
+// Single source of truth for the landing conversion goal. Swap / extend here only.
+const goals = {
+  booking: { href: '/rezervacija', label: t('lp.cta'), conversion: 'booking' },
+} as const;
+const { href, label, conversion } = goals[goal];
+
+const classes = ['landing__cta', className].filter(Boolean).join(' ');
+---
+<Button href={href} variant="primary" class={classes} data-conversion={conversion}>
+  {label}
+</Button>

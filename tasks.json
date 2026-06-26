@@ -547,7 +547,7 @@
         "Ожидаемый результат: Скрытый лендинг готов, не индексируется, CTA swappable"
       ],
       "dependencies": ["TASK-007", "TASK-009", "TASK-024"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-026",

@@ -1,0 +1,48 @@
+---
+// lp.astro — Hidden advertising landing (TASK-025).
+// Destination for paid social (Meta) campaigns. Mobile-first, single focused page with NO global
+// navigation (BaseLayout `bare`), noindex,nofollow (BaseLayout `noindex`), excluded from sitemap
+// (filter in astro.config.mjs) and NOT linked from public nav. The only path is the booking
+// conversion, rendered via the swappable LandingCTA component (goal lives in one place).
+// Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_landing.scss.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LandingCTA from '../components/sections/LandingCTA.astro';
+import Icon from '../components/ui/Icon.astro';
+import { useTranslations, defaultLocale } from '../i18n';
+
+const t = useTranslations(defaultLocale);
+const pageTitle = `${t('lp.hero.title')} — ${t('site.name')}`;
+const reasons = [t('lp.reason1'), t('lp.reason2'), t('lp.reason3')];
+---
+<BaseLayout title={pageTitle} description={t('lp.hero.subtitle')} noindex bare>
+  <div class="landing">
+    <section class="landing__hero">
+      <div class="landing__hero-inner">
+        <h1 class="landing__title">{t('lp.hero.title')}</h1>
+        <p class="landing__subtitle">{t('lp.hero.subtitle')}</p>
+        <LandingCTA />
+      </div>
+    </section>
+
+    <section class="landing__reasons">
+      <ul class="landing__reasons-list">
+        {reasons.map((reason) => (
+          <li class="landing__reason">
+            <span class="landing__reason-icon-wrap">
+              <Icon name="check" class="landing__reason-icon" />
+            </span>
+            <span class="landing__reason-label">{reason}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="landing__proof">
+      <p class="landing__proof-text">{t('lp.socialProof')}</p>
+    </section>
+
+    <section class="landing__cta-repeat">
+      <LandingCTA />
+    </section>
+  </div>
+</BaseLayout>

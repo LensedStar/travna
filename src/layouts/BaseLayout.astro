@@ -18,6 +18,8 @@ interface Props {
   ogImage?: string;
   // Adds <meta name="robots" content="noindex, nofollow"> (used by /lp).
   noindex?: boolean;
+  // Omits the global Header/Footer chrome for distraction-free pages (used by /lp — TASK-025).
+  bare?: boolean;
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   canonicalURL = new URL(Astro.url.pathname, Astro.site),
   ogImage = '/images/og-default.png', // [MOCK] TODO: add the real OG image
   noindex = false,
+  bare = false,
 } = Astro.props;
 
 const t = useTranslations(defaultLocale);
@@ -63,10 +66,10 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
   </head>
   <body>
     <a class="skip-link" href="#main-content">{t('a11y.skipToContent')}</a>
-    <Header />
+    {!bare && <Header />}
     <main id="main-content">
       <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
   </body>
 </html>

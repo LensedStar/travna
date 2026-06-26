@@ -23,7 +23,10 @@ export default defineConfig({
   integrations: [
     react(),
     mdx(),
-    sitemap(),
+    // Exclude the hidden advertising landing (/lp) from the sitemap (TASK-025).
+    sitemap({
+      filter: (page) => !page.includes('/lp'),
+    }),
   ],
   vite: {
     css: {
