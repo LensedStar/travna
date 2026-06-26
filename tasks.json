@@ -648,7 +648,7 @@
         "Ожидаемый результат: Изображения и embeds оптимизированы"
       ],
       "dependencies": ["TASK-026"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-031",

@@ -1,5 +1,5 @@
 {
-  "src": "/images/gallery/fireplace.[MOCK].webp",
+  "src": "../../assets/images/gallery-fireplace.png",
   "alt": "[MOCK] Descriptive alt text for fireplace / living area photo. TODO.",
   "order": 2
 }

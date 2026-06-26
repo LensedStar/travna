@@ -84,9 +84,11 @@ export default function AccommodationSlider({ images = [], label, prevLabel, nex
               <img
                 className="slider__image"
                 src={image.src}
+                srcSet={image.srcset}
+                sizes={image.sizes}
                 alt={image.alt}
-                width="1200"
-                height="800"
+                width={image.width}
+                height={image.height}
                 loading={i === 0 ? 'eager' : 'lazy'}
                 decoding="async"
                 draggable="false"

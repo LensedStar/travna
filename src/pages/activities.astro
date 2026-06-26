@@ -4,6 +4,7 @@
 // added/removed WITHOUT editing this layout. No invented facts — placeholder copy only.
 // All visible chrome strings come from the i18n dictionary; styling lives in src/styles/blocks/_activities.scss.
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import Button from '../components/ui/Button.astro';
@@ -25,12 +26,13 @@ const activities = (await getCollection('activities')).sort((a, b) => a.data.ord
         {activities.map(({ data }) => (
           <li class="activities__item">
             <article class="activities__card">
-              <img
+              <Image
                 class="activities__image"
                 src={data.image}
                 alt={data.title}
-                width="800"
-                height="600"
+                widths={[400, 800, 1200]}
+                sizes="(max-width: 48rem) 100vw, 24rem"
+                format="webp"
                 loading="lazy"
                 decoding="async"
               />

@@ -1,6 +1,6 @@
 {
   "title": "[MOCK] Cycling",
-  "image": "/images/activities/cycling.[MOCK].webp",
+  "image": "../../assets/images/activity-cycling.png",
   "description": "[MOCK] One- to two-sentence placeholder description. TODO: real copy, no invented facts.",
   "order": 2
 }

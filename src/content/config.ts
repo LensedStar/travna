@@ -12,12 +12,13 @@ import { defineCollection, z } from 'astro:content';
 // PRD §6.3 — activities / surroundings blocks (one entry per block).
 const activities = defineCollection({
   type: 'data',
-  schema: z.object({
-    title: z.string(), // [MOCK] — TODO: real title
-    image: z.string(), // [MOCK] — TODO: real image asset under /public/images
-    description: z.string(), // [MOCK] — TODO: 1–2 sentence description (no invented facts)
-    order: z.number(), // display order
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(), // [MOCK] — TODO: real title
+      image: image(), // [MOCK] source under src/assets/images — optimized to WebP by Astro <Image>
+      description: z.string(), // [MOCK] — TODO: 1–2 sentence description (no invented facts)
+      order: z.number(), // display order
+    }),
 });
 
 // PRD §6.2 — Home value-prop cards (one entry per card).
@@ -34,11 +35,12 @@ const valueProps = defineCollection({
 // PRD §6.5 — Accommodation slider images (one entry per image).
 const gallery = defineCollection({
   type: 'data',
-  schema: z.object({
-    src: z.string(), // [MOCK] — TODO: real image asset under /public/images
-    alt: z.string(), // [MOCK] — descriptive alt text, TODO
-    order: z.number(), // slide order
-  }),
+  schema: ({ image }) =>
+    z.object({
+      src: image(), // [MOCK] source under src/assets/images — optimized to WebP via getImage()
+      alt: z.string(), // [MOCK] — descriptive alt text, TODO
+      order: z.number(), // slide order
+    }),
 });
 
 // PRD §6.4 — Menu: single structured document (sections + scanned PDF reference).

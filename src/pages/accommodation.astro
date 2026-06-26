@@ -5,6 +5,7 @@
 // All visible strings come from the i18n dictionary; gallery images from the `gallery` collection.
 // Styling lives in src/styles/blocks/_accommodation.scss.
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import Icon from '../components/ui/Icon.astro';
@@ -16,10 +17,28 @@ const t = useTranslations(defaultLocale);
 const pageTitle = `${t('accommodation.title')} — ${t('site.name')}`;
 
 // Slider images come from the gallery collection (sorted), so photos can be added/removed without
-// touching this layout. The island can't call getCollection itself, so we pass the data in as a prop.
-const images = (await getCollection('gallery'))
-  .sort((a, b) => a.data.order - b.data.order)
-  .map(({ data }) => ({ src: data.src, alt: data.alt }));
+// touching this layout. The island can't call getCollection or <Image> itself, so we optimize each
+// image here with getImage() (WebP + responsive srcset + explicit dims) and pass the result in.
+const galleryEntries = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
+const sliderSizes = '(max-width: 60rem) 100vw, 60rem';
+const images = await Promise.all(
+  galleryEntries.map(async ({ data }) => {
+    const optimized = await getImage({
+      src: data.src,
+      widths: [600, 1000, 1500],
+      sizes: sliderSizes,
+      format: 'webp',
+    });
+    return {
+      src: optimized.src,
+      srcset: optimized.srcSet.attribute,
+      sizes: sliderSizes,
+      width: data.src.width,
+      height: data.src.height,
+      alt: data.alt,
+    };
+  })
+);
 
 // Amenities row: icon name is config, the visible label comes from i18n ([MOCK]). TODO: confirm the
 // final amenity set with the client — placeholders only, no invented facts.

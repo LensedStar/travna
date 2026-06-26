@@ -1,5 +1,5 @@
 {
-  "src": "/images/gallery/forest.[MOCK].webp",
+  "src": "../../assets/images/gallery-forest.png",
   "alt": "[MOCK] Descriptive alt text for surrounding forest / nature photo. TODO.",
   "order": 3
 }

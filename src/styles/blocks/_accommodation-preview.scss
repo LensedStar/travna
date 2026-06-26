@@ -17,8 +17,8 @@
   align-items: center;
 }
 
-// [MOCK] image slot — warm fog-tinted placeholder so the layout reads without a real asset yet.
-// TODO(TASK-030): replace with an optimized Astro <Image> (interior / wood / forest photo).
+// Decorative full-cover media band — kept a CSS background (cover) rather than an <img>/<Image>.
+// Backed by an optimized [MOCK] WebP; TODO(Webline): swap for the real interior / wood / forest photo.
 .accommodation-preview__media {
   min-height: calc(var(--space-3xl) * 3.5);
   border-radius: var(--radius-lg);
