@@ -567,7 +567,7 @@
         "Ожидаемый результат: Мягкие reveal-анимации с учётом a11y"
       ],
       "dependencies": ["TASK-016", "TASK-018", "TASK-019", "TASK-020"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-027",

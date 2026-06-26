@@ -1,0 +1,32 @@
+// blocks/_reveal.scss — reusable scroll-reveal utility (TASK-026).
+// Sections tagged with `.reveal` softly fade in + translateY into place when they enter the viewport.
+// Reusable: one shared class + a single global IntersectionObserver (registered in BaseLayout).
+//
+// Progressive enhancement: the hidden initial state applies ONLY when JS adds `.has-reveal` to <html>
+// (set synchronously in BaseLayout's <head>, before first paint, so there is no flash of content) —
+// so without JS the content is always visible. Animates only opacity/transform; timing + easing come
+// from the --motion-* tokens (warm ease-out, no springy/abrupt motion). prefers-reduced-motion: the
+// head script never enables reveals, and this block defensively forces the static, transition-free state.
+
+.has-reveal .reveal {
+  opacity: 0;
+  transform: translateY(var(--space-md));
+  transition:
+    opacity var(--motion-duration) var(--motion-ease),
+    transform var(--motion-duration) var(--motion-ease);
+  will-change: transform, opacity;
+}
+
+.has-reveal .reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-reveal .reveal,
+  .has-reveal .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

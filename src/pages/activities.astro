@@ -17,7 +17,7 @@ const activities = (await getCollection('activities')).sort((a, b) => a.data.ord
 ---
 
 <BaseLayout title={pageTitle} description={t('activities.intro')}>
-  <section class="activities">
+  <section class="activities reveal">
     <div class="activities__inner">
       <SectionHeader title={t('activities.title')} subtitle={t('activities.intro')} align="center" />
 

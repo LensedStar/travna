@@ -12,7 +12,7 @@ import { useTranslations, defaultLocale } from '../../i18n';
 const t = useTranslations(defaultLocale);
 const props = (await getCollection('valueProps')).sort((a, b) => a.data.order - b.data.order);
 ---
-<section class="value-props">
+<section class="value-props reveal">
   <div class="value-props__inner">
     <SectionHeader title={t('home.valueProps.title')} align="center" />
     <ul class="value-props__grid">
