@@ -408,3 +408,23 @@
 - Bonus: CTA rendered as `<a href="/rezervacija">` → routes correctly; `_activities.scss` has no raw hex; `activities.astro` has no inline `<style>`.
 **Files changed:** src/pages/activities.astro, src/styles/blocks/_activities.scss, src/styles/main.scss, tasks.json (status), progress.md
 **Note:** activity image paths/alt + `activities.*` copy remain `[MOCK]`/TODO for Webline/client; swapping/adding blocks needs no markup change (collection-driven).
+
+## TASK-011 — LanguageSwitcher.jsx (React island, stub)
+**Date:** 2026-06-26
+**Status:** done
+**Summary:** Built the header language switcher as a React island — an intentional, non-functional UI stub for Phase 1 (EN-only). All visible strings come from i18n via props; styling lives in a dedicated SCSS block; the only `type=hidden`-free, no inline `<style>` rules apply.
+- `src/islands/LanguageSwitcher.jsx` (new): `EN ▾` toggle button that opens a dropdown listing `SI` and `RU`. Marked `// i18n stub — non-functional in Phase 1` in the file header — **selecting an option does NOT change content** (`onSelect` only closes the menu + returns focus). Accessibility: native `<button>` toggle (Enter/Space), `aria-haspopup`/`aria-expanded`, `aria-label` from i18n; Escape closes and refocuses the trigger; outside `pointerdown` closes; ArrowUp/ArrowDown move focus between option buttons (`role="menu"`/`menuitem`). Options + labels are passed in as props from the `.astro` caller (islands can't read the dict directly), so no hardcoded strings.
+- `src/components/layout/Header.astro`: mounted `<LanguageSwitcher client:idle … />` into the reserved `.site-header__actions` slot (replacing the TASK-011 TODO), before the Book CTA. Builds a `langOptions` array from `lang.si`/`lang.ru`; passes `currentLabel` (`lang.current` = `EN`) + `menuLabel` (`lang.label`). Added an inline comment reiterating the stub nature.
+- `src/styles/blocks/_language-switcher.scss` (new): toggle + absolutely-positioned dropdown menu, token-only (no raw hex / magic numbers) — `--color-*`, `--space-*`, `--radius-*`, `--shadow-card`, `--font-*`, `--motion-*`. Forest hover, mist focus/hover on options, `:focus-visible` styling; `prefers-reduced-motion` disables transitions.
+- `src/styles/main.scss`: `@use 'blocks/language-switcher';` after `blocks/header`.
+**Decisions / notes:**
+- Used `client:idle` (allowed by the acceptance) — the switcher is non-critical chrome, so deferring hydration to idle keeps it off the critical path.
+- The dropdown menu is rendered only while open (client-side state), so the static build HTML carries just the toggle button — correct for a stub with no SSR-visible list.
+- Reused existing i18n keys (`lang.current/label/si/ru`) + the existing `a11y`-style label; no new strings invented.
+**Verified (test_steps):**
+- Шаг 1 (click EN ▾ → list with SI, RU): toggle flips `open` state to render the `role="menu"` list of the two option buttons (SI, RU from props). Build hydrates the island (`dist/_astro/LanguageSwitcher.CbpLB84T.js`); rendered `astro-island` has `client="idle"` and props `currentLabel:"EN"`, `options:[{code:"si",label:"SI"},{code:"ru",label:"RU"}]`.
+- Шаг 2 (select → content unchanged): `onSelect` only closes the menu + refocuses the trigger — no navigation, no content change (stub).
+- Шаг 3 (keyboard navigation): native button (Enter/Space), Escape close+refocus, outside-click close, ArrowUp/Down focus cycling between options — all wired.
+- Bonus: `npm run build` clean (7 pages, only the pre-existing `[MOCK]` hero-image warnings); rendered toggle shows `EN`, `aria-haspopup="true"`, `aria-expanded="false"`, `aria-label="[MOCK] Choose language"`; `_language-switcher.scss` has no raw hex; island has no inline `<style>`; block compiled into the bundled CSS.
+**Files changed:** src/islands/LanguageSwitcher.jsx (new), src/styles/blocks/_language-switcher.scss (new), src/components/layout/Header.astro, src/styles/main.scss, tasks.json (status), progress.md
+**Note:** the switcher is a deliberate Phase-1 stub; activating SL/RU later needs only the new dictionaries + content + enabling locales/routing in `src/i18n/index.ts` + `astro.config.mjs` and flipping the option handlers to navigate — no component rewrite.

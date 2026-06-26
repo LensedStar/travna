@@ -1,0 +1,77 @@
+// blocks/_language-switcher.scss — styles for the LanguageSwitcher island (TASK-011).
+// Token-only: no raw hex / magic numbers (colors/spacing/radius/shadow/fonts/motion come from tokens).
+// i18n stub — non-functional in Phase 1; styled to read as an intentional, finished control.
+
+.language-switcher {
+  position: relative;
+  display: inline-flex;
+}
+
+.language-switcher__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-text);
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.language-switcher__toggle:hover {
+  color: var(--color-forest);
+}
+
+.language-switcher__caret {
+  font-size: var(--text-small);
+  line-height: 1;
+}
+
+.language-switcher__menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 110;
+  display: flex;
+  flex-direction: column;
+  min-width: var(--space-3xl);
+  margin: var(--space-xs) 0 0;
+  padding: var(--space-xs);
+  list-style: none;
+  background-color: var(--color-bg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.language-switcher__option {
+  width: 100%;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  text-align: left;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    color var(--motion-duration-fast) var(--motion-ease),
+    background-color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.language-switcher__option:hover,
+.language-switcher__option:focus-visible {
+  color: var(--color-forest);
+  background-color: var(--color-mist);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .language-switcher__toggle,
+  .language-switcher__option {
+    transition: none;
+  }
+}

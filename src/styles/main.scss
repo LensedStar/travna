@@ -10,6 +10,7 @@
 @use 'base/global';
 @use 'blocks/layout'; // global chrome (skip link) owned by BaseLayout
 @use 'blocks/header'; // global site Header (TASK-010)
+@use 'blocks/language-switcher'; // header language dropdown stub (TASK-011)
 @use 'blocks/hero'; // Home hero with parallax (TASK-014)
 @use 'blocks/footer'; // global site Footer + Google Map (TASK-013)
 @use 'blocks/buttons'; // Button.astro primitive (TASK-009)
