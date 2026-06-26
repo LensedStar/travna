@@ -588,7 +588,7 @@
         "Ожидаемый результат: SEO-мета корректны на всех страницах"
       ],
       "dependencies": ["TASK-016", "TASK-018", "TASK-019", "TASK-020", "TASK-023", "TASK-024", "TASK-025"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-028",

@@ -36,6 +36,29 @@ const t = useTranslations(defaultLocale);
 // Absolute URLs for OG/canonical based on the SITE_URL placeholder (Astro.site, set in astro.config.mjs).
 const canonical = new URL(canonicalURL, Astro.site).toString();
 const ogImageURL = new URL(ogImage, Astro.site).toString();
+const siteRoot = new URL('/', Astro.site).toString();
+
+// JSON-LD LodgingBusiness/LocalBusiness structured data (TASK-027). Business-level — same on every
+// indexable page. All fields are [MOCK] placeholders sourced from the i18n dictionary where one
+// already exists (brand name, tagline, [MOCK] phone/email/address) — TODO: replace with the client's
+// real lodging data before launch. Emitted only on indexable pages (suppressed for /lp via `noindex`).
+const lodgingSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LodgingBusiness',
+  name: t('site.name'),
+  description: t('site.tagline'), // [MOCK] TODO
+  url: siteRoot,
+  image: ogImageURL, // [MOCK] TODO: real OG/property image
+  telephone: t('footer.contact.phone'), // [MOCK] TODO
+  email: t('footer.contact.email'), // [MOCK] TODO
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: t('footer.legal.address'), // [MOCK] TODO
+    addressCountry: 'SI', // Slovenia — region stated in the PRD, not invented
+  },
+  // [MOCK] TODO: add geo (lat/lng), priceRange, starRating and amenityFeature once the client
+  // provides real data — placeholders only here, no invented facts.
+};
 ---
 
 <!doctype html>
@@ -47,7 +70,7 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Open Graph -->
@@ -63,6 +86,9 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+
+    <!-- JSON-LD LodgingBusiness structured data (indexable pages only; /lp is excluded). -->
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(lodgingSchema)} />}
   </head>
   <body>
     <a class="skip-link" href="#main-content">{t('a11y.skipToContent')}</a>

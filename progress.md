@@ -462,3 +462,20 @@
 - Bonus: `_menu.scss` has no raw hex (grep clean) and compiled into the bundled CSS (`.menu__item-head`, `.menu__inner` present); `menu.astro` has no inline `<style>`.
 **Files changed:** src/pages/menu.astro (new), src/styles/blocks/_menu.scss (new), src/styles/main.scss, tasks.json (status), progress.md
 **Note:** menu section titles, item names/descriptions/prices remain `[MOCK]`/TODO for Webline/client; editing them needs no markup change (collection-driven). The embedded scanned PDF + download is TASK-021.
+
+## TASK-027 — On-page SEO: unique meta, OG, JSON-LD LodgingBusiness on all public pages
+**Date:** 2026-06-26
+**Status:** done
+**Summary:** Added site-wide structured data and tightened the indexability split between public pages and the hidden /lp landing — all through `BaseLayout`, keeping per-page meta flowing from page props/i18n with no hardcoded meta in components. Most of the title/description/OG/Twitter/canonical machinery already existed in `BaseLayout` (TASK-007); this task added the JSON-LD and the noindex-gating.
+- `src/layouts/BaseLayout.astro`: built a `LodgingBusiness` JSON-LD object in the frontmatter and emitted it in `<head>` via `<script type="application/ld+json" set:html={JSON.stringify(...)}>`. Fields are `[MOCK]` placeholders sourced from the i18n dictionary where one already exists — `name` (`site.name`, real brand), `description` (`site.tagline`), `url` (site root from `Astro.site`), `image` (the OG image), `telephone`/`email` (`footer.contact.*`), `address` as a `PostalAddress` (`streetAddress` = `footer.legal.address`, `addressCountry: 'SI'` — Slovenia is stated in the PRD, not invented). Marked TODO to add geo/priceRange/starRating/amenityFeature once the client supplies real data (no invented facts).
+- **Indexability split:** the canonical link and the JSON-LD are now emitted only on indexable pages (`{!noindex && …}`). The hidden `/lp` landing (which passes `noindex`) therefore gets `<meta name="robots" content="noindex, nofollow">` and **no canonical, no JSON-LD** — satisfying "/lp помечен noindex и НЕ получает индексных тегов". OG/Twitter tags are intentionally kept on `/lp` (it is a paid-social destination, so the share preview is wanted).
+**Decisions / notes:**
+- JSON-LD is business-level (same on every indexable page), as is standard for `LodgingBusiness`; it is structured data, not visible UI copy, so the `[MOCK]` values live as a config object in `BaseLayout` (same precedent as the footer's `[MOCK]` href/map constants) while reusing i18n strings where they exist.
+- No new i18n keys and no page edits were needed — every page already passed a unique `title` (Home = brand; others = `X — Dom na Travni gori`) and a unique `description` i18n key through `BaseLayout` props.
+**Verified (test_steps):**
+- Шаг 1: built `dist/*` confirms each public page has a unique `<title>` containing "Dom na Travni gori" (Home `Dom na Travni gori`; accommodation/activities/menu/contact/rezervacija/thank-you/lp each `[MOCK] X — Dom na Travni gori`) and a unique `<meta name="description">` (distinct i18n value per page).
+- Шаг 2: `application/ld+json` present on every public page (index/accommodation/menu/contact/rezervacija = 1 each); isolated and parsed with `JSON.parse` → valid `LodgingBusiness` / `Dom na Travni gori`.
+- Шаг 3: `dist/lp/index.html` has `noindex, nofollow` (count 1), `rel="canonical"` count 0, `application/ld+json` count 0; OG tags retained. Home still has canonical + OG + `twitter:card`.
+- Bonus: `npm run build` completes clean (8 pages; only the pre-existing `[MOCK]` hero-image warnings).
+**Files changed:** src/layouts/BaseLayout.astro, tasks.json (status), progress.md
+**Note:** all JSON-LD fields (phone/email/address/image) + the OG image + `SITE_URL` remain `[MOCK]`/TODO for Webline/client to replace with real lodging data before launch; geo/priceRange/amenities are deferred TODOs to avoid inventing facts.
