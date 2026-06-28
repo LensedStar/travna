@@ -628,7 +628,7 @@
         "Ожидаемый результат: GA4 за consent-гейтом, ads-prep заложен"
       ],
       "dependencies": ["TASK-007"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-030",

@@ -1,0 +1,94 @@
+---
+// CookieConsent.astro — lightweight GDPR consent gate for Google Analytics 4 (TASK-029).
+// Pure .astro (NOT a React island — consent is outside the strict 5-island scope in CLAUDE.md §10):
+// the banner markup carries only semantic classes (styles in src/styles/blocks/_consent.scss) and a
+// single vanilla `define:vars` inline script gates analytics.
+//
+// Behaviour:
+//   • Before the visitor makes a choice → GA4 is NOT loaded and NO analytics request fires (GDPR).
+//   • The banner is rendered `hidden` (no flash) and revealed by JS only when no decision is stored.
+//   • Accept → decision persisted in localStorage, GA4 initializes; Decline → persisted, GA stays off.
+//   • A prior decision is respected on return visits (granted = auto-load, denied = stay off, no banner).
+//
+// The measurement ID is a [MOCK] placeholder via the PUBLIC_GA_MEASUREMENT_ID env var (no real secret
+// committed). Ads prep: Meta Pixel / conversion tags load from the SAME consent-gated function later.
+import { useTranslations, defaultLocale } from '../../i18n';
+import Button from '../ui/Button.astro';
+
+const t = useTranslations(defaultLocale);
+
+// [MOCK] GA4 measurement ID. TODO: Webline sets the real value via the PUBLIC_GA_MEASUREMENT_ID env var
+// at launch (env/placeholder — never committed as a real secret).
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? 'GA_MEASUREMENT_ID';
+const storageKey = 'dnt-consent';
+---
+
+<aside id="cookie-consent" class="cookie-consent" aria-label={t('consent.message')} hidden>
+  <p class="cookie-consent__message">{t('consent.message')}</p>
+  <div class="cookie-consent__actions">
+    <Button id="consent-decline" variant="secondary" class="cookie-consent__btn">
+      {t('consent.decline')}
+    </Button>
+    <Button id="consent-accept" variant="primary" class="cookie-consent__btn">
+      {t('consent.accept')}
+    </Button>
+  </div>
+</aside>
+
+<script define:vars={{ gaId, storageKey }}>
+  (function () {
+    var banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+
+    // Initialize GA4 (and any future ads tags) — called ONLY after consent is granted.
+    function loadAnalytics() {
+      if (window.__ga4Loaded) return;
+      window.__ga4Loaded = true;
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', gaId, { anonymize_ip: true });
+      // The official gtag.js library is injected only when a real measurement ID is configured.
+      // With the [MOCK] 'GA_MEASUREMENT_ID' placeholder we still initialize the dataLayer/gtag (so the
+      // consent -> init flow is live and testable) but skip the network request to avoid a known-bad
+      // call to an invalid ID. Once Webline sets PUBLIC_GA_MEASUREMENT_ID, the library loads here.
+      if (gaId && gaId !== 'GA_MEASUREMENT_ID') {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
+        document.head.appendChild(s);
+      }
+      // Ads prep (TODO): a Meta Pixel / conversion tag is added here, gated behind the SAME consent —
+      // mark the booking CTA (data-conversion="booking") as the key conversion event when wired.
+      document.documentElement.setAttribute('data-analytics', 'on');
+    }
+
+    var stored = null;
+    try { stored = localStorage.getItem(storageKey); } catch (e) { stored = null; }
+
+    if (stored === 'granted') {
+      loadAnalytics();          // returning visitor already opted in
+    } else if (stored === 'denied') {
+      // returning visitor declined — keep analytics off, no banner
+    } else {
+      banner.hidden = false;    // no decision yet — ask
+    }
+
+    var accept = document.getElementById('consent-accept');
+    var decline = document.getElementById('consent-decline');
+    if (accept) {
+      accept.addEventListener('click', function () {
+        try { localStorage.setItem(storageKey, 'granted'); } catch (e) {}
+        banner.hidden = true;
+        loadAnalytics();
+      });
+    }
+    if (decline) {
+      decline.addEventListener('click', function () {
+        try { localStorage.setItem(storageKey, 'denied'); } catch (e) {}
+        banner.hidden = true;
+      });
+    }
+  })();
+</script>

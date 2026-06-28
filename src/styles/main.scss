@@ -28,3 +28,4 @@
 @use 'blocks/contact'; // Contact inquiry form island (TASK-022)
 @use 'blocks/landing'; // Hidden advertising landing /lp (TASK-025)
 @use 'blocks/reveal'; // reusable scroll-reveal utility (TASK-026)
+@use 'blocks/consent'; // GDPR cookie-consent banner gating GA4 (TASK-029)

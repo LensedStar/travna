@@ -1,0 +1,44 @@
+// blocks/_consent.scss — GDPR cookie-consent banner that gates GA4 (TASK-029).
+// Token-only — no raw hex / magic numbers. Rendered hidden by default (the `hidden` attribute);
+// the component script reveals it only when no consent decision is stored.
+
+.cookie-consent {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md) var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-card);
+}
+
+// `hidden` must win even though the banner sets `display:flex`.
+.cookie-consent[hidden] {
+  display: none;
+}
+
+.cookie-consent__message {
+  flex: 1 1 auto;
+  max-width: 50rem; // structural reading width
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+}
+
+.cookie-consent__actions {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.cookie-consent__btn {
+  white-space: nowrap;
+}
