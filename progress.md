@@ -635,3 +635,20 @@
 - Bonus: `rm -rf dist && npm run build` completes clean (8 pages, zero warnings).
 **Files changed:** tasks.json (status only), progress.md
 **Note (handoff to Webline):** run the live device matrix on the deployed Netlify preview — iOS Safari 17+ and Android Chrome 120+ (slider swipe, date inputs, mobile menu, Bentral embed once pasted, footer map) and desktop Chrome/Firefox/Safari (console clean). The code is structured to pass; the only known residual carried over from TASK-031/032 is the PRD-locked terracotta-on-cream CTA contrast (4.21:1), unrelated to cross-browser behaviour.
+
+## TASK-034 — Anti-hardcode audit: no Tailwind, raw hex, magic numbers, inline styles
+**Date:** 2026-06-28
+**Status:** done
+**Summary:** Verification/audit task confirming the design system is fully token-driven with zero hardcoding. No code changes were needed — the audit found no violations across the whole project. (One non-destructive token-swap build was run and reverted to satisfy test step 2; the working tree is clean.)
+- **No Tailwind (criterion 1 + Шаг 1):** `grep -i tailwind` over `package.json`, `package-lock.json`, `astro.config.mjs` → none; no Tailwind dependency, config, or utility classes anywhere. The single `grid` hit in markup is the BEM class `accommodation__amenities-grid`, not a utility class.
+- **No raw hex / magic color-radius-shadow in blocks (criterion 2 + Шаг 1):** `grep '#[0-9a-fA-F]{3,8}'` over `src/styles/blocks` → **zero**. Across all of `src`, hex appears in exactly ONE file — `src/styles/tokens/_colors.scss` (the allowed token source). Every `font-family` in blocks is `var(--font-*)` (39 decls, no literals); every `border-radius` is `var(--radius-*)`; every `box-shadow` is `var(--shadow-*)` or a token-derived inset ring (`inset 0 0 0 calc(var(--space-xs) * factor) var(--color-*)`); no raw `rgba()`/`hsla()` in blocks (translucency uses `color-mix(in srgb, var(--color-*) …)`).
+- **Compiled-output proof:** the bundled CSS (`dist/_astro/*.css`, one shared bundle — `main.scss` imported once in `BaseLayout`) contains exactly the **6 brand hex values, each once, inside `:root`** (the `@each`-emitted token definitions) and **117** `var(--color-*)` consumptions; a grep of every hex in the compiled CSS against the 6 brand tokens returned "NONE not a brand token" — so 100% of rendered color flows through tokens.
+- **No inline `<style>` / `style=` with hardcoded values (criterion 3 + Шаг 3):** `grep '<style'` and `grep 'style='` over all `.astro` → none; no `style={{…}}` inline objects in any `.jsx` island. (The one `define:vars` in `CookieConsent.astro` passes JS vars `gaId`/`storageKey` to the consent-gate script — behaviour, not styling.) All styles live in `src/styles/`.
+- **Token swap restyles whole site (criterion 4 + Шаг 2):** temporarily set `--color-wood` → `#00FF00` and `--font-heading` → `ZZTESTFONT` in the two token maps, rebuilt → the single `:root` definition changed (`--color-wood: #00FF00;`, `--font-heading: ZZTESTFONT, serif;`) and, because every block consumes only `var(--token)`, the change propagates site-wide from those single edits. Reverted both files and rebuilt; `git status --porcelain` confirms a clean working tree (no audit residue).
+**Verified (test_steps):**
+- Шаг 1: `grep tailwind` → none; `grep '#'` in `src/styles/blocks` → none (hex only in `tokens/_colors.scss`). ✅
+- Шаг 2: changing `--color-wood` + `--font-heading` in one place repaints/retypes the whole site (verified via rebuild + compiled `:root`), then reverted. ✅
+- Шаг 3: no inline `<style>`/`style=`/`style={{}}` with hardcoded values anywhere. ✅
+- Bonus: `npm run build` clean (8 pages, zero warnings) both before and after the swap test.
+**Files changed:** tasks.json (status only), progress.md
+**Note:** purely an audit — no source files were modified. The only remaining design residual carried from TASK-031/032 is the PRD-locked terracotta-on-cream CTA contrast (4.21:1), which is a palette/a11y item, not a hardcoding violation, and is intentionally left per the PRD-wins governance rule.
