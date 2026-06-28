@@ -69,6 +69,10 @@ const lodgingSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- [MOCK] favicon (TODO: real logo mark). A linked icon prevents the browser's automatic
+         /favicon.ico request 404ing into the console (Lighthouse Best Practices). -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
     <title>{title}</title>
     <meta name="description" content={description} />
     {!noindex && <link rel="canonical" href={canonical} />}

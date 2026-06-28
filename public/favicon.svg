@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- [MOCK] placeholder favicon — TODO: replace with the real Dom na Travni gori logo mark at launch.
+     Colors mirror the brand tokens (forest / cream / wood) from PRD §8.2; this is a static asset, not a
+     style block. A linked icon stops the browser auto-requesting /favicon.ico (which would 404 and log a
+     console error → Lighthouse Best Practices). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Dom na Travni gori">
+  <rect width="32" height="32" rx="7" fill="#3E5A40"/>
+  <path d="M16 7l8 7v1.5h-2V23h-3v-5h-6v5H8v-7.5H6V14z" fill="#F3E9D8"/>
+  <path d="M16 7l8 7H8z" fill="#C8884B"/>
+</svg>

@@ -688,7 +688,7 @@
         "Ожидаемый результат: Метрики Lighthouse в норме"
       ],
       "dependencies": ["TASK-031", "TASK-028", "TASK-029"],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": "TASK-033",
