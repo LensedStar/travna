@@ -652,3 +652,57 @@
 - Bonus: `npm run build` clean (8 pages, zero warnings) both before and after the swap test.
 **Files changed:** tasks.json (status only), progress.md
 **Note:** purely an audit — no source files were modified. The only remaining design residual carried from TASK-031/032 is the PRD-locked terracotta-on-cream CTA contrast (4.21:1), which is a palette/a11y item, not a hardcoding violation, and is intentionally left per the PRD-wins governance rule.
+
+## TASK-035 — Pre-launch checklist [MOCK]: placeholders, SITE_URL, domain, Bentral, content handoff
+**Date:** 2026-06-28
+**Status:** done
+**Summary:** Final documentation/handoff task — swept the whole project for `[MOCK]`/`TODO`, confirmed nothing real was shipped in place of a placeholder, and assembled the complete pre-launch replacement checklist below for Webline/client. No source code was changed (this is a checklist task); one clean `npm run build` (8 pages, zero warnings) confirms the project is in a launch-ready state pending content/config insertion. **Audit totals:** 194 `[MOCK]` markers across `src/` (94 of them visible UI strings in `src/i18n/en.ts`), plus `[MOCK]`/`TODO` placeholders in `public/` and the build config — all intentional, all catalogued below. Verified there is **no accidentally hardcoded real content** anywhere: every contact, legal entity, domain, ID, embed and asset is a clearly-tagged placeholder.
+
+### ✅ PRE-LAUNCH REPLACEMENT CHECKLIST (hand-off to Webline / client)
+
+**A. Launch config / credentials — replaced by Webline (mostly outside the code / via env or one isolated file):**
+- [ ] **SITE_URL / domain** — `astro.config.mjs:7` `const SITE_URL = 'https://example.com'` `[MOCK]`. Drives canonical, OG `og:url`, JSON-LD `url`, and the `Sitemap:` host in `public/robots.txt`. **DNS/domain mapping is done outside the code** (Netlify + registrar). Update the value here (and the robots.txt sitemap host) at launch.
+- [ ] **GA4 measurement ID** — `.env.example` → `PUBLIC_GA_MEASUREMENT_ID=GA_MEASUREMENT_ID` `[MOCK]`. Set the real ID as a Netlify **environment variable** (never commit a real `.env`). GA4 only loads after cookie-consent accept.
+- [ ] **Bentral reservation embed** — `src/components/booking/BentralEmbed.astro` `placeholderSrc = 'about:blank'` `[MOCK]`. Paste the real Bentral embed URL / object — **edit ONLY this one file** (isolation guarantee, CLAUDE.md §11). Done outside via the Bentral subscription (client-provided).
+- [ ] **Netlify Forms email notifications** — configured by Webline in the Netlify UI for form `contact-en` (not in code, per CLAUDE.md §13).
+
+**B. Contact / brand identity placeholders (in code, swap at launch):**
+- [ ] **Phone** — `Footer.astro:14` `telHref = 'tel:+3860000000'` `[MOCK]` (+ display string `footer.contact.phone` in `en.ts`).
+- [ ] **Email** — `Footer.astro:15` `mailHref = 'mailto:info@example.com'` `[MOCK]` (+ display `footer.contact.email`).
+- [ ] **Instagram / Facebook** — `Footer.astro:16-17` `instagramUrl` / `facebookUrl` → `https://instagram.com/` / `https://facebook.com/` `[MOCK]`.
+- [ ] **Google Maps embed (footer)** — `Footer.astro:18` `mapEmbedUrl` currently a keyless region embed for "Travna Gora, Slovenia" `[MOCK]`. Replace with the exact **property-pin** embed.
+- [ ] **Legal entity + address** — `en.ts` `footer.legal.entity` ("Dom na TRAVNI GORI d.o.o." — real name) / `footer.legal.address` `[MOCK] Street 1…`.
+- [ ] **Contact-page details** — `src/pages/contact.astro` mirrors the same `[MOCK]` tel/mailto/social constants.
+- [ ] **Logo** — header is a text logo (`site.name`, real brand). Favicon is `public/favicon.svg` `[MOCK]` (house/mountain mark in brand colors) — replace with the real logo mark.
+- [ ] **OG share image** — `BaseLayout.astro` defaults `ogImage = '/images/og-default.png'` `[MOCK]`, **and that file is currently MISSING** from `public/images/`. Add the real OG image (1200×630) before launch so social shares render.
+
+**C. Media assets — replace flat `[MOCK]` placeholders with real photography (collection/url-driven, no markup change needed):**
+- [ ] Hero parallax: `public/images/hero-mountains.[MOCK].webp`, `hero-fog.[MOCK].png` (transparent fog layer).
+- [ ] Home teaser: `public/images/accommodation-preview.[MOCK].webp`.
+- [ ] Landing hero: `public/images/lp-hero.[MOCK].webp`.
+- [ ] Accommodation slider (gallery collection): `src/assets/images/gallery-{interior,fireplace,forest,terrace}.png` (4).
+- [ ] Activities blocks (activities collection): `src/assets/images/activity-{hiking,cycling,sights}.png` (3).
+- [ ] Menu scan: `public/menu/menu-scan.[MOCK].pdf` (drop the real scanned menu at this path).
+
+**D. Copy / content placeholders — all visible text is `[MOCK]`, never real copy or invented facts (CLAUDE.md §8):**
+- [ ] **All UI strings** — `src/i18n/en.ts` (94 `[MOCK]` values: nav, CTAs, hero, all section copy, form labels, footer, consent, thank-you, booking, /lp). Single source of truth — edit here, no component changes.
+- [ ] **Content collections** (`src/content/`): `valueProps` (4 cards), `activities` (3 blocks — placeholder names, **no invented distances/facts**), `gallery` (4 alt texts), `menu` (3 sections + item names/descriptions/prices — `[MOCK] €0,00`).
+
+**E. Done outside the codebase (Webline launch steps, for reference):**
+- DNS / domain → point at Netlify; set `SITE_URL` + robots sitemap host.
+- Netlify env: real `PUBLIC_GA_MEASUREMENT_ID`.
+- Netlify Forms: enable + email notifications for `contact-en`.
+- Paste the real Bentral embed (one-file edit).
+- (Optional, future) Meta Pixel / conversion tag via the consent-gated `loadAnalytics()` ads-prep hook + the booking CTA's `data-conversion="booking"` marker (campaign management out of scope).
+
+**F. Known residuals carried from earlier QA (not `[MOCK]`, surfaced for the client decision):**
+- **CTA contrast** — terracotta `#A65A3A` on cream `#F3E9D8` = **4.21:1** (just under WCAG AA 4.5:1 for normal text). Both hex are PRD-locked (§8.2); user declined changing them in TASK-031. One-line fix if strict a11y ≥90 is required: nudge `--color-terracotta` deeper (e.g. `#9D5537`, same hue → ~4.6:1).
+- **Numeric Lighthouse + live device matrix** (TASK-032/033) — delegated to Webline on the deployed Netlify preview (sandbox cannot launch a browser/deploy); the build is structured to pass.
+
+**Verified (test_steps):**
+- Шаг 1: `grep '[MOCK]'`/`'TODO'` swept across `src/` (39 files) + `public/` (5 files) + build config (`astro.config.mjs`, `.env.example`, `netlify.toml`, `robots.txt`) — every placeholder is captured in the checklist above (194 `[MOCK]` in `src/`).
+- Шаг 2: confirmed **no real content slipped in for a placeholder** — all contacts, legal entity, domain, GA/Bentral IDs, maps embed and media are tagged `[MOCK]`/`TODO`; the only non-placeholder literals are the genuine brand name "Dom na Travni gori" / "Dom na TRAVNI GORI d.o.o." and navigation routes.
+- Шаг 3: the replacement checklist (sections A–F) is complete and ready for hand-off, with SITE_URL/GA/Bentral/contacts/logo/OG image/photos all flagged, and DNS/domain + Bentral embed + email notifications documented as out-of-code launch steps.
+- Bonus: `rm -rf dist && npm run build` clean (8 pages, zero warnings) — launch-ready pending content/config insertion.
+**Files changed:** tasks.json (status only), progress.md
+**Note:** documentation-only task — no source files modified. **Newly surfaced gap to action:** `public/images/og-default.png` is referenced by `BaseLayout` but does not exist yet — add it with the real OG image at launch (listed in section B). All other items are intentional `[MOCK]` placeholders for Webline/client to fill.
