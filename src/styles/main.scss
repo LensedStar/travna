@@ -21,6 +21,10 @@
 @use 'blocks/accommodation-preview'; // Home accommodation teaser (TASK-016)
 @use 'blocks/activities-preview'; // Home activities teaser (TASK-016)
 @use 'blocks/region-explore'; // Home "Discover the Dolenjska region" map + bullets block
+@use 'blocks/heritage-timeline'; // Home heritage/history timeline (one-family historic house)
+@use 'blocks/apartment-showcase'; // Home "about the apartments" expanding photo gallery
+@use 'blocks/home-gallery'; // Home editorial photo gallery after the apartment showcase
+@use 'blocks/find-us'; // Home "Finding us" map + scenic-road trip tip block
 @use 'blocks/book-direct'; // Home book-direct value strip (TASK-016)
 @use 'blocks/booking'; // Booking page + isolated BentralEmbed wrapper (TASK-024)
 @use 'blocks/accommodation'; // Accommodation photo slider island (TASK-017)
@@ -30,3 +34,4 @@
 @use 'blocks/landing'; // Hidden advertising landing /lp (TASK-025)
 @use 'blocks/reveal'; // reusable scroll-reveal utility (TASK-026)
 @use 'blocks/consent'; // GDPR cookie-consent banner gating GA4 (TASK-029)
+

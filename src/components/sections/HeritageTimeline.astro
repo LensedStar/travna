@@ -1,0 +1,94 @@
+---
+// HeritageTimeline.astro — Home heritage/history timeline block.
+// Conveys that the house is an old, historical Planinski dom cared for by ONE family across
+// generations: three archival black-and-white photographs lead down a vertical spine to the
+// modern colour photo of the house "today" — a warm arrival point.
+// Pure .astro, zero client JS. Visible strings come from the i18n dictionary; styling lives in
+// src/styles/blocks/_heritage-timeline.scss. Copy is MOCK placeholder (see en.ts // TODO).
+import SectionHeader from '../ui/SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+
+// Milestones, oldest -> newest. Reorder/extend here without touching the layout.
+// `now: true` marks the arrival point (modern colour photo).
+const milestones = [
+  {
+    icon: 'landmark',
+    era: 'home.heritage.m1.era',
+    body: 'home.heritage.m1.body',
+    alt: 'home.heritage.m1.alt',
+    src: '/images/travna 56.jpeg',
+    width: 1600,
+    height: 946,
+  },
+  {
+    icon: 'car',
+    era: 'home.heritage.m3.era',
+    body: 'home.heritage.m3.body',
+    alt: 'home.heritage.m3.alt',
+    src: '/images/travna 76.jpeg',
+    width: 1100,
+    height: 688,
+  },
+  {
+    icon: 'trees',
+    era: 'home.heritage.m4.era',
+    body: 'home.heritage.m4.body',
+    alt: 'home.heritage.m4.alt',
+    src: '/images/ttravna now.webp',
+    width: 608,
+    height: 352,
+    now: true,
+  },
+] as const;
+---
+<section class="heritage reveal">
+  <!-- Decorative botanical sprigs (uzor) — purely atmospheric, scattered on the side gutters.
+       aria-hidden + pointer-events:none; they share the section's --color-bg so they read as a
+       soft watermark. Hidden on narrow screens (see _heritage-timeline.scss). -->
+  <img class="heritage__sprig heritage__sprig--left" src="/images/uzor_bg_for_left.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+  <img class="heritage__sprig heritage__sprig--right" src="/images/uzor_bg_for_right.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+
+  <div class="heritage__inner">
+    <SectionHeader
+      eyebrow={t('home.heritage.eyebrow')}
+      title={t('home.heritage.title')}
+      subtitle={t('home.heritage.intro')}
+      align="center"
+    />
+
+    <ol class="heritage__list">
+      {milestones.map((m) => (
+        <li class={`heritage__item${(m as { now?: boolean }).now ? ' heritage__item--now' : ''}`}>
+          <span class="heritage__marker" aria-hidden="true">
+            <Icon name={m.icon} class="heritage__marker-icon" />
+          </span>
+
+          <div class="heritage__media">
+            <img
+              class="heritage__photo"
+              src={m.src}
+              alt={t(m.alt)}
+              width={m.width}
+              height={m.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="heritage__content">
+            <p class="heritage__era">{t(m.era)}</p>
+            <p class="heritage__body">{t(m.body)}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <div class="heritage__cta">
+      <Button href="/rezervacija" variant="secondary" class="heritage__book">{t('cta.bookNow')}</Button>
+    </div>
+  </div>
+</section>

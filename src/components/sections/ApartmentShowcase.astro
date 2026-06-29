@@ -1,0 +1,165 @@
+---
+// ApartmentShowcase.astro — Home "about the apartments" block.
+// An icon-tabbed photo slider: one slide per highlight (families · couples · nature · homemade
+// kitchen). Each slide shows a large photo plus a short title, intro line and a few bullets, so
+// the full story for the active apartment reads at a glance. Navigation is a row of icon "dots"
+// (the section's own icons) overlaid on the photo that double as a preview of each slide and as a
+// progress indicator. Pure .astro, zero client JS — the active slide is driven by hidden radio
+// inputs (so click/tap and keyboard both work without JavaScript). Visible strings come from the
+// i18n dictionary; styling lives in src/styles/blocks/_apartment-showcase.scss. Copy + photos are
+// MOCK (see en.ts).
+import SectionHeader from '../ui/SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+
+// Slides, in order. Reorder/extend here without touching the layout.
+// `src` is a MOCK placeholder reusing existing imagery — TODO(Webline): swap for real
+// apartment / interior / forest / food photos.
+const slides = [
+  {
+    icon: 'users',
+    tab: 'home.apartments.family.tab',
+    title: 'home.apartments.family.title',
+    text: 'home.apartments.family.text',
+    bullets: ['home.apartments.family.b1', 'home.apartments.family.b2', 'home.apartments.family.b3'],
+    alt: 'home.apartments.family.alt',
+    src: '/images/ttravna now.webp',
+  },
+  {
+    icon: 'heart',
+    tab: 'home.apartments.couples.tab',
+    title: 'home.apartments.couples.title',
+    text: 'home.apartments.couples.text',
+    bullets: ['home.apartments.couples.b1', 'home.apartments.couples.b2', 'home.apartments.couples.b3'],
+    alt: 'home.apartments.couples.alt',
+    src: '/images/accommodation-preview.webp',
+  },
+  {
+    icon: 'trees',
+    tab: 'home.apartments.nature.tab',
+    title: 'home.apartments.nature.title',
+    text: 'home.apartments.nature.text',
+    bullets: ['home.apartments.nature.b1', 'home.apartments.nature.b2', 'home.apartments.nature.b3'],
+    alt: 'home.apartments.nature.alt',
+    src: '/images/hero-mountains.webp',
+  },
+  {
+    icon: 'utensils',
+    tab: 'home.apartments.kitchen.tab',
+    title: 'home.apartments.kitchen.title',
+    text: 'home.apartments.kitchen.text',
+    bullets: ['home.apartments.kitchen.b1', 'home.apartments.kitchen.b2', 'home.apartments.kitchen.b3'],
+    alt: 'home.apartments.kitchen.alt',
+    src: '/images/travna-56-2.jpeg',
+  },
+] as const;
+---
+<section class="apartments reveal">
+  <div class="apartments__inner">
+    <SectionHeader
+      eyebrow={t('home.apartments.eyebrow')}
+      title={t('home.apartments.title')}
+      subtitle={t('home.apartments.intro')}
+      align="center"
+    />
+
+    <!--
+      CSS-only slider. All radios precede the slider body so each `:checked` state can reveal its
+      matching `.apartments__slide--N` and light up its `.apartments__tab--N` via the
+      general-sibling selector — no JS, no :has(). The first slide is active by default.
+    -->
+    <div class="apartments__slider" role="group" aria-label={t('home.apartments.title')}>
+      {slides.map((_, i) => (
+        <input
+          type="radio"
+          name="apartments-slide"
+          id={`apartments-slide-${i}`}
+          class="apartments__radio"
+          aria-label={t(slides[i].tab)}
+          checked={i === 0}
+        />
+      ))}
+
+      <!--
+        Viewport: prev-arrow column · stage · next-arrow column. The arrows flank the photo in the
+        side gutters (never over it). Each arrow slot holds one label per slide (pointing at the
+        adjacent slide, wrapping around); only the active slide's arrow is shown via the :checked
+        sibling selector — no JS. Arrows are aria-hidden; the icon tabs are the labelled controls.
+      -->
+      <div class="apartments__viewport">
+        <div class="apartments__navslot apartments__navslot--prev">
+          {slides.map((_, i) => (
+            <label class={`apartments__arrow apartments__arrow--prev-${i}`} for={`apartments-slide-${(i + slides.length - 1) % slides.length}`} aria-hidden="true">
+              <Icon name="chevron-left" class="apartments__arrow-icon" />
+            </label>
+          ))}
+        </div>
+
+        <!-- Stage: all slides stacked; only the active one is shown (crossfade, no reflow). -->
+        <div class="apartments__stage">
+          {slides.map((p, i) => (
+            <article class={`apartments__slide apartments__slide--${i}`} aria-hidden={i === 0 ? 'false' : 'true'}>
+              <div class="apartments__media">
+                <img
+                  class="apartments__photo"
+                  src={p.src}
+                  alt={t(p.alt)}
+                  width="900"
+                  height="675"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+
+              <div class="apartments__body">
+                <h3 class="apartments__title">{t(p.title)}</h3>
+                <p class="apartments__text">{t(p.text)}</p>
+                <ul class="apartments__bullets" role="list">
+                  {p.bullets.map((b) => (
+                    <li class="apartments__bullet">
+                      <Icon name="check" class="apartments__bullet-icon" />
+                      <span>{t(b)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+
+          <!-- One bottom row: compact slide controls followed by the CTA on the right. -->
+          <div class="apartments__controls">
+            <div class="apartments__tabs" role="group" aria-label={t('home.apartments.hint')}>
+              {slides.map((p, i) => (
+                <label
+                  class={`apartments__tab apartments__tab--${i}`}
+                  for={`apartments-slide-${i}`}
+                  aria-label={t(p.tab)}
+                >
+                  <span class="apartments__tab-dot" aria-hidden="true">
+                    <Icon name={p.icon} class="apartments__tab-icon" />
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            <div class="apartments__slide-cta">
+              <Button href="/accommodation" variant="primary">{t('cta.viewAccommodation')}</Button>
+            </div>
+          </div>
+        </div>
+
+        <div class="apartments__navslot apartments__navslot--next">
+          {slides.map((_, i) => (
+            <label class={`apartments__arrow apartments__arrow--next-${i}`} for={`apartments-slide-${(i + 1) % slides.length}`} aria-hidden="true">
+              <Icon name="chevron-right" class="apartments__arrow-icon" />
+            </label>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

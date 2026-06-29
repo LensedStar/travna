@@ -125,9 +125,31 @@ const lodgingSchema = {
       })();
     </script>
   </head>
-  <body>
+  <body class={bare ? undefined : 'has-fixed-header'}>
     <a class="skip-link" href="#main-content">{t('a11y.skipToContent')}</a>
     {!bare && <Header />}
+    {!bare && (
+      <!--
+        Keep the content offset in sync with the fixed header's real height (it changes with
+        viewport / wrapping). Sets the `--header-height` var consumed in blocks/_header.scss; the
+        SCSS fallback covers the pre-script paint so there is no jump.
+      -->
+      <script is:inline>
+        (function () {
+          var header = document.querySelector('.site-header');
+          if (!header) return;
+          function sync() {
+            document.documentElement.style.setProperty('--header-height', header.offsetHeight + 'px');
+          }
+          sync();
+          if ('ResizeObserver' in window) {
+            new ResizeObserver(sync).observe(header);
+          } else {
+            window.addEventListener('resize', sync);
+          }
+        })();
+      </script>
+    )}
     <main id="main-content">
       <slot />
     </main>

@@ -4,10 +4,11 @@
 // Visible strings come from the i18n dictionary — no hardcoded copy.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ParallaxHero from '../islands/ParallaxHero.jsx';
-import ValueProps from '../components/sections/ValueProps.astro';
-import AccommodationPreview from '../components/sections/AccommodationPreview.astro';
-import ActivitiesPreview from '../components/sections/ActivitiesPreview.astro';
 import RegionExplore from '../components/sections/RegionExplore.astro';
+import HeritageTimeline from '../components/sections/HeritageTimeline.astro';
+import ApartmentShowcase from '../components/sections/ApartmentShowcase.astro';
+import HomeGallery from '../components/sections/HomeGallery.astro';
+import FindUs from '../components/sections/FindUs.astro';
 import BookDirect from '../components/sections/BookDirect.astro';
 import { useTranslations, defaultLocale } from '../i18n';
 
@@ -19,12 +20,18 @@ const t = useTranslations(defaultLocale);
     client:load
     title={t('home.hero.title')}
     subtitle={t('home.hero.subtitle')}
+    eyebrow={t('home.hero.eyebrow')}
     ctaPrimaryLabel={t('cta.checkAvailability')}
     ctaSecondaryLabel={t('cta.exploreArea')}
+    ratingsLabel={t('home.hero.ratingsLabel')}
+    bookingLabel={t('home.hero.bookingLabel')}
+    airbnbLabel={t('home.hero.airbnbLabel')}
   />
   <RegionExplore />
-  <ValueProps />
-  <AccommodationPreview />
-  <ActivitiesPreview />
+  <HeritageTimeline />
+  <ApartmentShowcase />
+  <HomeGallery />
+  <FindUs />
   <BookDirect />
 </BaseLayout>
+

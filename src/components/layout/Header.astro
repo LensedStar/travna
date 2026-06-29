@@ -1,6 +1,6 @@
 ---
 // Header.astro — global site header (TASK-010).
-// text logo (brand, --font-heading), primary nav (i18n strings), prominent "Book" CTA -> /rezervacija.
+// image logo (brand, links to /), primary nav (i18n strings), prominent "Book" CTA -> /rezervacija.
 // Reserves slots for the LanguageSwitcher island (TASK-011) and the MobileNav island (TASK-012),
 // which mount their React islands here in their own tasks. All visible text comes from the i18n dictionary.
 import { useTranslations, defaultLocale } from '../../i18n';
@@ -27,7 +27,16 @@ const langOptions = [
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="site-header__brand" href="/">{t('site.name')}</a>
+    <a class="site-header__brand" href="/" aria-label={t('site.name')}>
+      <img
+        class="site-header__logo"
+        src="/images/logo.png"
+        alt={t('site.name')}
+        width="512"
+        height="512"
+        decoding="async"
+      />
+    </a>
 
     <nav class="site-header__nav" aria-label={t('a11y.primaryNav')}>
       <ul class="site-header__nav-list">

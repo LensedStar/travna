@@ -3,11 +3,28 @@
 // The max-width is a structural layout cap (same precedent as the section-header/booking blocks).
 
 .site-header {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
   z-index: 100;
   background-color: var(--color-bg);
   box-shadow: var(--shadow-soft);
+}
+
+// The fixed header is out of flow, so reserve its height on pages that render it (bare pages — /lp —
+// have no header and add no class). `--header-height` is measured at runtime in BaseLayout; the
+// fallback covers the pre-script paint. `scroll-padding-top` keeps in-page anchor / skip-link
+// targets from landing behind the bar.
+:root {
+  --header-height: 4.5rem;
+}
+
+html {
+  scroll-padding-block-start: var(--header-height);
+}
+
+.has-fixed-header {
+  padding-block-start: var(--header-height);
 }
 
 .site-header__inner {
@@ -21,11 +38,19 @@
 }
 
 .site-header__brand {
-  font-family: var(--font-heading);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-bold);
-  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
+}
+
+// The logo height fills the header bar minus its vertical padding (structural, like the
+// max-width cap above). The badge is square, so width tracks height via aspect-ratio.
+.site-header__logo {
+  display: block;
+  block-size: calc(var(--header-height) - var(--space-sm) * 2);
+  inline-size: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
 }
 
 .site-header__nav-list {

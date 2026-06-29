@@ -10,7 +10,16 @@
 
 import { useEffect, useRef } from 'react';
 
-export default function ParallaxHero({ title, subtitle, ctaPrimaryLabel, ctaSecondaryLabel }) {
+export default function ParallaxHero({
+  title,
+  subtitle,
+  eyebrow,
+  ctaPrimaryLabel,
+  ctaSecondaryLabel,
+  ratingsLabel,
+  bookingLabel,
+  airbnbLabel,
+}) {
   const mountainsRef = useRef(null);
   const fogRef = useRef(null);
 
@@ -51,11 +60,34 @@ export default function ParallaxHero({ title, subtitle, ctaPrimaryLabel, ctaSeco
         <div className="hero__layer hero__layer--fog" ref={fogRef}></div>
       </div>
       <div className="hero__content">
+        <p className="hero__eyebrow">{eyebrow}</p>
         <h1 className="hero__title">{title}</h1>
         <p className="hero__subtitle">{subtitle}</p>
         <div className="hero__actions">
           <a className="btn btn--primary" href="/rezervacija">{ctaPrimaryLabel}</a>
           <a className="btn btn--secondary hero__cta-secondary" href="/activities">{ctaSecondaryLabel}</a>
+        </div>
+        <div className="hero__ratings" role="group" aria-label={ratingsLabel}>
+          <div className="hero__rating">
+            <strong className="hero__rating-score">8.8</strong>
+            <span className="hero__rating-details">
+              <img
+                className="hero__rating-logo hero__rating-logo--booking"
+                src="/images/booking-com-wordmark.png"
+                alt={bookingLabel}
+              />
+            </span>
+          </div>
+          <div className="hero__rating">
+            <strong className="hero__rating-score">4.7</strong>
+            <span className="hero__rating-details">
+              <img
+                className="hero__rating-logo hero__rating-logo--airbnb"
+                src="/images/airbnb-logo.webp"
+                alt={airbnbLabel}
+              />
+            </span>
+          </div>
         </div>
       </div>
     </section>

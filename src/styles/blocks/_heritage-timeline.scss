@@ -1,0 +1,355 @@
+// blocks/_heritage-timeline.scss — Home heritage/history timeline block.
+// One-family-owned historic house across generations: B&W archival photos -> today.
+// Vertical spine with milestone entries; mobile = single left-spine stack, desktop (>=48rem)
+// = centred spine with entries alternating left/right. The final "today" milestone (colour
+// photo) is the warm arrival point. Token-only — no raw hex / magic numbers.
+
+.heritage {
+  position: relative;
+  padding-block: var(--space-2xl);
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+.heritage__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+// --- Decorative botanical sprigs (uzor) ------------------------------------
+// Atmospheric line-art that shares --color-bg, so it sits as a soft watermark
+// behind the timeline. Placement is deliberate, not scattered: both sprigs are
+// vertically centred and mirrored on the two edges, and they bleed partly off
+// the viewport so only an inner sliver shows in the margin. Bleeding off-edge
+// is what lets them appear from tablet up without ever overlapping the centred
+// 75rem content column — the further the content from the edge, the more sprig
+// shows. Below the tablet breakpoint the gutters are too tight, so they hide.
+.heritage__sprig {
+  display: none;
+  position: absolute;
+  inset-block-start: 50%;
+  z-index: 0;
+  width: clamp(9rem, 14vw, 15rem);
+  height: auto;
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+
+  // Shown from tablet landscape up; placement scales with the viewport.
+  @media (min-width: 64rem) {
+    display: block;
+  }
+}
+
+// Left sprig — hugs the left edge, ~40% bleeding off-screen, leaning inward.
+.heritage__sprig--left {
+  inset-inline-start: 0;
+  transform: translate(-40%, -50%) rotate(-6deg);
+}
+
+// Right sprig — mirrored on the right edge for a balanced frame.
+.heritage__sprig--right {
+  inset-inline-end: 0;
+  transform: translate(40%, -50%) rotate(6deg);
+}
+
+// Wide screens have real gutter room: ease the sprigs fully into the margin so
+// the whole sprig reads, still clear of the content column.
+@media (min-width: 100rem) {
+  .heritage__sprig--left {
+    transform: translate(10%, -50%) rotate(-6deg);
+  }
+  .heritage__sprig--right {
+    transform: translate(-10%, -50%) rotate(6deg);
+  }
+}
+
+// --- Timeline list ---------------------------------------------------------
+.heritage__list {
+  list-style: none;
+  margin: 0;
+  margin-block-start: var(--space-xl);
+  padding: 0;
+  position: relative;
+
+  // Mobile: a single hairline spine running down the left, behind the markers.
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: var(--space-md);
+    width: 2px;
+    background-color: var(--color-mist);
+    border-radius: var(--radius-sm);
+  }
+
+  // Desktop: spine recentres to the middle of the column.
+  @media (min-width: 48rem) {
+    &::before {
+      inset-inline-start: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+// --- Milestone entry -------------------------------------------------------
+.heritage__item {
+  position: relative;
+  // Mobile: content sits to the right of the left-edge spine.
+  padding-inline-start: var(--space-2xl);
+  padding-block-end: var(--space-xl);
+
+  &:last-child {
+    padding-block-end: 0;
+  }
+
+  @media (min-width: 48rem) {
+    // Two-column grid around the centred spine; photo + content in one half.
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-2xl);
+    align-items: center;
+    padding-inline-start: 0;
+    padding-block-end: var(--space-2xl);
+
+    // Odd entries: media left, content right — with a gap from the centre spine.
+    .heritage__media {
+      grid-column: 1;
+      justify-self: end;
+      margin-inline-end: var(--space-xl);
+    }
+    .heritage__content {
+      grid-column: 2;
+      text-align: start;
+    }
+
+    // Even entries: mirror — media right, content left (reads toward the spine).
+    &:nth-child(even) {
+      .heritage__media {
+        grid-column: 2;
+        justify-self: start;
+        margin-inline: var(--space-xl) 0;
+      }
+      .heritage__content {
+        grid-column: 1;
+        grid-row: 1;
+        text-align: end;
+      }
+    }
+  }
+}
+
+// --- Closing call-to-action ------------------------------------------------
+.heritage__cta {
+  margin-block-start: var(--space-xl);
+  text-align: center;
+}
+
+// "Book now" — forest outline (secondary) button, same height as the rest, just wider.
+.heritage__book {
+  padding-inline: var(--space-3xl);
+}
+
+// --- Spine marker (icon dot) ----------------------------------------------
+.heritage__marker {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: var(--space-md);
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  color: var(--color-bg);
+  background-color: var(--color-forest);
+  border-radius: 50%;
+  box-shadow: var(--shadow-soft);
+  z-index: 1;
+
+  @media (min-width: 48rem) {
+    inset-inline-start: 50%;
+  }
+}
+
+.heritage__marker-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+}
+
+// --- Photograph ------------------------------------------------------------
+.heritage__media {
+  // Modest cap keeps the timeline compact rather than letting photos fill the column.
+  max-width: 26rem;
+  // Uniform photo frame — every image renders at the same height regardless of its
+  // native aspect ratio (cropped to fit, not distorted — see .heritage__photo).
+  aspect-ratio: 3 / 2;
+  margin-block-end: var(--space-md);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  background-color: var(--color-mist);
+  // Warm wood-toned frame on every archival photo.
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
+
+  @media (min-width: 48rem) {
+    margin-block-end: 0;
+  }
+}
+
+.heritage__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// --- Era label + body ------------------------------------------------------
+.heritage__content {
+  color: var(--color-text);
+}
+
+.heritage__era {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-wood);
+}
+
+.heritage__body {
+  margin: 0;
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+}
+
+// --- "Today" arrival point — warm emphasis --------------------------------
+.heritage__item--now {
+  .heritage__marker {
+    background-color: var(--color-terracotta);
+    box-shadow: var(--shadow-card);
+  }
+
+  .heritage__era {
+    color: var(--color-terracotta);
+  }
+}
+
+// --- Timeline reveal — enhances the section-level `.reveal` entrance -------
+// When the block scrolls into view it animates like a timeline: the spine draws
+// downward, marker dots pop in along it, milestones rise + fade, and the CTA
+// follows last. Gated by `.has-reveal` so content is always visible without JS;
+// animates only opacity/transform, timing/easing from --motion-* tokens.
+.has-reveal .heritage {
+  // Heading, milestones and CTA rise + fade in.
+  .section-header,
+  .heritage__item,
+  .heritage__cta {
+    opacity: 0;
+    transform: translateY(var(--space-lg));
+    transition:
+      opacity var(--motion-duration) var(--motion-ease),
+      transform var(--motion-duration) var(--motion-ease);
+    will-change: transform, opacity;
+  }
+
+  // Marker dots start collapsed, then pop out from the spine.
+  .heritage__marker {
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+    transition:
+      opacity var(--motion-duration-fast) var(--motion-ease),
+      transform var(--motion-duration) var(--motion-ease);
+    will-change: transform, opacity;
+  }
+
+  // The spine grows downward from the top.
+  .heritage__list::before {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--motion-duration) var(--motion-ease);
+    will-change: transform;
+  }
+
+  @media (min-width: 48rem) {
+    // Keep the spine's centring translate while it scales.
+    .heritage__list::before {
+      transform: translateX(-50%) scaleY(0);
+    }
+  }
+}
+
+.has-reveal .heritage.is-revealed {
+  .section-header,
+  .heritage__item,
+  .heritage__cta {
+    opacity: 1;
+    transform: none;
+  }
+
+  // Spine draws in first.
+  .heritage__list::before {
+    transform: scaleY(1);
+  }
+
+  .heritage__marker {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  // Milestones + their markers cascade once the spine begins drawing.
+  @for $i from 1 through 3 {
+    .heritage__item:nth-child(#{$i}) {
+      transition-delay: calc(var(--motion-duration-fast) * #{$i});
+    }
+    .heritage__item:nth-child(#{$i}) .heritage__marker {
+      transition-delay: calc(var(--motion-duration-fast) * #{$i + 0.5});
+    }
+  }
+
+  // CTA lands after the last milestone.
+  .heritage__cta {
+    transition-delay: calc(var(--motion-duration-fast) * 4);
+  }
+
+  @media (min-width: 48rem) {
+    .heritage__list::before {
+      transform: translateX(-50%) scaleY(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-reveal .heritage {
+    .section-header,
+    .heritage__item,
+    .heritage__cta,
+    .heritage__marker,
+    .heritage__list::before {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    @media (min-width: 48rem) {
+      .heritage__marker {
+        transform: translateX(-50%);
+      }
+      .heritage__list::before {
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  // Mobile reduced-motion: markers keep their centring translate.
+  .has-reveal .heritage .heritage__marker {
+    transform: translateX(-50%);
+  }
+}

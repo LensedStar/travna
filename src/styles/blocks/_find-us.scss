@@ -1,0 +1,323 @@
+// blocks/_find-us.scss — Home "Finding us" block, styled as an editorial travel-guide spread.
+// A large primary Google Map with a small floating label, then an asymmetric route-map / scenic-
+// route story. Calm, minimal, boutique — no stacked cards, no pills, no heavy shadows.
+// Token-only — no raw hex / magic numbers.
+
+.find-us {
+  position: relative;
+  padding-block: var(--space-3xl);
+  overflow: hidden; // contains the bleeding sprig + horizon silhouette
+}
+
+.find-us__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+// --- Decorative botanical sprig (shared atmosphere with the heritage section) ---
+.find-us__sprig {
+  display: none;
+  position: absolute;
+  inset-block-start: var(--space-2xl);
+  inset-inline-end: 0;
+  z-index: 0;
+  width: clamp(8rem, 12vw, 13rem);
+  height: auto;
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+  transform: translate(20%, 0) rotate(8deg);
+
+  @media (min-width: 64rem) {
+    display: block;
+  }
+}
+
+// --- Locate: large map (≈60%) + travel facts (≈40%) -------------------------
+.find-us__locate {
+  display: grid;
+  gap: var(--space-2xl);
+  align-items: center;
+
+  @media (min-width: 48rem) {
+    grid-template-columns: 3fr 2fr;
+    gap: var(--space-3xl);
+  }
+}
+
+.find-us__map {
+  position: relative;
+}
+
+.find-us__map-frame {
+  display: block;
+  width: 100%;
+  // Fluid frame — 1.5× so the map is a prominent, primary element of the row.
+  min-height: clamp(calc(var(--space-3xl) * 4.5), 63vh, calc(var(--space-3xl) * 7.5));
+  border: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+// Small floating location label — quiet, not a big card.
+.find-us__pin {
+  position: absolute;
+  inset-block-start: var(--space-md);
+  inset-inline-start: var(--space-md);
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  max-width: min(20rem, calc(100% - var(--space-2xl)));
+  padding: var(--space-md);
+  background-color: var(--color-bg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+
+  @media (min-width: 48rem) {
+    inset-block-start: var(--space-lg);
+    inset-inline-start: var(--space-lg);
+  }
+}
+
+.find-us__pin-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+  margin-block-start: 0.1em;
+}
+
+.find-us__pin-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+}
+
+.find-us__pin-name {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.find-us__pin-address {
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--color-text);
+  opacity: 0.75;
+}
+
+.find-us__pin-link {
+  margin-block-start: var(--space-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-forest);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-terracotta);
+  }
+}
+
+.find-us__pin-link-icon {
+  width: 1em;
+  height: 1em;
+}
+
+// --- Travel-facts column (beside the map) ------------------------------------
+.find-us__info {
+  max-width: 24rem;
+}
+
+// Contact links sitting above the travel facts.
+.find-us__contact {
+  list-style: none;
+  margin: 0 0 var(--space-lg);
+  padding: 0 0 var(--space-lg);
+  border-block-end: 1px solid var(--color-mist);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.find-us__contact-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.find-us__contact-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+.find-us__contact-link {
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-terracotta);
+  }
+}
+
+// --- Road tip: centered icon + title + subtitle, with the route map beneath ----
+.find-us__story {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xl);
+}
+
+// Centered editorial header — icon over a short title + subtitle.
+.find-us__tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 36rem;
+}
+
+.find-us__tip-icon {
+  width: var(--space-xl);
+  height: var(--space-xl);
+  color: var(--color-wood);
+}
+
+.find-us__tip-title {
+  margin: var(--space-md) 0 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+.find-us__tip-subtitle {
+  margin: var(--space-sm) 0 0;
+  color: var(--color-text);
+  line-height: var(--leading-normal);
+  opacity: 0.85;
+}
+
+// Route map breathes — no surrounding card, only a gentle soft rounding. Capped + centered
+// so it stays a supporting visual rather than a full-bleed graphic.
+.find-us__route {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.find-us__route-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+// Compact travel facts — a clean list, no boxes or pills.
+.find-us__facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.find-us__fact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text);
+}
+
+.find-us__fact-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+.find-us__fact-text {
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+}
+
+// Actions — primary CTA.
+.find-us__actions {
+  margin-block-start: var(--space-xl);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+// --- Scroll-reveal — enhances the section-level `.reveal` entrance ------------
+// Header, map and story fade/slide up once the block enters view. Gated by `.has-reveal` so
+// content is always visible without JS; animates only opacity/transform.
+.has-reveal .find-us {
+  .section-header,
+  .find-us__map,
+  .find-us__info,
+  .find-us__route,
+  .find-us__tip {
+    transition:
+      opacity var(--motion-duration) var(--motion-ease),
+      transform var(--motion-duration) var(--motion-ease);
+    will-change: transform, opacity;
+    opacity: 0;
+    transform: translateY(var(--space-lg));
+  }
+}
+
+.has-reveal .find-us.is-revealed {
+  .section-header,
+  .find-us__map,
+  .find-us__info,
+  .find-us__route,
+  .find-us__tip {
+    opacity: 1;
+    transform: none;
+  }
+
+  .find-us__map,
+  .find-us__info {
+    transition-delay: var(--motion-duration-fast);
+  }
+
+  .find-us__route,
+  .find-us__tip {
+    transition-delay: var(--motion-duration);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-reveal .find-us .section-header,
+  .has-reveal .find-us .find-us__map,
+  .has-reveal .find-us .find-us__info,
+  .has-reveal .find-us .find-us__route,
+  .has-reveal .find-us .find-us__tip {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

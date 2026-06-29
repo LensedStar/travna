@@ -1,0 +1,124 @@
+---
+// FindUs.astro — Home "Finding us" block, composed as an editorial travel-guide spread.
+// Primary element: a large, nearly edge-to-edge embedded Google Map with a small floating
+// location label. Below it an asymmetric two-column story: the route map breathes on the left
+// while a scenic-route editorial column (eyebrow + serif headline + travel facts + CTA) sits on
+// the right. Subtle botanical + forest decoration only. Pure .astro, zero client JS. Visible
+// strings come from the i18n dictionary; styling lives in src/styles/blocks/_find-us.scss.
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+
+// Non-visible map srcs (not UI copy). Pinned to the real property:
+// "Planinski dom na Travni gori" d.o.o., Travna Gora 42, 1317 Sodražica (45.7356698, 14.6448761).
+const propertyCoords = '45.7356698,14.6448761';
+// Named-business query for the outbound links (so they open the official listing).
+const propertyQuery = encodeURIComponent('"Planinski dom na Travni gori" d.o.o., Travna Gora 42, 1317 Sodražica');
+// Embed uses bare coordinates (not the named place) so Google does NOT render its own white
+// place-info card over our quiet floating label. Zoomed out so nearby Sodražica still reads.
+const mapEmbedUrl = `https://maps.google.com/maps?q=${propertyCoords}&z=12&output=embed`;
+const mapPlaceUrl = `https://www.google.com/maps/search/?api=1&query=${propertyQuery}`;
+const mapDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${propertyCoords}`;
+// Contact hrefs (not UI copy). TODO(Webline): replace with the real phone/email at launch.
+const telHref = 'tel:+3860000000';
+const mailHref = 'mailto:info@example.com';
+
+// Compact travel facts — line-icon + i18n key. Reorder/extend here without touching the layout.
+const facts = [
+  { icon: 'car', key: 'home.findUs.fact.time' },
+  { icon: 'trees', key: 'home.findUs.fact.road' },
+  { icon: 'parking', key: 'home.findUs.fact.parking' },
+  { icon: 'snowflake', key: 'home.findUs.fact.winter' },
+] as const;
+---
+<section class="find-us reveal">
+  <!-- Decorative botanical sprig (uzor) — atmospheric watermark, mirrors the heritage section.
+       aria-hidden + pointer-events:none; hidden on narrow screens via SCSS. -->
+  <img class="find-us__sprig" src="/images/uzor_bg_for_right.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+
+  <div class="find-us__inner">
+    <SectionHeader
+      eyebrow={t('home.findUs.eyebrow')}
+      title={t('home.findUs.title')}
+      subtitle={t('home.findUs.intro')}
+      align="center"
+    />
+
+    <!-- Locate: large map (left) with a small floating label + travel facts (right) -->
+    <div class="find-us__locate">
+      <div class="find-us__map">
+        <iframe
+          class="find-us__map-frame"
+          src={mapEmbedUrl}
+          title={t('home.findUs.mapTitle')}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+
+        <figure class="find-us__pin">
+          <Icon name="map-pin" class="find-us__pin-icon" />
+          <figcaption class="find-us__pin-body">
+            <p class="find-us__pin-name">{t('home.findUs.pin.name')}</p>
+            <p class="find-us__pin-address">{t('home.findUs.pin.address')}</p>
+            <a class="find-us__pin-link" href={mapPlaceUrl} target="_blank" rel="noopener noreferrer">
+              {t('home.findUs.pin.link')}
+              <Icon name="arrow-up-right" class="find-us__pin-link-icon" />
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="find-us__info">
+        <ul class="find-us__contact">
+          <li class="find-us__contact-item">
+            <Icon name="phone" class="find-us__contact-icon" />
+            <a class="find-us__contact-link" href={telHref}>{t('footer.contact.phone')}</a>
+          </li>
+          <li class="find-us__contact-item">
+            <Icon name="mail" class="find-us__contact-icon" />
+            <a class="find-us__contact-link" href={mailHref}>{t('footer.contact.email')}</a>
+          </li>
+        </ul>
+
+        <ul class="find-us__facts">
+          {facts.map(({ icon, key }) => (
+            <li class="find-us__fact">
+              <Icon name={icon} class="find-us__fact-icon" />
+              <span class="find-us__fact-text">{t(key)}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="find-us__actions">
+          <Button href={mapDirectionsUrl} variant="primary" target="_blank" rel="noopener noreferrer">
+            {t('home.findUs.cta')}
+          </Button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Road tip: a centered note on the faster way up, with the route map beneath -->
+    <div class="find-us__story">
+      <div class="find-us__tip">
+        <Icon name="route" class="find-us__tip-icon" />
+        <h3 class="find-us__tip-title">{t('home.findUs.tip.title')}</h3>
+        <p class="find-us__tip-subtitle">{t('home.findUs.tip.text')}</p>
+      </div>
+
+      <div class="find-us__route">
+        <img
+          class="find-us__route-img"
+          src="/images/road-tip.png"
+          alt={t('home.findUs.tip.alt')}
+          width="1450"
+          height="810"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</section>

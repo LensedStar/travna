@@ -1,0 +1,453 @@
+// blocks/_apartment-showcase.scss — Home "about the apartments" block.
+// An icon-tabbed photo slider (CSS-only, no JS). All slides are stacked in a fixed-height stage;
+// the active one — chosen by a hidden radio — crossfades in while the rest fade out, so the photo
+// changes without the layout reflowing or jumping. Each slide shows a large photo, a title, an
+// intro line and a few bullets. Below the stage, a row of icon "dots" acts as navigation, progress
+// indicator and a preview of what each slide contains; the compact row sits over the photo and
+// the active tab lights up.
+// Token-only: no raw hex / magic numbers.
+
+.apartments {
+  padding-block: var(--space-2xl);
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+.apartments__inner {
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+// --- Slider shell ------------------------------------------------------------
+.apartments__slider {
+  position: relative;
+  margin-block-start: var(--space-xl);
+}
+
+// Hidden radios drive the active slide. Visually removed but kept in the DOM so click/tap (via the
+// tab label) and keyboard (arrow keys move + check) both work without JavaScript.
+.apartments__radio {
+  // Keep the focused control fixed inside the viewport. If it remains at its DOM position above
+  // the stage, clicking a label can make the browser scroll back to that hidden focus target.
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// --- Viewport: prev column · stage · next column -----------------------------
+.apartments__viewport {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  @media (min-width: 48rem) {
+    gap: var(--space-md);
+  }
+}
+
+// --- Stage: stacked slides, only the active one visible ----------------------
+// No border or shadow — the photo carries the block. Rounded corners only.
+.apartments__stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 2;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in srgb, var(--color-text) 72%, transparent)
+    );
+    pointer-events: none;
+  }
+}
+
+.apartments__slide {
+  // Stacked on top of each other; the active one is promoted by opacity + z-index below.
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-duration) var(--motion-ease),
+    visibility var(--motion-duration) var(--motion-ease);
+}
+
+// The first slide also sits in normal flow (not absolute) so the stage takes its natural height;
+// the others overlay it. This keeps the stage height stable across slides without a magic number.
+.apartments__slide--0 {
+  position: relative;
+}
+
+// --- Media (photo) — fills the slide; copy floats over it --------------------
+.apartments__media {
+  position: relative;
+  aspect-ratio: 3 / 5;
+  background-color: var(--color-mist);
+
+  @media (min-width: 36rem) {
+    aspect-ratio: 4 / 3;
+  }
+
+  @media (min-width: 64rem) {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.apartments__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// --- Body (title + intro + bullets) — frosted panel over the photo -----------
+.apartments__body {
+  position: absolute;
+  inset-block-start: var(--space-sm);
+  inset-inline: var(--space-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: 34rem;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  color: var(--color-bg);
+  // Frosted glass: a touch of blur + a warm translucent veil so the copy stays legible.
+  background-color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  backdrop-filter: blur(0.5rem);
+  -webkit-backdrop-filter: blur(0.5rem);
+
+  @media (min-width: 36rem) {
+    inset-inline: var(--space-md);
+  }
+
+  @media (min-width: 48rem) {
+    inset-block-start: auto;
+    inset-inline-start: var(--space-md);
+    inset-inline-end: auto;
+    inset-block-end: calc(var(--space-2xl) + var(--space-xl));
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+  }
+}
+
+.apartments__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-bg);
+}
+
+.apartments__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: var(--color-bg);
+
+  @media (min-width: 48rem) {
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+  }
+}
+
+.apartments__bullets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  margin-block-start: var(--space-xs);
+  padding: 0;
+  list-style: none;
+}
+
+.apartments__bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: var(--color-bg);
+
+  @media (min-width: 48rem) {
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+  }
+}
+
+.apartments__bullet-icon {
+  flex: none;
+  width: var(--space-md);
+  height: var(--space-md);
+  margin-block-start: 0.15em; // optical align with first text line
+  color: var(--color-wood);
+}
+
+// --- Prev / next arrows — live in the control bar below the photo ------------
+// Each slot reserves one arrow's width; all per-slide arrows are hidden by default and the active
+// slide's one is revealed (see active states). `[class*=...]` keeps the base style on every
+// indexed arrow without listing them all.
+.apartments__navslot {
+  position: absolute;
+  inset-block-start: 50%;
+  z-index: 4;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-lg);
+  transform: translateY(-50%);
+
+  @media (min-width: 48rem) {
+    position: static;
+    inset-block-start: auto;
+    inset-inline: auto;
+    width: var(--space-xl);
+    transform: none;
+  }
+}
+
+.apartments__navslot--prev {
+  inset-inline-start: var(--space-xs);
+}
+
+.apartments__navslot--next {
+  inset-inline-end: var(--space-xs);
+}
+
+[class*='apartments__arrow--'] {
+  display: none; // shown only for the active slide
+  align-items: center;
+  justify-content: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-forest);
+  background-color: color-mix(in srgb, var(--color-forest) 12%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-forest) 24%, transparent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color var(--motion-duration) var(--motion-ease);
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: color-mix(in srgb, var(--color-forest) 24%, var(--color-bg));
+    }
+  }
+
+  @media (min-width: 48rem) {
+    width: var(--space-xl);
+    height: var(--space-xl);
+  }
+}
+
+.apartments__arrow-icon {
+  width: var(--space-md);
+  height: var(--space-md);
+
+  @media (min-width: 48rem) {
+    width: var(--space-lg);
+    height: var(--space-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*='apartments__arrow--'] {
+    transition: none;
+  }
+}
+
+// --- Per-slide CTA — pinned to the bottom-right of every image ---------------
+.apartments__controls {
+  position: absolute;
+  inset-block-end: var(--space-xs);
+  inset-inline: var(--space-xs);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+
+  @media (min-width: 36rem) {
+    inset-block-end: var(--space-md);
+    inset-inline: var(--space-md);
+    gap: var(--space-md);
+  }
+}
+
+.apartments__slide-cta {
+  flex: none;
+
+  .btn {
+    padding: var(--space-xs) calc(var(--space-xs) / 2);
+    font-size: var(--text-small);
+    white-space: nowrap;
+
+    @media (min-width: 36rem) {
+      padding: var(--space-sm) var(--space-lg);
+      font-size: var(--text-body);
+    }
+  }
+}
+
+// --- Compact icon tabs overlaid on the photo ---------------------------------
+.apartments__tabs {
+  display: flex;
+  gap: 0;
+
+  @media (min-width: 36rem) {
+    gap: var(--space-xs);
+  }
+}
+
+.apartments__tab {
+  display: inline-flex;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none; // focus ring is drawn on the dot below
+  }
+}
+
+.apartments__tab-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--space-lg) - var(--space-xs));
+  height: calc(var(--space-lg) - var(--space-xs));
+  color: var(--color-forest);
+  background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-bg) 70%, transparent);
+  border-radius: 50%;
+  backdrop-filter: blur(0.25rem);
+  -webkit-backdrop-filter: blur(0.25rem);
+  transition:
+    background-color var(--motion-duration) var(--motion-ease),
+    color var(--motion-duration) var(--motion-ease);
+
+  @media (hover: hover) {
+    .apartments__tab:hover & {
+      background-color: var(--color-bg);
+    }
+  }
+
+  @media (min-width: 36rem) {
+    width: var(--space-lg);
+    height: var(--space-lg);
+  }
+}
+
+.apartments__tab-icon {
+  width: calc(var(--space-md) - var(--space-xs) / 2);
+  height: calc(var(--space-md) - var(--space-xs) / 2);
+
+  @media (min-width: 36rem) {
+    width: var(--space-md);
+    height: var(--space-md);
+  }
+}
+
+// --- Active states (driven by the matching radio) ----------------------------
+// Show the checked slide, reveal that slide's side arrows, and light up its tab. Radios precede
+// the viewport, which contains the tabs, so the general-sibling combinator reaches each `--N`
+// element.
+@for $i from 0 through 3 {
+  .apartments__radio:nth-of-type(#{$i + 1}):checked ~ .apartments__viewport .apartments__slide--#{$i} {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+
+  // Only the active slide's prev/next arrows are shown in the side gutters.
+  .apartments__radio:nth-of-type(#{$i + 1}):checked ~ .apartments__viewport .apartments__arrow--prev-#{$i},
+  .apartments__radio:nth-of-type(#{$i + 1}):checked ~ .apartments__viewport .apartments__arrow--next-#{$i} {
+    display: inline-flex;
+  }
+
+  .apartments__radio:nth-of-type(#{$i + 1}):checked ~ .apartments__viewport .apartments__tab--#{$i} {
+    .apartments__tab-dot {
+      color: var(--color-bg);
+      background-color: var(--color-forest);
+      border-color: var(--color-forest);
+    }
+  }
+
+  // Keyboard focus ring on the active tab's dot.
+  .apartments__radio:nth-of-type(#{$i + 1}):focus-visible ~ .apartments__viewport .apartments__tab--#{$i} .apartments__tab-dot {
+    outline: 3px solid var(--color-wood);
+    outline-offset: 2px;
+  }
+}
+
+// --- Section reveal (enhances the section-level `.reveal` entrance) ----------
+// NOTE: no `will-change`/lingering `transform` on `.apartments__slider`. Either one makes the
+// slider a containing block for its `position: fixed` radios, which defeats the focus-scroll fix
+// and makes clicking a tab/arrow jump the page to the top of the slider. Transform is cleared in
+// `.is-revealed` below; keeping will-change off ensures the radios anchor to the viewport.
+.has-reveal .apartments {
+  .section-header,
+  .apartments__slider {
+    opacity: 0;
+    transform: translateY(var(--space-lg));
+    transition:
+      opacity var(--motion-duration) var(--motion-ease),
+      transform var(--motion-duration) var(--motion-ease);
+  }
+
+  .apartments__slider {
+    transition-delay: var(--motion-duration-fast);
+  }
+}
+
+.has-reveal .apartments.is-revealed {
+  // The shared `.reveal` utility leaves `will-change: transform` on the section even after it has
+  // revealed, which keeps the section a containing block for its `position: fixed` radios. Clear it
+  // here so the radios anchor to the viewport — otherwise focusing one (on tab/arrow click) jumps
+  // the page to the top of the section.
+  will-change: auto;
+
+  .section-header,
+  .apartments__slider {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apartments__slide,
+  .apartments__tab-dot {
+    transition: none !important;
+  }
+
+  .has-reveal .apartments {
+    .section-header,
+    .apartments__slider {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
