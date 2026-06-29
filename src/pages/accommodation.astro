@@ -1,6 +1,6 @@
 ---
 // accommodation.astro — Accommodation page (TASK-018).
-// Photo slider (AccommodationSlider island) + warm atmospheric [MOCK] description + amenities row + CTA.
+// Photo slider (AccommodationSlider island) + warm atmospheric description + amenities row + CTA.
 // NO per-room/per-unit breakdown — unit selection and pricing are handled by Bentral on /rezervacija.
 // All visible strings come from the i18n dictionary; gallery images from the `gallery` collection.
 // Styling lives in src/styles/blocks/_accommodation.scss.
@@ -40,7 +40,7 @@ const images = await Promise.all(
   })
 );
 
-// Amenities row: icon name is config, the visible label comes from i18n ([MOCK]). TODO: confirm the
+// Amenities row: icon name is config, the visible label comes from i18n. TODO: confirm the
 // final amenity set with the client — placeholders only, no invented facts.
 const amenities = [
   { icon: 'wifi', label: t('accommodation.amenities.wifi') },

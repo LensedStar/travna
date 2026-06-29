@@ -1,0 +1,152 @@
+// blocks/_region-explore.scss — Home "Discover the Dolenjska region" block.
+// Regional locator map beside a bulleted list of nearby attractions.
+// Token-only — no raw hex / magic numbers.
+
+.region-explore {
+  padding-block: var(--space-3xl);
+  // Clip the over-sized map so its bleed never triggers page-level horizontal scroll.
+  overflow: hidden;
+}
+
+.region-explore__inner {
+  // Structural content cap, centred with gutters.
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  // Mobile: simple stack — text, then the contained map below.
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+
+  // From tablet up the text sits over an over-sized, edge-bleeding map.
+  @media (min-width: 48rem) {
+    display: block;
+    position: relative;
+    min-height: 30rem;
+  }
+}
+
+.region-explore__body {
+  // Mobile: normal flow above the map.
+  @media (min-width: 48rem) {
+    position: relative;
+    z-index: 1; // text reads above the map's faded left edge
+    max-width: 50%;
+    min-height: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.region-explore__map {
+  // Mobile: contained graphic on the section background (set by the img below).
+  @media (min-width: 48rem) {
+    // Smaller graphic, anchored to the right of the section and vertically centred.
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: 0;
+    transform: translate(10%, -50%);
+    width: 65%;
+    z-index: 0;
+    overflow: hidden;
+    // Vignette focused on the green region; fades the edges into the background
+    // and lets the left edge sit faintly under the text. (Mask uses alpha only;
+    // the colour is irrelevant.)
+    -webkit-mask-image: radial-gradient(ellipse 88% 92% at 60% 58%, var(--color-text) 42%, transparent 82%);
+            mask-image: radial-gradient(ellipse 88% 92% at 60% 58%, var(--color-text) 42%, transparent 82%);
+  }
+}
+
+.region-explore__map-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.region-explore__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-block: var(--space-lg);
+}
+
+.region-explore__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  color: var(--color-text);
+}
+
+.region-explore__icon {
+  flex-shrink: 0;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-forest);
+  // Nudge the glyph to the cap-height of the first text line.
+  margin-block-start: calc(var(--space-xs) / 2);
+}
+
+.region-explore__item-text {
+  line-height: var(--leading-normal);
+}
+
+// --- Staggered reveal — enhances the section-level `.reveal` entrance ---
+// Once the block scrolls into view, the heading + bullets slide up in a gentle
+// cascade and the map fades in just after. Gated by `.has-reveal` so content is
+// always visible without JS; animates only opacity/transform, timing/easing from
+// --motion-* tokens. prefers-reduced-motion forces the static, transition-free state.
+.has-reveal .region-explore {
+  .section-header,
+  .region-explore__item,
+  .region-explore__map {
+    transition:
+      opacity var(--motion-duration) var(--motion-ease),
+      transform var(--motion-duration) var(--motion-ease);
+    will-change: transform, opacity;
+  }
+
+  .section-header,
+  .region-explore__item {
+    opacity: 0;
+    transform: translateY(var(--space-lg));
+  }
+
+  .region-explore__map {
+    opacity: 0;
+  }
+}
+
+.has-reveal .region-explore.is-revealed {
+  .section-header,
+  .region-explore__item {
+    opacity: 1;
+    transform: none;
+  }
+
+  // Bullets cascade in one after another.
+  @for $i from 1 through 6 {
+    .region-explore__item:nth-child(#{$i}) {
+      transition-delay: calc(var(--motion-duration-fast) * #{$i * 0.4});
+    }
+  }
+
+  // Map settles in once the text has begun appearing.
+  .region-explore__map {
+    opacity: 1;
+    transition-delay: var(--motion-duration);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-reveal .region-explore .section-header,
+  .has-reveal .region-explore .region-explore__item,
+  .has-reveal .region-explore .region-explore__map {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

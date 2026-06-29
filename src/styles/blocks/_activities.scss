@@ -32,7 +32,7 @@
   background-color: var(--color-bg);
 }
 
-// [MOCK] image — fog-tinted fallback behind the (placeholder) photo so the card reads without a real
+// image — fog-tinted fallback behind the (placeholder) photo so the card reads without a real
 // asset yet. aspect-ratio reserves a constant frame so swapping/loading photos causes no layout shift.
 .activities__image {
   display: block;

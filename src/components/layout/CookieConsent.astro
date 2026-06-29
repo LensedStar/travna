@@ -10,14 +10,14 @@
 //   • Accept → decision persisted in localStorage, GA4 initializes; Decline → persisted, GA stays off.
 //   • A prior decision is respected on return visits (granted = auto-load, denied = stay off, no banner).
 //
-// The measurement ID is a [MOCK] placeholder via the PUBLIC_GA_MEASUREMENT_ID env var (no real secret
+// The measurement ID is a placeholder via the PUBLIC_GA_MEASUREMENT_ID env var (no real secret
 // committed). Ads prep: Meta Pixel / conversion tags load from the SAME consent-gated function later.
 import { useTranslations, defaultLocale } from '../../i18n';
 import Button from '../ui/Button.astro';
 
 const t = useTranslations(defaultLocale);
 
-// [MOCK] GA4 measurement ID. TODO: Webline sets the real value via the PUBLIC_GA_MEASUREMENT_ID env var
+// GA4 measurement ID. TODO: Webline sets the real value via the PUBLIC_GA_MEASUREMENT_ID env var
 // at launch (env/placeholder — never committed as a real secret).
 const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? 'GA_MEASUREMENT_ID';
 const storageKey = 'dnt-consent';
@@ -50,7 +50,7 @@ const storageKey = 'dnt-consent';
       gtag('js', new Date());
       gtag('config', gaId, { anonymize_ip: true });
       // The official gtag.js library is injected only when a real measurement ID is configured.
-      // With the [MOCK] 'GA_MEASUREMENT_ID' placeholder we still initialize the dataLayer/gtag (so the
+      // With the 'GA_MEASUREMENT_ID' placeholder we still initialize the dataLayer/gtag (so the
       // consent -> init flow is live and testable) but skip the network request to avoid a known-bad
       // call to an invalid ID. Once Webline sets PUBLIC_GA_MEASUREMENT_ID, the library loads here.
       if (gaId && gaId !== 'GA_MEASUREMENT_ID') {

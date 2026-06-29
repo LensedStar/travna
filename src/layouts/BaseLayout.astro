@@ -15,7 +15,7 @@ interface Props {
   description: string;
   // Self-referencing canonical. Defaults to the current path resolved against SITE_URL (Astro.site).
   canonicalURL?: string | URL;
-  // [MOCK] OG share image. TODO: replace public/images/og-default.png before launch.
+  // OG share image. TODO: replace public/images/og-default.png before launch.
   ogImage?: string;
   // Adds <meta name="robots" content="noindex, nofollow"> (used by /lp).
   noindex?: boolean;
@@ -27,7 +27,7 @@ const {
   title,
   description,
   canonicalURL = new URL(Astro.url.pathname, Astro.site),
-  ogImage = '/images/og-default.png', // [MOCK] TODO: add the real OG image
+  ogImage = '/images/og-default.png', // TODO: add the real OG image
   noindex = false,
   bare = false,
 } = Astro.props;
@@ -40,24 +40,24 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
 const siteRoot = new URL('/', Astro.site).toString();
 
 // JSON-LD LodgingBusiness/LocalBusiness structured data (TASK-027). Business-level — same on every
-// indexable page. All fields are [MOCK] placeholders sourced from the i18n dictionary where one
-// already exists (brand name, tagline, [MOCK] phone/email/address) — TODO: replace with the client's
+// indexable page. All fields are placeholders sourced from the i18n dictionary where one
+// already exists (brand name, tagline, phone/email/address) — TODO: replace with the client's
 // real lodging data before launch. Emitted only on indexable pages (suppressed for /lp via `noindex`).
 const lodgingSchema = {
   '@context': 'https://schema.org',
   '@type': 'LodgingBusiness',
   name: t('site.name'),
-  description: t('site.tagline'), // [MOCK] TODO
+  description: t('site.tagline'), // TODO
   url: siteRoot,
-  image: ogImageURL, // [MOCK] TODO: real OG/property image
-  telephone: t('footer.contact.phone'), // [MOCK] TODO
-  email: t('footer.contact.email'), // [MOCK] TODO
+  image: ogImageURL, // TODO: real OG/property image
+  telephone: t('footer.contact.phone'), // TODO
+  email: t('footer.contact.email'), // TODO
   address: {
     '@type': 'PostalAddress',
-    streetAddress: t('footer.legal.address'), // [MOCK] TODO
+    streetAddress: t('footer.legal.address'), // TODO
     addressCountry: 'SI', // Slovenia — region stated in the PRD, not invented
   },
-  // [MOCK] TODO: add geo (lat/lng), priceRange, starRating and amenityFeature once the client
+  // TODO: add geo (lat/lng), priceRange, starRating and amenityFeature once the client
   // provides real data — placeholders only here, no invented facts.
 };
 ---
@@ -69,7 +69,7 @@ const lodgingSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- [MOCK] favicon (TODO: real logo mark). A linked icon prevents the browser's automatic
+    <!-- favicon (TODO: real logo mark). A linked icon prevents the browser's automatic
          /favicon.ico request 404ing into the console (Lighthouse Best Practices). -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 

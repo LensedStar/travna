@@ -1,6 +1,6 @@
 {
   "icon": "trees",
-  "label": "[MOCK] Nature all around",
-  "description": "[MOCK] Short value-prop description. TODO: replace with real copy.",
+  "label": "Nature all around",
+  "description": "Short value-prop description.",
   "order": 1
 }

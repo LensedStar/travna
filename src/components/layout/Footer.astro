@@ -1,21 +1,21 @@
 ---
 // Footer.astro — global site footer rendered on EVERY page via BaseLayout (TASK-013).
-// [MOCK] contact block, social links, legal entity, and an embedded Google Map (lazy iframe with
+// contact block, social links, legal entity, and an embedded Google Map (lazy iframe with
 // title) + a short "how to reach us" note. All visible text comes from the i18n dictionary — no
 // hardcoded strings in the component.
 import { useTranslations, defaultLocale } from '../../i18n';
 
 const t = useTranslations(defaultLocale);
 
-// [MOCK] config values (non-visible hrefs / embed src — not UI copy).
+// config values (non-visible hrefs / embed src — not UI copy).
 // TODO(Webline): replace with the real phone, email, social profiles and the exact Google Maps
 // embed (pin at the property). The map src below points at the region stated in the PRD; swap it
 // for the precise property-pin embed at launch.
-const telHref = 'tel:+3860000000'; // [MOCK] TODO
-const mailHref = 'mailto:info@example.com'; // [MOCK] TODO
-const instagramUrl = 'https://instagram.com/'; // [MOCK] TODO
-const facebookUrl = 'https://facebook.com/'; // [MOCK] TODO
-const mapEmbedUrl = 'https://maps.google.com/maps?q=Travna%20Gora%2C%20Slovenia&output=embed'; // [MOCK] TODO: exact property pin
+const telHref = 'tel:+3860000000'; // TODO
+const mailHref = 'mailto:info@example.com'; // TODO
+const instagramUrl = 'https://instagram.com/'; // TODO
+const facebookUrl = 'https://facebook.com/'; // TODO
+const mapEmbedUrl = 'https://maps.google.com/maps?q=Travna%20Gora%2C%20Slovenia&output=embed'; // TODO: exact property pin
 ---
 
 <footer class="site-footer">

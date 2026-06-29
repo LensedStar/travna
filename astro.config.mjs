@@ -4,7 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 // TODO: replace SITE_URL placeholder with the real domain at launch (set by Webline).
-const SITE_URL = 'https://example.com'; // [MOCK]
+const SITE_URL = 'https://example.com';
 
 // https://astro.build/config
 export default defineConfig({

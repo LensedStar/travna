@@ -1,6 +1,6 @@
 // blocks/_accommodation-preview.scss — Home accommodation teaser (TASK-016).
 // Two-column media + copy that stacks on mobile (no horizontal overflow). Token-only — no raw
-// hex / magic numbers. The media is a [MOCK] placeholder surface (real photo added in TASK-030).
+// hex / magic numbers. The media is a placeholder surface (real photo added in TASK-030).
 
 .accommodation-preview {
   padding-block: var(--space-3xl);
@@ -18,13 +18,13 @@
 }
 
 // Decorative full-cover media band — kept a CSS background (cover) rather than an <img>/<Image>.
-// Backed by an optimized [MOCK] WebP; TODO(Webline): swap for the real interior / wood / forest photo.
+// Backed by an optimized WebP; TODO(Webline): swap for the real interior / wood / forest photo.
 .accommodation-preview__media {
   min-height: calc(var(--space-3xl) * 3.5);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   background-color: var(--color-mist);
-  background-image: url('/images/accommodation-preview.[MOCK].webp');
+  background-image: url('/images/accommodation-preview.webp');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

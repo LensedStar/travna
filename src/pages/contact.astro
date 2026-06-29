@@ -1,6 +1,6 @@
 ---
 // contact.astro — Contact page (TASK-023).
-// Inquiry form (ContactForm island, Netlify Forms) + [MOCK] contact details (phone, email, social).
+// Inquiry form (ContactForm island, Netlify Forms) + contact details (phone, email, social).
 // The Google Map is rendered globally in the footer (BaseLayout) on every page, so it is present here
 // too. All visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_contact.scss.
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -27,12 +27,12 @@ const formStrings = {
   honeypot: t('contact.form.honeypot'),
 };
 
-// [MOCK] config values (non-visible hrefs — not UI copy). Mirror the footer's placeholders.
+// config values (non-visible hrefs — not UI copy). Mirror the footer's placeholders.
 // TODO(Webline): replace with the real phone, email and social profiles at launch.
-const telHref = 'tel:+3860000000'; // [MOCK] TODO
-const mailHref = 'mailto:info@example.com'; // [MOCK] TODO
-const instagramUrl = 'https://instagram.com/'; // [MOCK] TODO
-const facebookUrl = 'https://facebook.com/'; // [MOCK] TODO
+const telHref = 'tel:+3860000000'; // TODO
+const mailHref = 'mailto:info@example.com'; // TODO
+const instagramUrl = 'https://instagram.com/'; // TODO
+const facebookUrl = 'https://facebook.com/'; // TODO
 ---
 
 <BaseLayout title={pageTitle} description={t('contact.intro')}>

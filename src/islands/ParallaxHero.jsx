@@ -6,7 +6,7 @@
 //
 // All visible copy comes from the i18n dictionary and is passed in as props by the .astro caller
 // (no hardcoded strings here). CTA routes are navigation targets, like the Header nav links.
-// Layer background images are [MOCK] placeholders styled in src/styles/blocks/_hero.scss.
+// Layer background images are placeholders styled in src/styles/blocks/_hero.scss.
 
 import { useEffect, useRef } from 'react';
 
@@ -46,7 +46,7 @@ export default function ParallaxHero({ title, subtitle, ctaPrimaryLabel, ctaSeco
   return (
     <section className="hero">
       <div className="hero__layers" aria-hidden="true">
-        {/* TODO: replace [MOCK] hero layer images (background-image in _hero.scss) with real art. */}
+        {/* TODO: replace hero layer images (background-image in _hero.scss) with real art. */}
         <div className="hero__layer hero__layer--mountains" ref={mountainsRef}></div>
         <div className="hero__layer hero__layer--fog" ref={fogRef}></div>
       </div>

@@ -16,7 +16,7 @@ const pageTitle = `${t('menu.title')} — ${t('site.name')}`;
 // The menu is a single structured document (sections + items); item data comes from the collection.
 const [menu] = await getCollection('menu');
 const sections = menu.data.sections;
-// [MOCK] scanned-menu PDF served from /public/menu — TODO: Webline/client replaces with the real scan.
+// scanned-menu PDF served from /public/menu — TODO: Webline/client replaces with the real scan.
 const scanPdf = menu.data.scanPdf;
 ---
 

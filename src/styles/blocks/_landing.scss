@@ -7,16 +7,16 @@
   flex-direction: column;
 }
 
-// --- Hero: [MOCK] offer headline + supporting line + primary CTA ---
+// --- Hero: offer headline + supporting line + primary CTA ---
 .landing__hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   padding: var(--space-3xl) var(--space-lg);
-  // Fallback nature tone behind the [MOCK] hero image so light text stays readable if art is missing.
+  // Fallback nature tone behind the hero image so light text stays readable if art is missing.
   background-color: var(--color-forest);
-  // TODO: replace this [MOCK] placeholder image with real warm offer photography.
-  background-image: url('/images/lp-hero.[MOCK].webp');
+  // TODO: replace this placeholder image with real warm offer photography.
+  background-image: url('/images/lp-hero.webp');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

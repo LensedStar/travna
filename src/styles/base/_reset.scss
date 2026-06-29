@@ -12,6 +12,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  font-size: 120%; // +20% base size for easy reading (scales all rem-based type tokens)
 }
 
 html,

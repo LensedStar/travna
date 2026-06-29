@@ -1,28 +1,28 @@
 {
-  "scanPdf": "/menu/menu-scan.[MOCK].pdf",
+  "scanPdf": "/menu/menu-scan.pdf",
   "sections": [
     {
       "id": "starters",
-      "title": "[MOCK] Starters",
+      "title": "Starters",
       "items": [
-        { "name": "[MOCK] Starter item one", "description": "[MOCK] Optional description. TODO.", "price": "[MOCK] €0,00" },
-        { "name": "[MOCK] Starter item two", "price": "[MOCK] €0,00" }
+        { "name": "Starter item one", "description": "Optional description.", "price": "€0,00" },
+        { "name": "Starter item two", "price": "€0,00" }
       ]
     },
     {
       "id": "mains",
-      "title": "[MOCK] Mains",
+      "title": "Mains",
       "items": [
-        { "name": "[MOCK] Main item one", "description": "[MOCK] Optional description. TODO.", "price": "[MOCK] €0,00" },
-        { "name": "[MOCK] Main item two", "price": "[MOCK] €0,00" }
+        { "name": "Main item one", "description": "Optional description.", "price": "€0,00" },
+        { "name": "Main item two", "price": "€0,00" }
       ]
     },
     {
       "id": "drinks",
-      "title": "[MOCK] Drinks",
+      "title": "Drinks",
       "items": [
-        { "name": "[MOCK] Drink item one", "price": "[MOCK] €0,00" },
-        { "name": "[MOCK] Drink item two", "price": "[MOCK] €0,00" }
+        { "name": "Drink item one", "price": "€0,00" },
+        { "name": "Drink item two", "price": "€0,00" }
       ]
     }
   ]

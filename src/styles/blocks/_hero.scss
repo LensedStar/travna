@@ -1,6 +1,6 @@
 // blocks/_hero.scss — Home hero with atmospheric parallax (TASK-014).
 // Token-only: no raw hex / magic numbers. Layers animate via transform only (set inline by the
-// ParallaxHero island); this block holds layout, the warm scrim, and [MOCK] layer images.
+// ParallaxHero island); this block holds layout, the warm scrim, and layer images.
 // prefers-reduced-motion is honored both here and in the island (parallax disabled).
 
 .hero {
@@ -13,7 +13,7 @@
   // Structural full-bleed height (like the structural max-widths used elsewhere).
   min-height: 80vh;
   padding: var(--space-3xl) var(--space-lg);
-  // Fallback nature tone behind the [MOCK] layer images so text stays readable if art is missing.
+  // Fallback nature tone behind the layer images so text stays readable if art is missing.
   background-color: var(--color-forest);
   text-align: center;
 }
@@ -36,14 +36,14 @@
   will-change: transform;
 }
 
-// TODO: replace these [MOCK] placeholder images with real mountain + fog art.
+// TODO: replace fog art with real fog overlay.
 .hero__layer--mountains {
-  background-image: url('/images/hero-mountains.[MOCK].webp');
+  background-image: url('/images/hero.jpg');
   background-color: var(--color-mist);
 }
 
 .hero__layer--fog {
-  background-image: url('/images/hero-fog.[MOCK].png');
+  background-image: url('/images/hero-fog.png');
 }
 
 // Warm scrim improves contrast of light text over the photography (token-driven, no raw rgba).
@@ -52,7 +52,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-color: color-mix(in srgb, var(--color-text) 45%, transparent);
+  background-color: color-mix(in srgb, var(--color-text) 12%, transparent);
 }
 
 .hero__content {

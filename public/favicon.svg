@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- [MOCK] placeholder favicon — TODO: replace with the real Dom na Travni gori logo mark at launch.
+<!-- placeholder favicon — TODO: replace with the real Dom na Travni gori logo mark at launch.
      Colors mirror the brand tokens (forest / cream / wood) from PRD §8.2; this is a static asset, not a
      style block. A linked icon stops the browser auto-requesting /favicon.ico (which would 404 and log a
      console error → Lighthouse Best Practices). -->

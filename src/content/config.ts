@@ -1,5 +1,5 @@
 // Content collections — structured, schema-typed data so items can be added/removed
-// WITHOUT editing page layout (PRD §6). Phase 1 is EN-only; entries are [MOCK].
+// WITHOUT editing page layout (PRD §6). Phase 1 is EN-only; entries are placeholders.
 //
 // i18n-ready: a `locale` field / per-locale entries can be introduced later without
 // changing these schemas' shape — add the field + duplicate entries per locale.
@@ -14,9 +14,9 @@ const activities = defineCollection({
   type: 'data',
   schema: ({ image }) =>
     z.object({
-      title: z.string(), // [MOCK] — TODO: real title
-      image: image(), // [MOCK] source under src/assets/images — optimized to WebP by Astro <Image>
-      description: z.string(), // [MOCK] — TODO: 1–2 sentence description (no invented facts)
+      title: z.string(), // TODO: real title
+      image: image(), // source under src/assets/images — optimized to WebP by Astro <Image>
+      description: z.string(), // TODO: 1–2 sentence description (no invented facts)
       order: z.number(), // display order
     }),
 });
@@ -25,9 +25,9 @@ const activities = defineCollection({
 const valueProps = defineCollection({
   type: 'data',
   schema: z.object({
-    icon: z.string(), // [MOCK] — line-style icon name (Lucide/Phosphor), TODO
-    label: z.string(), // [MOCK] — TODO
-    description: z.string().optional(), // [MOCK] — TODO
+    icon: z.string(), // line-style icon name (Lucide/Phosphor), TODO
+    label: z.string(), // TODO
+    description: z.string().optional(), // TODO
     order: z.number(), // display order
   }),
 });
@@ -37,8 +37,8 @@ const gallery = defineCollection({
   type: 'data',
   schema: ({ image }) =>
     z.object({
-      src: image(), // [MOCK] source under src/assets/images — optimized to WebP via getImage()
-      alt: z.string(), // [MOCK] — descriptive alt text, TODO
+      src: image(), // source under src/assets/images — optimized to WebP via getImage()
+      alt: z.string(), // descriptive alt text, TODO
       order: z.number(), // slide order
     }),
 });
@@ -47,16 +47,16 @@ const gallery = defineCollection({
 const menu = defineCollection({
   type: 'data',
   schema: z.object({
-    scanPdf: z.string(), // [MOCK] — path to scanned menu PDF under /public/menu, TODO
+    scanPdf: z.string(), // path to scanned menu PDF under /public/menu, TODO
     sections: z.array(
       z.object({
         id: z.string(),
-        title: z.string(), // [MOCK] — TODO
+        title: z.string(), // TODO
         items: z.array(
           z.object({
-            name: z.string(), // [MOCK] — TODO
-            description: z.string().optional(), // [MOCK] — TODO
-            price: z.string().optional(), // [MOCK] — TODO (string to keep currency/format flexible)
+            name: z.string(), // TODO
+            description: z.string().optional(), // TODO
+            price: z.string().optional(), // TODO (string to keep currency/format flexible)
           })
         ),
       })

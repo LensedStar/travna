@@ -7,6 +7,7 @@ import ParallaxHero from '../islands/ParallaxHero.jsx';
 import ValueProps from '../components/sections/ValueProps.astro';
 import AccommodationPreview from '../components/sections/AccommodationPreview.astro';
 import ActivitiesPreview from '../components/sections/ActivitiesPreview.astro';
+import RegionExplore from '../components/sections/RegionExplore.astro';
 import BookDirect from '../components/sections/BookDirect.astro';
 import { useTranslations, defaultLocale } from '../i18n';
 
@@ -21,6 +22,7 @@ const t = useTranslations(defaultLocale);
     ctaPrimaryLabel={t('cta.checkAvailability')}
     ctaSecondaryLabel={t('cta.exploreArea')}
   />
+  <RegionExplore />
   <ValueProps />
   <AccommodationPreview />
   <ActivitiesPreview />
