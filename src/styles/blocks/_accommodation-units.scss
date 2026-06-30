@@ -1,0 +1,484 @@
+// blocks/_accommodation-units.scss — Apartments page "where you'll stay" block.
+// Two groups — standalone HOUSES and ROOMS in the main house — each rendered through the shared
+// .house-showcase island (gallery + info panel). Each group leads with a title + intro, then the
+// showcase. Token-only.
+
+.units {
+  padding-block: var(--space-3xl);
+}
+
+// Each group reveals independently (houses, then rooms) as it scrolls into view. The shared
+// `.reveal` utility leaves `will-change: transform` on the element even after it has revealed, which
+// makes the group a containing block (and stacking context) for the showcase's `position: fixed`
+// lightbox — trapping the overlay inside the group. Clear it so the lightbox anchors to the viewport
+// and covers the whole page (same fix as the home-page gallery).
+.has-reveal .units__group.reveal {
+  will-change: auto;
+}
+
+.units__inner {
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+// Space between the two groups (houses / rooms).
+.units__group + .units__group {
+  margin-block-start: var(--space-3xl);
+}
+
+// --- Group heading (icon + title + intro) ---
+.units__group-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-block-end: var(--space-xl);
+}
+
+.units__group-title {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.units__group-intro {
+  max-width: 48rem;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+}
+
+// Standalone-houses showcase: a two-column row — a large multi-image gallery on the left and a
+// white info panel on the right that holds the house-type selector, copy and capacity chips.
+.house-showcase__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.8fr);
+  gap: var(--space-lg);
+  align-items: stretch;
+}
+
+.house-showcase__media {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+// Mirrored group (rooms in the main house): swap the gallery to the right and the info panel to the
+// left so the two showcases alternate down the page. DOM order is unchanged — only the grid placement
+// flips. Reset back to a single stacked column on narrow screens (handled in the 64rem query below).
+.units__group--mirror .house-showcase__body {
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.35fr);
+}
+
+.units__group--mirror .house-showcase__media {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.units__group--mirror .house-showcase__panel {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.house-showcase__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.house-showcase__image-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.house-showcase__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+// Zoom affordance — a small badge so users see the photo opens larger on click.
+.house-showcase__zoom-hint {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  color: var(--color-bg);
+  backdrop-filter: blur(0.25rem);
+  -webkit-backdrop-filter: blur(0.25rem);
+  transition: background-color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.house-showcase__image-button:hover .house-showcase__zoom-hint {
+  background-color: color-mix(in srgb, var(--color-text) 72%, transparent);
+}
+
+.house-showcase__zoom-hint-icon {
+  width: var(--space-sm);
+  height: var(--space-sm);
+}
+
+// Small circular forest-tinted arrows — matches the apartment slider on the home page.
+.house-showcase__control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-forest);
+  background-color: color-mix(in srgb, var(--color-forest) 12%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-forest) 24%, transparent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color var(--motion-duration) var(--motion-ease);
+}
+
+.house-showcase__control--prev {
+  left: var(--space-sm);
+}
+
+.house-showcase__control--next {
+  right: var(--space-sm);
+}
+
+.house-showcase__control-icon {
+  width: var(--space-md);
+  height: var(--space-md);
+}
+
+@media (hover: hover) {
+  .house-showcase__control:hover {
+    background-color: color-mix(in srgb, var(--color-forest) 24%, var(--color-bg));
+  }
+}
+
+// Image index badge, lower-right of the frame.
+.house-showcase__counter {
+  position: absolute;
+  right: var(--space-sm);
+  bottom: var(--space-sm);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-bg);
+}
+
+// Wraps to as many rows as needed, so the gallery scales to any number of images.
+.house-showcase__thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+  gap: var(--space-sm);
+}
+
+.house-showcase__thumb {
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease),
+    transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.house-showcase__thumb:hover {
+  opacity: 1;
+}
+
+.house-showcase__thumb--active {
+  opacity: 1;
+  outline: 2px solid var(--color-forest);
+  outline-offset: 2px;
+}
+
+.house-showcase__thumb-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.house-showcase__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  justify-content: flex-start;
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+// Booking CTA pinned to the bottom of the panel.
+.house-showcase__cta {
+  margin-block-start: auto;
+}
+
+// House-type selector — segmented pills inside the info panel.
+.house-showcase__switcher {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding: var(--space-xs);
+  border-radius: 999px;
+  background-color: var(--color-surface-warm);
+}
+
+// Sliding highlight that animates between options (positioned in JS, see HouseShowcase.jsx).
+.house-showcase__switch-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  border-radius: 999px;
+  background-color: var(--color-forest);
+  box-shadow: var(--shadow-soft);
+  pointer-events: none;
+}
+
+.house-showcase__switch-indicator--ready {
+  transition: transform var(--motion-duration) var(--motion-ease),
+    width var(--motion-duration) var(--motion-ease),
+    height var(--motion-duration) var(--motion-ease);
+}
+
+.house-showcase__switch {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  padding: var(--space-xs) var(--space-md);
+  border: 0;
+  border-radius: 999px;
+  background-color: transparent;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  cursor: pointer;
+  transition: color var(--motion-duration) var(--motion-ease);
+}
+
+.house-showcase__switch:hover {
+  color: var(--color-text);
+}
+
+.house-showcase__switch--active,
+.house-showcase__switch--active:hover {
+  color: var(--color-bg);
+}
+
+.house-showcase__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.house-showcase__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+.house-showcase__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
+}
+
+.house-showcase__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.house-showcase__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-warm);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text);
+}
+
+.house-showcase__tag-icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-forest);
+}
+
+.house-showcase__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  background-color: color-mix(in srgb, var(--color-text) 82%, transparent);
+}
+
+// Close + nav buttons share a translucent style over the dark backdrop (same as the home gallery).
+.house-showcase__lightbox-close,
+.house-showcase__lightbox-nav {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-bg);
+  background: color-mix(in srgb, var(--color-bg) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-bg) 22%, transparent);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-ease);
+}
+
+@media (hover: hover) {
+  .house-showcase__lightbox-close:hover,
+  .house-showcase__lightbox-nav:hover {
+    background: color-mix(in srgb, var(--color-bg) 24%, transparent);
+  }
+}
+
+.house-showcase__lightbox-close {
+  top: var(--space-md);
+  right: var(--space-md);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.house-showcase__lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.house-showcase__lightbox-nav--prev {
+  left: var(--space-md);
+}
+
+.house-showcase__lightbox-nav--next {
+  right: var(--space-md);
+}
+
+.house-showcase__lightbox-nav-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+}
+
+.house-showcase__lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: min(90vw, 70rem);
+  max-height: 90vh;
+  margin: 0;
+}
+
+.house-showcase__lightbox-image {
+  display: block;
+  max-width: min(90vw, 70rem);
+  max-height: calc(90vh - 4rem);
+}
+
+.house-showcase__lightbox-caption {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-bg);
+  text-align: center;
+}
+
+@media (max-width: 64rem) {
+  .house-showcase__body,
+  .units__group--mirror .house-showcase__body {
+    grid-template-columns: 1fr;
+  }
+
+  .house-showcase__panel {
+    justify-content: flex-start;
+  }
+
+  // Stack back to gallery-then-panel like the non-mirrored group.
+  .units__group--mirror .house-showcase__media {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .units__group--mirror .house-showcase__panel {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 40rem) {
+  .units__inner {
+    padding-inline: var(--space-md);
+  }
+
+  .house-showcase__lightbox {
+    padding: var(--space-md);
+  }
+
+  .house-showcase__lightbox-close {
+    top: var(--space-md);
+    right: var(--space-md);
+  }
+
+  .house-showcase__control--prev {
+    left: var(--space-sm);
+  }
+
+  .house-showcase__control--next {
+    right: var(--space-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .house-showcase__control,
+  .house-showcase__lightbox-close,
+  .house-showcase__lightbox-nav,
+  .house-showcase__zoom-hint,
+  .house-showcase__switch,
+  .house-showcase__switch-indicator--ready {
+    transition: none;
+  }
+}

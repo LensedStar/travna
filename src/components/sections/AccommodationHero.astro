@@ -1,0 +1,70 @@
+---
+// AccommodationHero.astro — Apartments page intro/hero.
+// Circular house photo (with a soft offset ring + scattered botanical leaves + a "nature" badge)
+// beside an editorial intro: branch-flourished eyebrow, serif title, a small tree divider, two
+// paragraphs, and a quick-facts card (location · elevation · access) with vertical dividers.
+// Pure .astro, zero client JS. Visible strings come from the i18n dictionary; styling lives in
+// src/styles/blocks/_accommodation-hero.scss. Copy + photo are MOCK placeholders (see en.ts) —
+// TODO(Webline): swap for real house photo & copy.
+import Icon from '../ui/Icon.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+---
+<section class="acc-hero reveal">
+  <div class="acc-hero__inner">
+    <div class="acc-hero__media-col">
+      <div class="acc-hero__ring" aria-hidden="true"></div>
+
+      <div class="acc-hero__media">
+        <!-- MOCK placeholder photo — TODO(Webline): swap for a real photo of the house. -->
+        <img
+          class="acc-hero__photo"
+          src="/images/ttravna now.webp"
+          alt={t('accommodation.hero.imageAlt')}
+          width="1200"
+          height="800"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <!-- Scattered botanical leaves — purely decorative atmosphere. -->
+      <Icon name="leaf" class="acc-hero__leaf acc-hero__leaf--tl" />
+      <Icon name="leaf" class="acc-hero__leaf acc-hero__leaf--br" />
+      <Icon name="leaf" class="acc-hero__leaf acc-hero__leaf--br2" />
+
+      <span class="acc-hero__badge">
+        <Icon name="trees" class="acc-hero__badge-icon" />
+        <span class="acc-hero__badge-title">{t('accommodation.hero.badge.title')}</span>
+        <span class="acc-hero__badge-sub">{t('accommodation.hero.badge.sub')}</span>
+      </span>
+    </div>
+
+    <div class="acc-hero__body">
+      <h1 class="acc-hero__title">{t('accommodation.hero.title')}</h1>
+
+      <p class="acc-hero__lead">{t('accommodation.hero.lead')}</p>
+      <p class="acc-hero__text">{t('accommodation.hero.body')}</p>
+
+      <ul class="acc-hero__pills" role="list">
+        <li class="acc-hero__pill">
+          <Icon name="paw-print" class="acc-hero__pill-icon" />
+          <span>{t('accommodation.hero.pill.pets')}</span>
+        </li>
+        <li class="acc-hero__pill">
+          <Icon name="coffee" class="acc-hero__pill-icon" />
+          <span>{t('accommodation.hero.pill.breakfast')}</span>
+        </li>
+        <li class="acc-hero__pill">
+          <Icon name="parking" class="acc-hero__pill-icon" />
+          <span>{t('accommodation.hero.pill.parking')}</span>
+        </li>
+        <li class="acc-hero__pill">
+          <Icon name="wifi" class="acc-hero__pill-icon" />
+          <span>{t('accommodation.hero.pill.wifi')}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

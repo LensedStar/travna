@@ -1,0 +1,163 @@
+// blocks/_accommodation-bonuses.scss — Apartments page "good to know" / bonuses block.
+// Warm-tinted band: centred header + a Booking.com score badge (8.8) above a responsive grid of
+// bonus cards. The pet-friendly card is highlighted (forest-tinted) as the lead bonus.
+// Token-only — no raw hex / magic numbers.
+
+.bonuses {
+  padding-block: var(--space-2xl);
+  background-color: var(--color-surface-warm);
+}
+
+.bonuses__inner {
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.bonuses .section-header {
+  margin-bottom: var(--space-lg);
+}
+
+.bonuses .section-header__subtitle {
+  max-width: 44rem;
+}
+
+// --- Booking.com score badge ---
+.bonuses__score {
+  // Centred fixed-width badge (fit-content) sitting above the bonus grid.
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: fit-content;
+  margin-inline: auto;
+  margin-block-end: var(--space-xl);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.bonuses__score-value {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  color: var(--color-forest);
+}
+
+.bonuses__score-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  text-align: start;
+}
+
+.bonuses__score-scale {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+.bonuses__score-logo {
+  display: block;
+  height: var(--space-md);
+  width: auto;
+}
+
+// --- Bonus cards grid ---
+.bonuses__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bonuses__card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 4.75rem;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  transition: transform var(--motion-duration-fast) var(--motion-ease),
+    box-shadow var(--motion-duration-fast) var(--motion-ease);
+}
+
+.bonuses__card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+
+// Lead bonus (pet-friendly) gets a forest-tinted surface + accent border.
+.bonuses__card--featured {
+  background-color: color-mix(in srgb, var(--color-forest) 8%, var(--color-surface));
+  box-shadow: var(--shadow-card);
+}
+
+.bonuses__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: calc(var(--space-xl) + var(--space-xs));
+  height: calc(var(--space-xl) + var(--space-xs));
+  border-radius: var(--radius-md);
+  background-color: color-mix(in srgb, var(--color-forest) 12%, transparent);
+  color: var(--color-forest);
+}
+
+.bonuses__icon {
+  width: var(--space-md);
+  height: var(--space-md);
+}
+
+.bonuses__card-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+@media (max-width: 64rem) {
+  .bonuses__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .bonuses {
+    padding-block: var(--space-xl);
+  }
+
+  .bonuses__inner {
+    padding-inline: var(--space-md);
+  }
+
+  .bonuses__score {
+    gap: var(--space-sm);
+    margin-block-end: var(--space-lg);
+    padding-inline: var(--space-sm);
+  }
+
+  .bonuses__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bonuses__card {
+    transition: none;
+  }
+
+  .bonuses__card:hover {
+    transform: none;
+  }
+}

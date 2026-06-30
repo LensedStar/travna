@@ -1,15 +1,24 @@
-// blocks/_book-direct.scss — Home "book direct" value strip (TASK-016).
-// Warm wood-toned band with 3 benefits + primary CTA. Reflows to one column on mobile (no
-// horizontal overflow). Token-only — no raw hex / magic numbers.
+// blocks/_book-direct.scss — Home "book direct" value section (TASK-016).
+// Warm cream band (matches the heritage section's surface): house badge + eyebrow/title + leaf
+// divider + intro, 3 benefits with soft separators, terracotta CTA. Cocoa-brown text +
+// cocoa-tinted accents for AA contrast on the warm surface; the primary CTA keeps its terracotta.
+// Token-only — no raw hex / magic numbers. Reflows to a single column on mobile.
 
 .book-direct {
   padding-block: var(--space-3xl);
-  background-color: var(--color-forest);
+  // Ease into the warm band: start at the page base color (matching the section above)
+  // and settle into the warm surface over the top padding, so there's no hard seam.
+  background-color: var(--color-surface-warm);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-bg) 0,
+    var(--color-surface-warm) var(--space-3xl)
+  );
 }
 
 .book-direct__inner {
   // Structural content cap, centred with gutters.
-  max-width: 75rem;
+  max-width: 60rem;
   margin-inline: auto;
   padding-inline: var(--space-lg);
   display: flex;
@@ -18,26 +27,65 @@
   text-align: center;
 }
 
-// On the forest band, the section heading reads in cream for AA contrast.
-.book-direct .section-header__title {
-  color: var(--color-bg);
+// Header primitive override on the green band: cream title, tighter gap.
+.book-direct__header {
+  margin-bottom: var(--space-md);
 }
 
-.book-direct__benefits {
+.book-direct .section-header__title {
+  color: var(--color-text);
+}
+
+// Leaf divider: two thin rules flanking a small motif.
+.book-direct__divider {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-xl);
-  list-style: none;
-  margin: 0 0 var(--space-xl);
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  color: color-mix(in srgb, var(--color-text) 45%, transparent);
+}
+
+.book-direct__divider-line {
+  width: var(--space-2xl);
+  height: 1px;
+  background-color: currentColor;
+}
+
+.book-direct__divider-motif {
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-text);
+}
+
+.book-direct__intro {
+  max-width: 38rem;
+  margin: 0 0 var(--space-2xl);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+// Three benefits with soft vertical separators between columns.
+.book-direct__benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  margin: 0 0 var(--space-2xl);
   padding: 0;
+  list-style: none;
 }
 
 .book-direct__benefit {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: var(--space-sm);
-  color: var(--color-bg);
+  padding-inline: var(--space-lg);
+}
+
+.book-direct__benefit + .book-direct__benefit {
+  border-inline-start: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
 }
 
 .book-direct__icon-wrap {
@@ -46,9 +94,9 @@
   justify-content: center;
   width: var(--space-xl);
   height: var(--space-xl);
-  border-radius: var(--radius-lg);
-  background-color: color-mix(in srgb, var(--color-bg) 18%, transparent);
-  color: var(--color-bg);
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--color-forest) 12%, transparent);
+  color: var(--color-forest);
 }
 
 .book-direct__icon {
@@ -56,9 +104,36 @@
   height: var(--space-md);
 }
 
-.book-direct__benefit-label {
+.book-direct__benefit-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.book-direct__benefit-desc {
+  max-width: 22ch;
+  margin: 0;
   font-family: var(--font-body);
-  font-size: var(--text-body);
-  font-weight: var(--weight-medium);
-  color: var(--color-bg);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+}
+
+// --- Mobile reflow ---
+@media (max-width: 48rem) {
+  .book-direct__benefits {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .book-direct__benefit {
+    padding-inline: 0;
+  }
+
+  .book-direct__benefit + .book-direct__benefit {
+    border-inline-start: 0;
+  }
 }

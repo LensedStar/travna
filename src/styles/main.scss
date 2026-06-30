@@ -28,6 +28,11 @@
 @use 'blocks/book-direct'; // Home book-direct value strip (TASK-016)
 @use 'blocks/booking'; // Booking page + isolated BentralEmbed wrapper (TASK-024)
 @use 'blocks/accommodation'; // Accommodation photo slider island (TASK-017)
+@use 'blocks/accommodation-hero'; // Apartments page intro/hero (photo + copy + quick facts)
+@use 'blocks/accommodation-bonuses'; // Apartments page bonuses + Booking score + pet-friendly
+@use 'blocks/accommodation-units'; // Apartments page houses + rooms photo cards
+@use 'blocks/accommodation-kitchen'; // Apartments page breakfast & homemade kitchen
+@use 'blocks/testimonials'; // Guest reviews block (reusable)
 @use 'blocks/activities'; // Activities / Surroundings page (TASK-019)
 @use 'blocks/menu'; // Menu page online menu (TASK-020)
 @use 'blocks/contact'; // Contact inquiry form island (TASK-022)

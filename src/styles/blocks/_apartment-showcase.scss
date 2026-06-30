@@ -8,12 +8,49 @@
 // Token-only: no raw hex / magic numbers.
 
 .apartments {
+  position: relative;
   padding-block: var(--space-2xl);
+  // Decorative cream backdrop (misty pines + wavy line) pinned to the section base; its top edge
+  // is the same cream as --color-bg, so it melts into the solid colour fill above. The colour
+  // stays as the fallback. TODO(Webline): final artwork may be swapped.
   background-color: var(--color-bg);
+  background-image: url('/images/section-bg-1.png');
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
   overflow: hidden;
+
+  // Soft fade at the top so the warmer cream of the previous section (--color-surface-warm)
+  // melts into this section's base cream over a tall band, instead of meeting it on a hard
+  // horizontal seam where the two slightly different creams butt together.
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    z-index: 0;
+    height: var(--space-3xl);
+    background: linear-gradient(to bottom, var(--color-surface-warm), transparent);
+    pointer-events: none;
+  }
+
+  // Soft fade at the base so the full-bleed artwork melts into the cream of the next section
+  // instead of ending on a hard horizontal seam.
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 0;
+    height: var(--space-3xl);
+    background: linear-gradient(to bottom, transparent, var(--color-bg));
+    pointer-events: none;
+  }
 }
 
 .apartments__inner {
+  position: relative;
+  z-index: 1; // keep the slider above the section's base fade overlay
   max-width: 75rem;
   margin-inline: auto;
   padding-inline: var(--space-lg);
@@ -400,6 +437,17 @@
     outline: 3px solid var(--color-wood);
     outline-offset: 2px;
   }
+}
+
+// Keep the SECTION itself static during the reveal — its full-bleed background artwork must not
+// fade or shift, otherwise the page background shows through behind it. This overrides the shared
+// `.reveal` initial state for this block; only the inner content (header + slider) animates in (see
+// below). Clearing will-change/transform also keeps the `position: fixed` radios anchored to the
+// viewport rather than to a transformed section.
+.has-reveal .apartments.reveal {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
 }
 
 // --- Section reveal (enhances the section-level `.reveal` entrance) ----------

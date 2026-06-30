@@ -18,10 +18,11 @@ export const en = {
   'a11y.closeMenu': 'Close menu',
   'a11y.mapTitle': 'Map to Dom na Travni gori',
   'a11y.primaryNav': 'Primary navigation',
+  'a11y.footerNav': 'Footer navigation',
 
   // --- Header / navigation ---
   'nav.home': 'Home',
-  'nav.accommodation': 'Accommodation',
+  'nav.accommodation': 'Apartments',
   'nav.activities': 'Activities',
   'nav.menu': 'Menu',
   'nav.contact': 'Contact',
@@ -37,7 +38,7 @@ export const en = {
   'cta.checkAvailability': 'Check availability',
   'cta.exploreArea': 'Explore the area',
   'cta.bookNow': 'Book now',
-  'cta.viewAccommodation': 'View accommodation',
+  'cta.viewAccommodation': 'View apartments',
   'cta.viewActivities': 'Discover activities',
   'cta.viewMenu': 'View menu',
   'cta.contactUs': 'Contact us',
@@ -176,17 +177,24 @@ export const en = {
   'home.findUs.cta': 'Get directions',
   // Road-tip (centered icon + title + subtitle, with the route map beneath)
   'home.findUs.tip.title': 'The quicker way up the mountain', // MOCK
-  'home.findUs.tip.text': 'Lorem ipsum — a short note on why this approach is the faster one.', // MOCK — explain why this route is faster
+  'home.findUs.tip.text': 'Lorem ipsum — a short note on why this approach is the faster one. Lorem ipsum dolor sit amet, the road climbs gently through the forest and stays clear most of the year. Lorem ipsum — a second line with a little more detail so the block reads as a fuller paragraph.', // MOCK — explain why this route is faster
   'home.findUs.tip.alt': 'Route map showing the faster drive up to Dom na Travni gori', // MOCK — replace with final route map
+  'home.findUs.tip.zoom': 'Enlarge the route map',
+  'home.findUs.tip.close': 'Close the enlarged route map',
 
   // --- Home: book-direct value strip ---
   'home.bookDirect.title': 'Book direct',
-  'home.bookDirect.benefit1': 'Instant confirmation',
-  'home.bookDirect.benefit2': 'Best price',
-  'home.bookDirect.benefit3': 'Direct communication',
+  'home.bookDirect.intro':
+    'When you book directly with us, you get the best experience at the best price — with personal care every step of the way.', // MOCK — review claims before launch
+  'home.bookDirect.benefit1Title': 'Instant confirmation',
+  'home.bookDirect.benefit1Desc': 'Your stay is confirmed right away, quick and hassle-free.',
+  'home.bookDirect.benefit2Title': 'Best price',
+  'home.bookDirect.benefit2Desc': 'We guarantee the best price when you book directly with us.', // MOCK — best-price claim, confirm with client
+  'home.bookDirect.benefit3Title': 'Direct communication',
+  'home.bookDirect.benefit3Desc': 'Talk to real people who care and are here to help you.',
 
   // --- Accommodation page ---
-  'accommodation.title': 'Accommodation',
+  'accommodation.title': 'Apartments',
   'accommodation.description': 'Warm, atmospheric description of the house.',
   'accommodation.amenities.title': 'What you’ll find',
   'accommodation.amenities.wifi': 'Wi-Fi',
@@ -199,6 +207,128 @@ export const en = {
   'accommodation.slider.label': 'Photo gallery',
   'accommodation.slider.prev': 'Previous photo',
   'accommodation.slider.next': 'Next photo',
+
+  // --- Accommodation page: hero / intro (MOCK — lorem ipsum until client copy) ---
+  'accommodation.hero.eyebrow': 'The house', // MOCK
+  'accommodation.hero.title': 'A mountain house wrapped in forest and fog', // MOCK
+  'accommodation.hero.lead':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — a warm intro to the house and its setting.', // MOCK
+  'accommodation.hero.body':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. Ut enim ad minim veniam, quis nostrud exercitation — a second line on location, the quiet road in and the view from the terrace.', // MOCK
+  'accommodation.hero.imageAlt': 'The mountain house at Travna Gora, surrounded by forest', // MOCK — replace with real photo
+  'accommodation.hero.badge.title': 'Nature', // MOCK
+  'accommodation.hero.badge.sub': 'all around', // MOCK
+  'accommodation.hero.fact.location': 'Travna Gora, Notranjska', // MOCK
+  'accommodation.hero.fact.locationLabel': 'Where we are',
+  'accommodation.hero.fact.altitude': '≈ 900 m above sea level', // MOCK — confirm real altitude
+  'accommodation.hero.fact.altitudeLabel': 'Elevation',
+  'accommodation.hero.fact.access': 'Free parking at the door', // MOCK
+  'accommodation.hero.fact.accessLabel': 'Getting here',
+  // Quick amenity pills under the intro copy.
+  'accommodation.hero.pill.pets': 'Pet friendly', // MOCK
+  'accommodation.hero.pill.breakfast': 'Breakfast', // MOCK
+  'accommodation.hero.pill.parking': 'Free parking', // MOCK
+  'accommodation.hero.pill.wifi': 'Free Wi-Fi', // MOCK
+
+  // --- Accommodation page: bonuses / why book (MOCK) ---
+  'accommodation.bonuses.eyebrow': 'Good to know', // MOCK
+  'accommodation.bonuses.title': 'Little things that make the stay', // MOCK
+  'accommodation.bonuses.intro':
+    'Lorem ipsum dolor sit amet — a short line on the extras that come with every stay.', // MOCK
+  'accommodation.bonuses.b1.title': 'Pet friendly', // MOCK
+  'accommodation.bonuses.b1.text': 'Lorem ipsum — your four-legged friends are welcome here.', // MOCK
+  'accommodation.bonuses.b2.title': 'Free parking', // MOCK
+  'accommodation.bonuses.b2.text': 'Lorem ipsum — park right at the door, free of charge.', // MOCK
+  'accommodation.bonuses.b3.title': 'Fast Wi-Fi', // MOCK
+  'accommodation.bonuses.b3.text': 'Lorem ipsum — stay connected when you want to.', // MOCK
+  'accommodation.bonuses.b4.title': 'No smoking', // MOCK
+  'accommodation.bonuses.b4.text': '', // intentionally unused in the compact card layout
+  'accommodation.bonuses.b5.title': 'Forest at the door', // MOCK
+  'accommodation.bonuses.b5.text': 'Lorem ipsum — trailheads just steps from the terrace.', // MOCK
+  'accommodation.bonuses.b6.title': 'Homemade breakfast', // MOCK
+  'accommodation.bonuses.b6.text': 'Lorem ipsum — a hearty start to the day, on request.', // MOCK
+  'accommodation.bonuses.score.value': '8.8',
+  'accommodation.bonuses.score.scale': 'out of 10',
+  'accommodation.bonuses.score.label': 'Rated on Booking.com', // MOCK — confirm live score
+  'accommodation.bonuses.score.logoAlt': 'Booking.com',
+
+  // --- Accommodation page: units — houses + rooms (MOCK) ---
+  'accommodation.units.eyebrow': 'Where you’ll stay', // MOCK
+  'accommodation.units.title': 'Houses and rooms', // MOCK
+  'accommodation.units.intro':
+    'Lorem ipsum dolor sit amet — choose a whole house to yourselves, or a cozy room in the main building.', // MOCK
+  // Houses group
+  'accommodation.units.houses.title': 'Standalone houses', // MOCK
+  'accommodation.units.houses.text':
+    'Lorem ipsum — private houses with their own space, for families and larger groups.', // MOCK
+  'accommodation.units.house1.name': 'Family house', // MOCK
+  'accommodation.units.house1.text': 'A whole house with private entrance, sauna and terrace — sleeps 5 across 3 bedrooms.', // MOCK
+  'accommodation.units.house1.capacity': 'Sleeps up to 6', // MOCK
+  'accommodation.units.house1.size': '2 bedrooms · kitchen · terrace', // MOCK
+  'accommodation.units.house1.tag.sleeps': 'Sleeps 5', // MOCK
+  'accommodation.units.house1.tag.bedrooms': '3 bedrooms', // MOCK
+  'accommodation.units.house1.tag.size': '44 m²', // MOCK
+  'accommodation.units.house1.tag.sauna': 'Private sauna', // MOCK
+  'accommodation.units.house1.tag.wifi': 'Free Wi-Fi', // MOCK
+  'accommodation.units.house1.alt': 'Terrace of the house with forest views', // MOCK — replace with real photo
+  'accommodation.units.house2.name': 'Tiny house', // MOCK
+  'accommodation.units.house2.text': 'A snug tiny house with private entrance, sauna and terrace — sleeps 3.', // MOCK
+  'accommodation.units.house2.capacity': 'Sleeps up to 4', // MOCK
+  'accommodation.units.house2.size': '1 bedroom · kitchen · garden', // MOCK
+  'accommodation.units.house2.tag.sleeps': 'Sleeps 3', // MOCK
+  'accommodation.units.house2.tag.bedrooms': '1 bedroom', // MOCK
+  'accommodation.units.house2.tag.size': '35 m²', // MOCK
+  'accommodation.units.house2.tag.sauna': 'Private sauna', // MOCK
+  'accommodation.units.house2.tag.wifi': 'Free Wi-Fi', // MOCK
+  'accommodation.units.house2.alt': 'Interior of the tiny holiday home with kitchen and loft stairs', // MOCK — replace with real photo
+  // Rooms group
+  'accommodation.units.rooms.title': 'Rooms in the main house', // MOCK
+  'accommodation.units.rooms.text':
+    'Lorem ipsum — snug rooms with shared common spaces, ideal for couples and solo travellers.', // MOCK
+  // Single showcase entry for the main house (no per-room breakdown) — richer copy + gallery.
+  'accommodation.units.rooms.name': 'Cozy rooms upstairs', // MOCK
+  'accommodation.units.rooms.detail':
+    'Lorem ipsum dolor sit amet — warm, wood-lined rooms under the eaves of the main house, with forest or valley views and a shared lounge, breakfast table and sauna downstairs.', // MOCK
+  'accommodation.units.rooms.tag.sleeps': 'Sleeps 1–4', // MOCK
+  'accommodation.units.rooms.tag.rooms': '4 cozy rooms', // MOCK
+  'accommodation.units.rooms.tag.size': 'Doubles & family', // MOCK
+  'accommodation.units.rooms.tag.sauna': 'Shared sauna', // MOCK
+  'accommodation.units.rooms.tag.wifi': 'Free Wi-Fi', // MOCK
+  'accommodation.units.rooms.alt': 'A wood-lined double room under the eaves with forest views', // MOCK — replace with real photo
+  'accommodation.units.capacityLabel': 'Capacity',
+
+  // --- Accommodation page: breakfast & kitchen (MOCK) ---
+  'accommodation.kitchen.eyebrow': 'At the table', // MOCK
+  'accommodation.kitchen.title': 'Breakfast & the homemade kitchen', // MOCK
+  'accommodation.kitchen.lead':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit — a warm note on breakfasts and home cooking made from local produce.', // MOCK
+  'accommodation.kitchen.body':
+    'Lorem ipsum dolor sit amet — a second paragraph on hearty mountain dishes, fresh bread and slow mornings on the terrace.', // MOCK
+  'accommodation.kitchen.imageAlt': 'A rustic table set with homemade breakfast', // MOCK — replace with real photo
+  'accommodation.kitchen.point1': 'Lorem ipsum — homemade breakfast on request', // MOCK
+  'accommodation.kitchen.point2': 'Lorem ipsum — local and seasonal produce', // MOCK
+  'accommodation.kitchen.point3': 'Lorem ipsum — fully equipped guest kitchen', // MOCK
+  'accommodation.kitchen.point4': 'Lorem ipsum — dietary needs catered on request', // MOCK
+  'accommodation.kitchen.cta': 'See the menu',
+
+  // --- Testimonials (MOCK — placeholder guest quotes) ---
+  'testimonials.eyebrow': 'Guest voices', // MOCK
+  'testimonials.title': 'What guests take home with them', // MOCK
+  'testimonials.intro':
+    'Lorem ipsum dolor sit amet — a short line framing the guest reviews below.', // MOCK
+  'testimonials.t1.quote':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt — a warm placeholder review of the stay.', // MOCK
+  'testimonials.t1.author': 'Guest name', // MOCK
+  'testimonials.t1.meta': 'Stayed in summer', // MOCK
+  'testimonials.t2.quote':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit — a second placeholder review, a line or two long.', // MOCK
+  'testimonials.t2.author': 'Guest name', // MOCK
+  'testimonials.t2.meta': 'Family stay', // MOCK
+  'testimonials.t3.quote':
+    'Lorem ipsum dolor sit amet — a third short placeholder review highlighting the quiet and the welcome.', // MOCK
+  'testimonials.t3.author': 'Guest name', // MOCK
+  'testimonials.t3.meta': 'Couple’s getaway', // MOCK
+  'testimonials.ratingLabel': 'Rated 5 out of 5', // a11y label for the star row
 
   // --- Activities page ---
   'activities.title': 'Activities & surroundings',
@@ -254,13 +384,22 @@ export const en = {
   'footer.contact.phone': '+386 0 000 000',
   'footer.contact.email': 'info@example.com',
   'footer.social.title': 'Follow us',
-  'footer.social.instagram': 'Instagram', // brand name (link label)
-  'footer.social.facebook': 'Facebook', // brand name (link label)
+  'footer.social.instagram': 'Instagram', // brand name (link label / aria-label)
+  'footer.social.facebook': 'Facebook', // brand name (link label / aria-label)
+  // Footer navigation (mirrors the header nav; privacy policy is footer-only)
+  'footer.nav.accommodation': 'Apartments',
+  'footer.nav.activities': 'Activities',
+  'footer.nav.contact': 'Contact & booking',
+  'footer.nav.privacy': 'Privacy policy',
   'footer.legal.title': 'Legal',
-  'footer.legal.entity': 'Dom na TRAVNI GORI d.o.o.',
-  'footer.legal.address': 'Street 1, 0000 City, Slovenia',
+  'footer.legal.entity': 'Dom na TRAVNI GORI d.o.o.', // MOCK — replace with real legal entity
+  'footer.legal.address': 'Street 1, 0000 City', // MOCK — replace with real address
+  'footer.legal.country': 'Slovenia', // MOCK
+  'footer.legal.taxId': 'VAT ID: SI00000000', // MOCK — replace with real VAT/DDV number
   'footer.directions': 'Short “how to reach us” note.',
-  'footer.rights': 'All rights reserved.',
+  'footer.rights': 'All rights are reserved',
+  'footer.credit.text': 'Design & Developed by',
+  'footer.credit.company': 'Webline', // agency name — not localized
 
   // --- Cookie consent (GA4 gate) ---
   'consent.message': 'We use cookies for analytics.',

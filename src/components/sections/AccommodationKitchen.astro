@@ -1,0 +1,63 @@
+---
+// AccommodationKitchen.astro — Apartments page "breakfast & homemade kitchen" block.
+// Photo slider beside editorial copy + a checklist of food points and a CTA to the menu page.
+// Slider behaviour lives in the AccommodationSlider island (the only client JS here). Visible
+// strings from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-kitchen.scss.
+// Copy + photos are MOCK — TODO(Webline): real copy/photos.
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import AccommodationSlider from '../../islands/AccommodationSlider.jsx';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+
+const points = [
+  t('accommodation.kitchen.point1'),
+  t('accommodation.kitchen.point2'),
+  t('accommodation.kitchen.point3'),
+  t('accommodation.kitchen.point4'),
+];
+
+// MOCK placeholder photos reusing existing imagery — TODO(Webline): real breakfast/kitchen photos.
+const kitchenImages = [
+  { src: '/images/travna-56-2.jpeg', alt: t('accommodation.kitchen.imageAlt'), width: 1200, height: 800 },
+  { src: '/images/accommodation-preview.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1200, height: 800 },
+  { src: '/images/travna 56.jpeg', alt: t('accommodation.kitchen.imageAlt'), width: 1200, height: 800 },
+  { src: '/images/ttravna now.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1200, height: 800 },
+];
+---
+<section class="kitchen reveal">
+  <div class="kitchen__inner">
+    <div class="kitchen__media">
+      <AccommodationSlider
+        client:visible
+        images={kitchenImages}
+        label={t('accommodation.slider.label')}
+        prevLabel={t('accommodation.slider.prev')}
+        nextLabel={t('accommodation.slider.next')}
+      />
+    </div>
+
+    <div class="kitchen__body">
+      <h2 class="kitchen__title">{t('accommodation.kitchen.title')}</h2>
+      <p class="kitchen__text">{t('accommodation.kitchen.body')}</p>
+
+      <ul class="kitchen__points" role="list">
+        {points.map((point) => (
+          <li class="kitchen__point">
+            <span class="kitchen__point-icon-wrap">
+              <Icon name="check" class="kitchen__point-icon" />
+            </span>
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="kitchen__actions">
+      <Button href="/menu" variant="secondary" class="kitchen__cta">
+        {t('accommodation.kitchen.cta')}
+      </Button>
+    </div>
+  </div>
+</section>

@@ -7,7 +7,16 @@
 .heritage {
   position: relative;
   padding-block: var(--space-2xl);
-  background-color: var(--color-bg);
+  // Decorative cream backdrop with botanical leaves framed into the corners. Cream fallback from
+  // the token. TODO(Webline): final artwork may be swapped.
+  background-color: var(--color-surface-warm);
+  background-image: url('/images/section-bg-2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  // Landscape artwork: `contain` scales it to the full section width with no distortion and no
+  // clipped leaves — it just letterboxes a thin cream margin top/bottom, which is invisible since
+  // the image edges are the same cream as the fallback.
+  background-size: contain;
   overflow: hidden;
 }
 
@@ -17,54 +26,6 @@
   max-width: 75rem;
   margin-inline: auto;
   padding-inline: var(--space-lg);
-}
-
-// --- Decorative botanical sprigs (uzor) ------------------------------------
-// Atmospheric line-art that shares --color-bg, so it sits as a soft watermark
-// behind the timeline. Placement is deliberate, not scattered: both sprigs are
-// vertically centred and mirrored on the two edges, and they bleed partly off
-// the viewport so only an inner sliver shows in the margin. Bleeding off-edge
-// is what lets them appear from tablet up without ever overlapping the centred
-// 75rem content column — the further the content from the edge, the more sprig
-// shows. Below the tablet breakpoint the gutters are too tight, so they hide.
-.heritage__sprig {
-  display: none;
-  position: absolute;
-  inset-block-start: 50%;
-  z-index: 0;
-  width: clamp(9rem, 14vw, 15rem);
-  height: auto;
-  opacity: 0.5;
-  pointer-events: none;
-  user-select: none;
-
-  // Shown from tablet landscape up; placement scales with the viewport.
-  @media (min-width: 64rem) {
-    display: block;
-  }
-}
-
-// Left sprig — hugs the left edge, ~40% bleeding off-screen, leaning inward.
-.heritage__sprig--left {
-  inset-inline-start: 0;
-  transform: translate(-40%, -50%) rotate(-6deg);
-}
-
-// Right sprig — mirrored on the right edge for a balanced frame.
-.heritage__sprig--right {
-  inset-inline-end: 0;
-  transform: translate(40%, -50%) rotate(6deg);
-}
-
-// Wide screens have real gutter room: ease the sprigs fully into the margin so
-// the whole sprig reads, still clear of the content column.
-@media (min-width: 100rem) {
-  .heritage__sprig--left {
-    transform: translate(10%, -50%) rotate(-6deg);
-  }
-  .heritage__sprig--right {
-    transform: translate(-10%, -50%) rotate(6deg);
-  }
 }
 
 // --- Timeline list ---------------------------------------------------------

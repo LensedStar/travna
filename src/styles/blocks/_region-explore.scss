@@ -3,13 +3,30 @@
 // Token-only — no raw hex / magic numbers.
 
 .region-explore {
+  position: relative;
   padding-block: var(--space-3xl);
+  background-color: var(--color-surface);
   // Clip the over-sized map so its bleed never triggers page-level horizontal scroll.
   overflow: hidden;
+
+  // Soft fade at the base so the white section melts into the warm heritage section below it
+  // instead of meeting it on a hard horizontal seam.
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 0;
+    height: var(--space-3xl);
+    background: linear-gradient(to bottom, transparent, var(--color-surface-warm));
+    pointer-events: none;
+  }
 }
 
 .region-explore__inner {
   // Structural content cap, centred with gutters.
+  position: relative;
+  z-index: 1; // keep content above the section's base fade overlay
   max-width: 75rem;
   margin-inline: auto;
   padding-inline: var(--space-lg);

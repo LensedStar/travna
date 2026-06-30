@@ -1,0 +1,283 @@
+// blocks/_accommodation-hero.scss — Apartments page intro/hero block.
+// Circular house photo (soft offset ring + scattered leaves + a "nature" badge) beside an
+// editorial intro: branch-flourished eyebrow, serif title, a tree divider, copy, and a quick-facts
+// card. Token-only (no raw hex / magic numbers). Reflows to a single, centered column on narrow
+// viewports.
+
+.acc-hero {
+  position: relative;
+  padding-block: var(--space-xl);
+  // Warm off-white surface so the copy reads cleanly beside the circular photo.
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+.acc-hero__inner {
+  position: relative;
+  max-width: 70rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+// --- Media column (circle + ring + leaves + badge) ---
+.acc-hero__media-col {
+  position: relative;
+  // Cap the circle so it never stretches to the full column height (was the main "too tall" cause).
+  width: min(30rem, 100%);
+  aspect-ratio: 1 / 1;
+}
+
+.acc-hero__media {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: var(--shadow-card);
+}
+
+.acc-hero__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Thin hand-drawn-feel ring, offset up/left behind the photo.
+.acc-hero__ring {
+  position: absolute;
+  inset: calc(var(--space-lg) * -1) var(--space-md) var(--space-md) calc(var(--space-lg) * -1);
+  z-index: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 35%, transparent);
+}
+
+// Gentle parallax: the ring drifts vertically as the section scrolls through the viewport, so it
+// detaches slightly from the photo. CSS scroll-driven only (no JS) — degrades to a static ring
+// where unsupported, and is disabled for reduced-motion users.
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .acc-hero__ring {
+      animation: acc-hero-ring-drift linear both;
+      animation-timeline: view();
+      animation-range: entry cover;
+    }
+
+    @keyframes acc-hero-ring-drift {
+      from {
+        transform: translateY(calc(var(--space-2xl) * -1));
+      }
+      to {
+        transform: translateY(var(--space-2xl));
+      }
+    }
+  }
+}
+
+// Scattered botanical leaves — soft sage, low contrast, purely decorative.
+.acc-hero__leaf {
+  position: absolute;
+  z-index: 2;
+  color: color-mix(in srgb, var(--color-forest) 38%, var(--color-mist));
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.acc-hero__leaf--tl {
+  top: var(--space-sm);
+  left: calc(var(--space-xl) * -1);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  transform: rotate(-28deg);
+}
+
+.acc-hero__leaf--br {
+  right: calc(var(--space-lg) * -1);
+  bottom: var(--space-xl);
+  width: var(--space-xl);
+  height: var(--space-xl);
+  transform: rotate(120deg);
+}
+
+.acc-hero__leaf--br2 {
+  right: var(--space-sm);
+  bottom: calc(var(--space-md) * -1);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  transform: rotate(75deg);
+  opacity: 0.5;
+}
+
+// "Nature / all around" badge, overlapping the lower-left of the circle.
+.acc-hero__badge {
+  position: absolute;
+  z-index: 3;
+  left: var(--space-lg);
+  bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  width: 7rem;
+  height: 7rem;
+  padding: var(--space-md);
+  border-radius: 50%;
+  text-align: center;
+  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(2px);
+}
+
+.acc-hero__badge-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-forest);
+}
+
+.acc-hero__badge-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.acc-hero__badge-sub {
+  margin-top: calc(var(--space-xs) * -0.5);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-style: italic;
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+// --- Body / editorial column ---
+.acc-hero__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.acc-hero__eyebrow {
+  // Match the site-wide section-header eyebrow (wood accent, same tracking).
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-wood);
+}
+
+.acc-hero__title {
+  // Same family/weight/colour as the shared section-header title (cocoa text, not forest).
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+// Short line — tree — short line, under the title.
+.acc-hero__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 9rem;
+  margin: 0 0 var(--space-md);
+  color: color-mix(in srgb, var(--color-forest) 55%, transparent);
+}
+
+.acc-hero__divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.acc-hero__divider-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+.acc-hero__lead {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.acc-hero__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+// Small amenity pills under the intro copy — compact, low-key, line-icon + short label.
+.acc-hero__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.acc-hero__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 22%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.acc-hero__pill-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+// --- Mobile reflow ---
+@media (max-width: 60rem) {
+  .acc-hero__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    justify-items: center;
+    text-align: center;
+  }
+
+  // Keep the circle (and its overflowing ring/leaves) from blowing up full-width.
+  .acc-hero__media-col {
+    width: min(30rem, 82vw);
+  }
+
+  .acc-hero__body {
+    align-items: center;
+  }
+
+  .acc-hero__divider {
+    margin-inline: auto;
+  }
+
+  .acc-hero__pills {
+    justify-content: center;
+  }
+}

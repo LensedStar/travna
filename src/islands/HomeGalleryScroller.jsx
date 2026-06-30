@@ -110,6 +110,24 @@ export default function HomeGalleryScroller({ eyebrow, title, intro, images = []
                   decoding="async"
                 />
                 <span className="home-gallery__caption">{image.label}</span>
+                <span className="home-gallery__zoom-hint" aria-hidden="true">
+                  <svg
+                    className="home-gallery__zoom-hint-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" x2="16.65" y1="21" y2="16.65" />
+                    <line x1="11" x2="11" y1="8" y2="14" />
+                    <line x1="8" x2="14" y1="11" y2="11" />
+                  </svg>
+                </span>
               </button>
             ))}
           </div>
@@ -136,7 +154,7 @@ export default function HomeGalleryScroller({ eyebrow, title, intro, images = []
             onClick={() => setActiveIndex(null)}
             aria-label={closeLabel}
           >
-            ×
+            {'Ã—'}
           </button>
           <figure className="home-gallery__lightbox-figure" onClick={(event) => event.stopPropagation()}>
             <img

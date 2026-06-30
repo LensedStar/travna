@@ -46,12 +46,6 @@ const milestones = [
 ] as const;
 ---
 <section class="heritage reveal">
-  <!-- Decorative botanical sprigs (uzor) — purely atmospheric, scattered on the side gutters.
-       aria-hidden + pointer-events:none; they share the section's --color-bg so they read as a
-       soft watermark. Hidden on narrow screens (see _heritage-timeline.scss). -->
-  <img class="heritage__sprig heritage__sprig--left" src="/images/uzor_bg_for_left.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-  <img class="heritage__sprig heritage__sprig--right" src="/images/uzor_bg_for_right.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-
   <div class="heritage__inner">
     <SectionHeader
       eyebrow={t('home.heritage.eyebrow')}

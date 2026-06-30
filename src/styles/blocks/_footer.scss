@@ -1,93 +1,173 @@
 // blocks/_footer.scss — styles for the global Footer.astro (TASK-013).
 // Token-only: no raw hex / magic numbers (colors/spacing/radius/shadow/fonts come from tokens).
-// The max-width is a structural layout cap (same precedent as the header/section-header blocks);
-// the map min-height is derived from the spacing scale (same precedent as the booking block).
+// The max-width is a structural layout cap (same precedent as the header/section-header blocks).
 
 .site-footer {
+  position: relative;
   background-color: var(--color-forest);
   color: var(--color-bg);
-  margin-top: var(--space-3xl);
+  // Soft, enveloping shadow at the top edge so the footer gently lifts off the
+  // cream band above it. Warm cocoa tint (not black) per the soft-shadow direction.
+  box-shadow: 0 calc(var(--space-xs) * -1) var(--space-lg)
+    color-mix(in srgb, var(--color-text) 14%, transparent);
 }
 
 .site-footer__inner {
-  display: grid;
-  gap: var(--space-2xl);
   max-width: 75rem;
   margin: 0 auto;
   padding: var(--space-2xl) var(--space-lg) var(--space-lg);
 }
 
-.site-footer__cols {
+// Top region: brand + nav/social on the left, legal entity on the right.
+.site-footer__main {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: var(--space-xl);
+  grid-template-columns: 1fr auto;
+  gap: var(--space-xl) var(--space-2xl);
+  align-items: center;
 }
 
-.site-footer__heading {
-  margin-bottom: var(--space-sm);
-  font-family: var(--font-heading);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-bold);
-  color: var(--color-bg);
+.site-footer__left {
+  display: grid;
+  gap: var(--space-2xl);
 }
 
-.site-footer__list {
-  display: grid;
-  gap: var(--space-xs);
+.site-footer__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  justify-self: start;
+  border-radius: 50%;
+  // White disc behind the logo so the brand mark reads on the forest band.
+  background-color: var(--color-bg);
+}
+
+.site-footer__logo {
+  display: block;
+  width: var(--space-3xl);
+  height: var(--space-3xl);
+}
+
+// Footer nav links sit in a row with the social icons trailing them.
+.site-footer__nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg) var(--space-2xl);
+}
+
+.site-footer__nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg) var(--space-2xl);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.site-footer__link {
+.site-footer__nav-link {
   color: var(--color-bg);
+  font-weight: var(--weight-bold);
   text-decoration: none;
   transition: color var(--motion-duration-fast) var(--motion-ease);
 }
 
-.site-footer__link:hover {
-  // Keep the cream foreground (AA-safe on forest, 6.4:1) and add an underline as the hover
-  // affordance — dropping to wood would fall to 2.6:1 on the forest band (TASK-031).
+.site-footer__nav-link:hover {
+  // Keep the cream foreground (AA-safe on forest) and add an underline as the hover
+  // affordance — dropping to wood would fall below AA on the forest band (TASK-031).
   color: var(--color-bg);
   text-decoration: underline;
 }
 
-.site-footer__text {
-  margin: 0 0 var(--space-xs);
-  color: var(--color-bg);
-}
-
-.site-footer__map {
-  display: grid;
-  gap: var(--space-sm);
-}
-
-.site-footer__map-frame {
-  width: 100%;
-  min-height: calc(var(--space-3xl) * 4);
-  border: 0;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-}
-
-.site-footer__directions {
+.site-footer__social {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
   margin: 0;
-  // Cream on the forest band = 6.4:1 (AA). Mist would be 3.9:1, below AA for this small text (TASK-031).
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__social-link {
+  display: inline-flex;
   color: var(--color-bg);
-  font-size: var(--text-small);
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.site-footer__social-link:hover {
+  color: var(--color-mist);
+}
+
+.site-footer__social-icon {
+  display: block;
+  width: var(--space-lg);
+  height: var(--space-lg);
+}
+
+.site-footer__legal {
+  display: grid;
+  gap: var(--space-xs);
+  font-style: normal;
+  text-align: right;
+}
+
+.site-footer__legal-line {
+  color: var(--color-bg);
+}
+
+.site-footer__divider {
+  margin: var(--space-2xl) 0 var(--space-lg);
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-bg) 35%, transparent);
 }
 
 .site-footer__rights {
   margin: 0;
-  padding-top: var(--space-md);
-  // Cream on the forest band = 6.4:1 (AA). Mist would be 3.9:1, below AA for this small text (TASK-031).
+  // Cream on the forest band is AA-safe; mist would fall below AA for this small text (TASK-031).
   color: var(--color-bg);
   font-size: var(--text-small);
   text-align: center;
 }
 
+.site-footer__credit {
+  margin: var(--space-sm) 0 0;
+  color: var(--color-bg);
+  font-size: var(--text-small);
+  text-align: center;
+}
+
+.site-footer__credit strong {
+  font-weight: var(--weight-bold);
+}
+
+// Stack and center on narrow viewports.
+@media (max-width: 48rem) {
+  .site-footer__main {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .site-footer__left {
+    justify-items: center;
+  }
+
+  .site-footer__nav-row {
+    justify-content: center;
+  }
+
+  .site-footer__nav-list {
+    justify-content: center;
+  }
+
+  .site-footer__legal {
+    text-align: center;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .site-footer__link {
+  .site-footer__nav-link,
+  .site-footer__social-link {
     transition: none;
   }
 }

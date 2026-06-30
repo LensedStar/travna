@@ -1,0 +1,83 @@
+// blocks/_testimonials.scss — guest reviews block.
+// Centred header + a responsive grid of quote cards, each with a soft quote mark, a gold star row,
+// the quote and the guest attribution. Token-only — no raw hex / magic numbers.
+
+.testimonials {
+  padding-block: var(--space-3xl);
+}
+
+.testimonials__inner {
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.testimonials__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+// Soft oversized quote mark in the corner (decorative).
+.testimonials__quote-mark {
+  width: var(--space-xl);
+  height: var(--space-xl);
+  color: color-mix(in srgb, var(--color-wood) 30%, transparent);
+}
+
+.testimonials__stars {
+  display: flex;
+  gap: var(--space-xs);
+  color: var(--color-wood);
+}
+
+.testimonials__star {
+  width: var(--space-md);
+  height: var(--space-md);
+  // Filled gold stars for the rating row.
+  fill: currentColor;
+}
+
+.testimonials__quote {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+.testimonials__author {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-block-start: auto;
+  padding-block-start: var(--space-sm);
+  border-block-start: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+.testimonials__author-name {
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.testimonials__author-meta {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}

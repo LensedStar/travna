@@ -9,6 +9,20 @@
   overflow: hidden; // contains the bleeding sprig + horizon silhouette
 }
 
+// Subtle botanical line pattern at 30% — shared texture with the home gallery section.
+// Sits behind the content (z-index 0); the inner wrapper (z-index 1) keeps content above.
+.find-us::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("/images/bg-white.png");
+  background-repeat: repeat;
+  background-size: 60rem auto;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .find-us__inner {
   position: relative;
   z-index: 1;
@@ -140,6 +154,10 @@
 // --- Travel-facts column (beside the map) ------------------------------------
 .find-us__info {
   max-width: 24rem;
+  padding: var(--space-xl);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
 }
 
 // Contact links sitting above the travel facts.
@@ -179,35 +197,61 @@
   }
 }
 
-// --- Road tip: centered icon + title + subtitle, with the route map beneath ----
+// --- Road tip: left-aligned text on the left, route map alongside on the right ----
 .find-us__story {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
   gap: var(--space-2xl);
+  align-items: center;
+
+  @media (min-width: 48rem) {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+  }
 }
 
-// Centered editorial header — icon over a short title + subtitle.
+// Editorial header — left-aligned title + subtitle wrapped in a white block.
 .find-us__tip {
+  position: relative; // anchors the notation mark overflowing the corner
+  text-align: start;
+  max-width: 36rem;
+  padding: var(--space-xl);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+// Small notation badge spilling a little past the top-left corner — a quiet "take note" cue.
+.find-us__tip-mark {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  transform: translate(-40%, -40%); // little overflow beyond the card edge
+  display: grid;
+  place-items: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  background-color: var(--color-surface);
+  border-radius: 50%;
+  box-shadow: var(--shadow-soft);
+}
+
+.find-us__tip-mark-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-terracotta);
+}
+
+.find-us__tip-body {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 36rem;
-}
-
-.find-us__tip-icon {
-  width: var(--space-xl);
-  height: var(--space-xl);
-  color: var(--color-wood);
 }
 
 .find-us__tip-title {
-  margin: var(--space-md) 0 0;
-  font-family: var(--font-heading);
-  font-size: var(--text-h2);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
   color: var(--color-text);
 }
 
@@ -218,19 +262,112 @@
   opacity: 0.85;
 }
 
-// Route map breathes — no surrounding card, only a gentle soft rounding. Capped + centered
-// so it stays a supporting visual rather than a full-bleed graphic.
+// Route map breathes — no surrounding card, only a gentle soft rounding. Fills its column
+// beside the road-tip text.
 .find-us__route {
   width: 100%;
   max-width: 42rem;
-  margin-inline: auto;
+}
+
+// Thumbnail acts as a zoom trigger — click to open the lightbox.
+.find-us__route-zoom {
+  position: relative;
+  display: block;
+  cursor: zoom-in;
+  border-radius: var(--radius-lg);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: var(--space-xs);
+  }
+}
+
+// Zoom affordance — a small badge so users see the route map opens larger on click.
+.find-us__route-zoom-hint {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-bg);
+  background-color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-bg) 26%, transparent);
+  border-radius: 999px;
+  backdrop-filter: blur(0.25rem);
+  -webkit-backdrop-filter: blur(0.25rem);
+}
+
+.find-us__route-zoom-hint-icon {
+  width: var(--space-sm);
+  height: var(--space-sm);
 }
 
 .find-us__route-img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+// --- CSS-only lightbox for the route map (opens via :target) ------------------
+.find-us__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-xl);
+  padding-inline: var(--space-lg);
+  background-color: color-mix(in srgb, var(--color-text) 85%, transparent);
+
+  &:target {
+    display: flex;
+  }
+
+  @media (min-width: 48rem) {
+    padding-inline: var(--space-3xl);
+  }
+}
+
+// Full-bleed backdrop link — clicking anywhere outside the image closes it.
+.find-us__lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  cursor: zoom-out;
+}
+
+// Visible close button — exact same style as the home-page gallery lightbox close.
+.find-us__lightbox-close {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--space-md);
+  inset-inline-end: var(--space-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-bg);
+  background: color-mix(in srgb, var(--color-bg) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-bg) 22%, transparent);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.find-us__lightbox-img {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
 }
 
 // Compact travel facts — a clean list, no boxes or pills.

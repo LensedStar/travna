@@ -1,0 +1,129 @@
+---
+// AccommodationUnits.astro — Apartments page "where you'll stay" block.
+// Two clearly separated groups, each presented through the shared HouseShowcase island (gallery +
+// info panel): standalone HOUSES (type switcher across houses) and ROOMS in the main house (a single
+// showcase entry — richer gallery + description rather than a per-room breakdown). Visible strings
+// from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-units.scss. Copy +
+// photos are MOCK — TODO(Webline): swap for real unit photos & details. Bookable selection/pricing
+// stays on /rezervacija (Bentral).
+import HouseShowcase from '../../islands/HouseShowcase.jsx';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+
+// `src` values are MOCK placeholders reusing existing imagery — TODO(Webline): real unit photos.
+const houses = [
+  {
+    name: t('accommodation.units.house1.name'),
+    text: t('accommodation.units.house1.text'),
+    capacity: t('accommodation.units.house1.capacity'),
+    size: t('accommodation.units.house1.size'),
+    // Short set of key pills (4–5) instead of the full amenity list — MOCK from Bentral listing.
+    tags: [
+      { icon: 'users', label: t('accommodation.units.house1.tag.sleeps') },
+      { icon: 'bed', label: t('accommodation.units.house1.tag.bedrooms') },
+      { icon: 'maximize', label: t('accommodation.units.house1.tag.size') },
+      { icon: 'flame', label: t('accommodation.units.house1.tag.sauna') },
+      { icon: 'wifi', label: t('accommodation.units.house1.tag.wifi') },
+    ],
+    images: [
+      { src: '/images/travna 56.jpeg', alt: t('accommodation.units.house1.alt') },
+      { src: '/images/travna-56-2.jpeg', alt: t('accommodation.units.house1.alt') },
+      { src: '/images/accommodation-preview.webp', alt: t('accommodation.units.house1.alt') },
+      { src: '/images/ttravna now.webp', alt: t('accommodation.units.house1.alt') },
+      { src: '/images/hero-mountains.webp', alt: t('accommodation.units.house1.alt') },
+    ],
+  },
+  {
+    name: t('accommodation.units.house2.name'),
+    text: t('accommodation.units.house2.text'),
+    capacity: t('accommodation.units.house2.capacity'),
+    size: t('accommodation.units.house2.size'),
+    // Short set of key pills (4–5) instead of the full amenity list — MOCK from Bentral listing.
+    tags: [
+      { icon: 'users', label: t('accommodation.units.house2.tag.sleeps') },
+      { icon: 'bed', label: t('accommodation.units.house2.tag.bedrooms') },
+      { icon: 'maximize', label: t('accommodation.units.house2.tag.size') },
+      { icon: 'flame', label: t('accommodation.units.house2.tag.sauna') },
+      { icon: 'wifi', label: t('accommodation.units.house2.tag.wifi') },
+    ],
+    images: [
+      { src: '/images/travna 76.jpeg', alt: t('accommodation.units.house2.alt') },
+      { src: '/images/ttravna now.webp', alt: t('accommodation.units.house2.alt') },
+      { src: '/images/hero-mountains.webp', alt: t('accommodation.units.house2.alt') },
+    ],
+  },
+];
+
+// Rooms in the main house: shown as a single showcase (same component as the houses) rather than
+// listing every room — a richer gallery + description. One entry, so the type switcher stays hidden.
+const rooms = [
+  {
+    name: t('accommodation.units.rooms.name'),
+    text: t('accommodation.units.rooms.detail'),
+    capacity: t('accommodation.units.rooms.tag.sleeps'),
+    size: t('accommodation.units.rooms.tag.rooms'),
+    tags: [
+      { icon: 'users', label: t('accommodation.units.rooms.tag.sleeps') },
+      { icon: 'bed', label: t('accommodation.units.rooms.tag.rooms') },
+      { icon: 'maximize', label: t('accommodation.units.rooms.tag.size') },
+      { icon: 'flame', label: t('accommodation.units.rooms.tag.sauna') },
+      { icon: 'wifi', label: t('accommodation.units.rooms.tag.wifi') },
+    ],
+    images: [
+      { src: '/images/accommodation-preview.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/travna-56-2.jpeg', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/travna 56.jpeg', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/ttravna now.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/hero-mountains.webp', alt: t('accommodation.units.rooms.alt') },
+    ],
+  },
+];
+---
+<section class="units">
+  <div class="units__inner">
+    <!-- Group 1: standalone houses -->
+    <div class="units__group reveal">
+      <div class="units__group-head">
+        <div class="units__group-text">
+          <h3 class="units__group-title">{t('accommodation.units.houses.title')}</h3>
+          <p class="units__group-intro">{t('accommodation.units.houses.text')}</p>
+        </div>
+      </div>
+
+      <HouseShowcase
+        client:visible
+        houses={houses}
+        strings={{
+          galleryLabel: t('accommodation.slider.label'),
+          prevLabel: t('accommodation.slider.prev'),
+          nextLabel: t('accommodation.slider.next'),
+          availabilityLabel: t('cta.checkAvailability'),
+          closeLabel: t('home.gallery.close'),
+        }}
+      />
+    </div>
+
+    <!-- Group 2: rooms in the main house — mirrored layout (panel left, gallery right) -->
+    <div class="units__group units__group--mirror reveal">
+      <div class="units__group-head">
+        <div class="units__group-text">
+          <h3 class="units__group-title">{t('accommodation.units.rooms.title')}</h3>
+          <p class="units__group-intro">{t('accommodation.units.rooms.text')}</p>
+        </div>
+      </div>
+
+      <HouseShowcase
+        client:visible
+        houses={rooms}
+        strings={{
+          galleryLabel: t('accommodation.slider.label'),
+          prevLabel: t('accommodation.slider.prev'),
+          nextLabel: t('accommodation.slider.next'),
+          availabilityLabel: t('cta.checkAvailability'),
+          closeLabel: t('home.gallery.close'),
+        }}
+      />
+    </div>
+  </div>
+</section>

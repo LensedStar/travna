@@ -1,0 +1,129 @@
+// blocks/_accommodation-kitchen.scss — Apartments page "breakfast & homemade kitchen" block.
+// Two-column editorial on a warm-tinted band: square photo beside copy, a checklist of food points
+// and a CTA to the menu. Token-only. Reflows to a single column (photo first) on narrow viewports.
+
+.kitchen {
+  padding-block: var(--space-3xl);
+  background-color: var(--color-surface-warm);
+}
+
+.kitchen__inner {
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: var(--space-2xl) var(--space-2xl);
+  // Stretch so the slider column matches the text block's height (see slider-fill rules below).
+  align-items: stretch;
+}
+
+// Holds the AccommodationSlider, which brings its own rounded frame + shadow.
+.kitchen__media {
+  display: flex;
+  min-width: 0;
+}
+
+// Make the slider fill its (stretched) column so its height equals the text block beside it.
+.kitchen__media .slider {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kitchen__media .slider__viewport {
+  flex: 1 1 auto;
+  // Drop the fixed 3:2 ratio so the image fills the matched height instead of dictating it.
+  aspect-ratio: auto;
+}
+
+.kitchen__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.kitchen__title {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+.kitchen__text {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 85%, transparent);
+}
+
+.kitchen__points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.kitchen__point {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-text);
+}
+
+.kitchen__point-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--color-forest) 14%, transparent);
+  color: var(--color-forest);
+}
+
+.kitchen__point-icon {
+  width: var(--space-sm);
+  height: var(--space-sm);
+}
+
+// Full-width row under both columns: the menu button, centered on the section.
+.kitchen__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-md);
+}
+
+.kitchen__cta {
+  min-width: 18rem;
+}
+
+// --- Mobile reflow ---
+@media (max-width: 60rem) {
+  .kitchen__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  // Single column: restore the slider's fixed ratio so it can't collapse without a sibling to match.
+  .kitchen__media .slider__viewport {
+    flex: 0 1 auto;
+    aspect-ratio: 3 / 2;
+  }
+
+  .kitchen__cta {
+    min-width: 0;
+    width: 100%;
+  }
+}

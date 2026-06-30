@@ -50,10 +50,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--space-2xl);
-  height: var(--space-2xl);
+  width: var(--space-lg);
+  height: var(--space-lg);
   border: 0;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
   color: var(--color-text);
   box-shadow: var(--shadow-soft);
@@ -74,38 +74,45 @@
 }
 
 .slider__arrow {
-  font-size: var(--text-h3);
+  font-size: var(--text-body);
   line-height: 1;
 }
 
+// Overlaid on the bottom of the image rather than sitting below the slider.
 .slider__dots {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-md);
+  z-index: 2;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   gap: var(--space-sm);
   list-style: none;
   margin: 0;
   padding: 0;
-  margin-block-start: var(--space-md);
 }
 
 .slider__dot {
   display: block;
-  width: var(--space-sm);
-  height: var(--space-sm);
+  width: var(--space-xs);
+  height: var(--space-xs);
   padding: 0;
   border: 0;
   border-radius: var(--radius-lg);
-  background-color: var(--color-mist);
+  // Translucent white so the dots stay legible over any photo; soft shadow lifts them off the image.
+  background-color: color-mix(in srgb, var(--color-bg) 55%, transparent);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--color-text) 45%, transparent);
   cursor: pointer;
   transition: background-color var(--motion-duration-fast) var(--motion-ease);
 }
 
 .slider__dot:hover {
-  background-color: color-mix(in srgb, var(--color-forest) 60%, var(--color-mist));
+  background-color: color-mix(in srgb, var(--color-bg) 80%, transparent);
 }
 
 .slider__dot--active {
-  background-color: var(--color-forest);
+  background-color: var(--color-bg);
 }
 
 @media (prefers-reduced-motion: reduce) {

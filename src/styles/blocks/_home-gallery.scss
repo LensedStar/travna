@@ -5,14 +5,35 @@
 .home-gallery {
   position: relative;
   min-height: 220vh;
-  background:
-    radial-gradient(circle at top, color-mix(in srgb, var(--color-wood) 14%, transparent), transparent 55%),
-    linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-forest) 4%, var(--color-bg)) 32%, var(--color-bg));
+  background-color: var(--color-bg);
+}
+
+// The shared `.reveal` utility leaves `will-change: transform` on the section even after it has
+// revealed, which keeps the section a containing block (and stacking context) for its
+// `position: fixed` lightbox — trapping the overlay inside the section so the header paints over it.
+// Clear it here so the lightbox anchors to the viewport and covers the whole page, like the map zoom.
+.has-reveal .home-gallery.reveal {
+  will-change: auto;
+}
+
+// Subtle botanical line pattern softened to 50% so it reads as texture, not a busy backdrop.
+// Sits on its own layer behind the gallery content; cream section fill shows through underneath.
+.home-gallery::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("/images/bg-white.png");
+  background-repeat: repeat;
+  background-size: 60rem auto;
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 .home-gallery__sticky {
   position: sticky;
   top: 0;
+  z-index: 1; // keep gallery content above the pattern overlay
   min-height: 100svh;
   display: flex;
   align-items: center;
@@ -108,6 +129,30 @@
   -webkit-backdrop-filter: blur(0.25rem);
 }
 
+// Zoom affordance — a small badge so users see each photo opens larger on click.
+.home-gallery__zoom-hint {
+  position: absolute;
+  inset-block-start: var(--space-sm);
+  inset-inline-end: var(--space-sm);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-bg);
+  background-color: color-mix(in srgb, var(--color-text) 52%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-bg) 26%, transparent);
+  border-radius: 999px;
+  backdrop-filter: blur(0.25rem);
+  -webkit-backdrop-filter: blur(0.25rem);
+}
+
+.home-gallery__zoom-hint-icon {
+  width: var(--space-sm);
+  height: var(--space-sm);
+}
+
 
 .home-gallery__outro {
   display: flex;
@@ -142,7 +187,7 @@
 .home-gallery__lightbox {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 1000; // above the sticky header (z-index: 100), matching the map lightbox
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,13 +216,21 @@
 }
 
 .home-gallery__lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0;
-  width: min(70rem, 100%);
+  max-width: min(70rem, 100%);
+  max-height: 100%;
 }
 
 .home-gallery__lightbox-image {
   display: block;
-  width: 100%;
+  // Size by the image's own aspect ratio (like the map lightbox) so it never
+  // distorts or letterboxes — caps to the viewport, no forced width.
+  width: auto;
+  height: auto;
+  max-width: 100%;
   max-height: 82vh;
   object-fit: contain;
   border-radius: var(--radius-lg);

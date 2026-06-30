@@ -1,6 +1,7 @@
 ---
-// BookDirect.astro — Home "book direct" value strip (TASK-016).
-// 3 benefits + CTA → /rezervacija. Pure .astro, zero client JS.
+// BookDirect.astro — Home "book direct" value section (TASK-016).
+// House badge + eyebrow/title + leaf divider + intro, 3 benefits, primary CTA → /rezervacija,
+// and a trust-badges strip. Pure .astro, zero client JS.
 // Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_book-direct.scss.
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
@@ -8,25 +9,44 @@ import SectionHeader from '../ui/SectionHeader.astro';
 import { useTranslations, defaultLocale } from '../../i18n';
 
 const t = useTranslations(defaultLocale);
+
 const benefits = [
-  t('home.bookDirect.benefit1'),
-  t('home.bookDirect.benefit2'),
-  t('home.bookDirect.benefit3'),
+  { icon: 'check', title: t('home.bookDirect.benefit1Title'), desc: t('home.bookDirect.benefit1Desc') },
+  { icon: 'tag', title: t('home.bookDirect.benefit2Title'), desc: t('home.bookDirect.benefit2Desc') },
+  { icon: 'message-circle', title: t('home.bookDirect.benefit3Title'), desc: t('home.bookDirect.benefit3Desc') },
 ];
+
 ---
 <section class="book-direct reveal">
   <div class="book-direct__inner">
-    <SectionHeader title={t('home.bookDirect.title')} align="center" />
+    <SectionHeader
+      title={t('home.bookDirect.title')}
+      align="center"
+      class="book-direct__header"
+    />
+
+    <div class="book-direct__divider" aria-hidden="true">
+      <span class="book-direct__divider-line"></span>
+      <Icon name="leaf" class="book-direct__divider-motif" />
+      <span class="book-direct__divider-line"></span>
+    </div>
+
+    <p class="book-direct__intro">{t('home.bookDirect.intro')}</p>
+
     <ul class="book-direct__benefits">
       {benefits.map((benefit) => (
         <li class="book-direct__benefit">
           <span class="book-direct__icon-wrap">
-            <Icon name="check" class="book-direct__icon" />
+            <Icon name={benefit.icon} class="book-direct__icon" />
           </span>
-          <span class="book-direct__benefit-label">{benefit}</span>
+          <h3 class="book-direct__benefit-title">{benefit.title}</h3>
+          <p class="book-direct__benefit-desc">{benefit.desc}</p>
         </li>
       ))}
     </ul>
-    <Button href="/rezervacija" variant="primary">{t('cta.bookNow')}</Button>
+
+    <Button href="/rezervacija" variant="primary" class="book-direct__cta">
+      {t('cta.bookNow')}
+    </Button>
   </div>
 </section>

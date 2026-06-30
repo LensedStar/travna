@@ -1,0 +1,58 @@
+---
+// AccommodationBonuses.astro — Apartments page "good to know" block.
+// A prominent Booking.com score badge (8.8) sits beside a grid of bonus cards — pet-friendly first,
+// then parking, Wi-Fi, fireplace, forest access and homemade breakfast. Pure .astro, zero client JS.
+// Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-bonuses.scss.
+// Copy is MOCK; the score is a placeholder — TODO(Webline): confirm the live Booking.com rating.
+import SectionHeader from '../ui/SectionHeader.astro';
+import Icon from '../ui/Icon.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const t = useTranslations(defaultLocale);
+
+// Pet-friendly leads the list (explicitly called out by the client). Reorder/extend here.
+const bonuses = [
+  { icon: 'paw-print', title: t('accommodation.bonuses.b1.title'), featured: true },
+  { icon: 'parking', title: t('accommodation.bonuses.b2.title') },
+  { icon: 'wifi', title: t('accommodation.bonuses.b3.title') },
+  { icon: 'cigarette-off', title: t('accommodation.bonuses.b4.title') },
+  { icon: 'trees', title: t('accommodation.bonuses.b5.title') },
+  { icon: 'coffee', title: t('accommodation.bonuses.b6.title') },
+];
+---
+<section class="bonuses reveal">
+  <div class="bonuses__inner">
+    <SectionHeader
+      eyebrow={t('accommodation.bonuses.eyebrow')}
+      title={t('accommodation.bonuses.title')}
+      subtitle={t('accommodation.bonuses.intro')}
+      align="center"
+    />
+
+    <!-- Booking.com score badge — the 8.8 social-proof figure. -->
+    <div class="bonuses__score" aria-label={`${t('accommodation.bonuses.score.value')} ${t('accommodation.bonuses.score.scale')} — ${t('accommodation.bonuses.score.label')}`}>
+      <span class="bonuses__score-value">{t('accommodation.bonuses.score.value')}</span>
+      <span class="bonuses__score-meta">
+        <span class="bonuses__score-scale">{t('accommodation.bonuses.score.scale')}</span>
+        <img
+          class="bonuses__score-logo"
+          src="/images/booking-com-wordmark.png"
+          alt={t('accommodation.bonuses.score.logoAlt')}
+          loading="lazy"
+          decoding="async"
+        />
+      </span>
+    </div>
+
+    <ul class="bonuses__grid" role="list">
+      {bonuses.map((bonus) => (
+        <li class={`bonuses__card${bonus.featured ? ' bonuses__card--featured' : ''}`}>
+          <span class="bonuses__icon-wrap">
+            <Icon name={bonus.icon} class="bonuses__icon" />
+          </span>
+          <h3 class="bonuses__card-title">{bonus.title}</h3>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -1,82 +1,99 @@
 ---
 // Footer.astro — global site footer rendered on EVERY page via BaseLayout (TASK-013).
-// contact block, social links, legal entity, and an embedded Google Map (lazy iframe with
-// title) + a short "how to reach us" note. All visible text comes from the i18n dictionary — no
-// hardcoded strings in the component.
+// Brand logo + legal entity, a footer nav row with social icons, then a centered
+// rights line and agency credit. All visible text comes from the i18n dictionary —
+// no hardcoded strings in the component.
 import { useTranslations, defaultLocale } from '../../i18n';
+import Icon from '../ui/Icon.astro';
 
 const t = useTranslations(defaultLocale);
 
-// config values (non-visible hrefs / embed src — not UI copy).
-// TODO(Webline): replace with the real phone, email, social profiles and the exact Google Maps
-// embed (pin at the property). The map src below points at the region stated in the PRD; swap it
-// for the precise property-pin embed at launch.
-const telHref = 'tel:+3860000000'; // TODO
-const mailHref = 'mailto:info@example.com'; // TODO
+// config values (non-visible hrefs — not UI copy).
+// TODO(Webline): replace with the real social profiles and privacy-policy route.
 const instagramUrl = 'https://instagram.com/'; // TODO
 const facebookUrl = 'https://facebook.com/'; // TODO
-const mapEmbedUrl = 'https://maps.google.com/maps?q=Travna%20Gora%2C%20Slovenia&output=embed'; // TODO: exact property pin
+
+const footerNav = [
+  { href: '/accommodation', label: t('footer.nav.accommodation') },
+  { href: '/activities', label: t('footer.nav.activities') },
+  { href: '/contact', label: t('footer.nav.contact') },
+  { href: '/privacy', label: t('footer.nav.privacy') }, // TODO(Webline): privacy-policy page
+];
+
+const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <div class="site-footer__cols">
-      <section class="site-footer__col">
-        <h2 class="site-footer__heading">{t('footer.contact.title')}</h2>
-        <ul class="site-footer__list">
-          <li>
-            <a class="site-footer__link" href={telHref}>{t('footer.contact.phone')}</a>
-          </li>
-          <li>
-            <a class="site-footer__link" href={mailHref}>{t('footer.contact.email')}</a>
-          </li>
-        </ul>
-      </section>
+    <div class="site-footer__main">
+      <div class="site-footer__left">
+        <a class="site-footer__brand" href="/" aria-label={t('site.name')}>
+          <img
+            class="site-footer__logo"
+            src="/images/logo.png"
+            alt={t('site.name')}
+            width="512"
+            height="512"
+            decoding="async"
+            loading="lazy"
+          />
+        </a>
 
-      <section class="site-footer__col">
-        <h2 class="site-footer__heading">{t('footer.social.title')}</h2>
-        <ul class="site-footer__list">
-          <li>
-            <a
-              class="site-footer__link"
-              href={instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t('footer.social.instagram')}
-            </a>
-          </li>
-          <li>
-            <a
-              class="site-footer__link"
-              href={facebookUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t('footer.social.facebook')}
-            </a>
-          </li>
-        </ul>
-      </section>
+        <div class="site-footer__nav-row">
+          <nav class="site-footer__nav" aria-label={t('a11y.footerNav')}>
+            <ul class="site-footer__nav-list">
+              {
+                footerNav.map((link) => (
+                  <li class="site-footer__nav-item">
+                    <a class="site-footer__nav-link" href={link.href}>
+                      {link.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
 
-      <section class="site-footer__col">
-        <h2 class="site-footer__heading">{t('footer.legal.title')}</h2>
-        <p class="site-footer__text">{t('footer.legal.entity')}</p>
-        <p class="site-footer__text">{t('footer.legal.address')}</p>
-      </section>
+          <ul class="site-footer__social" aria-label={t('footer.social.title')}>
+            <li>
+              <a
+                class="site-footer__social-link"
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t('footer.social.instagram')}
+              >
+                <Icon name="instagram" class="site-footer__social-icon" />
+              </a>
+            </li>
+            <li>
+              <a
+                class="site-footer__social-link"
+                href={facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t('footer.social.facebook')}
+              >
+                <Icon name="facebook" class="site-footer__social-icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <address class="site-footer__legal">
+        <span class="site-footer__legal-line">{t('footer.legal.entity')}</span>
+        <span class="site-footer__legal-line">{t('footer.legal.address')}</span>
+        <span class="site-footer__legal-line">{t('footer.legal.country')}</span>
+        <span class="site-footer__legal-line">{t('footer.legal.taxId')}</span>
+      </address>
     </div>
 
-    <div class="site-footer__map">
-      <iframe
-        class="site-footer__map-frame"
-        src={mapEmbedUrl}
-        title={t('a11y.mapTitle')}
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
-      <p class="site-footer__directions">{t('footer.directions')}</p>
-    </div>
+    <hr class="site-footer__divider" />
 
-    <p class="site-footer__rights">{t('site.name')} — {t('footer.rights')}</p>
+    <p class="site-footer__rights">{year} {t('footer.rights')}</p>
+    <p class="site-footer__credit">
+      {t('footer.credit.text')} <strong>{t('footer.credit.company')}</strong>
+    </p>
   </div>
 </footer>

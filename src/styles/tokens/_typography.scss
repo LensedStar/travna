@@ -3,7 +3,7 @@
 // properties; blocks consume only var(--font-*) / var(--text-*) / var(--leading-*) / var(--weight-*).
 // Fonts are self-hosted via @font-face in base/_global.scss (TASK-005) — no Google Fonts CDN.
 
-$font-heading: ("Fraunces", serif); // warm character — cozy/rustic
+$font-heading: ("Outfit", sans-serif); // clean geometric sans — modern, neutral
 $font-body:    ("Lato", sans-serif); // calm, readable
 
 // Type scale (fluid where it helps the rustic, photo-led layout breathe).

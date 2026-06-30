@@ -10,6 +10,12 @@ import Icon from '../ui/Icon.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
 import { useTranslations, defaultLocale } from '../../i18n';
 
+// `showSprig` toggles the decorative botanical watermark — off on the accommodation page.
+interface Props {
+  showSprig?: boolean;
+}
+const { showSprig = true } = Astro.props;
+
 const t = useTranslations(defaultLocale);
 
 // Non-visible map srcs (not UI copy). Pinned to the real property:
@@ -37,7 +43,9 @@ const facts = [
 <section class="find-us reveal">
   <!-- Decorative botanical sprig (uzor) — atmospheric watermark, mirrors the heritage section.
        aria-hidden + pointer-events:none; hidden on narrow screens via SCSS. -->
-  <img class="find-us__sprig" src="/images/uzor_bg_for_right.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+  {showSprig && (
+    <img class="find-us__sprig" src="/images/uzor_bg_for_right.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+  )}
 
   <div class="find-us__inner">
     <SectionHeader
@@ -103,22 +111,39 @@ const facts = [
     <!-- Road tip: a centered note on the faster way up, with the route map beneath -->
     <div class="find-us__story">
       <div class="find-us__tip">
-        <Icon name="route" class="find-us__tip-icon" />
-        <h3 class="find-us__tip-title">{t('home.findUs.tip.title')}</h3>
-        <p class="find-us__tip-subtitle">{t('home.findUs.tip.text')}</p>
+        <span class="find-us__tip-mark" aria-hidden="true">
+          <Icon name="alert-circle" class="find-us__tip-mark-icon" />
+        </span>
+        <div class="find-us__tip-body">
+          <h3 class="find-us__tip-title">{t('home.findUs.tip.title')}</h3>
+          <p class="find-us__tip-subtitle">{t('home.findUs.tip.text')}</p>
+        </div>
       </div>
 
-      <div class="find-us__route">
-        <img
-          class="find-us__route-img"
-          src="/images/road-tip.png"
-          alt={t('home.findUs.tip.alt')}
-          width="1450"
-          height="810"
-          loading="lazy"
-          decoding="async"
-        />
+      <div class="find-us__route" id="route-map">
+        <a class="find-us__route-zoom" href="#route-map-zoom" aria-label={t('home.findUs.tip.zoom')}>
+          <img
+            class="find-us__route-img"
+            src="/images/road-tip.png"
+            alt={t('home.findUs.tip.alt')}
+            width="1450"
+            height="810"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="find-us__route-zoom-hint" aria-hidden="true">
+            <Icon name="zoom-in" class="find-us__route-zoom-hint-icon" />
+          </span>
+        </a>
       </div>
     </div>
   </div>
 </section>
+
+<!-- CSS-only lightbox for the route map — opens via :target, closes on the backdrop.
+     Kept outside <section.find-us> so its overflow:hidden can't clip the fixed overlay. -->
+<div class="find-us__lightbox" id="route-map-zoom" role="dialog" aria-label={t('home.findUs.tip.alt')}>
+  <a class="find-us__lightbox-backdrop" href="#route-map" aria-hidden="true" tabindex="-1"></a>
+  <a class="find-us__lightbox-close" href="#route-map" aria-label={t('home.findUs.tip.close')}>×</a>
+  <img class="find-us__lightbox-img" src="/images/road-tip.png" alt={t('home.findUs.tip.alt')} />
+</div>

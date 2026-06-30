@@ -4,12 +4,14 @@
 // consumed elsewhere only as var(--color-*). Changing a value here restyles the whole site.
 
 $colors: (
-  'bg':         #FBF8F3, // warm off-white background base
-  'wood':       #C8884B, // warm accent 1 — buttons, icons
-  'forest':     #3E5A40, // nature co-accent — sections, lines, hover, motifs
-  'terracotta': #A65A3A, // deep accent — primary CTAs
-  'mist':       #B8BCA8, // fog neutral
-  'text':       #3A2E26, // cocoa-brown text (not black)
+  'bg':           #FBF8F3, // warm off-white background base
+  'surface':      #FFFFFF, // clean white section surface
+  'surface-warm': #F9F3ED, // warm-tinted section surface
+  'wood':         #C8884B, // warm accent 1 — buttons, icons
+  'forest':       #3E5A40, // nature co-accent — sections, lines, hover, motifs
+  'terracotta':   #A65A3A, // deep accent — primary CTAs
+  'mist':         #B8BCA8, // fog neutral
+  'text':         #3A2E26, // cocoa-brown text (not black)
 );
 
 :root {
