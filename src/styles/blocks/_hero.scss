@@ -12,8 +12,8 @@
   justify-content: flex-start;
   min-height: clamp(38rem, 78vh, 50rem);
   padding: calc(var(--space-3xl) + var(--space-sm)) var(--space-lg) calc(var(--space-3xl) + var(--space-xl));
-  // Fallback nature tone behind the layer images so text stays readable if art is missing.
-  background-color: var(--color-forest);
+  // Fallback fog tone behind the layer images so the dark text stays readable if art is missing.
+  background-color: var(--color-mist);
   text-align: left;
 }
 
@@ -22,11 +22,17 @@
   position: absolute;
   inset: auto 0 0;
   z-index: 0;
-  height: clamp(3.5rem, 8vw, 6rem);
-  // Wave fill matches the white section that flows below the hero (--color-surface / #FFFFFF).
-  // Hardcoded in the SVG data-URI because a data-URI can't read CSS custom properties.
-  background: center bottom / 100% 100% no-repeat
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath fill='%23FFFFFF' d='M0 54C210 54 324 54 438 54C612 54 732 96 902 96C1096 96 1218 54 1440 54V120H0Z'/%3E%3C/svg%3E");
+  height: clamp(10rem, 20vw, 16rem);
+  // Fog-like dissolve into the welcome section below: the photo fades into var(--color-bg) so
+  // the hero and the house photo rising out of the next section read as one composition.
+  // Gradient (not SVG) so the hand-off always matches the token — no hardcoded fill to drift.
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--color-bg) 30%, transparent) 42%,
+    color-mix(in srgb, var(--color-bg) 74%, transparent) 70%,
+    var(--color-bg) 96%
+  );
   pointer-events: none;
 }
 
@@ -60,7 +66,8 @@
   opacity: 0.35;
 }
 
-// Warm scrim improves contrast of light text over the photography (token-driven, no raw rgba).
+// Misty light scrim improves contrast of the cocoa text over the photography while keeping the
+// image bright and natural — no warm/orange cast (token-driven, no raw rgba).
 .hero::after {
   content: '';
   position: absolute;
@@ -69,14 +76,15 @@
   background:
     linear-gradient(
       90deg,
-      color-mix(in srgb, var(--color-text) 68%, transparent) 0%,
-      color-mix(in srgb, var(--color-text) 54%, transparent) 28%,
-      color-mix(in srgb, var(--color-text) 28%, transparent) 52%,
-      transparent 76%
+      color-mix(in srgb, var(--color-bg) 58%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 46%, transparent) 26%,
+      color-mix(in srgb, var(--color-bg) 30%, transparent) 48%,
+      color-mix(in srgb, var(--color-bg) 12%, transparent) 68%,
+      transparent 88%
     ),
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-text) 18%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 16%, transparent) 0%,
       transparent 32%,
       transparent 100%
     );
@@ -92,27 +100,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-md);
-  color: var(--color-bg);
-}
-
-.hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
-  margin: 0;
-  font-size: var(--text-small);
-  font-weight: var(--weight-medium);
-  letter-spacing: 0.08em;
-  text-transform: none;
-  color: var(--color-wood);
-}
-
-.hero__eyebrow::before,
-.hero__eyebrow::after {
-  content: '';
-  width: calc(var(--space-lg) * 1.25);
-  height: calc(var(--space-xs) * 0.125);
-  background-color: color-mix(in srgb, var(--color-wood) 75%, transparent);
+  color: var(--color-text);
 }
 
 .hero__title {
@@ -122,7 +110,7 @@
   font-size: clamp(3.5rem, 5vw + 1.5rem, 6rem);
   font-weight: var(--weight-bold);
   line-height: 0.95;
-  color: var(--color-bg);
+  color: var(--color-text);
 }
 
 .hero__subtitle {
@@ -131,7 +119,7 @@
   font-family: var(--font-body);
   font-size: var(--text-h3);
   line-height: var(--leading-snug);
-  color: color-mix(in srgb, var(--color-bg) 94%, transparent);
+  color: color-mix(in srgb, var(--color-text) 88%, transparent);
 }
 
 .hero__actions {
@@ -158,10 +146,10 @@
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-lg);
   text-align: left;
-  background-color: color-mix(in srgb, var(--color-text) 52%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 78%, transparent);
   box-shadow:
     inset 0 0 0 calc(var(--space-xs) * 0.125)
-    color-mix(in srgb, var(--color-bg) 32%, transparent),
+    color-mix(in srgb, var(--color-text) 14%, transparent),
     var(--shadow-soft);
 }
 
@@ -170,7 +158,7 @@
   font-size: clamp(1.25rem, 0.8vw + 1rem, 1.7rem);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  color: var(--color-bg);
+  color: var(--color-text);
 }
 
 .hero__rating-details {
@@ -189,7 +177,6 @@
 
 .hero__rating-logo--booking {
   height: 1rem;
-  filter: brightness(0) invert(1);
 }
 
 .hero__rating-logo--airbnb {
@@ -218,11 +205,6 @@
 
   .hero__content {
     gap: var(--space-sm);
-  }
-
-  .hero__eyebrow::before,
-  .hero__eyebrow::after {
-    width: var(--space-lg);
   }
 
   .hero__title {
@@ -257,10 +239,6 @@
 }
 
 @media (max-width: 48rem) {
-  .hero::before {
-    height: calc(var(--space-xl) + var(--space-sm));
-  }
-
   .hero__actions {
     width: 100%;
   }

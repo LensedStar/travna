@@ -13,7 +13,6 @@ import { useEffect, useRef } from 'react';
 export default function ParallaxHero({
   title,
   subtitle,
-  eyebrow,
   ctaPrimaryLabel,
   ctaSecondaryLabel,
   ratingsLabel,
@@ -60,7 +59,6 @@ export default function ParallaxHero({
         <div className="hero__layer hero__layer--fog" ref={fogRef}></div>
       </div>
       <div className="hero__content">
-        <p className="hero__eyebrow">{eyebrow}</p>
         <h1 className="hero__title">{title}</h1>
         <p className="hero__subtitle">{subtitle}</p>
         <div className="hero__actions">

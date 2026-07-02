@@ -1,6 +1,262 @@
-// blocks/_menu.scss — Menu page online menu (TASK-020).
+// blocks/_menu.scss — Menu page hero + online menu (TASK-020).
 // Collection-driven sections + items; readable, responsive layout that reflows to one column on
 // mobile with no horizontal overflow. Token-only — no raw hex / magic numbers.
+
+// --- Hero — circular photo (ring + leaves + badge) beside editorial copy, mirroring the
+// accommodation/activities hero language (src/styles/blocks/_accommodation-hero.scss). ---
+.menu-hero {
+  position: relative;
+  padding-block: var(--space-xl);
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+.menu-hero__inner {
+  position: relative;
+  max-width: 70rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+.menu-hero__media-col {
+  position: relative;
+  width: min(30rem, 100%);
+  aspect-ratio: 1 / 1;
+}
+
+.menu-hero__media {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: var(--shadow-card);
+}
+
+.menu-hero__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-hero__ring {
+  position: absolute;
+  inset: calc(var(--space-lg) * -1) var(--space-md) var(--space-md) calc(var(--space-lg) * -1);
+  z-index: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 35%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .menu-hero__ring {
+      animation: menu-hero-ring-drift linear both;
+      animation-timeline: view();
+      animation-range: entry cover;
+    }
+
+    @keyframes menu-hero-ring-drift {
+      from {
+        transform: translateY(calc(var(--space-2xl) * -1));
+      }
+      to {
+        transform: translateY(var(--space-2xl));
+      }
+    }
+  }
+}
+
+.menu-hero__leaf {
+  position: absolute;
+  z-index: 2;
+  color: color-mix(in srgb, var(--color-forest) 38%, var(--color-mist));
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.menu-hero__leaf--tl {
+  top: var(--space-sm);
+  left: calc(var(--space-xl) * -1);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  transform: rotate(-28deg);
+}
+
+.menu-hero__leaf--br {
+  right: calc(var(--space-lg) * -1);
+  bottom: var(--space-xl);
+  width: var(--space-xl);
+  height: var(--space-xl);
+  transform: rotate(120deg);
+}
+
+.menu-hero__leaf--br2 {
+  right: var(--space-sm);
+  bottom: calc(var(--space-md) * -1);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  transform: rotate(75deg);
+  opacity: 0.5;
+}
+
+.menu-hero__badge {
+  position: absolute;
+  z-index: 3;
+  left: var(--space-lg);
+  bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  width: 7rem;
+  height: 7rem;
+  padding: var(--space-md);
+  border-radius: 50%;
+  text-align: center;
+  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(2px);
+}
+
+.menu-hero__badge-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-forest);
+}
+
+.menu-hero__badge-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.menu-hero__badge-sub {
+  margin-top: calc(var(--space-xs) * -0.5);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-style: italic;
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+.menu-hero__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.menu-hero__eyebrow {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-wood);
+}
+
+.menu-hero__title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+.menu-hero__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 9rem;
+  margin: 0 0 var(--space-md);
+  color: color-mix(in srgb, var(--color-forest) 55%, transparent);
+}
+
+.menu-hero__divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.menu-hero__divider-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+.menu-hero__lead {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.menu-hero__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-hero__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 22%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.menu-hero__pill-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+@media (max-width: 60rem) {
+  .menu-hero__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .menu-hero__media-col {
+    width: min(30rem, 82vw);
+  }
+
+  .menu-hero__body {
+    align-items: center;
+  }
+
+  .menu-hero__divider {
+    margin-inline: auto;
+  }
+
+  .menu-hero__pills {
+    justify-content: center;
+  }
+}
 
 .menu {
   padding-block: var(--space-3xl);
@@ -26,6 +282,10 @@
 }
 
 .menu__section-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-sm);
   font-family: var(--font-heading);
   font-size: var(--text-h2);
   font-weight: var(--weight-medium);
@@ -34,6 +294,20 @@
   padding-bottom: var(--space-sm);
   // Hairline rule derived from the spacing scale (≈2px) — same precedent as the inset rings.
   border-bottom: calc(var(--space-xs) * 0.25) solid var(--color-mist);
+}
+
+// Section-level ribbon (e.g. "Best Seller") — client-supplied fact from the scanned menu.
+.menu__section-badge {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  background-color: var(--color-terracotta);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: var(--radius-sm);
+  line-height: 1;
 }
 
 .menu__items {
@@ -81,7 +355,58 @@
   color: var(--color-text);
 }
 
-// Embedded scanned-menu PDF preview + download (TASK-021).
+// Allergen codes per item (e.g. "GP", "L") — cross-referenced against .menu__legend below.
+.menu__item-allergens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu__item-allergen {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  color: var(--color-forest);
+  border: 1px solid color-mix(in srgb, var(--color-forest) 30%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 0 calc(var(--space-xs) * 0.75);
+  line-height: 1.5;
+}
+
+// Allergen code legend + dietary note, shown once under the sections.
+.menu__legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-lg);
+  border-top: calc(var(--space-xs) * 0.25) solid var(--color-mist);
+}
+
+.menu__legend-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  color: var(--color-forest);
+}
+
+.menu__legend-codes,
+.menu__legend-note {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 75%, transparent);
+}
+
+.menu__legend-note {
+  font-style: italic;
+}
+
+// Scanned-menu PDF download (TASK-021) — download button + "open in new tab" link, no inline
+// preview (a large scanned PDF is heavy to render inline and not worth the payload).
 .menu__pdf {
   display: flex;
   flex-direction: column;
@@ -97,32 +422,17 @@
   color: var(--color-forest);
 }
 
-.menu__pdf-frame {
-  width: 100%;
-  // Tall preview frame derived from the spacing scale (same precedent as the booking block).
-  min-height: calc(var(--space-3xl) * 5);
-  border: 0;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  background-color: var(--color-mist);
-}
-
-.menu__pdf-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: var(--space-xl);
-  font-family: var(--font-body);
-  font-size: var(--text-body);
-  text-align: center;
-
-  a {
-    color: var(--color-forest);
-    text-decoration: underline;
-  }
-}
-
 .menu__pdf-actions {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.menu__pdf-link {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--color-forest);
+  text-decoration: underline;
 }

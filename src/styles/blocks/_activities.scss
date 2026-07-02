@@ -1,55 +1,372 @@
-// blocks/_activities.scss — Activities / Surroundings page (TASK-019).
-// Intro + responsive grid of collection-driven activity blocks (reflows to one column on mobile,
-// no horizontal overflow). Token-only — no raw hex / magic numbers.
+// blocks/_activities.scss — Activities page "Discover Slovenia from Travna Gora".
+// Band-based layout: alternating warm/plain full-width bands, each capped by a centred inner.
+// Editorial day-trip rows use robust flexbox (flex-direction row / row-reverse) so nothing can
+// misplace on a grid. Token-only — no raw hex / magic numbers; reflows to one column on mobile.
 
-.activities {
+// --- Shared full-width bands ---------------------------------------------------
+.act-band {
   padding-block: var(--space-3xl);
 }
 
-.activities__inner {
-  // Structural content cap (same precedent as the other section blocks), centred with gutters.
+.act-band--warm {
+  background-color: var(--color-surface-warm);
+}
+
+.act-band__inner {
   max-width: 75rem;
   margin-inline: auto;
   padding-inline: var(--space-lg);
 }
 
-.activities__grid {
+// --- 1. Intro hero -------------------------------------------------------------
+// Same hero language as the accommodation page (circular photo + offset ring + leaves + badge
+// beside editorial copy), mirrored: copy left, photo right.
+.act-hero {
+  position: relative;
+  overflow: hidden; // the ring/leaves overflow the circle — keep them inside the band
+}
+
+.act-hero__inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+// --- Body / editorial column ---
+.act-hero__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 36rem;
+}
+
+.act-hero__eyebrow {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-wood);
+}
+
+.act-hero__title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+// Short line — tree — short line, under the title.
+.act-hero__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 9rem;
+  margin: 0 0 var(--space-md);
+  color: color-mix(in srgb, var(--color-forest) 55%, transparent);
+}
+
+.act-hero__divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.act-hero__divider-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+.act-hero__lead {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+// Highlight pills under the intro copy — compact, line-icon + short label.
+.act-hero__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.act-hero__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 22%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.act-hero__pill-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+// --- Media column (circle + ring + leaves + badge) ---
+.act-hero__media-col {
+  position: relative;
+  width: min(26rem, 100%);
+  aspect-ratio: 1 / 1;
+}
+
+.act-hero__media {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: var(--shadow-card);
+}
+
+.act-hero__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Thin hand-drawn-feel ring, offset up/right behind the photo (mirror of the accommodation hero).
+.act-hero__ring {
+  position: absolute;
+  inset: calc(var(--space-lg) * -1) calc(var(--space-lg) * -1) var(--space-md) var(--space-md);
+  z-index: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 35%, transparent);
+}
+
+// Gentle parallax: the ring drifts vertically as the section scrolls through the viewport.
+// CSS scroll-driven only (no JS) — degrades to a static ring where unsupported, and is
+// disabled for reduced-motion users.
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .act-hero__ring {
+      animation: act-hero-ring-drift linear both;
+      animation-timeline: view();
+      animation-range: entry cover;
+    }
+
+    @keyframes act-hero-ring-drift {
+      from {
+        transform: translateY(calc(var(--space-2xl) * -1));
+      }
+      to {
+        transform: translateY(var(--space-2xl));
+      }
+    }
+  }
+}
+
+// Scattered botanical leaves — soft sage, low contrast, purely decorative.
+.act-hero__leaf {
+  position: absolute;
+  z-index: 2;
+  color: color-mix(in srgb, var(--color-forest) 38%, var(--color-mist));
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.act-hero__leaf--tr {
+  top: var(--space-sm);
+  right: calc(var(--space-xl) * -1);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  transform: rotate(28deg) scaleX(-1);
+}
+
+.act-hero__leaf--bl {
+  left: calc(var(--space-lg) * -1);
+  bottom: var(--space-xl);
+  width: var(--space-xl);
+  height: var(--space-xl);
+  transform: rotate(-120deg) scaleX(-1);
+}
+
+.act-hero__leaf--bl2 {
+  left: var(--space-sm);
+  bottom: calc(var(--space-md) * -1);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  transform: rotate(-75deg) scaleX(-1);
+}
+
+// Drive-time badge, overlapping the lower-right of the circle.
+.act-hero__badge {
+  position: absolute;
+  z-index: 3;
+  right: var(--space-lg);
+  bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  width: 7rem;
+  height: 7rem;
+  padding: var(--space-md);
+  border-radius: 50%;
+  text-align: center;
+  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(2px);
+}
+
+.act-hero__badge-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-forest);
+}
+
+.act-hero__badge-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.act-hero__badge-sub {
+  margin-top: calc(var(--space-xs) * -0.5);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-style: italic;
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+// --- Mobile reflow ---
+@media (max-width: 60rem) {
+  .act-hero__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .act-hero__body {
+    align-items: center;
+  }
+
+  .act-hero__divider {
+    margin-inline: auto;
+  }
+
+  .act-hero__pills {
+    justify-content: center;
+  }
+
+  // Keep the circle (and its overflowing ring/leaves) from blowing up full-width.
+  .act-hero__media-col {
+    width: min(26rem, 82vw);
+  }
+}
+
+// --- 2. Doorstep activity cards ------------------------------------------------
+// Arched photo "windows" (echoing the hero circle) instead of boxy white cards: tall arch-topped
+// photo with a thin offset ring, a round forest icon marker bridging photo → copy, centred text.
+.act-cards {
+  margin-block-start: var(--space-2xl);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: var(--space-xl);
+  gap: var(--space-2xl) var(--space-xl);
   list-style: none;
-  margin: 0;
   padding: 0;
 }
 
-.activities__card {
+.act-card {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  background-color: var(--color-bg);
+  align-items: center;
+  text-align: center;
 }
 
-// image — fog-tinted fallback behind the (placeholder) photo so the card reads without a real
-// asset yet. aspect-ratio reserves a constant frame so swapping/loading photos causes no layout shift.
-.activities__image {
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .act-card {
+    transition: transform var(--motion-duration) var(--motion-ease);
+  }
+
+  .act-card:hover {
+    transform: translateY(calc(var(--space-xs) * -1));
+  }
+}
+
+.act-card__media {
+  position: relative;
+  // Modest cap — the arch photo is an accent, not a full-column poster.
+  width: min(20rem, 100%);
+  // Extra room below so the overlapping marker doesn't collide with the copy.
+  margin-block-end: var(--space-xl);
+}
+
+// aspect-ratio reserves a constant frame so swapping/loading photos causes no layout shift.
+// The arch radius sits on the image itself (no clipping wrapper) so the marker can overlap it.
+.act-card__image {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
+  // Hard ceiling so the photo can never grow past a normal, human-scale size.
+  max-height: 31.25rem; // 500px
   object-fit: cover;
   background-color: var(--color-mist);
+  border-radius: 999px 999px var(--radius-lg) var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  // Thin hand-drawn-feel ring, echoing the hero circle.
+  outline: 1px solid color-mix(in srgb, var(--color-forest) 35%, transparent);
+  outline-offset: var(--space-xs);
 }
 
-.activities__body {
+// Round forest marker, half-overlapping the bottom edge of the photo.
+.act-card__marker {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border-radius: 50%;
+  background-color: var(--color-forest);
+  color: var(--color-bg);
+  // Page-coloured rim visually lifts the marker off the photo.
+  border: 2px solid var(--color-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.act-card__marker-icon {
+  width: var(--space-md);
+  height: var(--space-md);
+}
+
+.act-card__body {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--space-lg);
+  padding-inline: var(--space-md);
 }
 
-.activities__title {
+.act-card__title {
   font-family: var(--font-heading);
   font-size: var(--text-h3);
   font-weight: var(--weight-medium);
@@ -57,14 +374,520 @@
   color: var(--color-text);
 }
 
-.activities__text {
+.act-card__text {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+}
+
+// --- 3. Day-trip destinations: editorial alternating photo + copy rows ---------
+// Each themed group (Forest walks / Caves / Wildlife / History) is now its own full act-band,
+// alternating warm/plain like every other section on the page — real segregation from the page's
+// existing background tokens, not a bolted-on panel color.
+
+// Primary heading for a themed group's act-band — same scale/centring as SectionHeader's title,
+// with a round forest icon marker (doorstep-card / heritage-timeline language) standing in for
+// the eyebrow.
+.day-trips__group-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  max-width: 60ch;
+  margin: 0 auto var(--space-xl);
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.day-trips__group-icon-wrap {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  border-radius: 50%;
+  background-color: var(--color-forest);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.day-trips__group-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+}
+
+.day-trips__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.day-trips__row {
+  display: flex;
+  flex-direction: column; // mobile: photo above copy
+  gap: var(--space-lg);
+
+  // Tablet up: photo + copy side by side; even rows flip so the layout zig-zags.
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2xl);
+
+    &:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .day-trips__media,
+    .day-trips__text {
+      flex: 1 1 0;
+      min-width: 0; // let flex children shrink instead of overflowing
+    }
+  }
+}
+
+// Organic, unevenly rounded photo corners — big on one diagonal, small on the other — mirrored
+// on alternating rows so the zig-zag feels hand-placed rather than templated.
+.day-trips__media {
+  position: relative; // anchors the drive-time badge
+  overflow: hidden;
+  border-radius: calc(var(--radius-lg) * 3) var(--radius-md) calc(var(--radius-lg) * 3) var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.day-trips__row:nth-child(even) .day-trips__media {
+  border-radius: var(--radius-md) calc(var(--radius-lg) * 3) var(--radius-md) calc(var(--radius-lg) * 3);
+}
+
+.day-trips__image {
+  display: block;
+  width: 100%;
+  // Height is set directly (not derived from the column width via aspect-ratio), so a wide
+  // flex column can't inflate it — object-fit crops horizontally instead. Scales with the
+  // viewport but never exceeds ~600px, so it stays a normal, visible photo without dominating.
+  height: clamp(16rem, 45vh, 37.5rem);
+  object-fit: cover;
+  background-color: var(--color-mist);
+}
+
+// Drive-time chip overlapping the photo — same translucent-surface treatment as the hero badge.
+.day-trips__badge {
+  position: absolute;
+  left: var(--space-md);
+  bottom: var(--space-md);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  backdrop-filter: blur(2px);
+  box-shadow: var(--shadow-soft);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+// Mirror the badge onto the gently-rounded corner on even rows, so the large organic
+// corner radius (bottom-left there) never clips it.
+.day-trips__row:nth-child(even) .day-trips__badge {
+  left: auto;
+  right: var(--space-md);
+}
+
+.day-trips__badge-icon {
+  flex-shrink: 0;
+  width: var(--text-body);
+  height: var(--text-body);
+  color: var(--color-forest);
+}
+
+.day-trips__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+// Warm kicker line — category + approximate drive time.
+.day-trips__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-wood);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.day-trips__kicker-icon {
+  width: var(--text-body);
+  height: var(--text-body);
+}
+
+.day-trips__name {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.day-trips__desc {
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--leading-normal);
   color: var(--color-text);
 }
 
-.activities__cta {
-  margin-top: var(--space-2xl);
+// "Get directions" — opens Google Maps in a new tab. Text link (not a full button) so it reads
+// as a secondary, in-context action rather than competing with the page's booking CTA.
+.day-trips__directions {
+  margin-block-start: var(--space-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-forest);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.day-trips__directions:hover,
+.day-trips__directions:focus-visible {
+  color: var(--color-terracotta);
+}
+
+.day-trips__directions-icon {
+  width: 1em;
+  height: 1em;
+}
+
+// --- 3b. Wildlife — near-full-bleed photo, no section band, copy overlaid directly on the image -
+// Not wrapped in .act-band__inner (no centred max-width column like every other block) — instead
+// a slim inset (--space-md, ~20px) on each side, so the photo reads as a bold, edge-hugging card
+// rather than the page's usual capped-width sections.
+.wildlife-band {
+  padding-inline: var(--space-md);
+  padding-block: var(--space-2xl);
+}
+
+.wildlife-feature {
+  position: relative;
+  overflow: hidden; // clip the photo/scrim to the rounded card
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(26rem, 65vh, 40rem);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.wildlife-feature__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: var(--color-mist);
+}
+
+// Mobile: full-width bottom gradient (readable without needing a fixed side panel).
+// Desktop: a solid panel pinned to the right, matching a photo-with-caption-box layout.
+.wildlife-feature__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--color-text) 82%, transparent) 0%,
+    color-mix(in srgb, var(--color-text) 45%, transparent) 45%,
+    transparent 85%
+  );
+
+  @media (min-width: 48rem) {
+    inset-inline-start: auto;
+    width: min(28rem, 55%);
+    background: color-mix(in srgb, var(--color-text) 62%, transparent);
+  }
+}
+
+.wildlife-feature__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 34rem;
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  @media (min-width: 48rem) {
+    width: min(28rem, 55%);
+    max-width: none;
+    margin-inline-start: auto;
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+
+.wildlife-feature__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-wood);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.wildlife-feature__kicker-icon {
+  width: var(--text-body);
+  height: var(--text-body);
+}
+
+.wildlife-feature__name {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-bg);
+}
+
+.wildlife-feature__desc {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-bg) 92%, transparent);
+}
+
+.wildlife-feature__directions {
+  margin-block-start: var(--space-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-bg);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.wildlife-feature__directions:hover,
+.wildlife-feature__directions:focus-visible {
+  color: var(--color-wood);
+}
+
+.wildlife-feature__directions-icon {
+  width: 1em;
+  height: 1em;
+}
+
+// --- 4. Why guests love it — full-bleed photo, same treatment as the wildlife block, with the
+// eyebrow/title/bullet-list overlaid in the panel's free space instead of a kicker/name/desc. ---
+.why-band {
+  padding-inline: var(--space-md);
+  padding-block: var(--space-2xl);
+}
+
+.why-feature {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(26rem, 65vh, 40rem);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.why-feature__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: var(--color-mist);
+}
+
+// Mobile: full-width bottom gradient. Desktop: a solid panel pinned to the right — same pattern
+// as the wildlife feature.
+.why-feature__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--color-text) 82%, transparent) 0%,
+    color-mix(in srgb, var(--color-text) 45%, transparent) 45%,
+    transparent 85%
+  );
+
+  @media (min-width: 48rem) {
+    inset-inline-start: auto;
+    width: min(30rem, 60%);
+    background: color-mix(in srgb, var(--color-text) 62%, transparent);
+  }
+}
+
+.why-feature__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 34rem;
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  @media (min-width: 48rem) {
+    width: min(30rem, 60%);
+    max-width: none;
+    margin-inline-start: auto;
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+
+.why-feature__eyebrow {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-wood);
+}
+
+.why-feature__title {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-bg);
+}
+
+.why-feature__list {
+  margin: var(--space-sm) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.why-feature__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+  color: color-mix(in srgb, var(--color-bg) 94%, transparent);
+}
+
+.why-feature__item-icon {
+  flex-shrink: 0;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-wood);
+  // Nudge the glyph to the cap-height of the first text line.
+  margin-block-start: calc(var(--space-xs) / 2);
+}
+
+.act-cta {
   text-align: center;
+}
+
+// --- Staggered element reveals ---------------------------------------------------
+// Enhances each section's whole-block .reveal fade (BaseLayout) with a per-item stagger, so
+// repeating groups (pills, cards, rows, bullets) rise into place one after another rather than
+// the section appearing as one flat block — same technique as the heritage timeline. Gated by
+// .has-reveal, which JS only ever adds when prefers-reduced-motion is NOT set (see _reveal.scss),
+// so this whole block is inert — and content stays fully visible — for reduced-motion users.
+// Animates only opacity/transform; timing/easing from --motion-* tokens.
+.has-reveal .reveal {
+  .act-hero__media-col,
+  .act-hero__badge,
+  .act-hero__pill,
+  .day-trips__group-title,
+  .act-card,
+  .day-trips__row,
+  .wildlife-feature__content,
+  .why-feature__content,
+  .why-feature__item {
+    opacity: 0;
+    transform: translateY(var(--space-md));
+    transition:
+      opacity var(--motion-duration) var(--motion-ease),
+      transform var(--motion-duration) var(--motion-ease);
+    will-change: transform, opacity;
+  }
+
+  // Photo elements settle in with a soft scale rather than a rise, so they read as "focusing
+  // into place" instead of sliding — a lighter touch for large imagery.
+  .act-hero__media-col,
+  .act-hero__badge {
+    transform: scale(0.94);
+  }
+
+  // Wildlife and "why guests" photos: a slow, subtle Ken-Burns drift on reveal — the extra nature
+  // moments the motion tokens allow beyond the hero (PRD §8.5 — "optionally 1-2 nature sections").
+  .wildlife-feature__bg,
+  .why-feature__bg {
+    transform: scale(1.06);
+    transition: transform calc(var(--motion-duration) * 3.5) var(--motion-ease);
+    will-change: transform;
+  }
+}
+
+.has-reveal .reveal.is-revealed {
+  .act-hero__media-col,
+  .act-hero__badge,
+  .act-hero__pill,
+  .day-trips__group-title,
+  .act-card,
+  .day-trips__row,
+  .wildlife-feature__content,
+  .why-feature__content,
+  .why-feature__item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .wildlife-feature__bg,
+  .why-feature__bg {
+    transform: scale(1);
+  }
+
+  // Badge lands just after the photo it sits on.
+  .act-hero__badge {
+    transition-delay: var(--motion-duration-fast);
+  }
+
+  // Stagger up to 6 siblings within their own group; further items land together with the last delay.
+  @for $i from 1 through 6 {
+    .act-hero__pill:nth-child(#{$i}),
+    .act-card:nth-child(#{$i}),
+    .day-trips__row:nth-child(#{$i}),
+    .why-feature__item:nth-child(#{$i}) {
+      transition-delay: calc(var(--motion-duration-fast) * #{$i * 0.5});
+    }
+  }
 }

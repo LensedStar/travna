@@ -20,7 +20,7 @@
 @use 'blocks/value-props'; // Home value-props section (TASK-015)
 @use 'blocks/accommodation-preview'; // Home accommodation teaser (TASK-016)
 @use 'blocks/activities-preview'; // Home activities teaser (TASK-016)
-@use 'blocks/region-explore'; // Home "Discover the Dolenjska region" map + bullets block
+@use 'blocks/home-welcome'; // Home "welcome to the house" block (hero hands off into it)
 @use 'blocks/heritage-timeline'; // Home heritage/history timeline (one-family historic house)
 @use 'blocks/apartment-showcase'; // Home "about the apartments" expanding photo gallery
 @use 'blocks/home-gallery'; // Home editorial photo gallery after the apartment showcase

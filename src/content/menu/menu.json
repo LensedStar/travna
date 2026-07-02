@@ -1,28 +1,183 @@
 {
   "scanPdf": "/menu/menu-scan.pdf",
+  "allergenLegend": [
+    { "code": "GP", "label": "Grains containing gluten" },
+    { "code": "L", "label": "Lactose" },
+    { "code": "J", "label": "Eggs" },
+    { "code": "R", "label": "Fish" },
+    { "code": "O", "label": "Nut" }
+  ],
   "sections": [
     {
-      "id": "starters",
-      "title": "Starters",
+      "id": "breakfast",
+      "title": "Zajtrk / Breakfast",
       "items": [
-        { "name": "Starter item one", "description": "Optional description.", "price": "€0,00" },
-        { "name": "Starter item two", "price": "€0,00" }
+        {
+          "name": "Italijanski zajtrk",
+          "description": "Family-recipe pancakes / or two croissants with chocolate, marmalade, and caramel gravy of your choice. Drink included.",
+          "price": "€6.00",
+          "allergens": ["GP", "L", "J"]
+        },
+        {
+          "name": "Tradicionalni zajtrk",
+          "description": "Crispy toast, sausage and cheese, boiled egg, butter and fruit jam. Drink included.",
+          "price": "€6.00",
+          "allergens": ["GP", "L", "J"]
+        },
+        {
+          "name": "Domači zajtrk",
+          "description": "Fried eggs / eggs in toast / or an omelet, fresh vegetable salad, sausage. Drink included.",
+          "price": "€10.00",
+          "allergens": ["GP", "L", "J"]
+        }
+      ]
+    },
+    {
+      "id": "salads",
+      "title": "Solate / Salads",
+      "items": [
+        {
+          "name": "Vitaminska solata",
+          "description": "Cabbage, carrot, apple.",
+          "price": "€4.50"
+        },
+        {
+          "name": "Mešana solata",
+          "description": "Fresh tomatoes, cucumbers, sweet peppers, lettuce leaves, carrots, and onions, dressed with lemon juice, aromatic pumpkin seed oil, or olive oil — according to the guest's choice.",
+          "price": "€5.50"
+        },
+        {
+          "name": "Grška solata",
+          "description": "Fresh tomatoes, cucumbers, sweet peppers, lettuce leaves, carrots, onions, and soft feta cheese, dressed with lemon juice, aromatic pumpkin seed oil, or olive oil — according to the guest's choice.",
+          "price": "€6.00",
+          "allergens": ["L"]
+        },
+        {
+          "name": "Kompleksna solata",
+          "description": "Sliced fresh vegetables with Caesar dressing. Served with juicy chicken fillet / fried fish (R) / pork schnitzel / a boiled egg (J) / or a soft omelette (J) — according to the guest's choice.",
+          "price": "€9.00",
+          "allergens": ["GP", "L"]
+        }
+      ]
+    },
+    {
+      "id": "soups",
+      "title": "Juhe / Soups",
+      "items": [
+        {
+          "name": "Goveja juha / Beef Soup",
+          "description": "A traditional clear beef broth with noodles.",
+          "price": "€4.50",
+          "allergens": ["GP", "J"]
+        },
+        {
+          "name": "Piščančja juha / Chicken Soup",
+          "description": "A traditional clear chicken broth with noodles.",
+          "price": "€4.50",
+          "allergens": ["GP", "J"]
+        },
+        {
+          "name": "Tomatna juha / Tomato Soup",
+          "description": "A rich and creamy homemade soup made from ripe tomatoes.",
+          "price": "€5.00",
+          "allergens": ["GP", "L", "J"]
+        },
+        {
+          "name": "Gobova juha / Mushroom Soup",
+          "description": "A homemade creamy soup made with fresh mushrooms.",
+          "price": "€5.50",
+          "allergens": ["GP", "L", "J"]
+        },
+        {
+          "name": "Sezonska juha / Seasonal Soup",
+          "description": "Rich broth with tender meat and seasonal vegetables.",
+          "price": "€6.00"
+        }
       ]
     },
     {
       "id": "mains",
-      "title": "Mains",
+      "title": "Glavne jedi / Main courses",
+      "badge": "Best Seller",
       "items": [
-        { "name": "Main item one", "description": "Optional description.", "price": "€0,00" },
-        { "name": "Main item two", "price": "€0,00" }
+        {
+          "name": "Sirna pogača (mala)",
+          "description": "Small cheese pie.",
+          "price": "€5.00",
+          "allergens": ["GP", "L", "J"]
+        },
+        {
+          "name": "Sirna pogača (velika)",
+          "description": "Big cheese pie.",
+          "price": "€8.00",
+          "allergens": ["GP", "L", "J"]
+        },
+        {
+          "name": "Peljmeni z mesom",
+          "description": "Hearty meat-filled dumplings, served with a dollop of sour cream.",
+          "price": "€9.50",
+          "allergens": ["GP", "J"]
+        },
+        {
+          "name": "Vareniki z krompirom",
+          "description": "Soft potato-filled dumplings, drizzled with melted butter.",
+          "price": "€9.50",
+          "allergens": ["GP", "J"]
+        },
+        {
+          "name": "Čevapčiči s pomfrijem",
+          "description": "Traditional minced meat rolls, accompanied by ajvar and chopped onions.",
+          "price": "€13.00"
+        },
+        {
+          "name": "Klobasni MIX",
+          "description": "Assortment of grilled local sausages served with french fries and mustard.",
+          "price": "€13.50"
+        },
+        {
+          "name": "Domača klobasa",
+          "description": "Traditional Slovenian sausage from Sodražica. Served with french fries / or with a light fresh vegetable salad, dressed with fragrant pumpkin seed oil and lemon juice, ajvar & chopped onions.",
+          "price": "€14.00"
+        },
+        {
+          "name": "Piščanec s pomfrijem",
+          "description": "Juicy, boneless and skinless fried chicken pieces, served with french fries / or with a light fresh vegetable salad, dressed with fragrant pumpkin seed oil and lemon juice.",
+          "price": "€13.00"
+        },
+        {
+          "name": "Dunajski zrezek",
+          "description": "Classic Viennese-style breaded and fried schnitzel.",
+          "price": "€13.00",
+          "allergens": ["GP"]
+        },
+        {
+          "name": "Riba s solato",
+          "description": "Delicately pan-seared catfish fillet served with a light fresh vegetable salad, dressed with fragrant pumpkin seed oil and lemon juice.",
+          "price": "€14.00",
+          "allergens": ["R"]
+        }
       ]
     },
     {
-      "id": "drinks",
-      "title": "Drinks",
+      "id": "desserts",
+      "title": "Sladice / Desserts",
       "items": [
-        { "name": "Drink item one", "price": "€0,00" },
-        { "name": "Drink item two", "price": "€0,00" }
+        {
+          "name": "Jabolčna Pita ali Zavitek",
+          "price": "€4.50",
+          "allergens": ["J", "GP", "L"]
+        },
+        {
+          "name": "Krem Brulee",
+          "price": "€3.50",
+          "allergens": ["J", "GP", "L"]
+        },
+        {
+          "name": "Palačinke Oladji (5 kos)",
+          "description": "Family-recipe pancakes with chocolate, marmalade or caramel gravy of your choice.",
+          "price": "€4.50",
+          "allergens": ["J", "GP", "L"]
+        }
       ]
     }
   ]

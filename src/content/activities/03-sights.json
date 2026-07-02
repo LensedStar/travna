@@ -1,6 +1,7 @@
 {
-  "title": "Notranjska sights",
+  "title": "Forests of Velika Gora",
   "image": "../../assets/images/activity-sights.png",
-  "description": "One- to two-sentence placeholder description.",
+  "icon": "trees",
+  "description": "Some of Europe’s largest forests wrap around the house — perfect for slow walks and, in season, picking mushrooms and wild berries.",
   "order": 3
 }

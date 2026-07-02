@@ -114,7 +114,10 @@ const lodgingSchema = {
                 io.unobserve(entry.target);
               }
             });
-          }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+            // threshold 0 (not 0.1): sections taller than ~10x the viewport can never reach a
+            // 0.1 intersection ratio, so they would never reveal (stay opacity:0). The -10% bottom
+            // rootMargin still delays the trigger until the section enters the viewport.
+          }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
           document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
         }
         if (document.readyState === 'loading') {

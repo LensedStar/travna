@@ -44,7 +44,6 @@ export const en = {
   'cta.contactUs': 'Contact us',
 
   // --- Home: hero ---
-  'home.hero.eyebrow': 'Welcome',
   'home.hero.title': 'Dom na Travni gori',
   'home.hero.subtitle': 'Where time runs slower',
   'home.hero.ratingsLabel': 'Guest ratings',
@@ -64,17 +63,21 @@ export const en = {
   'home.activities.title': 'Explore the surroundings',
   'home.activities.text': 'Short intro to nearby activities.',
 
-  // --- Home: explore the Dolenjska region (real regional content) ---
-  'home.region.title': 'Discover the Dolenjska region',
-  'home.region.intro':
-    'Our doorstep opens onto Dolenjska — one of Slovenia’s gentlest corners, where the emerald Krka river winds between vineyard hills, thermal spa towns and quiet medieval streets.',
-  'home.region.mapAlt': 'Map of Slovenia with the Dolenjska region highlighted',
-  'home.region.item.krka': 'The emerald Krka river — paddling, swimming and riverside walks',
-  'home.region.item.spas': 'Thermal spas at Dolenjske Toplice & Šmarješke Toplice',
-  'home.region.item.wine': 'Vineyard wine roads and traditional “zidanica” cellars',
-  'home.region.item.towns': 'Historic Novo mesto and the region’s castles',
-  'home.region.item.cycling': 'Marked cycling routes through rolling countryside',
-  'home.region.item.hiking': 'Hiking trails and panoramic viewpoints',
+  // --- Home: welcome / the house (first section after the hero) ---
+  // TODO: replace with real copy from client
+  'home.welcome.eyebrow': 'Welcome to Travna gora', // MOCK
+  'home.welcome.title': 'An old mountain home, kept warm for you', // MOCK
+  'home.welcome.lead':
+    'Lorem ipsum dolor sit amet — a few warm lines introducing the house itself: wood, quiet and forest air, a place that feels like coming home.', // MOCK
+  'home.welcome.body':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit — one more short paragraph on the apartments, the homemade kitchen and the family that keeps the house.', // MOCK
+  'home.welcome.imageAlt': 'Dom na Travni gori — the house surrounded by forest', // MOCK — real photo alt
+  'home.welcome.badge.title': 'Family-run', // MOCK
+  'home.welcome.badge.sub': 'for generations', // MOCK
+  'home.welcome.pill.apartments': 'Cozy apartments', // MOCK
+  'home.welcome.pill.kitchen': 'Homemade kitchen', // MOCK
+  'home.welcome.pill.forest': 'Forest at the doorstep', // MOCK
+  'home.welcome.pill.pets': 'Pets welcome', // MOCK
 
   // --- Home: heritage timeline (one-family historic house) ---
   // TODO: replace with real dates & history copy from client
@@ -330,17 +333,70 @@ export const en = {
   'testimonials.t3.meta': 'Couple’s getaway', // MOCK
   'testimonials.ratingLabel': 'Rated 5 out of 5', // a11y label for the star row
 
-  // --- Activities page ---
-  'activities.title': 'Activities & surroundings',
-  'activities.intro': 'Intro about the Notranjska region.',
+  // --- Activities page — "Discover Slovenia from Travna Gora" ---
+  // Real orientational content (nearby sights + approximate drive times supplied by the client).
+  // Drive times are approximate — confirm before launch.
+  'activities.eyebrow': 'Around Travna Gora',
+  'activities.title': 'Discover Slovenia from Travna Gora',
+  'activities.intro':
+    'Travna Gora is a quiet place to slow down — yet from this forested corner of Slovenia many of the country’s best-loved sights are an easy day trip away. Wake to birdsong and forest air, then set out for caves, castles, lakes and the capital, most within about an hour’s drive.',
+  'activities.hero.imageAlt': 'Forest landscape surrounding Travna Gora', // MOCK photo — TODO(Webline): swap alt with real photo
+  // Badge figure restates the approximate drive time already in the intro copy — confirm before launch.
+  'activities.hero.badge.title': '≈ 1 hour',
+  'activities.hero.badge.sub': 'to most sights',
+  // Highlight pills — the sight types named in the intro copy.
+  'activities.hero.pill.caves': 'Karst caves',
+  'activities.hero.pill.castles': 'Castles',
+  'activities.hero.pill.lakes': 'Lakes & forests',
+  'activities.hero.pill.capital': 'Ljubljana',
+
+  // Doorstep activities — image cards rendered from the `activities` content collection.
+  'activities.doorstep.eyebrow': 'Right on the doorstep',
+  'activities.doorstep.title': 'Straight out the door',
+  'activities.doorstep.intro':
+    'You don’t have to go far. Trails, forest tracks and viewpoints begin at Travna Gora itself and around the nearby mountain hut Koča na Kamnem Griču.',
+
+  // Day-trip destinations — cards rendered from the `destinations` content collection.
+  'activities.trips.eyebrow': 'Easy day trips',
+  'activities.trips.title': 'Slovenia within an hour’s drive',
+  'activities.trips.intro':
+    'Set between Ljubljana and Slovenia’s famous karst caves, Travna Gora makes an ideal base for exploring — most of these highlights are well under an hour away.',
+  'activities.trips.driveLabel': 'Approx. drive', // label prefix on each distance badge
+  'activities.trips.directions': 'Get directions', // link out to Google Maps, opens in a new tab
+
+  // Day-trip sub-section headings (grouping the `destinations` collection by `section`).
+  'activities.trips.section.forests': 'Forest walks',
+  'activities.trips.section.caves': 'Caves',
+  'activities.trips.section.wildlife': 'Wildlife',
+  'activities.trips.section.history': 'History & castles',
+
+  // Why guests love it — benefits list (icon + text).
+  'activities.why.eyebrow': 'Why guests love it',
+  'activities.why.title': 'A quiet corner, close to everything',
+  'activities.why.b1': 'Complete peace, with none of the city noise',
+  'activities.why.b2': 'On the edge of some of Europe’s largest forests',
+  'activities.why.b3': 'A chance to see brown bears in the wild',
+  'activities.why.b4': 'Set between Ljubljana and the karst cave region',
 
   // --- Menu page ---
   'menu.title': 'Menu',
-  'menu.intro': 'Short intro to the menu.',
+  'menu.intro': 'Home-cooked dishes made with local produce, served in the house dining room.', // MOCK
+  'menu.hero.eyebrow': 'From our kitchen', // MOCK
+  'menu.hero.lead':
+    'Lorem ipsum dolor sit amet — a few warm lines on the house kitchen: home-cooked breakfasts, hearty mains and family recipes served fresh each day.', // MOCK
+  'menu.hero.imageAlt': 'The house dining room, set for a meal', // MOCK — real photo, alt TODO(Webline)
+  'menu.hero.badge.title': 'Homemade', // MOCK
+  'menu.hero.badge.sub': 'family recipes', // MOCK
+  'menu.hero.pill.breakfast': 'Breakfast',
+  'menu.hero.pill.mains': 'Hearty mains',
+  'menu.hero.pill.soups': 'Soups & salads',
+  'menu.hero.pill.desserts': 'Homemade desserts',
   'menu.pdf.title': 'Full menu (PDF)',
   'menu.pdf.download': 'Download menu (PDF)',
   'menu.pdf.fallback': 'Open the menu in a new tab',
   'menu.price': 'Price',
+  'menu.legend.title': 'Allergens',
+  'menu.legend.note': 'Please inform your server of any allergies or dietary restrictions.',
 
   // --- Contact page + form ---
   'contact.title': 'Contact',

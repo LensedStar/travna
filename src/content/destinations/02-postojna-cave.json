@@ -1,0 +1,9 @@
+{
+  "name": "Postojna Cave",
+  "image": "../../assets/images/dest-postojna-cave.png",
+  "category": "Karst cave",
+  "section": "caves",
+  "distance": "≈ 55 min",
+  "description": "One of the world’s great karst caves, explored by a little underground train through vast chambers.",
+  "order": 2
+}

@@ -4,7 +4,7 @@
 // Visible strings come from the i18n dictionary — no hardcoded copy.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ParallaxHero from '../islands/ParallaxHero.jsx';
-import RegionExplore from '../components/sections/RegionExplore.astro';
+import HomeWelcome from '../components/sections/HomeWelcome.astro';
 import HeritageTimeline from '../components/sections/HeritageTimeline.astro';
 import ApartmentShowcase from '../components/sections/ApartmentShowcase.astro';
 import HomeGallery from '../components/sections/HomeGallery.astro';
@@ -20,14 +20,13 @@ const t = useTranslations(defaultLocale);
     client:load
     title={t('home.hero.title')}
     subtitle={t('home.hero.subtitle')}
-    eyebrow={t('home.hero.eyebrow')}
     ctaPrimaryLabel={t('cta.checkAvailability')}
     ctaSecondaryLabel={t('cta.exploreArea')}
     ratingsLabel={t('home.hero.ratingsLabel')}
     bookingLabel={t('home.hero.bookingLabel')}
     airbnbLabel={t('home.hero.airbnbLabel')}
   />
-  <RegionExplore />
+  <HomeWelcome />
   <HeritageTimeline />
   <ApartmentShowcase />
   <HomeGallery />

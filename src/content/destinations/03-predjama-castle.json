@@ -1,0 +1,9 @@
+{
+  "name": "Predjama Castle",
+  "image": "../../assets/images/dest-predjama-castle.png",
+  "category": "Castle",
+  "section": "history",
+  "distance": "≈ 1 hour",
+  "description": "A dramatic medieval castle built straight into the mouth of a cliffside cave.",
+  "order": 3
+}

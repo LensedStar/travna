@@ -1,0 +1,311 @@
+// blocks/_home-welcome.scss — Home "welcome to the house" block (first section after the hero).
+// Same editorial language as the accommodation/activities page heroes: circular house photo with
+// an offset ring, scattered leaves and a round badge, beside eyebrow / serif title / divider /
+// copy / pills / CTA. The circle is pulled UP out of the section so it overlaps the hero's wave
+// and the landscape photo above — the hero hands off into the house photo as one composition.
+// Token-only (no raw hex / magic numbers). Single, centered column on narrow viewports.
+
+.home-welcome {
+  position: relative;
+  // No top padding — the pulled-up circle provides the section's own headroom.
+  padding-block: 0 var(--space-2xl);
+  background-color: var(--color-bg);
+  // Clip sideways only (leaf/ring bleed must never cause horizontal scroll) while leaving the
+  // vertical axis visible so the circle photo can rise up into the hero above.
+  overflow-x: clip;
+
+  // Soft fade at the base so the warm section melts into the heritage band below it
+  // instead of meeting it on a hard horizontal seam.
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 0;
+    height: var(--space-3xl);
+    background: linear-gradient(to bottom, transparent, var(--color-surface-warm));
+    pointer-events: none;
+  }
+}
+
+.home-welcome__inner {
+  position: relative;
+  z-index: 1; // keep content above the section's base fade overlay
+  max-width: 70rem;
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  // Mobile-first: single centered column — photo (rising into the hero) first, copy below.
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: var(--space-xl);
+  text-align: center;
+
+  // From desktop up: copy left, circle right (mirror of the apartments-page hero).
+  @media (min-width: 60rem) {
+    grid-template-columns: 1fr auto;
+    gap: var(--space-2xl);
+    justify-items: start;
+    align-items: center;
+    text-align: left;
+  }
+}
+
+// --- Media column (circle + ring + leaves + badge), pulled up into the hero ---
+.home-welcome__media-col {
+  position: relative;
+  width: min(26rem, 82vw);
+  aspect-ratio: 1 / 1;
+  // Rise over the hero's wave so the hero photo and the house photo read together.
+  margin-block-start: calc((var(--space-xl) + var(--space-md)) * -1);
+
+  @media (min-width: 60rem) {
+    order: 2;
+    align-self: start;
+    width: min(28rem, 100%);
+    // Matches the hero's bottom padding — the circle spans the wave and dips into the photo.
+    margin-block-start: calc((var(--space-3xl) + var(--space-xl)) * -1);
+  }
+}
+
+.home-welcome__media {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: var(--shadow-card);
+  // Thin warm keyline so the photo edge stays defined while crossing the dark hero photo.
+  border: calc(var(--space-xs) * 0.5) solid var(--color-bg);
+}
+
+.home-welcome__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Thin hand-drawn-feel ring, offset down/left behind the photo (mirrors the page heroes).
+.home-welcome__ring {
+  position: absolute;
+  inset: var(--space-md) var(--space-md) calc(var(--space-lg) * -1) calc(var(--space-lg) * -1);
+  z-index: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 35%, transparent);
+}
+
+// Gentle parallax: the ring drifts vertically as the section scrolls through the viewport, so it
+// detaches slightly from the photo. CSS scroll-driven only (no JS) — degrades to a static ring
+// where unsupported, and is disabled for reduced-motion users.
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .home-welcome__ring {
+      animation: home-welcome-ring-drift linear both;
+      animation-timeline: view();
+      animation-range: entry cover;
+    }
+
+    @keyframes home-welcome-ring-drift {
+      from {
+        transform: translateY(calc(var(--space-2xl) * -1));
+      }
+      to {
+        transform: translateY(var(--space-2xl));
+      }
+    }
+  }
+}
+
+// Scattered botanical leaves — soft sage, low contrast, purely decorative.
+.home-welcome__leaf {
+  position: absolute;
+  z-index: 2;
+  color: color-mix(in srgb, var(--color-forest) 38%, var(--color-mist));
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.home-welcome__leaf--tr {
+  top: var(--space-xl);
+  right: calc(var(--space-xl) * -1);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  transform: rotate(28deg);
+}
+
+.home-welcome__leaf--bl {
+  left: calc(var(--space-lg) * -1);
+  bottom: var(--space-xl);
+  width: var(--space-xl);
+  height: var(--space-xl);
+  transform: rotate(-120deg);
+}
+
+.home-welcome__leaf--bl2 {
+  left: var(--space-sm);
+  bottom: calc(var(--space-md) * -1);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  transform: rotate(-75deg);
+  opacity: 0.5;
+}
+
+// "Family-run" badge, overlapping the lower-right of the circle.
+.home-welcome__badge {
+  position: absolute;
+  z-index: 3;
+  right: var(--space-lg);
+  bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  // Slightly larger than the sibling page-hero badges — the two-word label needs the room.
+  width: 8rem;
+  height: 8rem;
+  padding: var(--space-sm);
+  border-radius: 50%;
+  text-align: center;
+  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(2px);
+}
+
+.home-welcome__badge-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+  color: var(--color-forest);
+}
+
+.home-welcome__badge-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.home-welcome__badge-sub {
+  margin-top: calc(var(--space-xs) * -0.5);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-style: italic;
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+// --- Body / editorial column ---
+.home-welcome__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 60rem) {
+    align-items: flex-start;
+  }
+}
+
+.home-welcome__eyebrow {
+  // Match the site-wide section-header eyebrow (wood accent, same tracking).
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-wood);
+}
+
+.home-welcome__title {
+  // Same family/weight/colour as the shared section-header title (cocoa text, not forest).
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+// Short line — house — short line, under the title.
+.home-welcome__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 9rem;
+  margin: 0 0 var(--space-md);
+  color: color-mix(in srgb, var(--color-forest) 55%, transparent);
+}
+
+.home-welcome__divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.home-welcome__divider-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+.home-welcome__lead {
+  margin: 0 0 var(--space-sm);
+  max-width: 34rem;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.home-welcome__text {
+  margin: 0;
+  max-width: 34rem;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+// Small highlight pills under the intro copy — compact, low-key, line-icon + short label.
+.home-welcome__pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 60rem) {
+    justify-content: flex-start;
+  }
+}
+
+.home-welcome__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 22%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.home-welcome__pill-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+.home-welcome__cta {
+  margin-block-start: var(--space-lg);
+}

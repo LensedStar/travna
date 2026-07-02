@@ -1,51 +1,363 @@
 ---
-// activities.astro — Activities / Surroundings page (TASK-019).
-// intro + activity blocks rendered from the `activities` content collection, so items can be
-// added/removed WITHOUT editing this layout. No invented facts — placeholder copy only.
-// All visible chrome strings come from the i18n dictionary; styling lives in src/styles/blocks/_activities.scss.
+// activities.astro — "Discover Slovenia from Travna Gora" (TASK-019).
+// Band-based layout: alternating warm/plain full-width bands, each capped by a centred inner.
+//   1. Intro hero          → i18n copy beside a circular photo (ring + leaves + drive-time badge),
+//                            mirroring the accommodation-page hero language
+//   2. Doorstep activities → `activities` collection (photo cards)
+//   3. Easy day trips      → `destinations` collection (editorial alternating photo + copy rows)
+//   4. Why guests love it  → i18n bullet list + booking CTA
+// All items are collection-driven so they can be added/removed WITHOUT editing this layout.
+// Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_activities.scss.
+// Drive times are approximate, client-supplied figures.
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
 import { useTranslations, defaultLocale } from '../i18n';
+// MOCK hero photo — TODO(Webline): swap for a real photo of the surrounding forest/landscape.
+import heroImage from '../assets/images/gallery-forest.png';
+// MOCK "why guests love it" photo — TODO: swap for a real photo of the house/hotel.
+import whyImage from '../assets/images/gallery-interior.png';
 
 const t = useTranslations(defaultLocale);
 const pageTitle = `${t('activities.title')} — ${t('site.name')}`;
 
-// Activity blocks come from the collection (sorted), so adding an entry adds a block with no layout edit.
+// Sorted content — adding an entry adds a card/row with no layout edit.
 const activities = (await getCollection('activities')).sort((a, b) => a.data.order - b.data.order);
+const destinations = (await getCollection('destinations')).sort((a, b) => a.data.order - b.data.order);
+
+// Day-trip destinations grouped into themed sub-sections. Sections/icons are page structure (not
+// content); each entry's `section` field (in the `destinations` collection) decides which group it
+// falls into, so adding/removing destinations never touches this layout.
+const tripGroups = (
+  [
+    { key: 'forests', icon: 'trees', titleKey: 'activities.trips.section.forests' },
+    { key: 'caves', icon: 'mountain', titleKey: 'activities.trips.section.caves' },
+    { key: 'history', icon: 'landmark', titleKey: 'activities.trips.section.history' },
+  ] as const
+)
+  .map((group) => ({ ...group, items: destinations.filter((d) => d.data.section === group.key) }))
+  .filter((group) => group.items.length > 0);
+
+// Wildlife is a single featured entry (full-bleed photo band), not a row list like the other groups.
+const wildlife = destinations.find((d) => d.data.section === 'wildlife');
+
+// Shared "Get directions" link builder — Google Maps search-by-name, no invented coordinates.
+const directionsUrl = (name: string) =>
+  `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${name}, Slovenia`)}`;
+
+// Hero highlight pills — the sight types named in the intro copy (line-icon + i18n key).
+const heroPills = [
+  { icon: 'mountain', key: 'activities.hero.pill.caves' },
+  { icon: 'landmark', key: 'activities.hero.pill.castles' },
+  { icon: 'waves', key: 'activities.hero.pill.lakes' },
+  { icon: 'map-pin', key: 'activities.hero.pill.capital' },
+] as const;
+
+// "Why guests love it" bullets — line-icon + i18n key. Reorder/extend here without touching markup.
+const whyBullets = [
+  { icon: 'leaf', key: 'activities.why.b1' },
+  { icon: 'trees', key: 'activities.why.b2' },
+  { icon: 'paw-print', key: 'activities.why.b3' },
+  { icon: 'map-pin', key: 'activities.why.b4' },
+] as const;
 ---
 
 <BaseLayout title={pageTitle} description={t('activities.intro')}>
-  <section class="activities reveal">
-    <div class="activities__inner">
-      <SectionHeader title={t('activities.title')} subtitle={t('activities.intro')} align="center" />
+  <!-- 1. Intro hero — editorial copy beside a circular photo (accommodation-hero language, mirrored) -->
+  <section class="act-band act-band--warm act-hero reveal">
+    <div class="act-band__inner act-hero__inner">
+      <div class="act-hero__body">
+        <p class="act-hero__eyebrow">{t('activities.eyebrow')}</p>
+        <h1 class="act-hero__title">{t('activities.title')}</h1>
+        <div class="act-hero__divider" aria-hidden="true">
+          <span class="act-hero__divider-line"></span>
+          <Icon name="trees" class="act-hero__divider-icon" />
+          <span class="act-hero__divider-line"></span>
+        </div>
+        <p class="act-hero__lead">{t('activities.intro')}</p>
 
-      <ul class="activities__grid">
+        <ul class="act-hero__pills" role="list">
+          {heroPills.map(({ icon, key }) => (
+            <li class="act-hero__pill">
+              <Icon name={icon} class="act-hero__pill-icon" />
+              <span>{t(key)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="act-hero__media-col">
+        <div class="act-hero__ring" aria-hidden="true"></div>
+
+        <div class="act-hero__media">
+          <Image
+            class="act-hero__photo"
+            src={heroImage}
+            alt={t('activities.hero.imageAlt')}
+            widths={[480, 960]}
+            sizes="(max-width: 60rem) 82vw, 28rem"
+            format="webp"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+
+        <!-- Scattered botanical leaves — purely decorative atmosphere. -->
+        <Icon name="leaf" class="act-hero__leaf act-hero__leaf--tr" />
+        <Icon name="leaf" class="act-hero__leaf act-hero__leaf--bl" />
+        <Icon name="leaf" class="act-hero__leaf act-hero__leaf--bl2" />
+
+        <span class="act-hero__badge">
+          <Icon name="car" class="act-hero__badge-icon" />
+          <span class="act-hero__badge-title">{t('activities.hero.badge.title')}</span>
+          <span class="act-hero__badge-sub">{t('activities.hero.badge.sub')}</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Right on the doorstep — arched photo "windows" with a round icon marker each -->
+  <section class="act-band reveal">
+    <div class="act-band__inner">
+      <SectionHeader
+        eyebrow={t('activities.doorstep.eyebrow')}
+        title={t('activities.doorstep.title')}
+        subtitle={t('activities.doorstep.intro')}
+        align="center"
+      />
+
+      <ul class="act-cards">
         {activities.map(({ data }) => (
-          <li class="activities__item">
-            <article class="activities__card">
+          <li class="act-card">
+            <div class="act-card__media">
               <Image
-                class="activities__image"
+                class="act-card__image"
                 src={data.image}
                 alt={data.title}
-                widths={[400, 800, 1200]}
-                sizes="(max-width: 48rem) 100vw, 24rem"
+                widths={[320, 640]}
+                sizes="20rem"
                 format="webp"
                 loading="lazy"
                 decoding="async"
               />
-              <div class="activities__body">
-                <h2 class="activities__title">{data.title}</h2>
-                <p class="activities__text">{data.description}</p>
-              </div>
-            </article>
+              <span class="act-card__marker">
+                <Icon name={data.icon} class="act-card__marker-icon" />
+              </span>
+            </div>
+            <div class="act-card__body">
+              <h3 class="act-card__title">{data.title}</h3>
+              <p class="act-card__text">{data.description}</p>
+            </div>
           </li>
         ))}
       </ul>
+    </div>
+  </section>
 
-      <div class="activities__cta">
+  <!-- 3. Easy day trips — intro copy, then one alternating act-band per themed group -->
+  <section class="act-band act-band--warm reveal">
+    <div class="act-band__inner">
+      <SectionHeader
+        eyebrow={t('activities.trips.eyebrow')}
+        title={t('activities.trips.title')}
+        subtitle={t('activities.trips.intro')}
+        align="center"
+      />
+    </div>
+  </section>
+
+  {tripGroups.slice(0, 2).map(({ icon, titleKey, items }, index) => (
+    <section class:list={['act-band', 'reveal', { 'act-band--warm': index % 2 === 1 }]}>
+      <div class="act-band__inner">
+        <h2 class="day-trips__group-title">
+          <span class="day-trips__group-icon-wrap">
+            <Icon name={icon} class="day-trips__group-icon" />
+          </span>
+          {t(titleKey)}
+        </h2>
+
+        <div class="day-trips__rows">
+          {items.map(({ data }) => (
+            <article class="day-trips__row">
+              <div class="day-trips__media">
+                <Image
+                  class="day-trips__image"
+                  src={data.image}
+                  alt={data.name}
+                  widths={[400, 800, 1200]}
+                  sizes="(max-width: 48rem) 100vw, 32rem"
+                  format="webp"
+                  loading="lazy"
+                  decoding="async"
+                />
+                {/* Decorative duplicate — the drive time is announced via the kicker's aria-label. */}
+                <span class="day-trips__badge" aria-hidden="true">
+                  <Icon name="car" class="day-trips__badge-icon" />
+                  <span>{data.distance}</span>
+                </span>
+              </div>
+              <div class="day-trips__text">
+                <p class="day-trips__kicker">
+                  <Icon name="map-pin" class="day-trips__kicker-icon" />
+                  <span aria-label={`${data.category}, ${t('activities.trips.driveLabel')}: ${data.distance}`}>
+                    {data.category}
+                  </span>
+                </p>
+                <h3 class="day-trips__name">{data.name}</h3>
+                <p class="day-trips__desc">{data.description}</p>
+                <a
+                  class="day-trips__directions"
+                  href={directionsUrl(data.name)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('activities.trips.directions')}
+                  <Icon name="arrow-up-right" class="day-trips__directions-icon" />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  {/* Wildlife: not a section band — a full-bleed photo with the copy overlaid directly on the
+      image (dark panel, right-aligned on larger screens), sitting between Caves and History. */}
+  {wildlife && (
+    <section class="wildlife-band reveal">
+      <article class="wildlife-feature">
+        <Image
+          class="wildlife-feature__bg"
+          src={wildlife.data.image}
+          alt=""
+          widths={[600, 1200, 1800]}
+          sizes="100vw"
+          format="webp"
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="wildlife-feature__scrim" aria-hidden="true"></span>
+
+        <div class="wildlife-feature__content">
+          <p class="wildlife-feature__kicker">
+            <Icon name="paw-print" class="wildlife-feature__kicker-icon" />
+            <span
+              aria-label={`${wildlife.data.category}, ${t('activities.trips.driveLabel')}: ${wildlife.data.distance}`}
+            >
+              {wildlife.data.category} · {wildlife.data.distance}
+            </span>
+          </p>
+          <h2 class="wildlife-feature__name">{wildlife.data.name}</h2>
+          <p class="wildlife-feature__desc">{wildlife.data.description}</p>
+          <a
+            class="wildlife-feature__directions"
+            href={directionsUrl(wildlife.data.name)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t('activities.trips.directions')}
+            <Icon name="arrow-up-right" class="wildlife-feature__directions-icon" />
+          </a>
+        </div>
+      </article>
+    </section>
+  )}
+
+  {tripGroups.slice(2).map(({ icon, titleKey, items }) => (
+    <section class="act-band reveal">
+      <div class="act-band__inner">
+        <h2 class="day-trips__group-title">
+          <span class="day-trips__group-icon-wrap">
+            <Icon name={icon} class="day-trips__group-icon" />
+          </span>
+          {t(titleKey)}
+        </h2>
+
+        <div class="day-trips__rows">
+          {items.map(({ data }) => (
+            <article class="day-trips__row">
+              <div class="day-trips__media">
+                <Image
+                  class="day-trips__image"
+                  src={data.image}
+                  alt={data.name}
+                  widths={[400, 800, 1200]}
+                  sizes="(max-width: 48rem) 100vw, 32rem"
+                  format="webp"
+                  loading="lazy"
+                  decoding="async"
+                />
+                {/* Decorative duplicate — the drive time is announced via the kicker's aria-label. */}
+                <span class="day-trips__badge" aria-hidden="true">
+                  <Icon name="car" class="day-trips__badge-icon" />
+                  <span>{data.distance}</span>
+                </span>
+              </div>
+              <div class="day-trips__text">
+                <p class="day-trips__kicker">
+                  <Icon name="map-pin" class="day-trips__kicker-icon" />
+                  <span aria-label={`${data.category}, ${t('activities.trips.driveLabel')}: ${data.distance}`}>
+                    {data.category}
+                  </span>
+                </p>
+                <h3 class="day-trips__name">{data.name}</h3>
+                <p class="day-trips__desc">{data.description}</p>
+                <a
+                  class="day-trips__directions"
+                  href={directionsUrl(data.name)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('activities.trips.directions')}
+                  <Icon name="arrow-up-right" class="day-trips__directions-icon" />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- 4. Why guests love it — full-bleed photo like the wildlife block, bullets in the free space -->
+  <section class="why-band reveal">
+    <article class="why-feature">
+      <Image
+        class="why-feature__bg"
+        src={whyImage}
+        alt=""
+        widths={[600, 1200, 1800]}
+        sizes="100vw"
+        format="webp"
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="why-feature__scrim" aria-hidden="true"></span>
+
+      <div class="why-feature__content">
+        <p class="why-feature__eyebrow">{t('activities.why.eyebrow')}</p>
+        <h2 class="why-feature__title">{t('activities.why.title')}</h2>
+
+        <ul class="why-feature__list">
+          {whyBullets.map(({ icon, key }) => (
+            <li class="why-feature__item">
+              <Icon name={icon} class="why-feature__item-icon" />
+              <span>{t(key)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <!-- Booking CTA -->
+  <section class="act-band reveal">
+    <div class="act-band__inner">
+      <div class="act-cta">
         <Button href="/rezervacija" variant="primary">{t('cta.checkAvailability')}</Button>
       </div>
     </div>

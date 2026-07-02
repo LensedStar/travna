@@ -1,13 +1,14 @@
 ---
-// menu.astro — Menu page: online menu rendered from the `menu` content collection (TASK-020)
-// plus the embedded scanned-menu PDF preview + download (TASK-021).
-// Sections (e.g. Starters / Mains / Drinks) + items (name + optional description + optional price)
-// come from the collection, so the menu can be edited WITHOUT touching this layout.
-// Page chrome strings come from the i18n dictionary; styling lives in src/styles/blocks/_menu.scss.
+// menu.astro — Menu page: hero intro, online menu rendered from the `menu` content collection
+// (TASK-020), plus the embedded scanned-menu PDF preview + download (TASK-021).
+// Sections (e.g. Breakfast / Soups / Mains) + items (name, optional description/price/allergens)
+// and the allergen legend come from the collection, so the menu can be edited WITHOUT touching
+// this layout. Page chrome strings come from the i18n dictionary; styling lives in
+// src/styles/blocks/_menu.scss.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeader from '../components/ui/SectionHeader.astro';
 import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
 import { useTranslations, defaultLocale } from '../i18n';
 
 const t = useTranslations(defaultLocale);
@@ -16,19 +17,82 @@ const pageTitle = `${t('menu.title')} — ${t('site.name')}`;
 // The menu is a single structured document (sections + items); item data comes from the collection.
 const [menu] = await getCollection('menu');
 const sections = menu.data.sections;
-// scanned-menu PDF served from /public/menu — TODO: Webline/client replaces with the real scan.
+const allergenLegend = menu.data.allergenLegend;
+// scanned-menu PDF served from /public/menu.
 const scanPdf = menu.data.scanPdf;
+
+// Hero highlight pills — one per menu section family (line-icon + i18n key).
+const heroPills = [
+  { icon: 'coffee', key: 'menu.hero.pill.breakfast' },
+  { icon: 'utensils', key: 'menu.hero.pill.mains' },
+  { icon: 'leaf', key: 'menu.hero.pill.soups' },
+  { icon: 'wine', key: 'menu.hero.pill.desserts' },
+] as const;
 ---
 
 <BaseLayout title={pageTitle} description={t('menu.intro')}>
+  <!-- Hero — editorial copy beside a circular photo (accommodation-hero language, mirrored) -->
+  <section class="menu-hero reveal">
+    <div class="menu-hero__inner">
+      <div class="menu-hero__media-col">
+        <div class="menu-hero__ring" aria-hidden="true"></div>
+
+        <div class="menu-hero__media">
+          <!-- Real house photo reused as atmosphere — TODO(Webline): swap for a dining/food photo. -->
+          <img
+            class="menu-hero__photo"
+            src="/images/ttravna now.webp"
+            alt={t('menu.hero.imageAlt')}
+            width="1200"
+            height="800"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+
+        <!-- Scattered botanical leaves — purely decorative atmosphere. -->
+        <Icon name="leaf" class="menu-hero__leaf menu-hero__leaf--tl" />
+        <Icon name="leaf" class="menu-hero__leaf menu-hero__leaf--br" />
+        <Icon name="leaf" class="menu-hero__leaf menu-hero__leaf--br2" />
+
+        <span class="menu-hero__badge">
+          <Icon name="utensils" class="menu-hero__badge-icon" />
+          <span class="menu-hero__badge-title">{t('menu.hero.badge.title')}</span>
+          <span class="menu-hero__badge-sub">{t('menu.hero.badge.sub')}</span>
+        </span>
+      </div>
+
+      <div class="menu-hero__body">
+        <p class="menu-hero__eyebrow">{t('menu.hero.eyebrow')}</p>
+        <h1 class="menu-hero__title">{t('menu.title')}</h1>
+        <div class="menu-hero__divider" aria-hidden="true">
+          <span class="menu-hero__divider-line"></span>
+          <Icon name="utensils" class="menu-hero__divider-icon" />
+          <span class="menu-hero__divider-line"></span>
+        </div>
+        <p class="menu-hero__lead">{t('menu.hero.lead')}</p>
+
+        <ul class="menu-hero__pills" role="list">
+          {heroPills.map(({ icon, key }) => (
+            <li class="menu-hero__pill">
+              <Icon name={icon} class="menu-hero__pill-icon" />
+              <span>{t(key)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <section class="menu reveal">
     <div class="menu__inner">
-      <SectionHeader title={t('menu.title')} subtitle={t('menu.intro')} align="center" />
-
       <div class="menu__sections">
         {sections.map((section) => (
           <section class="menu__section">
-            <h2 class="menu__section-title">{section.title}</h2>
+            <h2 class="menu__section-title">
+              {section.title}
+              {section.badge && <span class="menu__section-badge">{section.badge}</span>}
+            </h2>
             <ul class="menu__items">
               {section.items.map((item) => (
                 <li class="menu__item">
@@ -37,6 +101,13 @@ const scanPdf = menu.data.scanPdf;
                     {item.price && <span class="menu__item-price">{item.price}</span>}
                   </div>
                   {item.description && <p class="menu__item-desc">{item.description}</p>}
+                  {item.allergens && item.allergens.length > 0 && (
+                    <ul class="menu__item-allergens" role="list">
+                      {item.allergens.map((code) => (
+                        <li class="menu__item-allergen">{code}</li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
@@ -44,17 +115,26 @@ const scanPdf = menu.data.scanPdf;
         ))}
       </div>
 
+      <div class="menu__legend">
+        <h2 class="menu__legend-title">{t('menu.legend.title')}</h2>
+        <p class="menu__legend-codes">
+          {allergenLegend.map(({ code, label }, index) => (
+            <>
+              <strong>{code}</strong>&nbsp;–&nbsp;{label}
+              {index < allergenLegend.length - 1 && <span>;&nbsp;</span>}
+            </>
+          ))}
+        </p>
+        <p class="menu__legend-note">{t('menu.legend.note')}</p>
+      </div>
+
       <div class="menu__pdf">
         <h2 class="menu__pdf-title">{t('menu.pdf.title')}</h2>
-        {/* Inline PDF preview where the browser supports it; the inner content is the
-            graceful-degradation fallback (e.g. many mobile browsers can't render PDF inline). */}
-        <object class="menu__pdf-frame" data={scanPdf} type="application/pdf" aria-label={t('menu.pdf.title')}>
-          <p class="menu__pdf-fallback">
-            <a href={scanPdf} target="_blank" rel="noopener noreferrer">{t('menu.pdf.fallback')}</a>
-          </p>
-        </object>
         <div class="menu__pdf-actions">
           <Button href={scanPdf} variant="secondary" download>{t('menu.pdf.download')}</Button>
+          <a class="menu__pdf-link" href={scanPdf} target="_blank" rel="noopener noreferrer">
+            {t('menu.pdf.fallback')}
+          </a>
         </div>
       </div>
     </div>

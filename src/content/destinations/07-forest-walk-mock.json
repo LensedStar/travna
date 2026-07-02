@@ -1,0 +1,9 @@
+{
+  "name": "[MOCK] Forest walk destination",
+  "image": "../../assets/images/gallery-forest.png",
+  "category": "Forest walk",
+  "distance": "≈ TODO",
+  "description": "[MOCK] TODO(Webline): add a real nearby forest-walk day-trip destination, photo and description.",
+  "section": "forests",
+  "order": 7
+}

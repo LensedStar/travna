@@ -1,6 +1,7 @@
 {
-  "title": "Cycling",
+  "title": "Cycling the forest trails",
   "image": "../../assets/images/activity-cycling.png",
-  "description": "One- to two-sentence placeholder description.",
+  "icon": "bike",
+  "description": "Quiet forest tracks through the Velika Gora woods make for easy rides straight from the door, with barely a car in sight.",
   "order": 2
 }

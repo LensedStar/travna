@@ -4,7 +4,7 @@
 // passed in as props by the caller (sourced from the i18n dictionary) — no hardcoded strings here.
 // Styling lives in src/styles/blocks/_section-header.scss (semantic .section-header__* classes).
 interface Props {
-  title: string;
+  title?: string;
   subtitle?: string;
   eyebrow?: string;
   align?: 'left' | 'center';
@@ -15,6 +15,6 @@ const classes = ['section-header', `section-header--${align}`, className].filter
 ---
 <header class={classes}>
   {eyebrow && <p class="section-header__eyebrow">{eyebrow}</p>}
-  <h2 class="section-header__title">{title}</h2>
+  {title && <h2 class="section-header__title">{title}</h2>}
   {subtitle && <p class="section-header__subtitle">{subtitle}</p>}
 </header>
