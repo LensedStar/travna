@@ -280,10 +280,30 @@
     transition-delay: calc(var(--motion-duration-fast) * 4);
   }
 
+  // Once settled, the button grows + fades slightly to draw the eye — a single soft pulse,
+  // timed to start only after the CTA has finished rising into place.
+  .heritage__book {
+    animation: heritage-book-pulse calc(var(--motion-duration) * 3) var(--motion-ease) 1;
+    animation-delay: calc(var(--motion-duration-fast) * 4 + var(--motion-duration) * 2);
+  }
+
   @media (min-width: 48rem) {
     .heritage__list::before {
       transform: translateX(-50%) scaleY(1);
     }
+  }
+}
+
+// Single soft "look here" pulse for the closing CTA — scale + opacity only.
+@keyframes heritage-book-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
   }
 }
 
@@ -297,6 +317,10 @@
       opacity: 1;
       transform: none;
       transition: none;
+    }
+
+    .heritage__book {
+      animation: none;
     }
 
     @media (min-width: 48rem) {

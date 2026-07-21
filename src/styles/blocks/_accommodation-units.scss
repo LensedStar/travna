@@ -3,8 +3,30 @@
 // .house-showcase island (gallery + info panel). Each group leads with a title + intro, then the
 // showcase. Token-only.
 
+// Same cream backdrop + botanical artwork as the home heritage timeline (see
+// _heritage-timeline.scss), covering the whole block — both the houses and rooms groups/sliders.
 .units {
+  position: relative;
   padding-block: var(--space-3xl);
+  background-color: var(--color-surface-warm);
+  background-image: url('/images/section-bg-2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  overflow: hidden;
+
+  // Soft fade at the top so the hero's plain cream (--color-bg) above melts into this section's
+  // warm surface instead of meeting it on a hard horizontal seam.
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    z-index: 0;
+    height: var(--space-3xl);
+    background: linear-gradient(to bottom, var(--color-bg), transparent);
+    pointer-events: none;
+  }
 }
 
 // Each group reveals independently (houses, then rooms) as it scrolls into view. The shared
@@ -17,6 +39,8 @@
 }
 
 .units__inner {
+  position: relative;
+  z-index: 1;
   max-width: 75rem;
   margin-inline: auto;
   padding-inline: var(--space-lg);
@@ -91,6 +115,9 @@
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-card);
+  // Warm wood-toned frame, matching the heritage timeline photo treatment.
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
 }
 
 .house-showcase__image-button {
@@ -203,6 +230,9 @@
   box-shadow: var(--shadow-soft);
   cursor: pointer;
   opacity: 0.7;
+  // Thin wood-toned frame, echoing the main showcase photo (active state overrides below).
+  outline: 1px solid var(--color-wood);
+  outline-offset: 1px;
   transition: opacity var(--motion-duration-fast) var(--motion-ease),
     transform var(--motion-duration-fast) var(--motion-ease);
 }
@@ -227,9 +257,9 @@
 .house-showcase__panel {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   justify-content: flex-start;
-  padding: var(--space-xl);
+  padding: var(--space-lg);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-card);

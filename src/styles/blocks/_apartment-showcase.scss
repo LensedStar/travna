@@ -236,12 +236,19 @@
   }
 }
 
-.apartments__bullet-icon {
+.apartments__bullet-dot {
   flex: none;
-  width: var(--space-md);
-  height: var(--space-md);
-  margin-block-start: 0.15em; // optical align with first text line
-  color: var(--color-wood);
+  width: 0.375rem;
+  height: 0.375rem;
+  // Centers the dot on the first line's line-box (line-height minus dot height, halved) rather
+  // than a fixed guess, so it stays aligned if font-size/line-height ever change via tokens.
+  margin-block-start: calc((1em * var(--leading-snug) - 0.375rem) / 2);
+  background-color: var(--color-wood);
+  border-radius: 50%;
+
+  @media (min-width: 48rem) {
+    margin-block-start: calc((1em * var(--leading-normal) - 0.375rem) / 2);
+  }
 }
 
 // --- Prev / next arrows — live in the control bar below the photo ------------
@@ -324,9 +331,10 @@
   inset-inline: var(--space-xs);
   z-index: 3;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0;
+  gap: var(--space-xs);
 
   @media (min-width: 36rem) {
     inset-block-end: var(--space-md);
@@ -336,21 +344,46 @@
 }
 
 .apartments__slide-cta {
+  position: relative;
   flex: none;
+}
 
-  .btn {
-    padding: var(--space-xs) calc(var(--space-xs) / 2);
-    font-size: var(--text-small);
-    white-space: nowrap;
+// All per-slide CTAs stack in the same spot; only the active slide's is shown (see active states).
+[class*='apartments__cta--'] {
+  display: none; // shown only for the active slide
+  padding: var(--space-xs) calc(var(--space-xs) / 2);
+  font-size: var(--text-small);
+  white-space: nowrap;
 
-    @media (min-width: 36rem) {
-      padding: var(--space-sm) var(--space-lg);
-      font-size: var(--text-body);
-    }
+  @media (min-width: 36rem) {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-body);
   }
 }
 
 // --- Compact icon tabs overlaid on the photo ---------------------------------
+// Groups the hint caption above the tab row so both sit as one unit on the left of the control
+// bar, leaving the CTA free on the right.
+.apartments__tabs-group {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+// "Pick an icon…" caption — lives on the photo (over the darkened base gradient) instead of the
+// section subtitle, right above the icons it refers to.
+.apartments__hint {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-style: italic;
+  line-height: var(--leading-snug);
+  color: var(--color-bg);
+  text-shadow: 0 1px 3px color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+
 .apartments__tabs {
   display: flex;
   gap: 0;
@@ -421,6 +454,12 @@
   // Only the active slide's prev/next arrows are shown in the side gutters.
   .apartments__radio:nth-of-type(#{$i + 1}):checked ~ .apartments__viewport .apartments__arrow--prev-#{$i},
   .apartments__radio:nth-of-type(#{$i + 1}):checked ~ .apartments__viewport .apartments__arrow--next-#{$i} {
+    display: inline-flex;
+  }
+
+  // Only the active slide's CTA is shown; the other three stay display:none (unfocusable, not
+  // announced) so screen readers and Tab order only ever see the one that matches the visible photo.
+  .apartments__radio:nth-of-type(#{$i + 1}):checked ~ .apartments__viewport .apartments__cta--#{$i} {
     display: inline-flex;
   }
 

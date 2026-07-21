@@ -1,10 +1,9 @@
-// blocks/_home-gallery.scss - Sticky scroll gallery on the home page.
-// The section stretches to roughly 220vh so two repeated three-card compositions can settle into
-// place as the user scrolls. Clicking any image opens a simple lightbox for a closer look.
+// blocks/_home-gallery.scss - Home page photo gallery. A static two-column/12-column grid
+// (like the other home sections) whose cards cascade in via the shared `.reveal` utility as the
+// section scrolls into view. Clicking any image opens a simple lightbox for a closer look.
 
 .home-gallery {
   position: relative;
-  min-height: 220vh;
   background-color: var(--color-bg);
 }
 
@@ -14,6 +13,33 @@
 // Clear it here so the lightbox anchors to the viewport and covers the whole page, like the map zoom.
 .has-reveal .home-gallery.reveal {
   will-change: auto;
+}
+
+// Cards cascade in one at a time once the section is in view, matching the heritage timeline's
+// stagger pattern. Kept separate from `.home-gallery__card`'s own hover/focus transitions above so
+// the two transition lists don't fight each other.
+.has-reveal .home-gallery {
+  .home-gallery__card {
+    opacity: 0;
+    transform: translateY(var(--space-md));
+    transition:
+      opacity var(--motion-duration) var(--motion-ease),
+      transform var(--motion-duration) var(--motion-ease);
+    will-change: transform, opacity;
+  }
+}
+
+.has-reveal .home-gallery.is-revealed {
+  .home-gallery__card {
+    opacity: 1;
+    transform: none;
+  }
+
+  @for $i from 1 through 6 {
+    .home-gallery__card--#{$i} {
+      transition-delay: calc(var(--motion-duration-fast) * #{$i});
+    }
+  }
 }
 
 // Subtle botanical line pattern softened to 50% so it reads as texture, not a busy backdrop.
@@ -31,12 +57,8 @@
 }
 
 .home-gallery__sticky {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 1; // keep gallery content above the pattern overlay
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
   padding-block: var(--space-xl);
 }
 
@@ -67,6 +89,9 @@
   border: 0;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+  // Warm wood-toned frame, matching the heritage timeline photo treatment.
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
   cursor: zoom-in;
   text-align: left;
   transition:
@@ -106,6 +131,19 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+// Card 1 (the welcome photo) is a wide landscape source cropped into this card slot. A slight
+// downward bias keeps the welcome sign and picnic table in frame alongside the tree.
+.home-gallery__card--1 .home-gallery__image {
+  object-position: center 60%;
+}
+
+// Card 2 (the rainbow photo) is a tall portrait source cropped into a short, wide card slot.
+// Center-cropping loses the rainbow itself (it sits roughly 40% down the frame), so bias the crop
+// down from the very top (which is mostly empty sky) toward that band.
+.home-gallery__card--2 .home-gallery__image {
+  object-position: center 40%;
 }
 
 .home-gallery__caption {
@@ -252,41 +290,61 @@
 
   .home-gallery__layout {
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-auto-rows: minmax(8rem, 1fr);
+    // Fixed (not minmax(...,1fr)) so row height is deterministic — a flexible 1fr track let rows
+    // grow taller than intended, over-cropping the wide source photos into a near-square box.
+    grid-auto-rows: 12rem;
     gap: var(--space-md);
   }
 
+  // The mobile-first base rule sets min-height: 16rem on cards 1/3/4/6. That's taller than the
+  // fixed 12rem row here, so it silently overrides the single-row cards (3, 6) — pushing them
+  // past the two-row span card's height and overflowing into the content below. Card 1/4 happen
+  // to clear 16rem already (two 12rem rows + gap), which is why only 3/6 visibly broke.
   .home-gallery__card--1,
-  .home-gallery__card--4 {
-    grid-column: span 7;
-    grid-row: span 2;
-    min-height: 26rem;
-  }
-
-  .home-gallery__card--2,
-  .home-gallery__card--5 {
-    grid-column: span 5;
-    min-height: 13rem;
-  }
-
   .home-gallery__card--3,
+  .home-gallery__card--4,
   .home-gallery__card--6 {
+    min-height: 0;
+  }
+
+  // Every card gets an explicit row AND column (rather than leaning on the auto-placement
+  // algorithm to infer rows from column spans) so the two-row groups stay deterministic.
+  // Group 1 (1/2/3, rows 1-2): big photo on the left, two stacked cards on the right.
+  .home-gallery__card--1 {
+    grid-column: 1 / span 7;
+    grid-row: 1 / span 2;
+  }
+
+  .home-gallery__card--2 {
     grid-column: 8 / span 5;
-    min-height: 12rem;
+    grid-row: 1;
+  }
+
+  .home-gallery__card--3 {
+    grid-column: 8 / span 5;
+    grid-row: 2;
+  }
+
+  // Group 2 (4/5/6, rows 3-4): mirrored — big photo on the right, two stacked cards on the left.
+  .home-gallery__card--4 {
+    grid-column: 6 / span 7;
+    grid-row: 3 / span 2;
+  }
+
+  .home-gallery__card--5 {
+    grid-column: 1 / span 5;
+    grid-row: 3;
+  }
+
+  .home-gallery__card--6 {
+    grid-column: 1 / span 5;
+    grid-row: 4;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-gallery {
-    min-height: auto;
-  }
-
-  .home-gallery__sticky {
-    position: static;
-    min-height: auto;
-  }
-
-  .home-gallery__card {
+  .home-gallery__card,
+  .home-gallery__image {
     transition: none;
     transform: none !important;
     opacity: 1 !important;

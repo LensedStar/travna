@@ -1,6 +1,10 @@
 // blocks/_testimonials.scss — guest reviews block.
-// Centred header + a responsive grid of quote cards, each with a soft quote mark, a gold star row,
-// the quote and the guest attribution. Token-only — no raw hex / magic numbers.
+// Header row (title left, Booking.com score badge right, one line) + subtitle below, then a
+// sliding carousel (TestimonialsSlider island) of quote cards, each with a soft quote mark, a
+// gold star row, the quote and the guest attribution. Token-only — no raw hex / magic numbers.
+// `--testimonials-visible` is the single source of truth for how many cards are on screen at
+// once (1 on mobile, 2 from tablet, 3 from desktop so the next two peek in); the island reads it
+// back via getComputedStyle to keep its slide-width math in sync.
 
 .testimonials {
   padding-block: var(--space-3xl);
@@ -12,31 +16,92 @@
   padding-inline: var(--space-lg);
 }
 
-.testimonials__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+// Header row: title on the left, the Booking.com score badge on the right, one line.
+.testimonials__header {
+  margin-bottom: var(--space-xl);
+}
+
+.testimonials__header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--space-lg);
+  margin-bottom: var(--space-xs);
+}
+
+.testimonials__header-row .section-header__title {
   margin: 0;
-  padding: 0;
-  list-style: none;
+}
+
+// Compact Booking.com score badge.
+.testimonials__score {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.testimonials__score-badge {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border-radius: var(--radius-md);
+  background-color: var(--color-forest);
+  color: var(--color-bg);
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+}
+
+.testimonials__score-text {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-xs) / 4);
+  text-align: left;
+}
+
+.testimonials__score-label {
+  font-family: var(--font-heading);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.testimonials__score-meta {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
 }
 
 .testimonials__card {
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-md);
   padding: var(--space-xl) var(--space-lg) var(--space-lg);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-soft);
+  text-align: center;
 }
 
-// Soft oversized quote mark in the corner (decorative).
+// Soft oversized quote mark in the corner (decorative). Sizing/color live on the wrapper span
+// (rendered by the island via dangerouslySetInnerHTML); the inner svg just fills it.
 .testimonials__quote-mark {
+  display: inline-flex;
   width: var(--space-xl);
   height: var(--space-xl);
   color: color-mix(in srgb, var(--color-wood) 30%, transparent);
+}
+
+.testimonials__quote-mark svg {
+  width: 100%;
+  height: 100%;
 }
 
 .testimonials__stars {
@@ -46,13 +111,20 @@
 }
 
 .testimonials__star {
+  display: inline-flex;
   width: var(--space-md);
   height: var(--space-md);
+}
+
+.testimonials__star svg {
+  width: 100%;
+  height: 100%;
   // Filled gold stars for the rating row.
   fill: currentColor;
 }
 
 .testimonials__quote {
+  align-self: stretch;
   margin: 0;
   font-family: var(--font-body);
   font-size: var(--text-body);
@@ -63,6 +135,8 @@
 .testimonials__author {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  align-self: stretch;
   gap: var(--space-xs);
   margin-block-start: auto;
   padding-block-start: var(--space-sm);
@@ -80,4 +154,135 @@
   font-family: var(--font-body);
   font-size: var(--text-small);
   color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+// --- Carousel chrome (TestimonialsSlider island) ---
+
+.testimonials-slider {
+  --testimonials-visible: 1;
+
+  max-width: 68rem;
+  margin-inline: auto;
+
+  @media (min-width: 48rem) {
+    --testimonials-visible: 2;
+  }
+
+  @media (min-width: 64rem) {
+    --testimonials-visible: 3;
+  }
+}
+
+.testimonials-slider:focus-visible {
+  outline: var(--space-xs) solid var(--color-forest);
+  outline-offset: var(--space-xs);
+  border-radius: var(--radius-lg);
+}
+
+.testimonials-slider__viewport {
+  overflow: hidden;
+}
+
+.testimonials-slider__track {
+  display: flex;
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: transform var(--motion-duration) var(--motion-ease);
+}
+
+// One card's worth of the track, accounting for the gaps between the visible cards. The track
+// stretches every slide to the row's tallest card, so the card itself just fills it.
+.testimonials-slider__slide {
+  flex: 0 0 calc((100% - (var(--testimonials-visible) - 1) * var(--space-lg)) / var(--testimonials-visible));
+  min-width: 0;
+}
+
+.testimonials-slider__slide .testimonials__card {
+  height: 100%;
+}
+
+// Visually hidden but still announced — screen readers get "2 / 5" instead of reading every
+// card's aria-hidden state.
+.testimonials-slider__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: calc(var(--space-xs) * -0.0625); // -1px equivalent, derived from the spacing scale
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.testimonials-slider__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-block-start: var(--space-lg);
+}
+
+.testimonials-slider__control {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.testimonials-slider__control:hover {
+  background-color: color-mix(in srgb, var(--color-surface) 70%, var(--color-wood));
+}
+
+.testimonials-slider__arrow {
+  font-size: var(--text-body);
+  line-height: 1;
+}
+
+.testimonials-slider__dots {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.testimonials-slider__dot {
+  display: block;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background-color: color-mix(in srgb, var(--color-text) 25%, transparent);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-ease);
+}
+
+.testimonials-slider__dot:hover {
+  background-color: color-mix(in srgb, var(--color-text) 45%, transparent);
+}
+
+.testimonials-slider__dot--active {
+  background-color: var(--color-wood);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-slider__track,
+  .testimonials-slider__control,
+  .testimonials-slider__dot {
+    transition: none;
+  }
 }

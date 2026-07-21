@@ -28,6 +28,9 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  // Warm wood-toned frame, matching the heritage timeline photo treatment.
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
 }
 
 .accommodation-preview__body {

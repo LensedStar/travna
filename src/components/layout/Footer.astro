@@ -17,6 +17,7 @@ const footerNav = [
   { href: '/accommodation', label: t('footer.nav.accommodation') },
   { href: '/activities', label: t('footer.nav.activities') },
   { href: '/contact', label: t('footer.nav.contact') },
+  { href: '/rezervacija', label: t('footer.nav.book') },
   { href: '/privacy', label: t('footer.nav.privacy') }, // TODO(Webline): privacy-policy page
 ];
 
@@ -93,7 +94,10 @@ const year = new Date().getFullYear();
 
     <p class="site-footer__rights">{year} {t('footer.rights')}</p>
     <p class="site-footer__credit">
-      {t('footer.credit.text')} <strong>{t('footer.credit.company')}</strong>
+      {t('footer.credit.text')}{' '}
+      <a class="site-footer__credit-link" href="https://www.webline.si" target="_blank" rel="noopener noreferrer">
+        <strong>{t('footer.credit.company')}</strong>
+      </a>
     </p>
   </div>
 </footer>

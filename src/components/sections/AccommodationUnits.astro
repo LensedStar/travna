@@ -3,15 +3,15 @@
 // Two clearly separated groups, each presented through the shared HouseShowcase island (gallery +
 // info panel): standalone HOUSES (type switcher across houses) and ROOMS in the main house (a single
 // showcase entry — richer gallery + description rather than a per-room breakdown). Visible strings
-// from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-units.scss. Copy +
-// photos are MOCK — TODO(Webline): swap for real unit photos & details. Bookable selection/pricing
-// stays on /rezervacija (Bentral).
+// from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-units.scss. All
+// three groups use real client photos; copy is still MOCK per house/room — TODO(Webline): real
+// unit copy & details. Bookable selection/pricing stays on /rezervacija (Bentral).
 import HouseShowcase from '../../islands/HouseShowcase.jsx';
 import { useTranslations, defaultLocale } from '../../i18n';
 
 const t = useTranslations(defaultLocale);
 
-// `src` values are MOCK placeholders reusing existing imagery — TODO(Webline): real unit photos.
+// `src` values below are real client photos — TODO(Webline): real copy for house1/house2.
 const houses = [
   {
     name: t('accommodation.units.house1.name'),
@@ -24,14 +24,13 @@ const houses = [
       { icon: 'bed', label: t('accommodation.units.house1.tag.bedrooms') },
       { icon: 'maximize', label: t('accommodation.units.house1.tag.size') },
       { icon: 'flame', label: t('accommodation.units.house1.tag.sauna') },
-      { icon: 'wifi', label: t('accommodation.units.house1.tag.wifi') },
+      { icon: 'utensils', label: t('accommodation.units.house1.tag.bbq') },
     ],
     images: [
-      { src: '/images/travna 56.jpeg', alt: t('accommodation.units.house1.alt') },
-      { src: '/images/travna-56-2.jpeg', alt: t('accommodation.units.house1.alt') },
-      { src: '/images/accommodation-preview.webp', alt: t('accommodation.units.house1.alt') },
-      { src: '/images/ttravna now.webp', alt: t('accommodation.units.house1.alt') },
-      { src: '/images/hero-mountains.webp', alt: t('accommodation.units.house1.alt') },
+      { src: '/images/house1/house1-01.webp', alt: t('accommodation.units.house1.alt') },
+      { src: '/images/house1/house1-02.webp', alt: t('accommodation.units.house1.alt') },
+      { src: '/images/house1/house1-03.webp', alt: t('accommodation.units.house1.alt') },
+      { src: '/images/house1/house1-04.webp', alt: t('accommodation.units.house1.alt') },
     ],
   },
   {
@@ -45,12 +44,14 @@ const houses = [
       { icon: 'bed', label: t('accommodation.units.house2.tag.bedrooms') },
       { icon: 'maximize', label: t('accommodation.units.house2.tag.size') },
       { icon: 'flame', label: t('accommodation.units.house2.tag.sauna') },
-      { icon: 'wifi', label: t('accommodation.units.house2.tag.wifi') },
+      { icon: 'utensils', label: t('accommodation.units.house2.tag.bbq') },
     ],
     images: [
-      { src: '/images/travna 76.jpeg', alt: t('accommodation.units.house2.alt') },
-      { src: '/images/ttravna now.webp', alt: t('accommodation.units.house2.alt') },
-      { src: '/images/hero-mountains.webp', alt: t('accommodation.units.house2.alt') },
+      { src: '/images/house2/house2-01.webp', alt: t('accommodation.units.house2.alt') },
+      { src: '/images/house2/house2-02.webp', alt: t('accommodation.units.house2.alt') },
+      { src: '/images/house2/house2-03.webp', alt: t('accommodation.units.house2.alt') },
+      { src: '/images/house2/house2-04.webp', alt: t('accommodation.units.house2.alt') },
+      { src: '/images/house2/house2-05.webp', alt: t('accommodation.units.house2.alt') },
     ],
   },
 ];
@@ -71,11 +72,19 @@ const rooms = [
       { icon: 'wifi', label: t('accommodation.units.rooms.tag.wifi') },
     ],
     images: [
-      { src: '/images/accommodation-preview.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/travna-56-2.jpeg', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/travna 56.jpeg', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/ttravna now.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/hero-mountains.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-01.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-02.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-03.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-04.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-05.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-06.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-07.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-08.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-09.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-10.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-11.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-12.webp', alt: t('accommodation.units.rooms.alt') },
+      { src: '/images/rooms/rooms-13.webp', alt: t('accommodation.units.rooms.alt') },
     ],
   },
 ];

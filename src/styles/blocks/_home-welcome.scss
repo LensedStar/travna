@@ -42,8 +42,12 @@
   text-align: center;
 
   // From desktop up: copy left, circle right (mirror of the apartments-page hero).
+  // The circle column is a definite size (matches .home-welcome__media-col's own width below),
+  // not `auto` — an `auto` track sizes to the grid item's max-content, which for a replaced
+  // element falls back to the <img>'s width/height attributes and ignores its CSS width: 100%,
+  // ballooning the track (and squeezing the text column) whenever the source photo is large.
   @media (min-width: 60rem) {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr min(28rem, 100%);
     gap: var(--space-2xl);
     justify-items: start;
     align-items: center;
@@ -152,49 +156,6 @@
   opacity: 0.5;
 }
 
-// "Family-run" badge, overlapping the lower-right of the circle.
-.home-welcome__badge {
-  position: absolute;
-  z-index: 3;
-  right: var(--space-lg);
-  bottom: var(--space-lg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  // Slightly larger than the sibling page-hero badges — the two-word label needs the room.
-  width: 8rem;
-  height: 8rem;
-  padding: var(--space-sm);
-  border-radius: 50%;
-  text-align: center;
-  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(2px);
-}
-
-.home-welcome__badge-icon {
-  width: var(--space-lg);
-  height: var(--space-lg);
-  color: var(--color-forest);
-}
-
-.home-welcome__badge-title {
-  font-family: var(--font-heading);
-  font-size: var(--text-body);
-  font-weight: var(--weight-bold);
-  color: var(--color-text);
-}
-
-.home-welcome__badge-sub {
-  margin-top: calc(var(--space-xs) * -0.5);
-  font-family: var(--font-body);
-  font-size: var(--text-small);
-  font-style: italic;
-  color: color-mix(in srgb, var(--color-text) 65%, transparent);
-}
-
 // --- Body / editorial column ---
 .home-welcome__body {
   display: flex;
@@ -204,17 +165,6 @@
   @media (min-width: 60rem) {
     align-items: flex-start;
   }
-}
-
-.home-welcome__eyebrow {
-  // Match the site-wide section-header eyebrow (wood accent, same tracking).
-  margin: 0 0 var(--space-xs);
-  font-family: var(--font-body);
-  font-size: var(--text-small);
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-wood);
 }
 
 .home-welcome__title {
@@ -227,30 +177,6 @@
   color: var(--color-text);
 }
 
-// Short line — house — short line, under the title.
-.home-welcome__divider {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  max-width: 9rem;
-  margin: 0 0 var(--space-md);
-  color: color-mix(in srgb, var(--color-forest) 55%, transparent);
-}
-
-.home-welcome__divider-line {
-  flex: 1;
-  height: 1px;
-  background-color: currentColor;
-}
-
-.home-welcome__divider-icon {
-  flex-shrink: 0;
-  width: var(--space-md);
-  height: var(--space-md);
-  color: var(--color-forest);
-}
-
 .home-welcome__lead {
   margin: 0 0 var(--space-sm);
   max-width: 34rem;
@@ -258,15 +184,6 @@
   font-size: var(--text-body);
   line-height: var(--leading-snug);
   color: var(--color-text);
-}
-
-.home-welcome__text {
-  margin: 0;
-  max-width: 34rem;
-  font-family: var(--font-body);
-  font-size: var(--text-small);
-  line-height: var(--leading-normal);
-  color: color-mix(in srgb, var(--color-text) 65%, transparent);
 }
 
 // Small highlight pills under the intro copy — compact, low-key, line-icon + short label.

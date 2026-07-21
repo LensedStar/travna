@@ -16,10 +16,8 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
 import { useTranslations, defaultLocale } from '../i18n';
-// MOCK hero photo — TODO(Webline): swap for a real photo of the surrounding forest/landscape.
-import heroImage from '../assets/images/gallery-forest.png';
-// MOCK "why guests love it" photo — TODO: swap for a real photo of the house/hotel.
-import whyImage from '../assets/images/gallery-interior.png';
+import heroImage from '../assets/images/activ-hero.png';
+import whyImage from '../assets/images/act-last.jpg';
 
 const t = useTranslations(defaultLocale);
 const pageTitle = `${t('activities.title')} — ${t('site.name')}`;
@@ -70,13 +68,7 @@ const whyBullets = [
   <section class="act-band act-band--warm act-hero reveal">
     <div class="act-band__inner act-hero__inner">
       <div class="act-hero__body">
-        <p class="act-hero__eyebrow">{t('activities.eyebrow')}</p>
         <h1 class="act-hero__title">{t('activities.title')}</h1>
-        <div class="act-hero__divider" aria-hidden="true">
-          <span class="act-hero__divider-line"></span>
-          <Icon name="trees" class="act-hero__divider-icon" />
-          <span class="act-hero__divider-line"></span>
-        </div>
         <p class="act-hero__lead">{t('activities.intro')}</p>
 
         <ul class="act-hero__pills" role="list">
@@ -123,7 +115,6 @@ const whyBullets = [
   <section class="act-band reveal">
     <div class="act-band__inner">
       <SectionHeader
-        eyebrow={t('activities.doorstep.eyebrow')}
         title={t('activities.doorstep.title')}
         subtitle={t('activities.doorstep.intro')}
         align="center"
@@ -157,21 +148,20 @@ const whyBullets = [
     </div>
   </section>
 
-  <!-- 3. Easy day trips — intro copy, then one alternating act-band per themed group -->
-  <section class="act-band act-band--warm reveal">
-    <div class="act-band__inner">
-      <SectionHeader
-        eyebrow={t('activities.trips.eyebrow')}
-        title={t('activities.trips.title')}
-        subtitle={t('activities.trips.intro')}
-        align="center"
-      />
-    </div>
-  </section>
-
+  <!-- 3. Easy day trips — main title leads straight into the first themed group, then one
+       alternating act-band per remaining group (no orphaned header-only band). -->
   {tripGroups.slice(0, 2).map(({ icon, titleKey, items }, index) => (
     <section class:list={['act-band', 'reveal', { 'act-band--warm': index % 2 === 1 }]}>
       <div class="act-band__inner">
+        {index === 0 && (
+          <SectionHeader
+            title={t('activities.trips.title')}
+            subtitle={t('activities.trips.intro')}
+            align="center"
+            class="day-trips__main-title"
+          />
+        )}
+
         <h2 class="day-trips__group-title">
           <span class="day-trips__group-icon-wrap">
             <Icon name={icon} class="day-trips__group-icon" />
@@ -339,7 +329,6 @@ const whyBullets = [
       <span class="why-feature__scrim" aria-hidden="true"></span>
 
       <div class="why-feature__content">
-        <p class="why-feature__eyebrow">{t('activities.why.eyebrow')}</p>
         <h2 class="why-feature__title">{t('activities.why.title')}</h2>
 
         <ul class="why-feature__list">

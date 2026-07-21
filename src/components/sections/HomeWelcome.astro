@@ -26,13 +26,12 @@ const pills = [
       <div class="home-welcome__ring" aria-hidden="true"></div>
 
       <div class="home-welcome__media">
-        <!-- MOCK placeholder photo — TODO(Webline): swap for the real house photo. -->
         <img
           class="home-welcome__photo"
-          src="/images/ttravna now.webp"
+          src="/images/post-hero-main-house-image.png"
           alt={t('home.welcome.imageAlt')}
-          width="608"
-          height="352"
+          width="1085"
+          height="1450"
           loading="eager"
           decoding="async"
         />
@@ -42,26 +41,12 @@ const pills = [
       <Icon name="leaf" class="home-welcome__leaf home-welcome__leaf--tr" />
       <Icon name="leaf" class="home-welcome__leaf home-welcome__leaf--bl" />
       <Icon name="leaf" class="home-welcome__leaf home-welcome__leaf--bl2" />
-
-      <span class="home-welcome__badge">
-        <Icon name="heart" class="home-welcome__badge-icon" />
-        <span class="home-welcome__badge-title">{t('home.welcome.badge.title')}</span>
-        <span class="home-welcome__badge-sub">{t('home.welcome.badge.sub')}</span>
-      </span>
     </div>
 
     <div class="home-welcome__body">
-      <p class="home-welcome__eyebrow">{t('home.welcome.eyebrow')}</p>
       <h2 class="home-welcome__title">{t('home.welcome.title')}</h2>
 
-      <div class="home-welcome__divider" aria-hidden="true">
-        <span class="home-welcome__divider-line"></span>
-        <Icon name="home" class="home-welcome__divider-icon" />
-        <span class="home-welcome__divider-line"></span>
-      </div>
-
       <p class="home-welcome__lead">{t('home.welcome.lead')}</p>
-      <p class="home-welcome__text">{t('home.welcome.body')}</p>
 
       <ul class="home-welcome__pills" role="list">
         {pills.map(({ icon, key }) => (

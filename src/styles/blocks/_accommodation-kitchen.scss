@@ -3,19 +3,56 @@
 // and a CTA to the menu. Token-only. Reflows to a single column (photo first) on narrow viewports.
 
 .kitchen {
+  position: relative;
   padding-block: var(--space-3xl);
-  background-color: var(--color-surface-warm);
+  // Same decorative cream backdrop as the home "Cozy spaces, made for slow days" block (see
+  // _apartment-showcase.scss) — its top edge is the same cream as --color-bg, so it melts into
+  // the solid colour fill above. The colour stays as the fallback.
+  background-color: var(--color-bg);
+  background-image: url('/images/section-bg-1.png');
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
+  overflow: hidden;
+
+  // Soft fade at the top so the warmer cream of the previous section (--color-surface-warm)
+  // melts into this section's base cream over a tall band, instead of meeting it on a hard
+  // horizontal seam where the two slightly different creams butt together.
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    z-index: 0;
+    height: var(--space-3xl);
+    background: linear-gradient(to bottom, var(--color-surface-warm), transparent);
+    pointer-events: none;
+  }
+
+  // Soft fade at the base so the full-bleed artwork melts into the cream of the next section
+  // instead of ending on a hard horizontal seam.
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 0;
+    height: var(--space-3xl);
+    background: linear-gradient(to bottom, transparent, var(--color-bg));
+    pointer-events: none;
+  }
 }
 
 .kitchen__inner {
+  position: relative;
+  z-index: 1; // keep content above the section's base fade overlay
   max-width: 75rem;
   margin-inline: auto;
   padding-inline: var(--space-lg);
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   gap: var(--space-2xl) var(--space-2xl);
-  // Stretch so the slider column matches the text block's height (see slider-fill rules below).
-  align-items: stretch;
+  align-items: start;
 }
 
 // Holds the AccommodationSlider, which brings its own rounded frame + shadow.
@@ -24,7 +61,6 @@
   min-width: 0;
 }
 
-// Make the slider fill its (stretched) column so its height equals the text block beside it.
 .kitchen__media .slider {
   width: 100%;
   max-width: none;
@@ -34,9 +70,17 @@
 }
 
 .kitchen__media .slider__viewport {
-  flex: 1 1 auto;
-  // Drop the fixed 3:2 ratio so the image fills the matched height instead of dictating it.
+  flex: 0 0 auto;
+  // Fixed height instead of stretching to match the text column or a fixed aspect-ratio.
+  height: 25rem; // 400px
   aspect-ratio: auto;
+}
+
+// The source photos have very different aspect ratios (tall phone shots vs wide ones); `cover`
+// was cropping into the food. `contain` shows the whole photo, letterboxed on the viewport's
+// mist background instead.
+.kitchen__media .slider__image {
+  object-fit: contain;
 }
 
 .kitchen__body {
@@ -68,7 +112,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 .kitchen__point {

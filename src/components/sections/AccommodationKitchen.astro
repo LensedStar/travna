@@ -3,7 +3,7 @@
 // Photo slider beside editorial copy + a checklist of food points and a CTA to the menu page.
 // Slider behaviour lives in the AccommodationSlider island (the only client JS here). Visible
 // strings from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-kitchen.scss.
-// Copy + photos are MOCK — TODO(Webline): real copy/photos.
+// Photos are real client photos; copy is still MOCK — TODO(Webline): real copy.
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import AccommodationSlider from '../../islands/AccommodationSlider.jsx';
@@ -14,16 +14,16 @@ const t = useTranslations(defaultLocale);
 const points = [
   t('accommodation.kitchen.point1'),
   t('accommodation.kitchen.point2'),
-  t('accommodation.kitchen.point3'),
   t('accommodation.kitchen.point4'),
 ];
 
-// MOCK placeholder photos reusing existing imagery — TODO(Webline): real breakfast/kitchen photos.
+// Real client photos of food served at the property — TODO(Webline): real copy to match.
 const kitchenImages = [
-  { src: '/images/travna-56-2.jpeg', alt: t('accommodation.kitchen.imageAlt'), width: 1200, height: 800 },
-  { src: '/images/accommodation-preview.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1200, height: 800 },
-  { src: '/images/travna 56.jpeg', alt: t('accommodation.kitchen.imageAlt'), width: 1200, height: 800 },
-  { src: '/images/ttravna now.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1200, height: 800 },
+  { src: '/images/kitchen/kitchen-01.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1400, height: 1364 },
+  { src: '/images/kitchen/kitchen-02.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1600, height: 843 },
+  { src: '/images/kitchen/kitchen-03.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1600, height: 1708 },
+  { src: '/images/kitchen/kitchen-04.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1600, height: 2133 },
+  { src: '/images/kitchen/kitchen-05.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1400, height: 1243 },
 ];
 ---
 <section class="kitchen reveal">

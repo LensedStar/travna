@@ -5,14 +5,40 @@
 
 // --- Shared full-width bands ---------------------------------------------------
 .act-band {
+  position: relative;
   padding-block: var(--space-3xl);
 }
 
+// Warm bands are always sandwiched between plain (--color-bg) bands, so a top + bottom fade
+// here (same technique as .apartments) smooths both seams without needing to touch the plain
+// bands on either side — same idea as the home page's block transitions.
 .act-band--warm {
   background-color: var(--color-surface-warm);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    z-index: 0;
+    height: var(--space-3xl);
+    pointer-events: none;
+  }
+
+  &::before {
+    inset-block-start: 0;
+    background: linear-gradient(to bottom, var(--color-bg), transparent);
+  }
+
+  &::after {
+    inset-block-end: 0;
+    background: linear-gradient(to bottom, transparent, var(--color-bg));
+  }
 }
 
 .act-band__inner {
+  position: relative;
+  z-index: 1; // keep content above .act-band--warm's fade overlay
   max-width: 75rem;
   margin-inline: auto;
   padding-inline: var(--space-lg);
@@ -28,7 +54,11 @@
 
 .act-hero__inner {
   display: grid;
-  grid-template-columns: 1fr auto;
+  // Explicit track (not `auto`) — matches .act-hero__media-col's own width below. An `auto` track
+  // sizes to the grid item's max-content, which for a replaced element falls back to the <img>'s
+  // width/height attributes and ignores its CSS width: 100%, ballooning the track whenever the
+  // source photo is large (same fix as .acc-hero__inner / .home-welcome__inner).
+  grid-template-columns: 1fr min(30rem, 100%);
   gap: var(--space-2xl);
   align-items: center;
 }
@@ -58,30 +88,6 @@
   font-weight: var(--weight-medium);
   line-height: var(--leading-tight);
   color: var(--color-text);
-}
-
-// Short line — tree — short line, under the title.
-.act-hero__divider {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  max-width: 9rem;
-  margin: 0 0 var(--space-md);
-  color: color-mix(in srgb, var(--color-forest) 55%, transparent);
-}
-
-.act-hero__divider-line {
-  flex: 1;
-  height: 1px;
-  background-color: currentColor;
-}
-
-.act-hero__divider-icon {
-  flex-shrink: 0;
-  width: var(--space-md);
-  height: var(--space-md);
-  color: var(--color-forest);
 }
 
 .act-hero__lead {
@@ -127,7 +133,7 @@
 // --- Media column (circle + ring + leaves + badge) ---
 .act-hero__media-col {
   position: relative;
-  width: min(26rem, 100%);
+  width: min(30rem, 100%);
   aspect-ratio: 1 / 1;
 }
 
@@ -267,17 +273,13 @@
     align-items: center;
   }
 
-  .act-hero__divider {
-    margin-inline: auto;
-  }
-
   .act-hero__pills {
     justify-content: center;
   }
 
   // Keep the circle (and its overflowing ring/leaves) from blowing up full-width.
   .act-hero__media-col {
-    width: min(26rem, 82vw);
+    width: min(30rem, 82vw);
   }
 }
 
@@ -323,9 +325,13 @@
 .act-card__image {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  // Astro's <Image> sets an HTML height attribute from the source photo's full-res height;
+  // without an explicit height: auto here that attribute wins over aspect-ratio, so the box
+  // renders at the source's height instead of the intended shape.
+  height: auto;
+  aspect-ratio: 12 / 11; // ~20% taller than 4:3 (another 10% on top)
   // Hard ceiling so the photo can never grow past a normal, human-scale size.
-  max-height: 31.25rem; // 500px
+  max-height: 31.25rem; // 600px at the site's 120% root font-size
   object-fit: cover;
   background-color: var(--color-mist);
   border-radius: 999px 999px var(--radius-lg) var(--radius-lg);
@@ -385,6 +391,17 @@
 // Each themed group (Forest walks / Caves / Wildlife / History) is now its own full act-band,
 // alternating warm/plain like every other section on the page — real segregation from the page's
 // existing background tokens, not a bolted-on panel color.
+
+// Main title for the whole day-trips list — leads straight into the first themed group's band
+// (no orphaned header-only section) and reads a size up from a regular SectionHeader so it
+// carries the list rather than sitting as a quiet, disconnected intro line.
+.day-trips__main-title {
+  margin-bottom: var(--space-lg);
+
+  .section-header__title {
+    font-size: var(--text-h1);
+  }
+}
 
 // Primary heading for a themed group's act-band — same scale/centring as SectionHeader's title,
 // with a round forest icon marker (doorstep-card / heritage-timeline language) standing in for
@@ -458,6 +475,9 @@
   overflow: hidden;
   border-radius: calc(var(--radius-lg) * 3) var(--radius-md) calc(var(--radius-lg) * 3) var(--radius-md);
   box-shadow: var(--shadow-card);
+  // Warm wood-toned frame, matching the heritage timeline photo treatment.
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
 }
 
 .day-trips__row:nth-child(even) .day-trips__media {
@@ -587,9 +607,12 @@
   overflow: hidden; // clip the photo/scrim to the rounded card
   display: flex;
   align-items: flex-end;
-  min-height: clamp(26rem, 65vh, 40rem);
+  min-height: clamp(30rem, 75vh, 46rem);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+  // Warm wood-toned frame, matching the heritage timeline photo treatment.
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
 }
 
 .wildlife-feature__bg {
@@ -599,6 +622,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  // Biased toward the bottom of the frame so the cub (low, left of centre in the source photo)
+  // stays in view instead of being cropped off by the wide, short band.
+  object-position: center 80%;
   background-color: var(--color-mist);
 }
 
@@ -713,6 +739,9 @@
   min-height: clamp(26rem, 65vh, 40rem);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+  // Warm wood-toned frame, matching the heritage timeline photo treatment.
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
 }
 
 .why-feature__bg {
@@ -794,7 +823,7 @@
 
 .why-feature__item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-sm);
   font-family: var(--font-body);
   font-size: var(--text-body);

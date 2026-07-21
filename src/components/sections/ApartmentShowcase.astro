@@ -17,25 +17,29 @@ const t = useTranslations(defaultLocale);
 
 // Slides, in order. Reorder/extend here without touching the layout.
 // `src` is a MOCK placeholder reusing existing imagery — TODO(Webline): swap for real
-// apartment / interior / forest / food photos.
+// room / region / forest / food photos.
 const slides = [
   {
-    icon: 'users',
-    tab: 'home.apartments.family.tab',
-    title: 'home.apartments.family.title',
-    text: 'home.apartments.family.text',
-    bullets: ['home.apartments.family.b1', 'home.apartments.family.b2', 'home.apartments.family.b3'],
-    alt: 'home.apartments.family.alt',
-    src: '/images/ttravna now.webp',
+    icon: 'bed',
+    tab: 'home.apartments.rooms.tab',
+    title: 'home.apartments.rooms.title',
+    text: 'home.apartments.rooms.text',
+    bullets: ['home.apartments.rooms.b1', 'home.apartments.rooms.b2', 'home.apartments.rooms.b3'],
+    alt: 'home.apartments.rooms.alt',
+    src: '/images/slider-1.png',
+    cta: 'cta.viewAccommodation',
+    href: '/accommodation',
   },
   {
-    icon: 'heart',
-    tab: 'home.apartments.couples.tab',
-    title: 'home.apartments.couples.title',
-    text: 'home.apartments.couples.text',
-    bullets: ['home.apartments.couples.b1', 'home.apartments.couples.b2', 'home.apartments.couples.b3'],
-    alt: 'home.apartments.couples.alt',
-    src: '/images/accommodation-preview.webp',
+    icon: 'map-pin',
+    tab: 'home.apartments.slovenia.tab',
+    title: 'home.apartments.slovenia.title',
+    text: 'home.apartments.slovenia.text',
+    bullets: ['home.apartments.slovenia.b1', 'home.apartments.slovenia.b2', 'home.apartments.slovenia.b3'],
+    alt: 'home.apartments.slovenia.alt',
+    src: '/images/slider-2.png',
+    cta: 'cta.exploreArea',
+    href: '/activities',
   },
   {
     icon: 'trees',
@@ -44,23 +48,26 @@ const slides = [
     text: 'home.apartments.nature.text',
     bullets: ['home.apartments.nature.b1', 'home.apartments.nature.b2', 'home.apartments.nature.b3'],
     alt: 'home.apartments.nature.alt',
-    src: '/images/hero-mountains.webp',
+    src: '/images/slider-3.jpg',
+    cta: 'cta.bookNow',
+    href: '/rezervacija',
   },
   {
     icon: 'utensils',
-    tab: 'home.apartments.kitchen.tab',
-    title: 'home.apartments.kitchen.title',
-    text: 'home.apartments.kitchen.text',
-    bullets: ['home.apartments.kitchen.b1', 'home.apartments.kitchen.b2', 'home.apartments.kitchen.b3'],
-    alt: 'home.apartments.kitchen.alt',
-    src: '/images/travna-56-2.jpeg',
+    tab: 'home.apartments.food.tab',
+    title: 'home.apartments.food.title',
+    text: 'home.apartments.food.text',
+    bullets: ['home.apartments.food.b1', 'home.apartments.food.b2', 'home.apartments.food.b3'],
+    alt: 'home.apartments.food.alt',
+    src: '/images/slider-4.png',
+    cta: 'cta.viewMenu',
+    href: '/menu',
   },
 ] as const;
 ---
 <section class="apartments reveal">
   <div class="apartments__inner">
     <SectionHeader
-      eyebrow={t('home.apartments.eyebrow')}
       title={t('home.apartments.title')}
       subtitle={t('home.apartments.intro')}
       align="center"
@@ -120,7 +127,7 @@ const slides = [
                 <ul class="apartments__bullets" role="list">
                   {p.bullets.map((b) => (
                     <li class="apartments__bullet">
-                      <Icon name="check" class="apartments__bullet-icon" />
+                      <span class="apartments__bullet-dot" aria-hidden="true"></span>
                       <span>{t(b)}</span>
                     </li>
                   ))}
@@ -129,24 +136,31 @@ const slides = [
             </article>
           ))}
 
-          <!-- One bottom row: compact slide controls followed by the CTA on the right. -->
+          <!-- One bottom row: compact slide controls (hint + icon tabs) followed by the CTA on the right. -->
           <div class="apartments__controls">
-            <div class="apartments__tabs" role="group" aria-label={t('home.apartments.hint')}>
-              {slides.map((p, i) => (
-                <label
-                  class={`apartments__tab apartments__tab--${i}`}
-                  for={`apartments-slide-${i}`}
-                  aria-label={t(p.tab)}
-                >
-                  <span class="apartments__tab-dot" aria-hidden="true">
-                    <Icon name={p.icon} class="apartments__tab-icon" />
-                  </span>
-                </label>
-              ))}
+            <div class="apartments__tabs-group">
+              <span class="apartments__hint">{t('home.apartments.hint')}</span>
+              <div class="apartments__tabs" role="group" aria-label={t('home.apartments.hint')}>
+                {slides.map((p, i) => (
+                  <label
+                    class={`apartments__tab apartments__tab--${i}`}
+                    for={`apartments-slide-${i}`}
+                    aria-label={t(p.tab)}
+                  >
+                    <span class="apartments__tab-dot" aria-hidden="true">
+                      <Icon name={p.icon} class="apartments__tab-icon" />
+                    </span>
+                  </label>
+                ))}
+              </div>
             </div>
 
             <div class="apartments__slide-cta">
-              <Button href="/accommodation" variant="primary">{t('cta.viewAccommodation')}</Button>
+              {slides.map((p, i) => (
+                <Button href={p.href} variant="primary" class={`apartments__cta apartments__cta--${i}`}>
+                  {t(p.cta)}
+                </Button>
+              ))}
             </div>
           </div>
         </div>

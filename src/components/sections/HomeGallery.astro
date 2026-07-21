@@ -1,7 +1,7 @@
 ---
-// HomeGallery.astro - Scroll-driven home gallery section with sticky stage and zoomable images.
-// Reuses the structured `gallery` collection and augments it with extra mock images so the home
-// gallery feels like a longer photo story rather than a four-card teaser.
+// HomeGallery.astro - Home gallery section: a static photo grid with zoomable images.
+// Renders all 6 entries of the structured `gallery` collection, in `order` — the reveal
+// stagger in _home-gallery.scss is sized to exactly 6 cards.
 import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import HomeGalleryScroller from '../../islands/HomeGalleryScroller.jsx';
@@ -15,8 +15,10 @@ const labels = [
   t('home.gallery.card.2'),
   t('home.gallery.card.3'),
   t('home.gallery.card.4'),
+  t('home.gallery.card.5'),
+  t('home.gallery.card.6'),
 ];
-const optimizedImages = await Promise.all(
+const images = await Promise.all(
   entries.map(async ({ data }, index) => {
     const optimized = await getImage({
       src: data.src,
@@ -36,34 +38,10 @@ const optimizedImages = await Promise.all(
     };
   })
 );
-
-const extraImages = [
-  {
-    src: '/images/ttravna now.webp',
-    srcset: '',
-    sizes: '100vw',
-    width: 1600,
-    height: 1067,
-    alt: 'Mock exterior view of the house surrounded by greenery.',
-    label: t('home.gallery.card.5'),
-  },
-  {
-    src: '/images/accommodation-preview.webp',
-    srcset: '',
-    sizes: '100vw',
-    width: 1600,
-    height: 1200,
-    alt: 'Mock bedroom and sitting area detail.',
-    label: t('home.gallery.card.6'),
-  },
-];
-
-const images = [...optimizedImages.slice(0, 4), ...extraImages];
 ---
 
 <HomeGalleryScroller
   client:visible
-  eyebrow={t('home.gallery.eyebrow')}
   title={t('home.gallery.title')}
   intro={t('home.gallery.intro')}
   openLabel={t('home.gallery.open')}

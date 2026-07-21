@@ -23,6 +23,9 @@
   // Reserve a constant frame (3:2 matches the 1200×800 source) so swapping slides never shifts layout.
   aspect-ratio: 3 / 2;
   background-color: var(--color-mist);
+  // Warm wood-toned frame, matching the heritage timeline photo treatment.
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
 }
 
 .slider__track {
