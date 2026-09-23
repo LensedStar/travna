@@ -12,9 +12,9 @@
 //  - Do not fight the widget's internal styling — the site only frames around it.
 //
 // Visible/a11y strings come from the i18n dictionary (no hardcoded copy).
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // placeholder embed target. The real Bentral object renders from a Bentral-hosted URL
 // (e.g. https://www.bentral.com/...) pasted by Webline/client at launch.

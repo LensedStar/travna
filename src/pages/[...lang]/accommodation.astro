@@ -5,18 +5,21 @@
 // kitchen, guest testimonials, and the shared book-direct prefooter strip.
 // Unit selection & pricing stay on /rezervacija (Bentral). All visible strings come from the i18n
 // dictionary; section styles live in their own src/styles/blocks/_*.scss files. Copy/photos are MOCK.
-import BaseLayout from '../layouts/BaseLayout.astro';
-import AccommodationHero from '../components/sections/AccommodationHero.astro';
-import AccommodationUnits from '../components/sections/AccommodationUnits.astro';
-import AccommodationKitchen from '../components/sections/AccommodationKitchen.astro';
-import Sauna from '../components/sections/Sauna.astro';
-import Testimonials from '../components/sections/Testimonials.astro';
-import FindUs from '../components/sections/FindUs.astro';
-import BookDirect from '../components/sections/BookDirect.astro';
-import { useTranslations, defaultLocale } from '../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AccommodationHero from '../../components/sections/AccommodationHero.astro';
+import AccommodationUnits from '../../components/sections/AccommodationUnits.astro';
+import AccommodationKitchen from '../../components/sections/AccommodationKitchen.astro';
+import Sauna from '../../components/sections/Sauna.astro';
+import Testimonials from '../../components/sections/Testimonials.astro';
+import FindUs from '../../components/sections/FindUs.astro';
+import BookDirect from '../../components/sections/BookDirect.astro';
+import { useTranslations, localeStaticPaths } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 const pageTitle = `${t('accommodation.title')} — ${t('site.name')}`;
+
+// One build per locale: `lang` is undefined for EN (unprefixed) and 'ru' for Russian.
+export const getStaticPaths = localeStaticPaths;
 ---
 
 <BaseLayout title={pageTitle} description={t('accommodation.description')}>

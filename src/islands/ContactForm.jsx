@@ -16,13 +16,13 @@
 
 import { useState } from 'react';
 
-// Form name is the Netlify submission bucket (Phase 1: single EN form).
-const FORM_NAME = 'contact-en';
-
 // Simple, permissive email shape check (real validation happens server-side at Netlify).
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function ContactForm({ strings = {} }) {
+// `formName` is the Netlify submission bucket — one per locale (contact-en / contact-ru), so
+// submissions stay separated and each can get its own notification rules in Netlify. `action` is
+// the localized /thank-you/ redirect. Both are passed in by the .astro caller.
+export default function ContactForm({ strings = {}, formName = 'contact-en', action = '/thank-you/' }) {
   const [errors, setErrors] = useState({});
 
   const validate = (form) => {
@@ -54,16 +54,16 @@ export default function ContactForm({ strings = {} }) {
   return (
     <form
       className="contact-form"
-      name={FORM_NAME}
+      name={formName}
       method="POST"
-      action="/thank-you/"
+      action={action}
       data-netlify="true"
       netlify-honeypot="bot-field"
       noValidate
       onSubmit={handleSubmit}
     >
       {/* Netlify needs this hidden field to associate the POST with the right form. */}
-      <input type="hidden" name="form-name" value={FORM_NAME} />
+      <input type="hidden" name="form-name" value={formName} />
 
       {/* Honeypot — hidden via CSS (NOT type=hidden); bots fill it, humans don't. */}
       <p className="contact-form__honeypot" aria-hidden="true">

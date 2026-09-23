@@ -1,0 +1,9 @@
+{
+  "name": "Постойнская пещера",
+  "image": "../../../assets/images/dest-postojna-cave.webp",
+  "category": "Карстовая пещера",
+  "section": "caves",
+  "distance": "≈ 55 мин",
+  "description": "Одна из величайших карстовых пещер мира: по её огромным залам возит маленький подземный поезд.",
+  "order": 2
+}

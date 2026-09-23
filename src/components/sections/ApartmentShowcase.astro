@@ -11,9 +11,9 @@
 import SectionHeader from '../ui/SectionHeader.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // Slides, in order. Reorder/extend here without touching the layout.
 // `src` is a MOCK placeholder reusing existing imagery — TODO(Webline): swap for real

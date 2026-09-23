@@ -3,6 +3,8 @@
 
 User-agent: *
 Allow: /
+# The hidden advertising landing, in every locale (/lp, /ru/lp, ...).
 Disallow: /lp
+Disallow: /*/lp
 
 Sitemap: https://example.com/sitemap-index.xml

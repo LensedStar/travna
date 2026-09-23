@@ -6,9 +6,9 @@
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 const benefits = [
   { icon: 'check', title: t('home.bookDirect.benefit1Title'), desc: t('home.bookDirect.benefit1Desc') },
@@ -45,7 +45,7 @@ const benefits = [
       ))}
     </ul>
 
-    <Button href="/rezervacija" variant="primary" class="book-direct__cta">
+    <Button href={localizePath('/rezervacija', Astro.currentLocale)} variant="primary" class="book-direct__cta">
       {t('cta.bookNow')}
     </Button>
   </div>

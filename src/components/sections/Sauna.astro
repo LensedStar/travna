@@ -5,7 +5,7 @@
 // come from the i18n dictionary; styling lives in src/styles/blocks/_sauna.scss.
 import Icon from '../ui/Icon.astro';
 import ShowcaseGallery from '../../islands/ShowcaseGallery.jsx';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations } from '../../i18n';
 
 // `title` lets the activities page head the block with the short "Sauna" heading; `warm` puts it
 // on the warm section surface so it can alternate with the bands around it.
@@ -15,7 +15,7 @@ interface Props {
 }
 const { title, warm = false } = Astro.props;
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 const points = [t('sauna.point1'), t('sauna.point2'), t('sauna.point3')];
 

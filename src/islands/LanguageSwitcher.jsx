@@ -1,8 +1,8 @@
 // LanguageSwitcher.jsx — React island for the header language dropdown (TASK-011).
 //
-// i18n stub — non-functional in Phase 1. The site ships English only; selecting SI/RU does NOT
-// change content. This is an intentional UI placeholder, wired so a later phase can make it active
-// by enabling the locales in src/i18n/index.ts and routing in astro.config.mjs — no rewrite here.
+// Functional: each option is a link to the SAME page in another locale, built by the .astro caller
+// with localizePath (the island has no access to Astro.currentLocale). The trigger shows the code
+// of the locale currently being viewed.
 //
 // All visible copy comes from the i18n dictionary and is passed in as props by the .astro caller
 // (no hardcoded strings here). Styling lives in src/styles/blocks/_language-switcher.scss.
@@ -38,7 +38,7 @@ export default function LanguageSwitcher({ currentLabel, menuLabel, options }) {
     };
   }, [open]);
 
-  // Move focus between option buttons with Up/Down arrows (keyboard accessibility).
+  // Move focus between options with Up/Down arrows (keyboard accessibility).
   const onMenuKeyDown = (event) => {
     const items = Array.from(
       rootRef.current?.querySelectorAll('.language-switcher__option') ?? []
@@ -51,12 +51,6 @@ export default function LanguageSwitcher({ currentLabel, menuLabel, options }) {
       event.preventDefault();
       items[(currentIndex - 1 + items.length) % items.length]?.focus();
     }
-  };
-
-  // i18n stub — selecting an option does NOT change content in Phase 1; just close the menu.
-  const onSelect = () => {
-    setOpen(false);
-    buttonRef.current?.focus();
   };
 
   return (
@@ -78,14 +72,18 @@ export default function LanguageSwitcher({ currentLabel, menuLabel, options }) {
         <ul className="language-switcher__menu" role="menu" onKeyDown={onMenuKeyDown}>
           {options.map((option) => (
             <li key={option.code} role="none">
-              <button
-                type="button"
+              {/* A plain link: navigating to the localized URL is what switches the language,
+                  so the switcher keeps working without JS once the island has rendered. */}
+              <a
                 className="language-switcher__option"
                 role="menuitem"
-                onClick={onSelect}
+                href={option.href}
+                hrefLang={option.code}
+                aria-current={option.current ? 'true' : undefined}
+                onClick={() => setOpen(false)}
               >
                 {option.label}
-              </button>
+              </a>
             </li>
           ))}
         </ul>

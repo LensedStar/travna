@@ -5,17 +5,17 @@
 // and the allergen legend come from the collection, so the menu can be edited WITHOUT touching
 // this layout. Page chrome strings come from the i18n dictionary; styling lives in
 // src/styles/blocks/_menu.scss.
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Button from '../components/ui/Button.astro';
-import Icon from '../components/ui/Icon.astro';
-import { useTranslations, defaultLocale } from '../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { useTranslations, localeStaticPaths } from '../../i18n';
+import { getLocalizedCollection } from '../../i18n/content';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 const pageTitle = `${t('menu.title')} — ${t('site.name')}`;
 
 // The menu is a single structured document (sections + items); item data comes from the collection.
-const [menu] = await getCollection('menu');
+const [menu] = await getLocalizedCollection('menu', Astro.currentLocale);
 const sections = menu.data.sections;
 const allergenLegend = menu.data.allergenLegend;
 // scanned-menu PDF served from /public/menu.
@@ -28,6 +28,9 @@ const heroPills = [
   { icon: 'leaf', key: 'menu.hero.pill.soups' },
   { icon: 'wine', key: 'menu.hero.pill.desserts' },
 ] as const;
+
+// One build per locale: `lang` is undefined for EN (unprefixed) and 'ru' for Russian.
+export const getStaticPaths = localeStaticPaths;
 ---
 
 <BaseLayout title={pageTitle} description={t('menu.intro')}>

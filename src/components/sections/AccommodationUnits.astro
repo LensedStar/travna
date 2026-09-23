@@ -7,9 +7,9 @@
 // three groups use real client photos; copy is still MOCK per house/room — TODO(Webline): real
 // unit copy & details. Bookable selection/pricing stays on /rezervacija (Bentral).
 import HouseShowcase from '../../islands/HouseShowcase.jsx';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // `src` values below are real client photos — TODO(Webline): real copy for house1/house2.
 const houses = [
@@ -102,6 +102,7 @@ const rooms = [
       <HouseShowcase
         client:visible
         houses={houses}
+        bookHref={localizePath('/rezervacija', Astro.currentLocale)}
         strings={{
           galleryLabel: t('accommodation.slider.label'),
           prevLabel: t('accommodation.slider.prev'),
@@ -124,6 +125,7 @@ const rooms = [
       <HouseShowcase
         client:visible
         houses={rooms}
+        bookHref={localizePath('/rezervacija', Astro.currentLocale)}
         strings={{
           galleryLabel: t('accommodation.slider.label'),
           prevLabel: t('accommodation.slider.prev'),

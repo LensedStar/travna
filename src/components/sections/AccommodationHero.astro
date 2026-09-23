@@ -7,9 +7,9 @@
 // src/styles/blocks/_accommodation-hero.scss. Copy + photo are MOCK placeholders (see en.ts) —
 // TODO(Webline): swap for real house photo & copy.
 import Icon from '../ui/Icon.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 ---
 <section class="acc-hero reveal">
   <div class="acc-hero__inner">

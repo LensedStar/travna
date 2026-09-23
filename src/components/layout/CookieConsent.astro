@@ -12,10 +12,10 @@
 //
 // The measurement ID is a placeholder via the PUBLIC_GA_MEASUREMENT_ID env var (no real secret
 // committed). Ads prep: Meta Pixel / conversion tags load from the SAME consent-gated function later.
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations } from '../../i18n';
 import Button from '../ui/Button.astro';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // GA4 measurement ID. TODO: Webline sets the real value via the PUBLIC_GA_MEASUREMENT_ID env var
 // at launch (env/placeholder — never committed as a real secret).

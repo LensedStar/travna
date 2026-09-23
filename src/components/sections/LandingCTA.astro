@@ -5,7 +5,7 @@
 // (or add a new entry here); the /lp page itself does not need rebuilding.
 // The booking CTA is marked as the key conversion via `data-conversion` for future campaign tracking.
 import Button from '../ui/Button.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
 interface Props {
   // i18n-ready: extend with 'inquiry' | 'offer' later — add the entry to `goals`, change this prop.
@@ -13,11 +13,15 @@ interface Props {
   class?: string;
 }
 const { goal = 'booking', class: className } = Astro.props;
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // Single source of truth for the landing conversion goal. Swap / extend here only.
 const goals = {
-  booking: { href: '/rezervacija', label: t('lp.cta'), conversion: 'booking' },
+  booking: {
+    href: localizePath('/rezervacija', Astro.currentLocale),
+    label: t('lp.cta'),
+    conversion: 'booking',
+  },
 } as const;
 const { href, label, conversion } = goals[goal];
 

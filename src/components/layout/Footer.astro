@@ -3,10 +3,11 @@
 // Brand logo + legal entity, a footer nav row with social icons, then a centered
 // rights line and agency credit. All visible text comes from the i18n dictionary —
 // no hardcoded strings in the component.
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 import Icon from '../ui/Icon.astro';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
+const lang = Astro.currentLocale;
 
 // config values (non-visible hrefs — not UI copy).
 // TODO(Webline): replace with the real social profiles and privacy-policy route.
@@ -14,11 +15,11 @@ const instagramUrl = 'https://instagram.com/'; // TODO
 const facebookUrl = 'https://facebook.com/'; // TODO
 
 const footerNav = [
-  { href: '/accommodation', label: t('footer.nav.accommodation') },
-  { href: '/activities', label: t('footer.nav.activities') },
-  { href: '/contact', label: t('footer.nav.contact') },
-  { href: '/rezervacija', label: t('footer.nav.book') },
-  { href: '/privacy', label: t('footer.nav.privacy') }, // TODO(Webline): privacy-policy page
+  { href: localizePath('/accommodation', lang), label: t('footer.nav.accommodation') },
+  { href: localizePath('/activities', lang), label: t('footer.nav.activities') },
+  { href: localizePath('/contact', lang), label: t('footer.nav.contact') },
+  { href: localizePath('/rezervacija', lang), label: t('footer.nav.book') },
+  { href: localizePath('/privacy', lang), label: t('footer.nav.privacy') }, // TODO(Webline): privacy-policy page
 ];
 
 const year = new Date().getFullYear();
@@ -28,7 +29,7 @@ const year = new Date().getFullYear();
   <div class="site-footer__inner">
     <div class="site-footer__main">
       <div class="site-footer__left">
-        <a class="site-footer__brand" href="/" aria-label={t('site.name')}>
+        <a class="site-footer__brand" href={localizePath('/', lang)} aria-label={t('site.name')}>
           <img
             class="site-footer__logo"
             src="/images/logo.png"

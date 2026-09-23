@@ -2,13 +2,14 @@
 // HomeGallery.astro - Home gallery section: a static photo grid with zoomable images.
 // Renders all 6 entries of the structured `gallery` collection, in `order` — the reveal
 // stagger in _home-gallery.scss is sized to exactly 6 cards.
-import { getCollection } from 'astro:content';
+
 import { getImage } from 'astro:assets';
 import HomeGalleryScroller from '../../islands/HomeGalleryScroller.jsx';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
+import { getLocalizedCollectionSorted } from '../../i18n/content';
 
-const t = useTranslations(defaultLocale);
-const entries = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
+const t = useTranslations(Astro.currentLocale);
+const entries = await getLocalizedCollectionSorted('gallery', Astro.currentLocale);
 const sizes = '(max-width: 48rem) 92vw, (max-width: 75rem) 50vw, 33vw';
 const labels = [
   t('home.gallery.card.1'),
@@ -56,6 +57,7 @@ const images = await Promise.all(
   outroTitle={t('home.gallery.outro.title')}
   outroText={t('home.gallery.outro.text')}
   ctaLabel={t('home.gallery.outro.cta')}
+  ctaHref={localizePath('/rezervacija', Astro.currentLocale)}
   images={images}
 />
 </div>

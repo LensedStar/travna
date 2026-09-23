@@ -6,9 +6,9 @@
 // WebP in public/images — TODO(Webline): replace the art with the real interior/forest photo.
 import Button from '../ui/Button.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 ---
 <section class="accommodation-preview reveal">
   <div class="accommodation-preview__inner">
@@ -16,7 +16,7 @@ const t = useTranslations(defaultLocale);
     <div class="accommodation-preview__body">
       <SectionHeader title={t('home.accommodation.title')} />
       <p class="accommodation-preview__text">{t('home.accommodation.text')}</p>
-      <Button href="/accommodation" variant="secondary">{t('cta.viewAccommodation')}</Button>
+      <Button href={localizePath('/accommodation', Astro.currentLocale)} variant="secondary">{t('cta.viewAccommodation')}</Button>
     </div>
   </div>
 </section>

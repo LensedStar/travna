@@ -4,7 +4,7 @@ import ShowcaseGallery, { Glyph } from './ShowcaseGallery.jsx';
 /**
  * @param {{ houses?: Array<Record<string, any>>, strings?: Record<string, string> }} props
  */
-export default function HouseShowcase({ houses = [], strings = {} }) {
+export default function HouseShowcase({ houses = [], strings = {}, bookHref }) {
   const [activeHouse, setActiveHouse] = useState(0);
 
   // Sliding highlight behind the house-type switcher: we measure the active button (widths differ
@@ -111,7 +111,7 @@ export default function HouseShowcase({ houses = [], strings = {} }) {
               </li>
             ))}
           </ul>
-          <a className="btn btn--primary house-showcase__cta" href="/rezervacija">
+          <a className="btn btn--primary house-showcase__cta" href={bookHref}>
             {strings.availabilityLabel}
           </a>
         </div>

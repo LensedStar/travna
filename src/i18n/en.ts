@@ -28,10 +28,10 @@ export const en = {
   'nav.contact': 'Contact',
   'nav.book': 'Book',
 
-  // --- Language switcher (non-functional stub in Phase 1) ---
-  'lang.current': 'EN',
+  // --- Language switcher (live: EN + RU) ---
+  'lang.en': 'EN',
   'lang.label': 'Choose language',
-  'lang.si': 'SI',
+  'lang.si': 'SI', // reserved: unused until a Slovenian dictionary + content exist
   'lang.ru': 'RU',
 
   // --- Generic buttons / CTAs ---

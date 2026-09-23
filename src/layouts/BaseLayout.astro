@@ -1,10 +1,11 @@
 ---
 // BaseLayout.astro — the single layout used by every page (TASK-007).
-// Builds <head> (meta, canonical, Open Graph / Twitter), sets <html lang="en">, loads the global
+// Builds <head> (meta, canonical, Open Graph / Twitter, hreflang), sets <html lang> from the
+// locale of the page being rendered, loads the global
 // SCSS (which @font-faces the self-hosted fonts), renders the skip link + global Header/Footer,
 // and exposes a content slot. Per-page SEO (title/description/og/JSON-LD) flows in via props — no
 // hardcoded meta in pages. The `noindex` prop powers the hidden /lp landing (TASK-025).
-import { useTranslations, defaultLocale } from '../i18n';
+import { useTranslations, locales, defaultLocale, localizePath, stripLocale } from '../i18n';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import CookieConsent from '../components/layout/CookieConsent.astro';
@@ -32,12 +33,24 @@ const {
   bare = false,
 } = Astro.props;
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // Absolute URLs for OG/canonical based on the SITE_URL placeholder (Astro.site, set in astro.config.mjs).
 const canonical = new URL(canonicalURL, Astro.site).toString();
 const ogImageURL = new URL(ogImage, Astro.site).toString();
 const siteRoot = new URL('/', Astro.site).toString();
+
+// The locale of THIS page, derived from its URL by Astro (see i18n in astro.config.mjs).
+const locale = Astro.currentLocale ?? defaultLocale;
+
+// hreflang alternates: the same page in every locale, plus x-default pointing at the default
+// locale. Built from the current path with its locale prefix removed, so it stays correct for
+// every route without a per-page list. Suppressed on noindex pages (/lp).
+const basePath = stripLocale(Astro.url.pathname);
+const alternates = locales.map((code) => ({
+  code,
+  href: new URL(localizePath(basePath, code), Astro.site).toString(),
+}));
 
 // JSON-LD LodgingBusiness/LocalBusiness structured data (TASK-027). Business-level — same on every
 // indexable page. All fields are placeholders sourced from the i18n dictionary where one
@@ -63,7 +76,7 @@ const lodgingSchema = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -77,6 +90,18 @@ const lodgingSchema = {
     <meta name="description" content={description} />
     {!noindex && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- hreflang alternates (EN default, RU prefixed) — one <link> per locale + x-default. -->
+    {!noindex && alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.code} href={alt.href} />
+    ))}
+    {!noindex && (
+      <link
+        rel="alternate"
+        hreflang="x-default"
+        href={new URL(localizePath(basePath, defaultLocale), Astro.site).toString()}
+      />
+    )}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />

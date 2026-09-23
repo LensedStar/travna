@@ -8,7 +8,7 @@
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations } from '../../i18n';
 
 // `showSprig` toggles the decorative botanical watermark — off on the accommodation page.
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 }
 const { showSprig = true } = Astro.props;
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // Non-visible map srcs (not UI copy). Pinned to the real property:
 // "Planinski dom na Travni gori" d.o.o., Travna Gora 42, 1317 Sodražica (45.7356698, 14.6448761).

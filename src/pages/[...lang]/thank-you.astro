@@ -3,13 +3,16 @@
 // The ContactForm posts to Netlify which redirects here (/thank-you/) on success. Shows a short
 // confirmation and a link back home. All visible strings come from the i18n dictionary;
 // styling lives in src/styles/blocks/_contact.scss.
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeader from '../components/ui/SectionHeader.astro';
-import Button from '../components/ui/Button.astro';
-import { useTranslations, defaultLocale } from '../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import Button from '../../components/ui/Button.astro';
+import { useTranslations, localizePath, localeStaticPaths } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 const pageTitle = `${t('thankYou.title')} — ${t('site.name')}`;
+
+// One build per locale: `lang` is undefined for EN (unprefixed) and 'ru' for Russian.
+export const getStaticPaths = localeStaticPaths;
 ---
 
 <BaseLayout title={pageTitle} description={t('thankYou.text')}>
@@ -17,7 +20,7 @@ const pageTitle = `${t('thankYou.title')} — ${t('site.name')}`;
     <div class="thank-you__inner">
       <SectionHeader title={t('thankYou.title')} subtitle={t('thankYou.text')} align="center" />
       <div class="thank-you__cta">
-        <Button href="/" variant="primary">{t('thankYou.backHome')}</Button>
+        <Button href={localizePath('/', Astro.currentLocale)} variant="primary">{t('thankYou.backHome')}</Button>
       </div>
     </div>
   </section>

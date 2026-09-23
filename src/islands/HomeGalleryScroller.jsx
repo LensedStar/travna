@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function HomeGalleryScroller({ title, intro, images = [], openLabel, closeLabel, outroTitle, outroText, ctaLabel }) {
+export default function HomeGalleryScroller({ title, intro, images = [], openLabel, closeLabel, outroTitle, outroText, ctaLabel, ctaHref }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function HomeGalleryScroller({ title, intro, images = [], openLab
           <div className="home-gallery__outro">
             <p className="home-gallery__outro-kicker">{outroTitle}</p>
             <p className="home-gallery__outro-text">{outroText}</p>
-            <a className="btn btn--primary home-gallery__outro-cta" href="/rezervacija">{ctaLabel}</a>
+            <a className="btn btn--primary home-gallery__outro-cta" href={ctaHref}>{ctaLabel}</a>
           </div>
         </div>
       </div>

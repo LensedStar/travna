@@ -8,9 +8,9 @@
 // (see en.ts // TODO).
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // House-highlight pills — line-icon + i18n key. Reorder/extend here without touching the layout.
 const pills = [
@@ -58,7 +58,7 @@ const pills = [
       </ul>
 
       <div class="home-welcome__cta">
-        <Button href="/accommodation" variant="secondary">{t('cta.viewAccommodation')}</Button>
+        <Button href={localizePath('/accommodation', Astro.currentLocale)} variant="secondary">{t('cta.viewAccommodation')}</Button>
       </div>
     </div>
   </div>

@@ -5,14 +5,17 @@
 // (filter in astro.config.mjs) and NOT linked from public nav. The only path is the booking
 // conversion, rendered via the swappable LandingCTA component (goal lives in one place).
 // Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_landing.scss.
-import BaseLayout from '../layouts/BaseLayout.astro';
-import LandingCTA from '../components/sections/LandingCTA.astro';
-import Icon from '../components/ui/Icon.astro';
-import { useTranslations, defaultLocale } from '../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LandingCTA from '../../components/sections/LandingCTA.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { useTranslations, localeStaticPaths } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 const pageTitle = `${t('lp.hero.title')} — ${t('site.name')}`;
 const reasons = [t('lp.reason1'), t('lp.reason2'), t('lp.reason3')];
+
+// One build per locale: `lang` is undefined for EN (unprefixed) and 'ru' for Russian.
+export const getStaticPaths = localeStaticPaths;
 ---
 <BaseLayout title={pageTitle} description={t('lp.hero.subtitle')} noindex bare>
   <div class="landing">

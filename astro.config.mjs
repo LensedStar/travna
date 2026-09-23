@@ -10,12 +10,13 @@ const SITE_URL = 'https://example.com';
 export default defineConfig({
   site: SITE_URL,
   output: 'static',
-  // i18n-ready routing. Phase 1 resolves ONLY 'en' (default locale, no URL prefix).
-  // To enable Slovenian/Russian later: add 'sl' / 'ru' to `locales` here, add their dictionaries
-  // (src/i18n/sl.ts / ru.ts) + content entries, and activate the header switcher. No component rewrites.
+  // Locale routing. EN is the default and is served unprefixed (`/contact`); RU is prefixed
+  // (`/ru/contact`). The page routes live in src/pages/[...lang]/ and build one copy per locale
+  // (see localeStaticPaths in src/i18n/index.ts). To add Slovenian: add 'sl' here, add src/i18n/sl.ts
+  // to the registry, and drop translated entries into src/content/<collection>/sl/.
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ru'],
     routing: {
       prefixDefaultLocale: false,
     },

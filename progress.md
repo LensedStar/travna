@@ -706,3 +706,27 @@
 - Bonus: `rm -rf dist && npm run build` clean (8 pages, zero warnings) — launch-ready pending content/config insertion.
 **Files changed:** tasks.json (status only), progress.md
 **Note:** documentation-only task — no source files modified. **Newly surfaced gap to action:** `public/images/og-default.png` is referenced by `BaseLayout` but does not exist yet — add it with the real OG image at launch (listed in section B). All other items are intentional `[MOCK]` placeholders for Webline/client to fill.
+
+## RU locale — Russian shipped alongside English (ad-hoc, outside tasks.json)
+**Date:** 2026-09-23
+**Status:** done
+**Summary:** The client supplied a full Russian translation (`translations/ru.json`, exported from EN and translated externally), and asked for it to go live rather than stay a stub. The site now builds every page in two locales.
+
+- **Conflict with CLAUDE.md §9 flagged, user confirmed.** §9 ("Phase 1 ships English only", "language switcher is a non-functional UI stub") and §13 (single form `contact-en`) now describe the previous state. The user was shown the conflict and chose the full live RU locale; §9/§13 need updating (or the PRD needs a Phase-1 amendment) before another session treats EN-only as authoritative.
+- **Dictionary:** `src/i18n/ru.ts` generated from the translation, typed `UIDict` so a missing/renamed key is a build error. Section comments mirror `en.ts` line for line. Dropped the now-unused `lang.current` key and added `lang.en`, so the switcher labels every locale from the dictionary.
+- **Routing:** pages moved to `src/pages/[...lang]/` with a shared `localeStaticPaths` — one static build per locale, EN unprefixed (`/contact`) and RU prefixed (`/ru/contact`). 16 pages built from 8 page files. `locales: ['en','ru']` in `astro.config.mjs`.
+- **Locale resolution:** every `.astro` component switched from `useTranslations(defaultLocale)` to `useTranslations(Astro.currentLocale)` (29 files) — no prop drilling, no per-page wiring.
+- **Links:** every internal href goes through the new `localizePath()`; React islands (hero, gallery, house showcase, mobile nav) take already-localized hrefs as props, since they cannot read `Astro.currentLocale`.
+- **Content collections:** the default locale keeps its entries at the collection root, other locales live in a `<locale>/` subfolder (`src/content/activities/ru/…`) — mirroring the URL scheme. Reads go through `getLocalizedCollection()` / `…Sorted()` in `src/i18n/content.ts`, which falls back to the default locale if a collection has no entries for a locale yet. 21 RU entries added (activities 3, destinations 7, valueProps 4, gallery 6, menu 1); relative image paths gained one `../` for the extra folder depth.
+- **Language switcher is now functional:** options are links to the same page in the other locale (current path with its locale prefix stripped, then re-localized), built from the `locales` registry so adding a locale needs no edit in `Header.astro`.
+- **SEO:** `<html lang>` follows the page locale; `hreflang` alternates (one per locale + `x-default`) emitted in `BaseLayout`, suppressed on `noindex` pages. Canonicals are already path-derived, so they self-reference per locale. Sitemap lists both locales and still excludes `/lp` — including `/ru/lp`. `robots.txt` now disallows `/lp` and `/*/lp`.
+- **Contact form:** one Netlify bucket per locale (`contact-en` / `contact-ru`) and a localized `/thank-you/` redirect, both passed into the island. **Webline:** enable notifications for `contact-ru` too.
+- **Tooling:** `scripts/export-translations.mjs <locale>` regenerates `translations/<locale>.json` from the live source (dictionary + content collections) — the file to hand a translator, and the file to diff for missing keys. Both locales currently export 364 UI + 107 content strings with identical key sets.
+
+**Adding Slovenian later** is now: `src/i18n/sl.ts` + `sl` in `locales` (here and in `astro.config.mjs`) + `src/content/<collection>/sl/` entries. No component changes.
+
+**Verified:** `npm run build` clean — 16 pages. `/ru/` renders Russian with `lang="ru"`, RU nav/hero/footer hrefs all `/ru/…`, EN pages unchanged and unprefixed, RU collections render only RU entries, `/ru/contact` posts to `contact-ru` → `/ru/thank-you/`, `/ru/lp` stays `noindex` and out of the sitemap, switcher shows EN on `/` and RU on `/ru/`.
+
+**Not verified:** no type-checking pass — `astro check` requires installing `@astrojs/check` + `typescript`, which I did not add without asking.
+
+**Files changed:** src/i18n/{index.ts,ru.ts,en.ts,content.ts}, src/pages/[...lang]/* (moved from src/pages/), src/layouts/BaseLayout.astro, src/components/** (29 .astro), src/islands/{LanguageSwitcher,ParallaxHero,HomeGalleryScroller,HouseShowcase,ContactForm}.jsx, src/content/*/ru/* (21 new), src/content/config.ts, astro.config.mjs, public/robots.txt, scripts/export-translations.mjs, translations/{en,ru}.json

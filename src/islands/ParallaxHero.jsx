@@ -37,6 +37,9 @@ function Glyph({ name, className = 'hero__cta-icon' }) {
 }
 
 export default function ParallaxHero({
+  // Localized by the caller (src/pages/[...lang]/index.astro) — see localizePath in src/i18n.
+  bookHref,
+  activitiesHref,
   title,
   subtitle,
   intro,
@@ -90,12 +93,12 @@ export default function ParallaxHero({
         <p className="hero__subtitle">{subtitle}</p>
         <p className="hero__intro">{intro}</p>
         <div className="hero__actions">
-          <a className="btn btn--primary hero__cta hero__cta--primary" href="/rezervacija">
+          <a className="btn btn--primary hero__cta hero__cta--primary" href={bookHref}>
             <Glyph name="calendar" />
             <span>{ctaPrimaryLabel}</span>
             <Glyph name="arrow-right" className="hero__cta-icon hero__cta-icon--arrow" />
           </a>
-          <a className="btn btn--secondary hero__cta hero__cta--secondary" href="/activities">
+          <a className="btn btn--secondary hero__cta hero__cta--secondary" href={activitiesHref}>
             <Glyph name="map-pin" />
             <span>{ctaSecondaryLabel}</span>
           </a>

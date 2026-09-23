@@ -6,9 +6,9 @@
 // Copy is MOCK; the score is a placeholder — TODO(Webline): confirm the live Booking.com rating.
 import SectionHeader from '../ui/SectionHeader.astro';
 import Icon from '../ui/Icon.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // Pet-friendly leads the list (explicitly called out by the client). Reorder/extend here.
 const bonuses = [

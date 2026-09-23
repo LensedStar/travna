@@ -8,9 +8,9 @@
 import SectionHeader from '../ui/SectionHeader.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 // Milestones, oldest -> newest. Reorder/extend here without touching the layout.
 // `now: true` marks the arrival point (modern colour photo).
@@ -85,7 +85,7 @@ const milestones = [
     </ol>
 
     <div class="heritage__cta">
-      <Button href="/rezervacija" variant="secondary" class="heritage__book">{t('cta.bookNow')}</Button>
+      <Button href={localizePath('/rezervacija', Astro.currentLocale)} variant="secondary" class="heritage__book">{t('cta.bookNow')}</Button>
     </div>
   </div>
 </section>

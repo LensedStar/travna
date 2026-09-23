@@ -1,8 +1,10 @@
 // Content collections — structured, schema-typed data so items can be added/removed
-// WITHOUT editing page layout (PRD §6). Phase 1 is EN-only; entries are placeholders.
+// WITHOUT editing page layout (PRD §6). Entries are placeholders.
 //
-// i18n-ready: a `locale` field / per-locale entries can be introduced later without
-// changing these schemas' shape — add the field + duplicate entries per locale.
+// Localized per entry, not per schema: the default locale's entries live at the collection root
+// and every other locale keeps its own copy in a `<locale>/` subfolder (e.g. activities/ru/).
+// Reads go through getLocalizedCollection in src/i18n/content.ts, so the schemas stay untouched
+// when a locale is added.
 //
 // All collections are `type: 'data'` (JSON) because their content is structured fields,
 // not long-form prose. The entry `id` (filename) acts as the stable item id from PRD §6.

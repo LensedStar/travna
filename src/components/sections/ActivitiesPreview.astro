@@ -4,9 +4,9 @@
 // Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_activities-preview.scss.
 import Button from '../ui/Button.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 ---
 <section class="activities-preview reveal">
   <div class="activities-preview__inner">
@@ -15,6 +15,6 @@ const t = useTranslations(defaultLocale);
       subtitle={t('home.activities.text')}
       align="center"
     />
-    <Button href="/activities" variant="secondary">{t('cta.viewActivities')}</Button>
+    <Button href={localizePath('/activities', Astro.currentLocale)} variant="secondary">{t('cta.viewActivities')}</Button>
   </div>
 </section>
