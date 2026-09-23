@@ -1,0 +1,60 @@
+---
+// Sauna.astro — wood-fired sauna block, shared by the Apartments page (after the kitchen block)
+// and the Activities page (as its own closing block). Two real client photos beside editorial copy
+// and a short list of points. Pure .astro, zero client JS. Visible strings come from the i18n
+// dictionary; styling lives in src/styles/blocks/_sauna.scss.
+import Icon from '../ui/Icon.astro';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+// `title` lets the activities page head the block with the short "Sauna" heading; `warm` puts it
+// on the warm section surface so it can alternate with the bands around it.
+interface Props {
+  title?: string;
+  warm?: boolean;
+}
+const { title, warm = false } = Astro.props;
+
+const t = useTranslations(defaultLocale);
+
+const points = [t('sauna.point1'), t('sauna.point2'), t('sauna.point3')];
+
+// Real client photos of the sauna in one of the houses.
+const images = [
+  { src: '/images/house1/house1-03.webp', alt: t('sauna.imageAlt1'), width: 1800, height: 1350 },
+  { src: '/images/house1/house1-04.webp', alt: t('sauna.imageAlt2'), width: 1500, height: 2000 },
+];
+---
+<section class:list={['sauna', 'reveal', { 'sauna--warm': warm }]}>
+  <div class="sauna__inner">
+    <div class="sauna__media">
+      {images.map((image) => (
+        <img
+          class="sauna__photo"
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          loading="lazy"
+          decoding="async"
+        />
+      ))}
+    </div>
+
+    <div class="sauna__body">
+      <p class="sauna__eyebrow">{t('sauna.eyebrow')}</p>
+      <h2 class="sauna__title">{title ?? t('sauna.title')}</h2>
+      <p class="sauna__text">{t('sauna.body')}</p>
+
+      <ul class="sauna__points" role="list">
+        {points.map((point) => (
+          <li class="sauna__point">
+            <span class="sauna__point-icon-wrap">
+              <Icon name="flame" class="sauna__point-icon" />
+            </span>
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

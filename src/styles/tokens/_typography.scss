@@ -3,8 +3,9 @@
 // properties; blocks consume only var(--font-*) / var(--text-*) / var(--leading-*) / var(--weight-*).
 // Fonts are self-hosted via @font-face in base/_global.scss (TASK-005) — no Google Fonts CDN.
 
-$font-heading: ("Outfit", sans-serif); // clean geometric sans — modern, neutral
+$font-heading: ("Manrope", sans-serif); // semi-condensed geometric sans — modern, slightly warmer than Outfit
 $font-body:    ("Lato", sans-serif); // calm, readable
+$font-display: ("Fraunces", serif); // editorial serif — home hero tagline (italic quote) only
 
 // Type scale (fluid where it helps the rustic, photo-led layout breathe).
 $text: (
@@ -22,14 +23,17 @@ $leading: (
 );
 
 $weight: (
-  'regular': 400,
-  'medium':  600,
-  'bold':    700,
+  'regular':   400,
+  'medium-light': 500, // variable faces only (Manrope) — Lato has no 500
+  'medium':    600,
+  'bold':      700,
+  'extrabold': 800, // top of the Manrope variable axis — display headings only
 );
 
 :root {
   --font-heading: #{$font-heading};
   --font-body: #{$font-body};
+  --font-display: #{$font-display};
 
   @each $name, $value in $text {
     --text-#{$name}: #{$value};

@@ -1,17 +1,16 @@
 // blocks/_mobile-nav.scss — styles for the MobileNav island (TASK-012).
 // Token-only: no raw hex / magic numbers (colors/spacing/radius/shadow/fonts/motion come from tokens).
-// The burger is shown only on mobile (the desktop nav is hidden at the same 48rem breakpoint in _header.scss).
+// The burger is shown only on mobile (the desktop nav is hidden below the same 64rem breakpoint in _header.scss).
 
 .mobile-nav {
   display: none; // hidden on desktop; the inline nav is used there
 }
 
-.mobile-nav__toggle,
-.mobile-nav__close {
+.mobile-nav__toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-xs);
+  padding: var(--space-sm); // keeps a comfortable tap target around the small glyph
   color: var(--color-text);
   background-color: transparent;
   border: 0;
@@ -19,53 +18,95 @@
   cursor: pointer;
 }
 
-// Burger glyph — three stacked bars, sizes derived from the spacing scale (no magic numbers).
+// Burger glyph — two thin bars, the lower one shortened (scaled, so only transform animates).
+// Sizes derive from the spacing scale (no magic numbers); the local vars keep the open-state travel
+// (half the distance between the two bars) in one place.
 .mobile-nav__burger {
+  --burger-height: calc(var(--space-xs) * 1.5);
+  --burger-bar: calc(var(--space-xs) / 4);
+  --burger-shift: calc((var(--burger-height) - var(--burger-bar)) / 2);
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: var(--space-lg);
-  height: calc(var(--space-md) + var(--space-xs));
+  width: var(--space-md);
+  height: var(--burger-height);
 }
 
 .mobile-nav__bar {
   display: block;
   width: 100%;
-  height: calc(var(--space-xs) / 2);
+  height: var(--burger-bar);
   background-color: currentColor;
   border-radius: var(--radius-sm);
+  transition: transform var(--motion-duration-fast) var(--motion-ease);
 }
 
+// Lower bar sits shorter than the upper one; scaling from the right keeps it flush on that edge.
+.mobile-nav__bar:last-child {
+  transform: scaleX(0.6);
+  transform-origin: right center;
+}
+
+// Open state — the two bars meet in the middle, the short one grows back to full width, and they
+// cross into an X (both then pivot around their centre).
+.mobile-nav__toggle[aria-expanded='true'] .mobile-nav__bar:first-child {
+  transform: translateY(var(--burger-shift)) rotate(45deg);
+}
+
+.mobile-nav__toggle[aria-expanded='true'] .mobile-nav__bar:last-child {
+  transform: translateY(calc(var(--burger-shift) * -1)) rotate(-45deg);
+  transform-origin: center;
+}
+
+// The menu starts below the fixed header and sits *under* it (z-index below .site-header) so the
+// burger stays visible and clickable as the X that closes it. `overflow: hidden` lets the panel
+// slide out from behind the header bar.
 .mobile-nav__overlay {
   position: fixed;
-  inset: 0;
-  z-index: 200;
+  inset-block-start: var(--header-height);
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 90;
   display: flex;
-  justify-content: flex-end;
-  background-color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  align-items: flex-start;
+  overflow: hidden;
+  // No scrim: the full-height panel covers the whole overlay, and a tint behind it would darken
+  // the translucent sheet so it no longer matched the header bar.
+  opacity: 0;
+  visibility: hidden; // also keeps the closed panel out of the tab order
+  transition:
+    opacity var(--motion-duration) var(--motion-ease),
+    visibility 0s linear var(--motion-duration);
+}
+
+.mobile-nav__overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s, 0s;
 }
 
 .mobile-nav__panel {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  width: min(80vw, 20rem);
-  height: 100%;
-  padding: var(--space-xl) var(--space-lg);
-  background-color: var(--color-bg);
+  inline-size: 100%; // full-width sheet
+  block-size: 100%; // fills the viewport below the header; the links stay top-aligned
+  padding: var(--space-lg) var(--space-gutter) var(--space-xl);
+  // Slightly translucent over a soft blur, so the page underneath reads as atmosphere without
+  // hurting the contrast of the links sitting on top.
+  background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(var(--space-xs));
+  -webkit-backdrop-filter: blur(var(--space-xs));
   box-shadow: var(--shadow-card);
   overflow-y: auto;
+  // Short drop out from behind the header (the overlay clips it), not a full-height sweep.
+  transform: translateY(calc(var(--space-lg) * -1));
+  transition: transform var(--motion-duration) var(--motion-ease);
 }
 
-.mobile-nav__close {
-  align-self: flex-end;
-  font-size: var(--text-h3);
-  line-height: 1;
-}
-
-.mobile-nav__close-icon {
-  display: block;
-  line-height: 1;
+.mobile-nav__overlay.is-open .mobile-nav__panel {
+  transform: translateY(0);
 }
 
 .mobile-nav__list {
@@ -95,14 +136,17 @@
 }
 
 // Show the burger only on mobile — mirrors the _header.scss breakpoint that hides the desktop nav.
-@media (max-width: 48rem) {
+@media (max-width: 63.99rem) {
   .mobile-nav {
     display: inline-flex;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mobile-nav__link {
+  .mobile-nav__link,
+  .mobile-nav__bar,
+  .mobile-nav__overlay,
+  .mobile-nav__panel {
     transition: none;
   }
 }

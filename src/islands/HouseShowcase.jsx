@@ -82,9 +82,31 @@ export default function HouseShowcase({ houses = [], strings = {} }) {
     };
 
     measure();
+    // Re-measure whenever the options change size, not just on window resize — a late web-font
+    // swap or a label wrapping on a narrow phone moves the active button without a resize event.
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
+    switcherRef.current?.querySelectorAll('.house-showcase__switch').forEach((el) => observer?.observe(el));
     window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', measure);
+    };
   }, [activeHouse, counts.houseCount]);
+
+  // On phones the thumbnails are one horizontally scrolling row; keep the active one in view when
+  // the photo changes via the arrows or the lightbox. Scrolls only the row, never the page.
+  const thumbsRef = useRef(null);
+  useEffect(() => {
+    const row = thumbsRef.current;
+    const thumb = row?.children[activeImage];
+    if (!row || !thumb || row.scrollWidth <= row.clientWidth) return;
+    const rowBox = row.getBoundingClientRect();
+    const thumbBox = thumb.getBoundingClientRect();
+    row.scrollTo({
+      left: row.scrollLeft + thumbBox.left - rowBox.left - (rowBox.width - thumbBox.width) / 2,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
+  }, [activeImage, activeHouse]);
 
   // Enable the slide transition only after the first paint (positions the highlight without a flash).
   useEffect(() => {
@@ -183,7 +205,7 @@ export default function HouseShowcase({ houses = [], strings = {} }) {
             </div>
 
             {counts.imageCount > 1 && (
-              <div className="house-showcase__thumbs" role="tablist" aria-label={strings.galleryLabel}>
+              <div className="house-showcase__thumbs" role="tablist" aria-label={strings.galleryLabel} ref={thumbsRef}>
                 {images.map((item, index) => (
                   <button
                     key={`${house.name}-${item.src}`}

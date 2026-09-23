@@ -13,7 +13,7 @@
 .testimonials__inner {
   max-width: 75rem;
   margin-inline: auto;
-  padding-inline: var(--space-lg);
+  padding-inline: var(--space-gutter);
 }
 
 // Header row: title on the left, the Booking.com score badge on the right, one line.
@@ -37,9 +37,10 @@
 // Compact Booking.com score badge.
 .testimonials__score {
   display: flex;
-  flex-shrink: 0;
+  flex-shrink: 1;
   align-items: center;
   gap: var(--space-sm);
+  min-width: 0; // on phones it wraps under the title and its meta line must wrap, not overflow
 }
 
 .testimonials__score-badge {
@@ -253,36 +254,55 @@
 .testimonials-slider__dots {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  min-width: 0;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+// The button is a finger-sized hit area (it may shrink a little on the narrowest phones); the
+// small visible dot is drawn by ::before, so the look is unchanged.
 .testimonials-slider__dot {
-  display: block;
-  width: var(--space-xs);
-  height: var(--space-xs);
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--space-lg) - var(--space-xs));
+  min-width: 0;
+  height: var(--space-lg);
   padding: 0;
   border: 0;
-  border-radius: var(--radius-lg);
-  background-color: color-mix(in srgb, var(--color-text) 25%, transparent);
+  background-color: transparent;
   cursor: pointer;
-  transition: background-color var(--motion-duration-fast) var(--motion-ease);
+
+  &::before {
+    content: '';
+    width: var(--space-xs);
+    height: var(--space-xs);
+    border-radius: var(--radius-lg);
+    background-color: color-mix(in srgb, var(--color-text) 25%, transparent);
+    transition: background-color var(--motion-duration-fast) var(--motion-ease);
+  }
 }
 
-.testimonials-slider__dot:hover {
+.testimonials-slider__dots > li {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.testimonials-slider__dot:hover::before {
   background-color: color-mix(in srgb, var(--color-text) 45%, transparent);
 }
 
-.testimonials-slider__dot--active {
+.testimonials-slider__dot--active::before {
   background-color: var(--color-wood);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .testimonials-slider__track,
   .testimonials-slider__control,
-  .testimonials-slider__dot {
+  .testimonials-slider__dot::before {
     transition: none;
   }
 }

@@ -46,6 +46,8 @@ export const en = {
   // --- Home: hero ---
   'home.hero.title': 'Planinski dom na Travni gori',
   'home.hero.subtitle': 'Where time runs slower',
+  // TODO: replace with client-approved copy — atmospheric draft, makes no factual claims.
+  'home.hero.intro': 'Warm wood, quiet mornings and forest air — a mountain house made for slow days, long evenings by the fire, and nothing much on the schedule.',
   'home.hero.ratingsLabel': 'Guest ratings',
   'home.hero.bookingLabel': 'Booking.com',
   'home.hero.bookingScale': 'out of 10',
@@ -80,18 +82,22 @@ export const en = {
   'home.heritage.intro':
     'Enjoy your vacation in a house that has welcomed travelers and explorers for almost 100 years — of course, with modern room comforts.',
   'home.heritage.m1.era': '1927',
+  'home.heritage.m1.title': 'A lodge on the mountain', // TODO: confirm the opening year with the client (a local source dates the dom to 1958)
   'home.heritage.m1.body':
     'In 1927, the house opened as a planinski dom — a mountain lodge where hikers and travelers stopped to rest, eat, and warm up after a day on the trails.',
   'home.heritage.m1.alt': 'Archival photograph of the house in its early years, with a horse and cart out front',
   'home.heritage.m2.era': '19—', // TODO: confirm real year
+  'home.heritage.m2.title': 'Long tables, full house', // MOCK
   'home.heritage.m2.body':
     'Lorem ipsum dolor sit amet — a gathering place where neighbours and wanderers paused at long outdoor tables.', // MOCK
   'home.heritage.m2.alt': 'Archival photograph of a crowd gathered at outdoor tables outside the house',
-  'home.heritage.m3.era': '1956',
+  'home.heritage.m3.era': '1969',
+  'home.heritage.m3.title': 'The ski years',
   'home.heritage.m3.body':
-    'By 1956, a road finally wound its way up the mountain, making the house easier to reach — but the same warm welcome awaited every traveler who arrived.',
-  'home.heritage.m3.alt': 'Mid-century archival photograph of vintage cars parked outside the house',
+    'By the late 1960s the slopes below the house had become a small ski centre, with a lift and wooden bungalows — winter brought whole families up the mountain for the day.',
+  'home.heritage.m3.alt': 'Vintage postcard of Travna Gora: skiers on the slope below the house, and a wooden bungalow',
   'home.heritage.m4.era': '2026',
+  'home.heritage.m4.title': 'The house today',
   'home.heritage.m4.body':
     'Nearly a century later, the same house is still standing — lovingly restored with modern comforts, ready to welcome you for a stay you won\'t forget.',
   'home.heritage.m4.alt': 'Modern colour photograph of the house as it stands today',
@@ -105,20 +111,22 @@ export const en = {
   'home.apartments.hint': 'Pick an icon to explore each one', // MOCK — shown as an on-image hint, not in the subheader
   'home.apartments.rooms.title': 'Rooms for every stay',
   'home.apartments.rooms.text':
-    'Fresh, comfortable rooms for groups of any size — a warm welcome for big families, couples, and solo travelers alike.',
+    'Fresh, cozy rooms for groups of any size — a warm welcome for big families, couples, and solo travelers alike.',
   'home.apartments.rooms.tab': 'Rooms', // MOCK — short label for the icon tab
   'home.apartments.rooms.b1':
-    'Book the whole house to yourselves — private entrance, sauna and terrace, sleeping 5 across 3 bedrooms.',
+    'Book the whole house to yourselves — private entrance, own kitchen, sleeps 1–6.',
   'home.apartments.rooms.b2': 'Or just a room — cozy options for 1–4 guests.',
-  'home.apartments.rooms.b3': 'Unwind in the sauna, on your own or together with other guests.',
+  'home.apartments.rooms.b3': 'Unwind in the wood-fired sauna — privately with family and friends, or shared with other guests.',
   'home.apartments.rooms.alt': 'A warmly lit apartment interior with wooden furniture', // MOCK — replace with real photo
   'home.apartments.slovenia.title': 'Heart of Slovenia',
   'home.apartments.slovenia.text':
     'A great location close to some of Slovenia’s best-known sights — Ljubljana and the karst caves among them, with lakes, forests and castles all within about an hour’s drive.',
   'home.apartments.slovenia.tab': 'Slovenia', // MOCK — short label for the icon tab
   'home.apartments.slovenia.b1': 'About an hour’s drive to most major sights',
-  'home.apartments.slovenia.b2': 'Close to Ljubljana and the famous karst caves',
-  'home.apartments.slovenia.b3': 'On the edge of some of Europe’s largest forests',
+  'home.apartments.slovenia.b2': 'Close to Ljubljana and the famous karst caves — Postojna and Križna jama',
+  // TODO(Webline): confirm before launch — the nearby Krokar & Rajhenavski Rog beech primeval
+  // forests are UNESCO-listed; naming them explicitly is an option once the client approves.
+  'home.apartments.slovenia.b3': 'On the edge of some of Europe’s oldest and best-protected forests',
   'home.apartments.slovenia.alt': 'Mock exterior view of the house surrounded by the Slovenian countryside', // MOCK — replace with real photo
   'home.apartments.nature.title': 'For nature lovers',
   'home.apartments.nature.text':
@@ -174,9 +182,9 @@ export const en = {
   // Directions action
   'home.findUs.cta': 'Get directions',
   // Road-tip (centered icon + title + subtitle, with the route map beneath)
-  'home.findUs.tip.title': 'The quicker way up the mountain', // MOCK
-  'home.findUs.tip.text': 'Take the marked route through Sodražica — it stays wide and well-kept. Avoid the road further south: it narrows and runs along a steep cliff edge.',
-  'home.findUs.tip.alt': 'Route map showing the faster drive up to Planinski dom na Travni gori', // MOCK — replace with final route map
+  'home.findUs.tip.title': 'The easier way up the mountain', // MOCK
+  'home.findUs.tip.text': 'It is not about saving minutes — it is about a calmer drive. Take the marked route through Sodražica: it stays wide and well-kept the whole way up. The road further south is narrower and runs along a steep cliff edge, so we suggest leaving that one to the locals.',
+  'home.findUs.tip.alt': 'Route map showing the easier, well-kept drive up to Planinski dom na Travni gori', // MOCK — replace with final route map
   'home.findUs.tip.zoom': 'Enlarge the route map',
   'home.findUs.tip.close': 'Close the enlarged route map',
 
@@ -239,7 +247,7 @@ export const en = {
   'accommodation.bonuses.b2.text': 'Lorem ipsum — park right at the door, free of charge.', // MOCK
   'accommodation.bonuses.b3.title': 'Fast Wi-Fi', // MOCK
   'accommodation.bonuses.b3.text': 'Lorem ipsum — stay connected when you want to.', // MOCK
-  'accommodation.bonuses.b4.title': 'No smoking', // MOCK
+  'accommodation.bonuses.b4.title': 'Wood-fired sauna', // MOCK
   'accommodation.bonuses.b4.text': '', // intentionally unused in the compact card layout
   'accommodation.bonuses.b5.title': 'Forest at the door', // MOCK
   'accommodation.bonuses.b5.text': 'Lorem ipsum — trailheads just steps from the terrace.', // MOCK
@@ -260,29 +268,28 @@ export const en = {
   'accommodation.units.houses.text':
     'Rest as a family or as a couple in a standalone house of your own — your own sauna, your own kitchen.', // MOCK
   'accommodation.units.house1.name': 'Family house', // MOCK
-  'accommodation.units.house1.text': 'A whole house with private entrance, sauna, terrace and BBQ equipment — up to 5 persons across 3 bedrooms.', // MOCK
-  'accommodation.units.house1.capacity': 'Up to 6 persons', // MOCK
-  'accommodation.units.house1.size': '2 bedrooms · kitchen · terrace', // MOCK
-  'accommodation.units.house1.tag.sleeps': 'Up to 5 persons', // MOCK
-  'accommodation.units.house1.tag.bedrooms': '3 bedrooms', // MOCK
+  'accommodation.units.house1.text': 'A whole house to yourselves — private entrance, own kitchen and BBQ equipment, sleeping 1–6.', // MOCK
+  'accommodation.units.house1.capacity': 'Sleeps 1–6', // MOCK
+  'accommodation.units.house1.size': 'Kitchen · terrace', // MOCK
+  'accommodation.units.house1.tag.sleeps': 'Sleeps 1–6', // MOCK
   'accommodation.units.house1.tag.size': '44 m²', // MOCK
-  'accommodation.units.house1.tag.sauna': 'Private sauna', // MOCK
-  'accommodation.units.house1.tag.bbq': 'BBQ equipment', // MOCK
+  'accommodation.units.house1.tag.sauna': 'Wood-fired sauna', // MOCK
+  'accommodation.units.house1.tag.bbq': 'Own kitchen & BBQ', // MOCK
   'accommodation.units.house1.alt': 'Terrace of the house with forest views', // MOCK — replace with real photo
-  'accommodation.units.house2.name': 'Tiny house', // MOCK
-  'accommodation.units.house2.text': 'A snug tiny house with private entrance, sauna, terrace and BBQ equipment — up to 3 persons.', // MOCK
-  'accommodation.units.house2.capacity': 'Up to 4 persons', // MOCK
+  'accommodation.units.house2.name': 'Mobile house', // MOCK
+  'accommodation.units.house2.text': 'A snug mobile house with private entrance, sauna, terrace and BBQ equipment — up to 3 persons.', // MOCK
+  'accommodation.units.house2.capacity': 'Up to 3 persons', // MOCK — TODO(Webline): confirm the real capacity
   'accommodation.units.house2.size': '1 bedroom · kitchen · garden', // MOCK
   'accommodation.units.house2.tag.sleeps': 'Up to 3 persons', // MOCK
   'accommodation.units.house2.tag.bedrooms': '1 bedroom', // MOCK
   'accommodation.units.house2.tag.size': '35 m²', // MOCK
-  'accommodation.units.house2.tag.sauna': 'Private sauna', // MOCK
+  'accommodation.units.house2.tag.sauna': 'Wood-fired sauna', // MOCK
   'accommodation.units.house2.tag.bbq': 'BBQ equipment', // MOCK
-  'accommodation.units.house2.alt': 'Interior of the tiny holiday home with kitchen and loft stairs', // MOCK — replace with real photo
+  'accommodation.units.house2.alt': 'Interior of the mobile holiday home with kitchen and loft stairs', // MOCK — replace with real photo
   // Rooms group
   'accommodation.units.rooms.title': 'Rooms in the main house', // MOCK
   'accommodation.units.rooms.text':
-    'Comfortable rooms with lovely views and all the little comforts you need.', // MOCK
+    'Cozy rooms with lovely views and all the little comforts you need.', // MOCK
   // Single showcase entry for the main house (no per-room breakdown) — richer copy + gallery.
   'accommodation.units.rooms.name': 'Cozy rooms upstairs', // MOCK
   'accommodation.units.rooms.detail':
@@ -307,6 +314,20 @@ export const en = {
   'accommodation.kitchen.point2': 'Local, seasonal produce from the region',
   'accommodation.kitchen.point4': 'Dietary needs and allergies happily accommodated on request',
   'accommodation.kitchen.cta': 'See the menu',
+
+  // --- Sauna (shared block: apartments page + activities page) ---
+  // TODO(Webline): confirm copy with the client. The sauna is wood-fired and shared by all guests
+  // — it is NOT private to a house (see the unit strings above, which still say otherwise).
+  'sauna.eyebrow': 'On the property',
+  'sauna.title': 'Wood-fired sauna',
+  'sauna.shortTitle': 'Sauna', // heading used where the block stands on its own (activities page)
+  'sauna.body':
+    'After a day in the forest there is nothing better than heat, wood and quiet. The sauna is wood-fired, the way it has always been here — give it time to warm through, then step out into the cool mountain air.',
+  'sauna.point1': 'A modern sauna with everything you need',
+  'sauna.point2': 'Unwind after a long day',
+  'sauna.point3': 'Good for body and mind',
+  'sauna.imageAlt1': 'The wood-lined sauna with its glass door and bucket',
+  'sauna.imageAlt2': 'The shower beside the sauna with a wooden dousing bucket',
 
   // --- Testimonials (real guest reviews, translated from Booking.com) ---
   'testimonials.score.value': '8.8',
@@ -395,7 +416,7 @@ export const en = {
   'menu.intro': 'Home-cooked dishes made with local produce, served in the house dining room.', // MOCK
   'menu.hero.eyebrow': 'From our kitchen', // MOCK
   'menu.hero.lead':
-    'Lorem ipsum dolor sit amet — a few warm lines on the house kitchen: home-cooked breakfasts, hearty mains and family recipes served fresh each day.', // MOCK
+    'Everything here is cooked in the house, the way it has always been done — family recipes, local and seasonal produce, and nothing out of a packet. Mornings start with a homemade breakfast; later the kitchen turns to warming soups and hearty mountain mains, with something sweet to finish.', // TODO(Webline): confirm meal times & dish claims with the client
   'menu.hero.imageAlt': 'The house dining room, set for a meal', // MOCK — real photo, alt TODO(Webline)
   'menu.hero.badge.title': 'Homemade', // MOCK
   'menu.hero.badge.sub': 'family recipes', // MOCK

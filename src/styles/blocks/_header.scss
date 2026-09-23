@@ -7,8 +7,28 @@
   inset-block-start: 0;
   inset-inline: 0;
   z-index: 100;
-  background-color: var(--color-bg);
   box-shadow: var(--shadow-soft);
+}
+
+// While the mobile menu is open the bar and the panel are one continuous frosted surface, so the
+// bar's drop shadow would draw a line across it.
+.site-header:has(.mobile-nav__toggle[aria-expanded='true']) {
+  box-shadow: none;
+}
+
+// Slightly translucent over a soft blur — same treatment as the open mobile menu, so the bar sits
+// on the page as atmosphere while keeping the logo/links well above AA contrast.
+// The blur lives on a pseudo-element on purpose: `backdrop-filter` on .site-header itself would
+// make it the containing block for its `position: fixed` descendants and collapse the mobile menu
+// overlay into the height of the bar.
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(var(--space-xs));
+  -webkit-backdrop-filter: blur(var(--space-xs));
 }
 
 // The fixed header is out of flow, so reserve its height on pages that render it (bare pages — /lp —
@@ -34,11 +54,12 @@ html {
   gap: var(--space-md);
   max-width: 75rem;
   margin: 0 auto;
-  padding: var(--space-sm) var(--space-lg);
+  padding: var(--space-sm) var(--space-gutter);
 }
 
 .site-header__brand {
   display: inline-flex;
+  flex-shrink: 0; // never squeezed away by the actions row on narrow phones
   align-items: center;
   text-decoration: none;
 }
@@ -80,11 +101,73 @@ html {
   gap: var(--space-md);
 }
 
-// Mobile: hide the inline desktop nav — the MobileNav island (TASK-012) takes over here.
-// Brand + Book CTA stay, so the header never overflows at small widths (e.g. 375px).
-@media (max-width: 48rem) {
+// The six inline links + language + Book need ~1000px, so the desktop nav only appears from 64rem;
+// until 75rem its link spacing is tightened to leave some slack on 1024–1200px screens.
+@media (max-width: 74.99rem) {
+  .site-header__nav-list {
+    gap: var(--space-md);
+  }
+}
+
+// Phones + tablets: hide the inline desktop nav — the MobileNav island (TASK-012) takes over here.
+// Brand + Book CTA stay, so the header never overflows at small widths (e.g. 375px). With the nav
+// gone the bar only carries brand + actions, so it is slimmed here: the logo gets an explicit height
+// (instead of tracking the taller desktop --header-height) and the Book pill loses vertical padding.
+@media (max-width: 63.99rem) {
   .site-header__nav {
     display: none;
+  }
+
+  .site-header__inner {
+    padding-block: calc(var(--space-xs) / 2);
+  }
+
+  .site-header__logo {
+    block-size: var(--space-lg);
+  }
+
+  .site-header__actions .site-header__book {
+    padding-block: var(--space-xs);
+    font-size: var(--text-small);
+  }
+
+  .site-header__actions .language-switcher__toggle {
+    padding-block: calc(var(--space-xs) / 2);
+    font-size: var(--text-small);
+  }
+}
+
+// Phones: logo + language + Book + burger must share ~280–400px, so tighten the gaps and slim the
+// Book pill (it keeps its full height as a tap target). Scoped under __actions so it outranks the
+// shared .btn padding, which loads after this file.
+@media (max-width: 30rem) {
+  .site-header__inner,
+  .site-header__actions {
+    gap: var(--space-xs);
+  }
+
+  .site-header__actions .site-header__book {
+    padding-inline: var(--space-md);
+  }
+
+  .site-header__actions .language-switcher__toggle {
+    padding-inline: var(--space-xs);
+  }
+}
+
+// Smallest phones (≤360px, e.g. iPhone SE 1st gen): a slightly smaller badge and slimmer paddings
+// so every control still fits on one row without horizontal scroll.
+@media (max-width: 22.5rem) {
+  .site-header__logo {
+    block-size: calc(var(--space-md) + var(--space-xs));
+  }
+
+  .site-header__actions .site-header__book {
+    padding-inline: var(--space-sm);
+  }
+
+  .site-header__actions .mobile-nav__toggle {
+    padding-inline: calc(var(--space-xs) / 2);
   }
 }
 

@@ -18,6 +18,7 @@ const milestones = [
   {
     icon: 'landmark',
     era: 'home.heritage.m1.era',
+    title: 'home.heritage.m1.title',
     body: 'home.heritage.m1.body',
     alt: 'home.heritage.m1.alt',
     src: '/images/travna 56.jpeg',
@@ -25,17 +26,19 @@ const milestones = [
     height: 946,
   },
   {
-    icon: 'route',
+    icon: 'snowflake',
     era: 'home.heritage.m3.era',
+    title: 'home.heritage.m3.title',
     body: 'home.heritage.m3.body',
     alt: 'home.heritage.m3.alt',
-    src: '/images/travna 76.jpeg',
-    width: 1100,
-    height: 688,
+    src: '/images/travna-1969-ski.webp',
+    width: 605,
+    height: 420,
   },
   {
     icon: 'trees',
     era: 'home.heritage.m4.era',
+    title: 'home.heritage.m4.title',
     body: 'home.heritage.m4.body',
     alt: 'home.heritage.m4.alt',
     src: '/images/ttravna now.webp',
@@ -74,6 +77,7 @@ const milestones = [
 
           <div class="heritage__content">
             <p class="heritage__era">{t(m.era)}</p>
+            <h3 class="heritage__title">{t(m.title)}</h3>
             <p class="heritage__body">{t(m.body)}</p>
           </div>
         </li>

@@ -7,6 +7,13 @@
   position: relative;
   padding-block: var(--space-3xl);
   overflow: hidden; // contains the bleeding sprig + horizon silhouette
+
+  // Shared height for BOTH maps in this section — the Google embed and the route artwork below it
+  // render the same height, so the spread reads as one pair rather than two odd sizes.
+  --find-us-map-height: clamp(calc(var(--space-3xl) * 4.5), 63vh, calc(var(--space-3xl) * 7.5));
+  // Route artwork is 1223 × 1286, i.e. slightly taller than wide. Capping its WIDTH at that share
+  // of the shared height is what makes its height match — no fixed height, no cropping.
+  --find-us-route-aspect: calc(1223 / 1286);
 }
 
 // Subtle botanical line pattern at 30% — shared texture with the home gallery section.
@@ -28,7 +35,7 @@
   z-index: 1;
   max-width: 75rem;
   margin-inline: auto;
-  padding-inline: var(--space-lg);
+  padding-inline: var(--space-gutter);
   display: flex;
   flex-direction: column;
   gap: var(--space-2xl);
@@ -54,12 +61,18 @@
 }
 
 // --- Locate: large map (≈60%) + travel facts (≈40%) -------------------------
+// Side by side only from 64rem — on tablets the 3fr/2fr split squeezed the facts card to a narrow
+// column, so map and card stack there (the card lays its own content out in two columns instead).
 .find-us__locate {
   display: grid;
-  gap: var(--space-2xl);
+  gap: var(--space-xl);
   align-items: center;
 
   @media (min-width: 48rem) {
+    gap: var(--space-2xl);
+  }
+
+  @media (min-width: 64rem) {
     grid-template-columns: 3fr 2fr;
     gap: var(--space-3xl);
   }
@@ -73,7 +86,7 @@
   display: block;
   width: 100%;
   // Fluid frame — 1.5× so the map is a prominent, primary element of the row.
-  min-height: clamp(calc(var(--space-3xl) * 4.5), 63vh, calc(var(--space-3xl) * 7.5));
+  min-height: var(--find-us-map-height);
   border: 0;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
@@ -88,7 +101,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--space-sm);
-  max-width: min(20rem, calc(100% - var(--space-2xl)));
+  max-width: min(20rem, calc(100% - var(--space-md) * 2));
   padding: var(--space-md);
   background-color: var(--color-bg);
   border-radius: var(--radius-md);
@@ -97,6 +110,16 @@
   @media (min-width: 48rem) {
     inset-block-start: var(--space-lg);
     inset-inline-start: var(--space-lg);
+  }
+
+  // Phones: the map frame is much smaller here, so the label shrinks with it — tighter inset and
+  // padding, narrower measure — instead of covering the top half of the map.
+  @media (max-width: 47.99rem) {
+    inset-block-start: var(--space-sm);
+    inset-inline-start: var(--space-sm);
+    gap: var(--space-xs);
+    max-width: min(15rem, calc(100% - var(--space-sm) * 2));
+    padding: var(--space-sm);
   }
 }
 
@@ -120,6 +143,10 @@
   font-size: var(--text-body);
   font-weight: var(--weight-bold);
   color: var(--color-text);
+
+  @media (max-width: 47.99rem) {
+    font-size: var(--text-small);
+  }
 }
 
 .find-us__pin-address {
@@ -127,6 +154,12 @@
   font-size: var(--text-small);
   color: var(--color-text);
   opacity: 0.75;
+
+  // Phones: the label keeps only the name and the Maps link — the full address is a line too many
+  // over a small map, and the link leads straight to it.
+  @media (max-width: 47.99rem) {
+    display: none;
+  }
 }
 
 .find-us__pin-link {
@@ -153,11 +186,44 @@
 
 // --- Travel-facts column (beside the map) ------------------------------------
 .find-us__info {
-  max-width: 24rem;
-  padding: var(--space-xl);
+  padding: var(--space-lg);
   background-color: var(--color-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
+
+  // Tablets (stacked under the map, full width): contact + CTA on the left, travel facts on the
+  // right, so the wide card isn't one tall, mostly empty column.
+  @media (min-width: 36rem) and (max-width: 63.99rem) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto 1fr;
+    column-gap: var(--space-xl);
+
+    .find-us__contact {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .find-us__facts {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+
+    .find-us__actions {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: end;
+      margin-block-start: 0;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    padding: var(--space-xl);
+  }
+
+  @media (min-width: 64rem) {
+    max-width: 24rem;
+  }
 }
 
 // Contact links sitting above the travel facts.
@@ -200,10 +266,14 @@
 // --- Road tip: left-aligned text on the left, route map alongside on the right ----
 .find-us__story {
   display: grid;
-  gap: var(--space-2xl);
+  gap: var(--space-xl);
   align-items: center;
 
   @media (min-width: 48rem) {
+    gap: var(--space-2xl);
+  }
+
+  @media (min-width: 64rem) {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-3xl);
   }
@@ -214,31 +284,47 @@
   position: relative; // anchors the notation mark overflowing the corner
   text-align: start;
   max-width: 36rem;
-  padding: var(--space-xl);
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
   background-color: var(--color-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
+
+  @media (min-width: 48rem) {
+    padding: var(--space-xl);
+  }
 }
 
 // Small notation badge spilling a little past the top-left corner — a quiet "take note" cue.
+// Smaller on phones, where the page gutter leaves little room for it to spill into.
 .find-us__tip-mark {
   position: absolute;
   inset-block-start: 0;
   inset-inline-start: 0;
-  transform: translate(-40%, -40%); // little overflow beyond the card edge
+  transform: translate(-25%, -40%); // little overflow beyond the card edge
   display: grid;
   place-items: center;
-  width: var(--space-2xl);
-  height: var(--space-2xl);
+  width: var(--space-xl);
+  height: var(--space-xl);
   background-color: var(--color-surface);
   border-radius: 50%;
   box-shadow: var(--shadow-soft);
+
+  @media (min-width: 48rem) {
+    transform: translate(-40%, -40%);
+    width: var(--space-2xl);
+    height: var(--space-2xl);
+  }
 }
 
 .find-us__tip-mark-icon {
-  width: var(--space-lg);
-  height: var(--space-lg);
+  width: var(--space-md);
+  height: var(--space-md);
   color: var(--color-terracotta);
+
+  @media (min-width: 48rem) {
+    width: var(--space-lg);
+    height: var(--space-lg);
+  }
 }
 
 .find-us__tip-body {
@@ -262,11 +348,18 @@
   opacity: 0.85;
 }
 
-// Route map breathes — no surrounding card, only a gentle soft rounding. Fills its column
-// beside the road-tip text.
+// Route map breathes — no surrounding card, only a gentle soft rounding. Sits beside the road-tip
+// text, and renders exactly as tall as the Google map above it (see --find-us-map-height). On
+// narrow columns it simply scales down with its own proportions.
 .find-us__route {
   width: 100%;
-  max-width: 42rem;
+  margin-inline: auto;
+
+  // Only once the story splits into two columns does the height matching matter — until then the
+  // route map is alone in its row and simply spans the full width, like the Google map above it.
+  @media (min-width: 64rem) {
+    max-width: calc(var(--find-us-map-height) * var(--find-us-route-aspect));
+  }
 }
 
 // Thumbnail acts as a zoom trigger — click to open the lightbox.
@@ -406,6 +499,12 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-lg);
+
+  // Phones: the card is one full-width column, so a left-hung button reads as stranded — centre it
+  // under the facts list. (From 36rem up it sits in the card's own two-column grid.)
+  @media (max-width: 35.99rem) {
+    justify-content: center;
+  }
 }
 
 // --- Scroll-reveal — enhances the section-level `.reveal` entrance ------------

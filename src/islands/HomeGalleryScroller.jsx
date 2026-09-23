@@ -21,7 +21,8 @@ export default function HomeGalleryScroller({ title, intro, images = [], openLab
   }, [activeIndex]);
 
   return (
-    <section className="home-gallery reveal">
+    // The `.reveal` hook sits on the .astro wrapper around this island (see HomeGallery.astro).
+    <section className="home-gallery">
       <div className="home-gallery__sticky">
         <div className="home-gallery__inner">
           <header className="section-header section-header--center home-gallery__header">

@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: flex-start;
   min-height: clamp(38rem, 78vh, 50rem);
-  padding: calc(var(--space-3xl) + var(--space-sm)) var(--space-lg) calc(var(--space-3xl) + var(--space-xl));
+  padding-block: calc(var(--space-3xl) + var(--space-sm)) calc(var(--space-3xl) + var(--space-xl));
   // Fallback fog tone behind the layer images so the dark text stays readable if art is missing.
   background-color: var(--color-mist);
   text-align: left;
@@ -56,14 +56,15 @@
 
 // TODO: replace fog art with real fog overlay.
 .hero__layer--mountains {
-  background-image: url('/images/hero.jpg');
+  background-image: url('/images/tr-hero.webp');
   background-color: var(--color-mist);
-  background-position: center center;
+  // Anchor left so the house clearing (image centre) lands beside the CTAs, not behind them.
+  background-position: left center;
 }
 
 .hero__layer--fog {
   background-image: url('/images/hero-fog.png');
-  opacity: 0.35;
+  opacity: 0.12;
 }
 
 // Misty light scrim improves contrast of the cocoa text over the photography while keeping the
@@ -76,15 +77,15 @@
   background:
     linear-gradient(
       90deg,
-      color-mix(in srgb, var(--color-bg) 58%, transparent) 0%,
-      color-mix(in srgb, var(--color-bg) 46%, transparent) 26%,
-      color-mix(in srgb, var(--color-bg) 30%, transparent) 48%,
-      color-mix(in srgb, var(--color-bg) 12%, transparent) 68%,
-      transparent 88%
+      color-mix(in srgb, var(--color-bg) 82%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 70%, transparent) 26%,
+      color-mix(in srgb, var(--color-bg) 44%, transparent) 46%,
+      color-mix(in srgb, var(--color-bg) 14%, transparent) 62%,
+      transparent 78%
     ),
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-bg) 16%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 8%, transparent) 0%,
       transparent 32%,
       transparent 100%
     );
@@ -94,8 +95,9 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 80rem;
+  max-width: 75rem;
   margin-inline: auto;
+  padding-inline: var(--space-gutter);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -104,58 +106,121 @@
 }
 
 .hero__title {
-  font-family: var(--font-heading);
-  max-width: 10ch;
+  max-width: 14ch;
+  text-wrap: balance;
   margin: 0;
-  font-size: clamp(3.5rem, 5vw + 1.5rem, 6rem);
+  font-family: var(--font-heading);
+  font-size: clamp(2.75rem, 5vw + 1rem, 5.5rem);
   font-weight: var(--weight-bold);
-  line-height: 0.95;
+  line-height: 1;
+  letter-spacing: -0.02em;
   color: var(--color-text);
 }
 
+// Tagline set as a quote: editorial serif italic (real Fraunces italic face, not a faux slant).
+// Quote marks come from CSS (open/close-quote follow the page language) so the i18n string stays clean.
 .hero__subtitle {
-  max-width: 30rem;
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--text-h3);
-  line-height: var(--leading-snug);
-  color: color-mix(in srgb, var(--color-text) 88%, transparent);
+  max-width: 32rem;
+  margin: calc(var(--space-sm) - var(--space-md)) 0 0; // title → quote: sm (cancels part of the content gap)
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.6vw + 0.9rem, 2.25rem);
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+.hero__subtitle::before {
+  content: open-quote;
+}
+
+.hero__subtitle::after {
+  content: close-quote;
+}
+
+// Supporting line under the tagline — Manrope (variable) so it can sit a touch heavier than body copy.
+.hero__intro {
+  max-width: 32.4rem;
+  margin: calc(var(--space-sm) - var(--space-md)) 0 0; // quote → intro: sm, same rhythm as title → quote
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 0.3vw + 0.95rem, 1.15rem);
+  font-weight: var(--weight-medium-light);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   margin-top: var(--space-sm);
 }
 
+// Generous pill CTAs with leading line icons.
+.btn.hero__cta {
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+}
+
+.hero__cta-icon {
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.hero__cta-icon--arrow {
+  transition: transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.hero__cta--primary {
+  box-shadow: var(--shadow-soft);
+}
+
+.hero__cta--primary:hover .hero__cta-icon--arrow {
+  transform: translateX(calc(var(--space-xs) * 0.5));
+}
+
+// Secondary: forest outline + label over a soft cream fill (readable on the photo), filling more on hover.
+.hero .btn--secondary.hero__cta--secondary {
+  color: var(--color-forest);
+  background-color: color-mix(in srgb, var(--color-bg) 55%, transparent);
+  box-shadow: inset 0 0 0 calc(var(--space-xs) * 0.125) var(--color-forest);
+}
+
+.hero .btn--secondary.hero__cta--secondary:hover {
+  color: var(--color-forest);
+  background-color: color-mix(in srgb, var(--color-bg) 82%, transparent);
+  box-shadow:
+    inset 0 0 0 calc(var(--space-xs) * 0.125) var(--color-forest),
+    var(--shadow-soft);
+}
+
+// Ratings: a plain inline row (score + wordmark) — no cards, no divider.
 .hero__ratings {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-md);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
   margin-top: var(--space-md);
 }
 
 .hero__rating {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: var(--space-sm);
   min-width: 0;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-lg);
-  text-align: left;
-  background-color: color-mix(in srgb, var(--color-surface) 78%, transparent);
-  box-shadow:
-    inset 0 0 0 calc(var(--space-xs) * 0.125)
-    color-mix(in srgb, var(--color-text) 14%, transparent),
-    var(--shadow-soft);
+}
+
+.hero__rating + .hero__rating {
+  margin-left: var(--space-xl);
 }
 
 .hero__rating-score {
-  font-family: var(--font-heading);
-  font-size: clamp(1.25rem, 0.8vw + 1rem, 1.7rem);
+  font-family: var(--font-body);
+  font-size: clamp(1.35rem, 0.6vw + 1.1rem, 1.65rem);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
   color: var(--color-text);
@@ -163,8 +228,7 @@
 
 .hero__rating-details {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
   line-height: var(--leading-tight);
 }
 
@@ -176,24 +240,44 @@
 }
 
 .hero__rating-logo--booking {
-  height: 1rem;
+  height: 1.1rem;
 }
 
 .hero__rating-logo--airbnb {
-  height: 1.35rem;
+  height: 1.5rem;
 }
 
-// Secondary CTA on the dark hero: cream outline (the default forest variant would vanish on the scrim).
-.hero .btn--secondary.hero__cta-secondary {
-  color: var(--color-bg);
-  background-color: var(--color-forest);
-  box-shadow: var(--shadow-soft);
+// Entrance: title → quote → intro → CTAs → ratings slide up and fade in, one after another, on load.
+// transform/opacity only; timing from motion tokens. Pure CSS — hydration doesn't replay it.
+@keyframes hero-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-md));
+  }
 }
 
-.hero .btn--secondary.hero__cta-secondary:hover {
-  background-color: color-mix(in srgb, var(--color-forest) 88%, var(--color-text));
-  color: var(--color-bg);
-  box-shadow: var(--shadow-soft);
+.hero__content > * {
+  animation: hero-slide-in calc(var(--motion-duration) * 2) var(--motion-ease) both;
+  animation-delay: calc(var(--hero-step, 0) * var(--motion-duration-fast) * 0.6);
+}
+
+.hero__content > :nth-child(2) { --hero-step: 1; }
+.hero__content > :nth-child(3) { --hero-step: 2; }
+.hero__content > :nth-child(4) { --hero-step: 3; }
+.hero__content > :nth-child(5) { --hero-step: 4; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__content > * {
+    animation: none;
+  }
+
+  .hero__cta-icon--arrow {
+    transition: none;
+  }
+
+  .hero__cta--primary:hover .hero__cta-icon--arrow {
+    transform: none;
+  }
 }
 
 @media (max-width: 32rem) {
@@ -208,42 +292,57 @@
   }
 
   .hero__title {
-    font-size: clamp(2.8rem, 10vw, 4rem);
+    font-size: clamp(2.35rem, 11vw, 3rem);
   }
 
   .hero__subtitle {
-    max-width: 24rem;
+    margin-top: 0;
+    font-size: clamp(1.35rem, 5.5vw, 1.6rem);
   }
 
-  .hero__ratings {
-    width: 100%;
+  .hero__intro {
+    margin-top: 0; // content gap is already sm on phones
+  }
+
+  .hero__actions {
     gap: var(--space-sm);
-    grid-template-columns: 1fr;
+  }
+
+  .btn.hero__cta { // matches the base .btn.hero__cta specificity so the phone padding applies
+    width: 100%;
+    padding-inline: var(--space-lg);
   }
 
   .hero__rating {
     gap: var(--space-xs);
   }
 
+  .hero__rating + .hero__rating {
+    margin-left: var(--space-lg);
+  }
+
   .hero__rating-score {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
   }
 
   .hero__rating-logo--booking {
-    height: 0.9rem;
+    height: 0.95rem;
   }
 
   .hero__rating-logo--airbnb {
-    height: 1.2rem;
+    height: 1.3rem;
+  }
+}
+
+// Smallest phones (≤360px): slimmer side padding keeps "Check availability" + both icons on one line.
+@media (max-width: 22.5rem) {
+  .btn.hero__cta {
+    padding-inline: var(--space-md);
   }
 }
 
 @media (max-width: 48rem) {
   .hero__actions {
     width: 100%;
-  }
-
-  .hero__ratings {
-    max-width: 100%;
   }
 }

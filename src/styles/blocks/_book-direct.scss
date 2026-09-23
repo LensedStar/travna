@@ -20,7 +20,7 @@
   // Structural content cap, centred with gutters.
   max-width: 60rem;
   margin-inline: auto;
-  padding-inline: var(--space-lg);
+  padding-inline: var(--space-gutter);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -122,8 +122,15 @@
   color: color-mix(in srgb, var(--color-text) 80%, transparent);
 }
 
-// --- Mobile reflow ---
-@media (max-width: 48rem) {
+// Tablets: three columns still fit once the side padding between them is tightened.
+@media (max-width: 63.99rem) {
+  .book-direct__benefit {
+    padding-inline: var(--space-md);
+  }
+}
+
+// --- Mobile reflow --- (phones stack; 768px tablets keep the three columns)
+@media (max-width: 47.99rem) {
   .book-direct__benefits {
     grid-template-columns: 1fr;
     gap: var(--space-xl);

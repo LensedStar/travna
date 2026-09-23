@@ -11,14 +11,14 @@
 // revealed, which keeps the section a containing block (and stacking context) for its
 // `position: fixed` lightbox — trapping the overlay inside the section so the header paints over it.
 // Clear it here so the lightbox anchors to the viewport and covers the whole page, like the map zoom.
-.has-reveal .home-gallery.reveal {
+.has-reveal .home-gallery-reveal.reveal {
   will-change: auto;
 }
 
 // Cards cascade in one at a time once the section is in view, matching the heritage timeline's
 // stagger pattern. Kept separate from `.home-gallery__card`'s own hover/focus transitions above so
 // the two transition lists don't fight each other.
-.has-reveal .home-gallery {
+.has-reveal .home-gallery-reveal {
   .home-gallery__card {
     opacity: 0;
     transform: translateY(var(--space-md));
@@ -29,7 +29,7 @@
   }
 }
 
-.has-reveal .home-gallery.is-revealed {
+.has-reveal .home-gallery-reveal.is-revealed {
   .home-gallery__card {
     opacity: 1;
     transform: none;
@@ -65,24 +65,32 @@
 .home-gallery__inner {
   width: min(75rem, 100%);
   margin-inline: auto;
-  padding-inline: var(--space-lg);
+  padding-inline: var(--space-gutter);
 }
 
 .home-gallery__header {
   margin-bottom: var(--space-lg);
 }
 
+// Phones: one column. From 36rem: two columns where each group's lead photo (1, 4) runs full width
+// and the other two sit side by side beneath it — no card is ever left alone at half width.
 .home-gallery__layout {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-sm);
+
+  @media (min-width: 36rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
+// Below 48rem each card has a fixed shape (the photo crops to it), so a tall portrait source can't
+// stretch its card; the 48rem+ mosaic sizes cards by its grid rows instead.
 .home-gallery__card {
   position: relative;
   display: block;
   width: 100%;
-  min-height: 11rem;
+  aspect-ratio: 3 / 2;
   padding: 0;
   overflow: hidden;
   background-color: var(--color-mist);
@@ -119,11 +127,21 @@
 }
 
 .home-gallery__card--1,
-.home-gallery__card--3,
-.home-gallery__card--4,
-.home-gallery__card--6 {
+.home-gallery__card--4 {
   grid-column: 1 / -1;
-  min-height: 16rem;
+  aspect-ratio: 4 / 3;
+}
+
+// 36–48rem: wide lead photos, square pairs beneath them.
+@media (min-width: 36rem) {
+  .home-gallery__card {
+    aspect-ratio: 1;
+  }
+
+  .home-gallery__card--1,
+  .home-gallery__card--4 {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .home-gallery__image {
@@ -296,15 +314,12 @@
     gap: var(--space-md);
   }
 
-  // The mobile-first base rule sets min-height: 16rem on cards 1/3/4/6. That's taller than the
-  // fixed 12rem row here, so it silently overrides the single-row cards (3, 6) — pushing them
-  // past the two-row span card's height and overflowing into the content below. Card 1/4 happen
-  // to clear 16rem already (two 12rem rows + gap), which is why only 3/6 visibly broke.
+  // Drop the mobile card shapes so only the fixed 12rem rows size the mosaic — a card taller than
+  // its rows would push past its neighbours and overflow into the content below.
+  .home-gallery__card,
   .home-gallery__card--1,
-  .home-gallery__card--3,
-  .home-gallery__card--4,
-  .home-gallery__card--6 {
-    min-height: 0;
+  .home-gallery__card--4 {
+    aspect-ratio: auto;
   }
 
   // Every card gets an explicit row AND column (rather than leaning on the auto-placement

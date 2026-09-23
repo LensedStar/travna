@@ -12,7 +12,7 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: var(--space-3xl) var(--space-lg);
+  padding: var(--space-3xl) var(--space-gutter);
   // Fallback nature tone behind the hero image so light text stays readable if art is missing.
   background-color: var(--color-forest);
   // TODO: replace this placeholder image with real warm offer photography.
@@ -59,7 +59,7 @@
 
 // --- Reasons to book ---
 .landing__reasons {
-  padding: var(--space-3xl) var(--space-lg);
+  padding: var(--space-3xl) var(--space-gutter);
   background-color: var(--color-bg);
 }
 
@@ -105,7 +105,7 @@
 
 // --- Social proof ---
 .landing__proof {
-  padding: var(--space-3xl) var(--space-lg);
+  padding: var(--space-3xl) var(--space-gutter);
   background-color: var(--color-mist);
   text-align: center;
 }
@@ -121,7 +121,7 @@
 
 // --- Repeated booking CTA ---
 .landing__cta-repeat {
-  padding: var(--space-3xl) var(--space-lg);
+  padding: var(--space-3xl) var(--space-gutter);
   background-color: var(--color-forest);
   text-align: center;
 }

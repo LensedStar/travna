@@ -15,6 +15,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
+import Sauna from '../components/sections/Sauna.astro';
 import { useTranslations, defaultLocale } from '../i18n';
 import heroImage from '../assets/images/activ-hero.png';
 import whyImage from '../assets/images/act-last.jpg';
@@ -342,6 +343,9 @@ const whyBullets = [
       </div>
     </article>
   </section>
+
+  <!-- 5. Sauna — the one "activity" that is on the property itself, so it closes the page -->
+  <Sauna title={t('sauna.shortTitle')} warm />
 
   <!-- Booking CTA -->
   <section class="act-band reveal">

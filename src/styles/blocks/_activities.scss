@@ -41,7 +41,7 @@
   z-index: 1; // keep content above .act-band--warm's fade overlay
   max-width: 75rem;
   margin-inline: auto;
-  padding-inline: var(--space-lg);
+  padding-inline: var(--space-gutter);
 }
 
 // --- 1. Intro hero -------------------------------------------------------------
@@ -289,7 +289,7 @@
 .act-cards {
   margin-block-start: var(--space-2xl);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
   gap: var(--space-2xl) var(--space-xl);
   list-style: none;
   padding: 0;
@@ -300,6 +300,17 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+// Tablet range — the auto-fit grid resolves to exactly two columns here (roughly 736–1112px), so
+// an odd number of cards leaves the last one alone on the wrapped row. Centre it instead of
+// letting it sit in the left column with a hole beside it; it keeps a single column's width.
+@media (min-width: 46rem) and (max-width: 69.5rem) {
+  .act-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    inline-size: calc((100% - var(--space-xl)) / 2);
+  }
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
@@ -450,8 +461,10 @@
   flex-direction: column; // mobile: photo above copy
   gap: var(--space-lg);
 
-  // Tablet up: photo + copy side by side; even rows flip so the layout zig-zags.
-  @media (min-width: 48rem) {
+  // Desktop only: photo + copy side by side; even rows flip so the layout zig-zags. Tablets keep
+  // the stacked layout (same 64rem divide as the header nav) — split in two, each column is too
+  // narrow for the photo and the copy to read well.
+  @media (min-width: 64rem) {
     flex-direction: row;
     align-items: center;
     gap: var(--space-2xl);
@@ -571,9 +584,10 @@
 // "Get directions" — opens Google Maps in a new tab. Text link (not a full button) so it reads
 // as a secondary, in-context action rather than competing with the page's booking CTA.
 .day-trips__directions {
-  margin-block-start: var(--space-xs);
+  margin-block-start: calc(var(--space-xs) / 2);
   display: inline-flex;
   align-items: center;
+  min-block-size: calc(var(--space-lg) + var(--space-xs)); // comfortable tap height for a text link
   gap: var(--space-xs);
   font-family: var(--font-body);
   font-size: var(--text-small);
@@ -628,8 +642,8 @@
   background-color: var(--color-mist);
 }
 
-// Mobile: full-width bottom gradient (readable without needing a fixed side panel).
-// Desktop: a solid panel pinned to the right, matching a photo-with-caption-box layout.
+// Full-width bottom gradient at every width — the copy sits along the bottom edge of the photo
+// rather than in a panel down one side, so the image is never split in two.
 .wildlife-feature__scrim {
   position: absolute;
   inset: 0;
@@ -640,12 +654,6 @@
     color-mix(in srgb, var(--color-text) 45%, transparent) 45%,
     transparent 85%
   );
-
-  @media (min-width: 48rem) {
-    inset-inline-start: auto;
-    width: min(28rem, 55%);
-    background: color-mix(in srgb, var(--color-text) 62%, transparent);
-  }
 }
 
 .wildlife-feature__content {
@@ -657,14 +665,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-
-  @media (min-width: 48rem) {
-    width: min(28rem, 55%);
-    max-width: none;
-    margin-inline-start: auto;
-    align-self: stretch;
-    justify-content: center;
-  }
 }
 
 .wildlife-feature__kicker {
@@ -754,8 +754,8 @@
   background-color: var(--color-mist);
 }
 
-// Mobile: full-width bottom gradient. Desktop: a solid panel pinned to the right — same pattern
-// as the wildlife feature.
+// Full-width bottom gradient at every width, with the copy along the bottom edge of the photo —
+// same pattern as the wildlife feature.
 .why-feature__scrim {
   position: absolute;
   inset: 0;
@@ -766,12 +766,6 @@
     color-mix(in srgb, var(--color-text) 45%, transparent) 45%,
     transparent 85%
   );
-
-  @media (min-width: 48rem) {
-    inset-inline-start: auto;
-    width: min(30rem, 60%);
-    background: color-mix(in srgb, var(--color-text) 62%, transparent);
-  }
 }
 
 .why-feature__content {
@@ -783,14 +777,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-
-  @media (min-width: 48rem) {
-    width: min(30rem, 60%);
-    max-width: none;
-    margin-inline-start: auto;
-    align-self: stretch;
-    justify-content: center;
-  }
 }
 
 .why-feature__eyebrow {

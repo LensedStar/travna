@@ -5,6 +5,12 @@
 // photo) is the warm arrival point. Token-only — no raw hex / magic numbers.
 
 .heritage {
+  // Mobile spine geometry — the marker dots are centred on the spine, so the entry's content has
+  // to clear the spine offset plus the dot's radius. Kept here so the three rules that depend on
+  // it (spine, marker, entry padding) can never drift apart.
+  --heritage-spine: var(--space-md);
+  --heritage-marker: var(--space-xl);
+
   position: relative;
   padding-block: var(--space-2xl);
   // Decorative cream backdrop with botanical leaves framed into the corners. Cream fallback from
@@ -25,7 +31,7 @@
   z-index: 1;
   max-width: 75rem;
   margin-inline: auto;
-  padding-inline: var(--space-lg);
+  padding-inline: var(--space-gutter);
 }
 
 // --- Timeline list ---------------------------------------------------------
@@ -41,7 +47,7 @@
     content: '';
     position: absolute;
     inset-block: 0;
-    inset-inline-start: var(--space-md);
+    inset-inline-start: var(--heritage-spine);
     width: 2px;
     background-color: var(--color-mist);
     border-radius: var(--radius-sm);
@@ -59,8 +65,10 @@
 // --- Milestone entry -------------------------------------------------------
 .heritage__item {
   position: relative;
-  // Mobile: content sits to the right of the left-edge spine.
-  padding-inline-start: var(--space-2xl);
+  // Mobile: content sits to the right of the left-edge spine, clear of the marker dot on it.
+  padding-inline-start: calc(
+    var(--heritage-spine) + var(--heritage-marker) / 2 + var(--space-md)
+  );
   padding-block-end: var(--space-xl);
 
   &:last-child {
@@ -118,13 +126,13 @@
 .heritage__marker {
   position: absolute;
   inset-block-start: 0;
-  inset-inline-start: var(--space-md);
+  inset-inline-start: var(--heritage-spine);
   transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--space-xl);
-  height: var(--space-xl);
+  width: var(--heritage-marker);
+  height: var(--heritage-marker);
   color: var(--color-bg);
   background-color: var(--color-forest);
   border-radius: 50%;
@@ -181,6 +189,18 @@
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
   color: var(--color-wood);
+}
+
+.heritage__title {
+  margin: 0;
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-forest);
 }
 
 .heritage__body {

@@ -16,4 +16,27 @@ $space: (
   @each $name, $value in $space {
     --space-#{$name}: #{$value};
   }
+
+  // Page gutter — the inline padding of every page-level container (header, footer, section
+  // inners). Tightens on phones so a 320–480px screen isn't losing a quarter of its width to margins.
+  --space-gutter: var(--space-lg);
+
+  @media (max-width: 30rem) {
+    --space-gutter: var(--space-md);
+  }
+
+  // The top of the scale carries the vertical rhythm between sections (`padding-block` on every
+  // block). Desktop-sized breathing room reads as dead space on a narrow screen, so the three
+  // largest steps tighten here — one change, no per-block edits.
+  @media (max-width: 63.99rem) {
+    --space-xl: 2.25rem;
+    --space-2xl: 2.75rem;
+    --space-3xl: 3.25rem;
+  }
+
+  @media (max-width: 30rem) {
+    --space-xl: 2rem;
+    --space-2xl: 2.5rem;
+    --space-3xl: 2.75rem;
+  }
 }

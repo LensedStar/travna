@@ -15,7 +15,7 @@
 .site-footer__inner {
   max-width: 75rem;
   margin: 0 auto;
-  padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  padding: var(--space-2xl) var(--space-gutter) var(--space-lg);
 }
 
 // Top region: brand + nav/social on the left, legal entity on the right.
@@ -90,6 +90,7 @@
 
 .site-footer__social-link {
   display: inline-flex;
+  padding: calc(var(--space-xs) / 2); // grows the tap target past 44px around the icon
   color: var(--color-bg);
   transition: color var(--motion-duration-fast) var(--motion-ease);
 }

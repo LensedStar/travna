@@ -40,6 +40,13 @@ const images = await Promise.all(
 );
 ---
 
+{/*
+  The `.reveal` hook lives on this .astro wrapper, NOT on the island's own root element: the
+  scroll-reveal observer adds `is-revealed` to it, and a node React owns must never be mutated
+  from the outside — if hydration ever re-created the island root, the class (and with it the
+  cards' visibility) would be lost and the gallery would stay blank until a reload.
+*/}
+<div class="home-gallery-reveal reveal">
 <HomeGalleryScroller
   client:visible
   title={t('home.gallery.title')}
@@ -51,5 +58,6 @@ const images = await Promise.all(
   ctaLabel={t('home.gallery.outro.cta')}
   images={images}
 />
+</div>
 
 

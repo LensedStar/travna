@@ -106,25 +106,41 @@ const lodgingSchema = {
         var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (reduce || !('IntersectionObserver' in window)) return;
         document.documentElement.classList.add('has-reveal');
-        function init() {
-          var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-revealed');
-                io.unobserve(entry.target);
-              }
-            });
-            // threshold 0 (not 0.1): sections taller than ~10x the viewport can never reach a
-            // 0.1 intersection ratio, so they would never reveal (stay opacity:0). The -10% bottom
-            // rootMargin still delays the trigger until the section enters the viewport.
-          }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
-          document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              io.unobserve(entry.target);
+            }
+          });
+          // threshold 0 (not 0.1): sections taller than ~10x the viewport can never reach a
+          // 0.1 intersection ratio, so they would never reveal (stay opacity:0). The -10% bottom
+          // rootMargin still delays the trigger until the section enters the viewport.
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
+        // Idempotent: re-observing an element is a no-op, and revealed ones are skipped — so this
+        // can be re-run to pick up `.reveal` nodes that appeared after the first pass (e.g. markup
+        // an island re-created while hydrating).
+        function scan() {
+          document.querySelectorAll('.reveal:not(.is-revealed)').forEach(function (el) { io.observe(el); });
         }
         if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', init);
+          document.addEventListener('DOMContentLoaded', scan);
         } else {
-          init();
+          scan();
         }
+        // Safety net — content must never stay stuck at opacity:0 because of the reveal utility.
+        // Once everything has loaded, rescan, then force-reveal anything still hidden that is
+        // already on screen (a missed observer callback would otherwise leave a blank section
+        // until the visitor reloads the page).
+        window.addEventListener('load', function () {
+          scan();
+          setTimeout(function () {
+            document.querySelectorAll('.reveal:not(.is-revealed)').forEach(function (el) {
+              var box = el.getBoundingClientRect();
+              if (box.top < window.innerHeight && box.bottom > 0) el.classList.add('is-revealed');
+            });
+          }, 1000);
+        });
       })();
     </script>
   </head>
@@ -142,7 +158,10 @@ const lodgingSchema = {
           var header = document.querySelector('.site-header');
           if (!header) return;
           function sync() {
-            document.documentElement.style.setProperty('--header-height', header.offsetHeight + 'px');
+            // Fractional height (offsetHeight rounds, which left a hairline gap under the bar
+            // where the mobile menu overlay starts).
+            var height = header.getBoundingClientRect().height;
+            document.documentElement.style.setProperty('--header-height', height + 'px');
           }
           sync();
           if ('ResizeObserver' in window) {

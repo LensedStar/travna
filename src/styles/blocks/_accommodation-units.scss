@@ -43,7 +43,7 @@
   z-index: 1;
   max-width: 75rem;
   margin-inline: auto;
-  padding-inline: var(--space-lg);
+  padding-inline: var(--space-gutter);
 }
 
 // Space between the two groups (houses / rooms).
@@ -274,7 +274,6 @@
 .house-showcase__switcher {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
   gap: var(--space-xs);
   padding: var(--space-xs);
   border-radius: 999px;
@@ -299,11 +298,14 @@
     height var(--motion-duration) var(--motion-ease);
 }
 
+// Options stay on one row; on the narrowest phones a long label wraps inside its pill rather than
+// pushing the other option onto a second row.
 .house-showcase__switch {
   position: relative;
   z-index: 1;
   flex: 1 1 auto;
-  padding: var(--space-xs) var(--space-md);
+  min-width: 0;
+  padding: var(--space-xs) var(--space-sm);
   border: 0;
   border-radius: 999px;
   background-color: transparent;
@@ -322,6 +324,12 @@
 .house-showcase__switch--active,
 .house-showcase__switch--active:hover {
   color: var(--color-bg);
+}
+
+// Before the island hydrates (it loads on scroll) there's no sliding indicator yet, so the active
+// cream label would sit on the pale track, invisible. Paint the highlight on the button itself.
+.house-showcase__switcher:not(:has(.house-showcase__switch-indicator)) .house-showcase__switch--active {
+  background-color: var(--color-forest);
 }
 
 .house-showcase__copy {
@@ -460,7 +468,7 @@
 @media (max-width: 64rem) {
   .house-showcase__body,
   .units__group--mirror .house-showcase__body {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr); // minmax(0, …) so the phone thumb strip scrolls instead of widening the track
   }
 
   .house-showcase__panel {
@@ -482,6 +490,38 @@
 @media (max-width: 40rem) {
   .units__inner {
     padding-inline: var(--space-md);
+  }
+
+  .house-showcase__panel {
+    padding: var(--space-md);
+  }
+
+  .house-showcase__switch {
+    padding-inline: var(--space-xs);
+  }
+
+  // Slimmer chips so two short ones share a row instead of stacking one per line.
+  .house-showcase__tag {
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  // One swipeable row of thumbnails instead of a tall wall of them (13+ photos per house). The
+  // padding/negative margin pair keeps room for the thumbs' outlines inside the scroll box.
+  .house-showcase__thumbs {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 5rem;
+    margin: calc(var(--space-xs) * -1);
+    padding: var(--space-xs);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .house-showcase__thumb {
+    scroll-snap-align: start;
   }
 
   .house-showcase__lightbox {

@@ -1,9 +1,13 @@
 // MobileNav.jsx — React island for the mobile burger navigation (TASK-012).
 //
 // Shown only on small screens (the desktop nav is hidden via CSS at the same breakpoint).
-// Opens a full-screen panel with the same nav items as the desktop header plus the Book CTA.
-// Behaviour: toggle open/close, lock body scroll while open, focus-trap inside the panel,
-// close on Escape and on overlay click, aria-expanded on the trigger.
+// Opens a full-width panel below the header with the same nav items as the desktop header plus the
+// Book CTA. The burger itself animates into an X and acts as the close button, so it stays inside
+// the focus trap. Behaviour: toggle open/close, lock body scroll while open, focus-trap inside the
+// nav, close on Escape and on overlay click, aria-expanded on the trigger.
+//
+// The overlay stays mounted and is toggled with `is-open` so it can animate both in and out;
+// `visibility: hidden` in the closed state keeps it out of the tab order.
 //
 // All visible copy comes from the i18n dictionary and is passed in as props by the .astro caller
 // (no hardcoded strings here). Styling lives in src/styles/blocks/_mobile-nav.scss.
@@ -19,6 +23,7 @@ export default function MobileNav({
   navLabel,
 }) {
   const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
   const panelRef = useRef(null);
   const triggerRef = useRef(null);
 
@@ -29,14 +34,14 @@ export default function MobileNav({
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
-    // Move focus into the panel (first focusable element).
+    // Focusables span the whole island (burger + panel), so the X stays reachable by keyboard.
     const focusables = () =>
       Array.from(
-        panelRef.current?.querySelectorAll(
+        rootRef.current?.querySelectorAll(
           'a[href], button:not([disabled])'
         ) ?? []
       );
-    focusables()[0]?.focus();
+    panelRef.current?.querySelector('a[href], button:not([disabled])')?.focus();
 
     const onKeyDown = (event) => {
       if (event.key === 'Escape') {
@@ -44,7 +49,7 @@ export default function MobileNav({
         triggerRef.current?.focus();
         return;
       }
-      // Focus trap: keep Tab cycling inside the panel.
+      // Focus trap: keep Tab cycling inside the open navigation.
       if (event.key === 'Tab') {
         const items = focusables();
         if (items.length === 0) return;
@@ -73,7 +78,7 @@ export default function MobileNav({
   };
 
   return (
-    <div className="mobile-nav">
+    <div className="mobile-nav" ref={rootRef}>
       <button
         type="button"
         className="mobile-nav__toggle"
@@ -86,47 +91,39 @@ export default function MobileNav({
         <span className="mobile-nav__burger" aria-hidden="true">
           <span className="mobile-nav__bar"></span>
           <span className="mobile-nav__bar"></span>
-          <span className="mobile-nav__bar"></span>
         </span>
       </button>
 
-      {open && (
-        <div className="mobile-nav__overlay" onClick={close}>
-          <nav
-            className="mobile-nav__panel"
-            aria-label={navLabel}
-            ref={panelRef}
-            onClick={(event) => event.stopPropagation()}
+      <div
+        className={open ? 'mobile-nav__overlay is-open' : 'mobile-nav__overlay'}
+        aria-hidden={!open}
+        onClick={close}
+      >
+        <nav
+          className="mobile-nav__panel"
+          aria-label={navLabel}
+          ref={panelRef}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <ul className="mobile-nav__list">
+            {links.map((link) => (
+              <li key={link.href} className="mobile-nav__item">
+                <a className="mobile-nav__link" href={link.href} onClick={close}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <a
+            className="btn btn--primary mobile-nav__book"
+            href={bookHref}
+            onClick={close}
           >
-            <button
-              type="button"
-              className="mobile-nav__close"
-              aria-label={closeLabel}
-              onClick={close}
-            >
-              <span className="mobile-nav__close-icon" aria-hidden="true">×</span>
-            </button>
-
-            <ul className="mobile-nav__list">
-              {links.map((link) => (
-                <li key={link.href} className="mobile-nav__item">
-                  <a className="mobile-nav__link" href={link.href} onClick={close}>
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            <a
-              className="btn btn--primary mobile-nav__book"
-              href={bookHref}
-              onClick={close}
-            >
-              {bookLabel}
-            </a>
-          </nav>
-        </div>
-      )}
+            {bookLabel}
+          </a>
+        </nav>
+      </div>
     </div>
   );
 }

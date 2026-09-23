@@ -10,9 +10,36 @@
 
 import { useEffect, useRef } from 'react';
 
+// Lucide line glyphs (same geometry as components/ui/Icon.astro) for the hero CTAs.
+const GLYPHS = {
+  calendar:
+    '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+  'arrow-right': '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  'map-pin':
+    '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+};
+
+function Glyph({ name, className = 'hero__cta-icon' }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      dangerouslySetInnerHTML={{ __html: GLYPHS[name] ?? '' }}
+    />
+  );
+}
+
 export default function ParallaxHero({
   title,
   subtitle,
+  intro,
   ctaPrimaryLabel,
   ctaSecondaryLabel,
   ratingsLabel,
@@ -61,9 +88,17 @@ export default function ParallaxHero({
       <div className="hero__content">
         <h1 className="hero__title">{title}</h1>
         <p className="hero__subtitle">{subtitle}</p>
+        <p className="hero__intro">{intro}</p>
         <div className="hero__actions">
-          <a className="btn btn--primary" href="/rezervacija">{ctaPrimaryLabel}</a>
-          <a className="btn btn--secondary hero__cta-secondary" href="/activities">{ctaSecondaryLabel}</a>
+          <a className="btn btn--primary hero__cta hero__cta--primary" href="/rezervacija">
+            <Glyph name="calendar" />
+            <span>{ctaPrimaryLabel}</span>
+            <Glyph name="arrow-right" className="hero__cta-icon hero__cta-icon--arrow" />
+          </a>
+          <a className="btn btn--secondary hero__cta hero__cta--secondary" href="/activities">
+            <Glyph name="map-pin" />
+            <span>{ctaSecondaryLabel}</span>
+          </a>
         </div>
         <div className="hero__ratings" role="group" aria-label={ratingsLabel}>
           <div className="hero__rating">
