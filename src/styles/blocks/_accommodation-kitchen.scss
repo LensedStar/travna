@@ -76,11 +76,11 @@
   aspect-ratio: auto;
 }
 
-// The source photos have very different aspect ratios (tall phone shots vs wide ones); `cover`
-// was cropping into the food. `contain` shows the whole photo, letterboxed on the viewport's
-// mist background instead.
+// The photos are all centre-composed plate shots, so `cover` fills the frame edge to edge
+// without cutting into the food — no letterbox bars on the viewport background.
 .kitchen__media .slider__image {
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
 }
 
 .kitchen__body {
