@@ -7,9 +7,9 @@
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import AccommodationSlider from '../../islands/AccommodationSlider.jsx';
-import { useTranslations, defaultLocale } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
-const t = useTranslations(defaultLocale);
+const t = useTranslations(Astro.currentLocale);
 
 const points = [
   t('accommodation.kitchen.point1'),
@@ -19,11 +19,13 @@ const points = [
 
 // Real client photos of food served at the property — TODO(Webline): real copy to match.
 const kitchenImages = [
-  { src: '/images/kitchen/kitchen-01.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1400, height: 1364 },
-  { src: '/images/kitchen/kitchen-02.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1600, height: 843 },
-  { src: '/images/kitchen/kitchen-03.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1600, height: 1708 },
-  { src: '/images/kitchen/kitchen-04.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1600, height: 2133 },
-  { src: '/images/kitchen/kitchen-05.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1400, height: 1243 },
+  { src: '/images/kitchen/kitchen-01.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1400, height: 630 },
+  { src: '/images/kitchen/kitchen-02.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1400, height: 1305 },
+  { src: '/images/kitchen/kitchen-03.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1050, height: 1400 },
+  { src: '/images/kitchen/kitchen-04.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1050, height: 1400 },
+  { src: '/images/kitchen/kitchen-05.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1050, height: 1400 },
+  { src: '/images/kitchen/kitchen-06.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1167, height: 1400 },
+  { src: '/images/kitchen/kitchen-07.webp', alt: t('accommodation.kitchen.imageAlt'), width: 1400, height: 546 },
 ];
 ---
 <section class="kitchen reveal">
@@ -55,7 +57,7 @@ const kitchenImages = [
     </div>
 
     <div class="kitchen__actions">
-      <Button href="/menu" variant="secondary" class="kitchen__cta">
+      <Button href={localizePath('/menu', Astro.currentLocale)} variant="secondary" class="kitchen__cta">
         {t('accommodation.kitchen.cta')}
       </Button>
     </div>
