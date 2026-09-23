@@ -1,9 +1,10 @@
 ---
 // Sauna.astro — wood-fired sauna block, shared by the Apartments page (after the kitchen block)
-// and the Activities page (as its own closing block). Two real client photos beside editorial copy
-// and a short list of points. Pure .astro, zero client JS. Visible strings come from the i18n
-// dictionary; styling lives in src/styles/blocks/_sauna.scss.
+// and the Activities page (as its own closing block). Real client photos in the same showcase
+// slider the houses/rooms use, beside editorial copy and a short list of points. Visible strings
+// come from the i18n dictionary; styling lives in src/styles/blocks/_sauna.scss.
 import Icon from '../ui/Icon.astro';
+import ShowcaseGallery from '../../islands/ShowcaseGallery.jsx';
 import { useTranslations, defaultLocale } from '../../i18n';
 
 // `title` lets the activities page head the block with the short "Sauna" heading; `warm` puts it
@@ -20,24 +21,24 @@ const points = [t('sauna.point1'), t('sauna.point2'), t('sauna.point3')];
 
 // Real client photos of the sauna in one of the houses.
 const images = [
-  { src: '/images/house1/house1-03.webp', alt: t('sauna.imageAlt1'), width: 1800, height: 1350 },
-  { src: '/images/house1/house1-04.webp', alt: t('sauna.imageAlt2'), width: 1500, height: 2000 },
+  { src: '/images/house1/house1-03.webp', alt: t('sauna.imageAlt1') },
+  { src: '/images/house1/house1-04.webp', alt: t('sauna.imageAlt2') },
 ];
 ---
 <section class:list={['sauna', 'reveal', { 'sauna--warm': warm }]}>
   <div class="sauna__inner">
     <div class="sauna__media">
-      {images.map((image) => (
-        <img
-          class="sauna__photo"
-          src={image.src}
-          alt={image.alt}
-          width={image.width}
-          height={image.height}
-          loading="lazy"
-          decoding="async"
-        />
-      ))}
+      <ShowcaseGallery
+        client:visible
+        images={images}
+        label={t('sauna.title')}
+        strings={{
+          galleryLabel: t('accommodation.slider.label'),
+          prevLabel: t('accommodation.slider.prev'),
+          nextLabel: t('accommodation.slider.next'),
+          closeLabel: t('home.gallery.close'),
+        }}
+      />
     </div>
 
     <div class="sauna__body">

@@ -38,6 +38,7 @@ export default function TestimonialsSlider({ reviews = [], label, prevLabel, nex
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
   const prevVisibleCountRef = useRef(1);
 
   const [visibleCount, setVisibleCount] = useState(1);
@@ -46,6 +47,10 @@ export default function TestimonialsSlider({ reviews = [], label, prevLabel, nex
   // reviews[realIndex]. Starts on the second review (offset by the initial head-clone padding).
   const [trackIndex, setTrackIndex] = useState(() => 1 + Math.min(1, Math.max(count - 1, 0)));
   const [skipTransition, setSkipTransition] = useState(false);
+  // Live finger offset (px) while a horizontal drag is in progress — the track follows the touch
+  // instead of jumping only once the finger lifts.
+  const [dragOffset, setDragOffset] = useState(0);
+  const [dragging, setDragging] = useState(false);
 
   // Pad both ends with clones of the real reviews so the track can keep sliding "past" the last
   // (or first) real card instead of snapping — the illusion of an infinite loop.
@@ -133,7 +138,20 @@ export default function TestimonialsSlider({ reviews = [], label, prevLabel, nex
 
   const onTouchStart = (e) => {
     touchStartX.current = e.changedTouches[0].clientX;
+    touchStartY.current = e.changedTouches[0].clientY;
   };
+
+  // Once the gesture reads as horizontal, drag the track with the finger; a mostly-vertical
+  // gesture is left alone so the page keeps scrolling normally.
+  const onTouchMove = (e) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    if (!dragging && Math.abs(dx) <= Math.abs(dy)) return;
+    setDragging(true);
+    setDragOffset(dx);
+  };
+
   const onTouchEnd = (e) => {
     if (touchStartX.current === null) return;
     const delta = e.changedTouches[0].clientX - touchStartX.current;
@@ -142,6 +160,17 @@ export default function TestimonialsSlider({ reviews = [], label, prevLabel, nex
       else prev();
     }
     touchStartX.current = null;
+    touchStartY.current = null;
+    setDragging(false);
+    setDragOffset(0);
+  };
+
+  // A cancelled touch (the browser took the gesture over) must not leave the track mid-drag.
+  const onTouchCancel = () => {
+    touchStartX.current = null;
+    touchStartY.current = null;
+    setDragging(false);
+    setDragOffset(0);
   };
 
   if (!hasSlides) return null;
@@ -157,7 +186,9 @@ export default function TestimonialsSlider({ reviews = [], label, prevLabel, nex
       tabIndex={0}
       onKeyDown={onKeyDown}
       onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
+      onTouchCancel={onTouchCancel}
     >
       <div className="testimonials-slider__viewport" ref={viewportRef}>
         <ul
@@ -165,8 +196,8 @@ export default function TestimonialsSlider({ reviews = [], label, prevLabel, nex
           ref={trackRef}
           onTransitionEnd={onTrackTransitionEnd}
           style={{
-            transform: `translateX(-${trackIndex * step}px)`,
-            transition: skipTransition ? 'none' : undefined,
+            transform: `translateX(${dragOffset - trackIndex * step}px)`,
+            transition: skipTransition || dragging ? 'none' : undefined,
           }}
         >
           {extended.map(({ review, key }, i) => (

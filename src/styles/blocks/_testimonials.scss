@@ -164,6 +164,9 @@
 
   max-width: 68rem;
   margin-inline: auto;
+  // Vertical scrolling stays with the page; horizontal gestures belong to the slider, so the
+  // browser can't cancel a swipe halfway through it.
+  touch-action: pan-y;
 
   @media (min-width: 48rem) {
     --testimonials-visible: 2;
