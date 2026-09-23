@@ -110,7 +110,7 @@ html {
 }
 
 // Phones + tablets: hide the inline desktop nav — the MobileNav island (TASK-012) takes over here.
-// Brand + Book CTA stay, so the header never overflows at small widths (e.g. 375px). With the nav
+// On tablets the Book CTA stays beside the burger (phones drop it below). With the nav
 // gone the bar only carries brand + actions, so the logo gets an explicit height (instead of
 // tracking the desktop --header-height), sized so the badge stays legible on a phone screen.
 @media (max-width: 63.99rem) {
@@ -137,17 +137,19 @@ html {
   }
 }
 
-// Phones: logo + language + Book + burger must share ~280–400px, so tighten the gaps and slim the
-// Book pill (it keeps its full height as a tap target). Scoped under __actions so it outranks the
-// shared .btn padding, which loads after this file.
+// Phones: the header drops the Book pill entirely — the burger menu already carries the Book CTA,
+// so the bar stays brand + language + burger and never crowds a ~360–400px screen.
+@media (max-width: 47.99rem) {
+  .site-header__actions .site-header__book {
+    display: none;
+  }
+}
+
+// Phones: logo + language + burger share ~280–400px, so tighten the gaps.
 @media (max-width: 30rem) {
   .site-header__inner,
   .site-header__actions {
     gap: var(--space-xs);
-  }
-
-  .site-header__actions .site-header__book {
-    padding-inline: var(--space-md);
   }
 
   .site-header__actions .language-switcher__toggle {
@@ -160,10 +162,6 @@ html {
 @media (max-width: 22.5rem) {
   .site-header__logo {
     block-size: var(--space-lg);
-  }
-
-  .site-header__actions .site-header__book {
-    padding-inline: var(--space-sm);
   }
 
   .site-header__actions .mobile-nav__toggle {
