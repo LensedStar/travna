@@ -111,19 +111,19 @@ html {
 
 // Phones + tablets: hide the inline desktop nav — the MobileNav island (TASK-012) takes over here.
 // Brand + Book CTA stay, so the header never overflows at small widths (e.g. 375px). With the nav
-// gone the bar only carries brand + actions, so it is slimmed here: the logo gets an explicit height
-// (instead of tracking the taller desktop --header-height) and the Book pill loses vertical padding.
+// gone the bar only carries brand + actions, so the logo gets an explicit height (instead of
+// tracking the desktop --header-height), sized so the badge stays legible on a phone screen.
 @media (max-width: 63.99rem) {
   .site-header__nav {
     display: none;
   }
 
   .site-header__inner {
-    padding-block: calc(var(--space-xs) / 2);
+    padding-block: var(--space-xs);
   }
 
   .site-header__logo {
-    block-size: var(--space-lg);
+    block-size: calc(var(--space-lg) + var(--space-xs));
   }
 
   .site-header__actions .site-header__book {
@@ -159,7 +159,7 @@ html {
 // so every control still fits on one row without horizontal scroll.
 @media (max-width: 22.5rem) {
   .site-header__logo {
-    block-size: calc(var(--space-md) + var(--space-xs));
+    block-size: var(--space-lg);
   }
 
   .site-header__actions .site-header__book {
