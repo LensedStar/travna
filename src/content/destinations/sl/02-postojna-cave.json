@@ -1,0 +1,9 @@
+{
+  "name": "Postojnska jama",
+  "image": "../../../assets/images/dest-postojna-cave.webp",
+  "category": "Kraška jama",
+  "section": "caves",
+  "distance": "≈ 55 min",
+  "description": "Ena največjih kraških jam na svetu, po katere prostranih dvoranah vas popelje majhen podzemni vlakec.",
+  "order": 2
+}

@@ -106,6 +106,10 @@
   color: color-mix(in srgb, var(--color-text) 85%, transparent);
 }
 
+.kitchen__text + .kitchen__text {
+  margin-top: calc(var(--space-sm) - var(--space-lg)); // paragraph → paragraph: sm (cancels part of the gap above)
+}
+
 .kitchen__points {
   margin: 0;
   padding: 0;

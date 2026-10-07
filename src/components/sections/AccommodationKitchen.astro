@@ -42,7 +42,10 @@ const kitchenImages = [
 
     <div class="kitchen__body">
       <h2 class="kitchen__title">{t('accommodation.kitchen.title')}</h2>
-      <p class="kitchen__text">{t('accommodation.kitchen.body')}</p>
+      <!-- A blank line in the body string starts a new paragraph. -->
+      {t('accommodation.kitchen.body').split('\n\n').map((paragraph) => (
+        <p class="kitchen__text">{paragraph}</p>
+      ))}
 
       <ul class="kitchen__points" role="list">
         {points.map((point) => (

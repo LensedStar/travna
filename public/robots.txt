@@ -3,8 +3,27 @@
 
 User-agent: *
 Allow: /
-# The hidden advertising landing, in every locale (/lp, /ru/lp, ...).
-Disallow: /lp
-Disallow: /*/lp
+# The hidden advertising landing, in every locale (unprefixed, /sl/..., /ru/...), with and without
+# the trailing slash. `$` ends the match, so only this page is covered — not every address that
+# starts with "social".
+Disallow: /social$
+Disallow: /social/
+Disallow: /*/social$
+Disallow: /*/social/
+
+# Link-preview and ad crawlers of the social networks and messengers. The landing exists to be
+# linked from there, and these bots obey robots.txt: under the rule above a posted /social link gets no
+# preview card (title, text, image) and Meta cannot review the page an ad points to. They only
+# build previews / check ad destinations — search engines stay under the group above, and the page
+# itself still carries `noindex, nofollow`.
+User-agent: facebookexternalhit
+User-agent: Facebot
+User-agent: Twitterbot
+User-agent: LinkedInBot
+User-agent: WhatsApp
+User-agent: TelegramBot
+User-agent: Viber
+User-agent: vkShare
+Allow: /
 
 Sitemap: https://example.com/sitemap-index.xml

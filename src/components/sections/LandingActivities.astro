@@ -1,0 +1,95 @@
+---
+// LandingActivities.astro — the landing's (/social) activities teaser: four small blocks (photo,
+// name, and where it is — on the doorstep or the drive time) and one link to the Activities page
+// for the rest. The blocks are read from the same `activities` and `destinations` collections as
+// that page, so names, photos and drive times follow every edit there. Pure .astro, zero client JS.
+// Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_landing.scss.
+import { Image } from 'astro:assets';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { useTranslations, localizePath } from '../../i18n';
+import { getLocalizedCollection } from '../../i18n/content';
+
+interface Props {
+  id?: string;
+}
+const { id } = Astro.props;
+
+const t = useTranslations(Astro.currentLocale);
+
+// The four blocks, in display order: file names (without .json) from the two collections. Swap a
+// name to show something else — one list for every language. A name with no matching file is
+// skipped, so removing an entry from a collection never breaks the page.
+const picks = [
+  { collection: 'activities', entry: '01-hiking' },
+  { collection: 'activities', entry: '02-cycling' },
+  { collection: 'destinations', entry: '05-bear-watching' },
+  { collection: 'destinations', entry: '04-krizna-cave' },
+] as const;
+
+const activities = await getLocalizedCollection('activities', Astro.currentLocale);
+const destinations = await getLocalizedCollection('destinations', Astro.currentLocale);
+
+// Entry ids are '01-hiking' in the default locale and 'ru/01-hiking' in the others.
+const named = (entryId: string, name: string) => entryId.split('/').pop() === name;
+
+// Doorstep activities say so; day trips show their drive time (`metaLabel` is read out in front of
+// it by screen readers, where the car icon alone says nothing).
+const blocks = picks.flatMap(({ collection, entry }) => {
+  if (collection === 'activities') {
+    const found = activities.find(({ id: entryId }) => named(entryId, entry));
+    return found
+      ? [{ name: found.data.title, image: found.data.image, icon: 'map-pin', meta: t('activities.doorstep.eyebrow'), metaLabel: '' }]
+      : [];
+  }
+  const found = destinations.find(({ id: entryId }) => named(entryId, entry));
+  return found
+    ? [{ name: found.data.name, image: found.data.image, icon: 'car', meta: found.data.distance, metaLabel: t('activities.trips.driveLabel') }]
+    : [];
+});
+---
+{blocks.length > 0 && (
+  <section class="landing-activities reveal" id={id}>
+    <div class="landing-activities__inner">
+      <SectionHeader eyebrow={t('activities.eyebrow')} title={t('home.activities.title')} align="center" />
+
+      <ul class="landing-activities__list" role="list">
+        {blocks.map(({ name, image, icon, meta, metaLabel }) => (
+          <li class="landing-activities__item">
+            <div class="landing-activities__media">
+              {/* `sizes` in real widths: rem there ignores the site's enlarged root font size. */}
+              <Image
+                class="landing-activities__image"
+                src={image}
+                alt={name}
+                widths={[160, 240, 360, 600]}
+                sizes="(min-width: 90rem) 18.5rem, (min-width: 72rem) 20vw, 7.5rem"
+                format="webp"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="landing-activities__body">
+              <h3 class="landing-activities__name">{name}</h3>
+              <p class="landing-activities__meta">
+                <Icon name={icon} class="landing-activities__meta-icon" />
+                <span>
+                  {metaLabel && <span class="landing-activities__meta-label">{metaLabel}: </span>}
+                  {meta}
+                </span>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div class="landing-activities__more">
+        <Button href={localizePath('/activities', Astro.currentLocale)} variant="secondary">
+          <span>{t('cta.viewActivities')}</span>
+          <Icon name="arrow-right" class="landing__cta-icon" />
+        </Button>
+      </div>
+    </div>
+  </section>
+)}

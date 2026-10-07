@@ -42,9 +42,11 @@ const images = [
     </div>
 
     <div class="sauna__body">
-      <p class="sauna__eyebrow">{t('sauna.eyebrow')}</p>
       <h2 class="sauna__title">{title ?? t('sauna.title')}</h2>
-      <p class="sauna__text">{t('sauna.body')}</p>
+      <!-- A blank line in the body string starts a new paragraph. -->
+      {t('sauna.body').split('\n\n').map((paragraph) => (
+        <p class="sauna__text">{paragraph}</p>
+      ))}
 
       <ul class="sauna__points" role="list">
         {points.map((point) => (

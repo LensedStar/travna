@@ -1,127 +1,949 @@
-// blocks/_landing.scss — hidden advertising landing /lp (TASK-025).
-// Mobile-first, single-column focused page (no global nav). Token-only — no raw hex / magic numbers.
-// One clear visual path to the booking CTA: strong hero -> 3 reasons -> social proof -> repeat CTA.
+// blocks/_landing.scss — hidden advertising landing /social (TASK-025).
+// The landing is composed from blocks the site already has (header, hero, home-welcome,
+// testimonials, the showcase slider, the booking frame, footer). This file adds only what is the
+// landing's own: the feature rows (rooms · sauna · restaurant), the activities teaser, the dish
+// teaser and the closing reservation section. Mobile-first (min-width queries) — the traffic is phones coming from
+// social. Token-only — no raw hex / magic numbers.
 
-.landing {
-  display: flex;
-  flex-direction: column;
+// --- Page frame ---
+// The page is long, so the CTAs glide down to the reservation section instead of jumping. (The
+// site header already keeps anchor targets clear of the fixed bar — see blocks/_header.scss.)
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.landing) {
+    scroll-behavior: smooth;
+  }
 }
 
-// --- Hero: offer headline + supporting line + primary CTA ---
-.landing__hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  padding: var(--space-3xl) var(--space-gutter);
-  // Fallback nature tone behind the hero image so light text stays readable if art is missing.
-  background-color: var(--color-forest);
-  // TODO: replace this placeholder image with real warm offer photography.
-  background-image: url('/images/lp-hero.webp');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  text-align: center;
+// The welcome block normally melts into the warm heritage band below it; here the next band
+// brings its own fade-in, so the welcome block ends on the plain page color.
+.landing .home-welcome::after {
+  content: none;
 }
 
-// Warm scrim improves contrast of light text over the photography (token-driven, no raw rgba).
-.landing__hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-color: color-mix(in srgb, var(--color-text) 45%, transparent);
+// The hero's scrim is laid out in percentages of the photo, while the copy column has a fixed
+// width — so on phones and mid-size screens the line ends slip out from under the scrim and land on
+// the dark forest. On the landing the scrim follows the copy instead, keeping every line above AA
+// contrast at any width.
+// Phones: the copy spans the full width, so the mist runs top to bottom — light over the sky, even
+// over the trees.
+@media (max-width: 47.99rem) {
+  .landing .hero::after {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-bg) 30%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 68%, transparent) 42%,
+      color-mix(in srgb, var(--color-bg) 68%, transparent) 100%
+    );
+  }
 }
 
-.landing__hero-inner {
-  max-width: 40rem; // structural reading width
-  margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-md);
-  color: var(--color-bg);
+// Tablets up: left to right as on the home page, but with the stops measured from where the copy
+// column starts (it is centred in a 75rem container), so the photo stays clear to the right of it.
+@media (min-width: 48rem) {
+  .landing .hero::after {
+    --landing-copy-start: max(0px, (100% - 75rem) / 2);
+
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-bg) 82%, transparent) 0,
+      color-mix(in srgb, var(--color-bg) 74%, transparent) calc(var(--landing-copy-start) + 30rem),
+      color-mix(in srgb, var(--color-bg) 48%, transparent) calc(var(--landing-copy-start) + 38rem),
+      transparent calc(var(--landing-copy-start) + 54rem)
+    );
+  }
 }
 
-.landing__title {
-  font-family: var(--font-heading);
-  font-size: var(--text-h1);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  color: var(--color-bg);
+// --- Conversion CTA (LandingCTA.astro) ---
+.landing__cta-icon {
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
 }
 
-.landing__subtitle {
-  font-family: var(--font-body);
-  font-size: var(--text-h3);
-  line-height: var(--leading-snug);
-  color: var(--color-bg);
-}
-
-// --- Reasons to book ---
-.landing__reasons {
-  padding: var(--space-3xl) var(--space-gutter);
+// --- Feature row: showcase slider beside eyebrow / title / text / points / pills ---
+// Same editorial language as the sauna block (blocks/_sauna.scss). One column on phones — photos
+// first — two from desktop up.
+.landing-feature {
+  padding-block: var(--space-3xl);
   background-color: var(--color-bg);
 }
 
-.landing__reasons-list {
-  max-width: 40rem; // structural reading width
-  margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  list-style: none;
-  padding: 0;
+// The shared `.reveal` utility leaves `will-change: transform` on the section even after it has
+// revealed, which makes it a containing block for the gallery's `position: fixed` lightbox —
+// trapping the overlay inside the row. Clear it (same fix as the sauna / units blocks).
+.has-reveal .landing-feature.reveal {
+  will-change: auto;
 }
 
-.landing__reason {
-  display: flex;
+// Warm band that eases in and out, so it never meets the plain bands on a hard seam.
+.landing-feature--warm {
+  background-color: var(--color-surface-warm);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-bg) 0,
+    var(--color-surface-warm) var(--space-3xl),
+    var(--color-surface-warm) calc(100% - var(--space-3xl)),
+    var(--color-bg) 100%
+  );
+}
+
+.landing-feature__inner {
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+  display: grid;
+  // minmax(0, …) so the slider's thumbnail strip scrolls on phones instead of widening the track.
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
   align-items: center;
-  gap: var(--space-md);
+
+  @media (min-width: 60rem) {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: var(--space-2xl);
+  }
+}
+
+// Mirrored row: copy left, photos right. DOM order is unchanged (photos stay first on phones).
+@media (min-width: 60rem) {
+  .landing-feature--mirror .landing-feature__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  }
+
+  .landing-feature--mirror .landing-feature__media {
+    order: 2;
+  }
+}
+
+.landing-feature__media {
+  min-width: 0;
+}
+
+// Match-height row (two columns only): the slider is exactly as tall as the copy beside it. The
+// gallery is taken out of flow so the copy alone sets the row height; the photo then takes up
+// whatever the thumbnails leave, growing or shrinking instead of keeping its 3:2 shape.
+@media (min-width: 60rem) {
+  .landing-feature--match-height .landing-feature__inner {
+    align-items: stretch;
+  }
+
+  .landing-feature--match-height .landing-feature__media {
+    position: relative;
+  }
+
+  // Inset from the top by the reach of the frame's outline (2px + its offset, see
+  // _accommodation-units.scss), so the wood line — not the photo under it — starts level with the copy.
+  .landing-feature--match-height .house-showcase__media {
+    position: absolute;
+    inset: calc(var(--space-xs) / 2 + 2px) 0 0;
+  }
+
+  .landing-feature--match-height .house-showcase__frame {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .landing-feature--match-height .house-showcase__image-button,
+  .landing-feature--match-height .house-showcase__image {
+    height: 100%;
+  }
+
+  .landing-feature--match-height .house-showcase__image {
+    aspect-ratio: auto;
+  }
+}
+
+.landing-feature__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.landing-feature__eyebrow {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-wood);
+}
+
+.landing-feature__title {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
   color: var(--color-text);
 }
 
-.landing__reason-icon-wrap {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--space-2xl);
-  height: var(--space-2xl);
-  border-radius: var(--radius-lg);
-  background-color: color-mix(in srgb, var(--color-mist) 45%, transparent);
-  color: var(--color-forest);
-}
-
-.landing__reason-icon {
-  width: var(--space-xl);
-  height: var(--space-xl);
-}
-
-.landing__reason-label {
+.landing-feature__text {
+  margin: 0 0 var(--space-lg);
   font-family: var(--font-body);
   font-size: var(--text-body);
-  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 85%, transparent);
 }
 
-// --- Social proof ---
-.landing__proof {
-  padding: var(--space-3xl) var(--space-gutter);
-  background-color: var(--color-mist);
-  text-align: center;
+.landing-feature__text + .landing-feature__text {
+  margin-top: calc(var(--space-sm) - var(--space-lg)); // paragraph → paragraph: sm (cancels part of the gap above)
 }
 
-.landing__proof-text {
-  max-width: 40rem; // structural reading width
-  margin-inline: auto;
-  font-family: var(--font-heading);
-  font-size: var(--text-h3);
+.landing-feature__points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.landing-feature__point {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
   line-height: var(--leading-snug);
   color: var(--color-text);
 }
 
-// --- Repeated booking CTA ---
-.landing__cta-repeat {
-  padding: var(--space-3xl) var(--space-gutter);
-  background-color: var(--color-forest);
+.landing-feature__point-icon-wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--color-forest) 14%, transparent);
+  color: var(--color-forest);
+}
+
+.landing-feature__point-icon {
+  width: var(--space-sm);
+  height: var(--space-sm);
+}
+
+// Small highlight pills — the same quiet chips as the welcome block.
+.landing-feature__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.landing-feature__points + .landing-feature__pills {
+  margin-block-start: var(--space-lg);
+}
+
+.landing-feature__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 22%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.landing-feature__pill-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+// Full-width button on phones (an easy thumb target), natural width from tablets up.
+.landing-feature__cta {
+  align-self: stretch;
+  margin-block-start: var(--space-lg);
+
+  .btn {
+    width: 100%;
+  }
+
+  @media (min-width: 48rem) {
+    align-self: flex-start;
+
+    .btn {
+      width: auto;
+    }
+  }
+}
+
+// Content that runs the full width of the section under the row (the restaurant's dish list) —
+// same container as the row, so its edges line up with the photos on one side and the copy on the other.
+.landing-feature__foot {
+  max-width: 75rem;
+  margin-inline: auto;
+  margin-block-start: var(--space-xl);
+  padding-inline: var(--space-gutter);
+}
+
+// --- Friendly atmosphere: text in the middle, photos around it (LandingAtmosphere.astro) ---
+// One grid holds the text and all six photos, so each breakpoint only re-draws the areas:
+//   phones   two columns — a cluster of three photos, the text, a cluster of three
+//   tablets  three columns — a row of three, the text, a row of three
+//   desktop  a pinwheel around the text: a tall photo on each side, a wide one above and below.
+//            It starts late (72rem): any narrower and the middle column squeezes the text into a
+//            tall cell, which stretches the two tall photos into slivers.
+// A photo takes its shape from its slot, never from the file: the image is laid over the slot and
+// cropped (object-fit: cover), so a slot without a ratio of its own just stretches to its area.
+// White band that eases in and out of the page color, like the warm bands of the feature rows.
+.landing-atmosphere {
+  padding-block: var(--space-3xl);
+  background-color: var(--color-surface);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-bg) 0,
+    var(--color-surface) var(--space-3xl),
+    var(--color-surface) calc(100% - var(--space-3xl)),
+    var(--color-bg) 100%
+  );
+  // The photos start their fly-in shifted sideways; that must never widen the page.
+  overflow-x: clip;
+}
+
+.landing-atmosphere__inner {
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    'p1 p2'
+    'p1 p3'
+    'text text'
+    'p4 p6'
+    'p5 p6';
+  // Wide enough that the frames of two neighbouring photos keep clear of each other.
+  gap: var(--space-md);
+
+  @media (min-width: 40rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      'p1 p2 p3'
+      'text text text'
+      'p4 p5 p6';
+  }
+
+  @media (min-width: 72rem) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+    grid-template-areas:
+      'p1 p2 p3'
+      'p1 text p6'
+      'p4 p5 p6';
+  }
+}
+
+.landing-atmosphere__body {
+  grid-area: text;
+  align-self: center;
+  justify-self: center;
+  max-width: 34rem;
+  padding: var(--space-lg) var(--space-xs);
   text-align: center;
+
+  @media (min-width: 72rem) {
+    padding: var(--space-md);
+  }
+}
+
+.landing-atmosphere__title {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.landing-atmosphere__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 85%, transparent);
+  text-wrap: pretty;
+}
+
+// Same frame as the showcase slider's photo (.house-showcase__frame): wood line set off the photo.
+.landing-atmosphere__photo {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-warm);
+  box-shadow: var(--shadow-card);
+  outline: 2px solid var(--color-wood);
+  outline-offset: calc(var(--space-xs) / 2);
+}
+
+.landing-atmosphere__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@for $slot from 1 through 6 {
+  .landing-atmosphere__photo--#{$slot} {
+    grid-area: p#{$slot};
+  }
+}
+
+// Phones: the two tall photos span their cluster.
+@media (max-width: 39.99rem) {
+  .landing-atmosphere__photo--1,
+  .landing-atmosphere__photo--6 {
+    aspect-ratio: auto;
+  }
+}
+
+// Desktop: the wide photos set the height of the top and bottom rows, everything else stretches —
+// the tall photos across two rows. The wide ones are kept low so the whole ring fits one screen.
+@media (min-width: 72rem) {
+  .landing-atmosphere__photo {
+    aspect-ratio: auto;
+  }
+
+  .landing-atmosphere__photo--2,
+  .landing-atmosphere__photo--5 {
+    aspect-ratio: 5 / 2;
+  }
+}
+
+// Entrance: the photos fly in — the top ones first, the bottom ones just behind — and the text
+// appears once they have landed. It runs off the shared scroll-reveal observer (BaseLayout), but
+// not through `.reveal` on the section: that fires the moment the section's top edge shows, long
+// before the block is on screen. Instead three empty cue elements carry `.reveal`, each laid over
+// the part of the grid it stands for, and whatever follows them in the DOM reacts through `~`:
+//   cue--top     top edge of the top photos     → photos 1–3
+//   cue--text    top edge of the text           → the text
+//   cue--bottom  top edge of the bottom photos  → photos 4–6
+// Stacked layouts therefore play band by band as the visitor scrolls. In the pinwheel the block is
+// on screen in one piece, so there the text and bottom cues share the middle of the text cell: the
+// bottom photos leave just behind the top ones and the text waits for all six.
+// Every hidden state sits under `.has-reveal`, which the observer script sets — never without JS,
+// never under prefers-reduced-motion — so the block is plainly visible otherwise.
+.landing-atmosphere {
+  --atmosphere-step: calc(var(--motion-duration-fast) / 2);
+  --atmosphere-flight: calc(var(--motion-duration) * 2);
+}
+
+.landing-atmosphere__cue {
+  align-self: start;
+  height: 1px;
+  pointer-events: none;
+}
+
+.landing-atmosphere__cue--top {
+  grid-area: p2;
+}
+
+.landing-atmosphere__cue--text {
+  grid-area: text;
+}
+
+.landing-atmosphere__cue--bottom {
+  grid-area: p4;
+}
+
+@media (min-width: 72rem) {
+  .landing-atmosphere__cue--text,
+  .landing-atmosphere__cue--bottom {
+    grid-area: text;
+    align-self: center;
+  }
+}
+
+// Where each photo flies in from: the top three from above, the bottom three from below, the
+// outer ones from their own side as well, each with a slight tilt that straightens as it lands.
+.landing-atmosphere__photo--1 {
+  --fly-x: calc(var(--space-xl) * -1);
+  --fly-y: calc(var(--space-xl) * -1);
+  --fly-tilt: -4deg;
+}
+
+.landing-atmosphere__photo--2 {
+  --fly-y: calc(var(--space-xl) * -1);
+  --fly-tilt: 2deg;
+  --fly-delay: var(--atmosphere-step);
+}
+
+.landing-atmosphere__photo--3 {
+  --fly-x: var(--space-xl);
+  --fly-y: calc(var(--space-xl) * -1);
+  --fly-tilt: 4deg;
+  --fly-delay: calc(var(--atmosphere-step) * 2);
+}
+
+.landing-atmosphere__photo--4 {
+  --fly-x: calc(var(--space-xl) * -1);
+  --fly-y: var(--space-xl);
+  --fly-tilt: 4deg;
+}
+
+.landing-atmosphere__photo--5 {
+  --fly-y: var(--space-xl);
+  --fly-tilt: -2deg;
+  --fly-delay: var(--atmosphere-step);
+}
+
+.landing-atmosphere__photo--6 {
+  --fly-x: var(--space-xl);
+  --fly-y: var(--space-xl);
+  --fly-tilt: -4deg;
+  --fly-delay: calc(var(--atmosphere-step) * 2);
+}
+
+.has-reveal .landing-atmosphere__photo {
+  opacity: 0;
+  transform: translate(var(--fly-x, 0), var(--fly-y, 0)) rotate(var(--fly-tilt, 0deg)) scale(0.92);
+  transition:
+    opacity var(--motion-duration) var(--motion-ease) var(--fly-delay, 0ms),
+    transform var(--atmosphere-flight) var(--motion-ease) var(--fly-delay, 0ms);
+}
+
+.has-reveal .landing-atmosphere__body {
+  opacity: 0;
+  transform: translateY(var(--space-sm));
+  transition:
+    opacity var(--atmosphere-flight) var(--motion-ease) var(--atmosphere-step),
+    transform var(--atmosphere-flight) var(--motion-ease) var(--atmosphere-step);
+}
+
+.has-reveal .landing-atmosphere__cue--top.is-revealed ~ .landing-atmosphere__photo--1,
+.has-reveal .landing-atmosphere__cue--top.is-revealed ~ .landing-atmosphere__photo--2,
+.has-reveal .landing-atmosphere__cue--top.is-revealed ~ .landing-atmosphere__photo--3,
+.has-reveal .landing-atmosphere__cue--bottom.is-revealed ~ .landing-atmosphere__photo--4,
+.has-reveal .landing-atmosphere__cue--bottom.is-revealed ~ .landing-atmosphere__photo--5,
+.has-reveal .landing-atmosphere__cue--bottom.is-revealed ~ .landing-atmosphere__photo--6,
+.has-reveal .landing-atmosphere__cue--text.is-revealed ~ .landing-atmosphere__body {
+  opacity: 1;
+  transform: none;
+}
+
+// Pinwheel: hold the bottom photos back a beat (both cues can fire together when the whole block
+// is already on screen) and the text until the last photo is nearly down.
+@media (min-width: 72rem) {
+  .landing-atmosphere__photo--4 {
+    --fly-delay: calc(var(--atmosphere-step) * 3);
+  }
+
+  .landing-atmosphere__photo--5 {
+    --fly-delay: calc(var(--atmosphere-step) * 4);
+  }
+
+  .landing-atmosphere__photo--6 {
+    --fly-delay: calc(var(--atmosphere-step) * 5);
+  }
+
+  .has-reveal .landing-atmosphere__body {
+    transition-delay: calc(var(--atmosphere-step) * 9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-reveal .landing-atmosphere__photo,
+  .has-reveal .landing-atmosphere__body {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+// --- Activities teaser: four small blocks and a link to the Activities page (LandingActivities.astro) ---
+// A block is a white tile holding a photo, a name and one line saying where it is. Three layouts:
+//   phones   one column of rows — photo left, text right
+//   tablets  two columns of the same rows
+//   desktop  four tiles across, photo on top. It starts late (72rem): any narrower and the longest
+//            names (Slovenian, Russian) break into four lines.
+// The tiles are not links — the one way on is the button under them — so they have no hover state.
+.landing-activities {
+  --landing-activities-thumb: 5.5rem; // structural: the photo's width in the row layouts
+
+  padding-block: var(--space-3xl);
+  background-color: var(--color-bg);
+
+  // The narrowest phones: a smaller photo (and a smaller name, below) leave the longest word of a
+  // name — "Велопрогулки", "Pohodništvo" — enough room to stay in one piece.
+  @media (max-width: 22.5rem) {
+    --landing-activities-thumb: 4.5rem;
+  }
+}
+
+.landing-activities__inner {
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+}
+
+.landing-activities__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 48rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 72rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.landing-activities__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+
+  @media (min-width: 72rem) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+}
+
+// The photo is laid over its slot and cropped, so it never sets the block's size: in a row it is
+// as tall as the text beside it needs (never less than a square), in a tile it holds 4:3.
+.landing-activities__media {
+  position: relative;
+  flex: 0 0 var(--landing-activities-thumb);
+  align-self: stretch;
+  min-height: var(--landing-activities-thumb);
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-warm);
+
+  @media (min-width: 72rem) {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.landing-activities__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.landing-activities__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+
+  // Tiles: the body fills the tile so the bottom lines of all four sit level (see __meta).
+  @media (min-width: 72rem) {
+    flex: 1;
+    padding: var(--space-md) var(--space-xs) var(--space-xs);
+  }
+}
+
+.landing-activities__name {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: calc(var(--text-body) * 1.1);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  overflow-wrap: break-word;
+  text-wrap: balance;
+
+  @media (max-width: 22.5rem) {
+    font-size: var(--text-body);
+  }
+}
+
+.landing-activities__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: color-mix(in srgb, var(--color-text) 75%, transparent);
+
+  @media (min-width: 72rem) {
+    margin-block-start: auto;
+  }
+}
+
+.landing-activities__meta-icon {
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
+  color: var(--color-forest);
+}
+
+// Visually hidden but still announced — "Approx. drive:" in front of a drive time.
+.landing-activities__meta-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: calc(var(--space-xs) * -0.0625); // -1px equivalent, derived from the spacing scale
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Full-width button on phones (an easy thumb target), natural width and centred from tablets up.
+.landing-activities__more {
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-lg);
+
+  .btn {
+    width: 100%;
+  }
+
+  @media (min-width: 48rem) {
+    .btn {
+      width: auto;
+    }
+  }
+}
+
+// Entrance: the section fades in through the shared `.reveal`, and the blocks rise into place one
+// after another instead of arriving as one slab. Hidden states sit under `.has-reveal`, which is
+// never set without JS or under prefers-reduced-motion.
+.has-reveal .landing-activities.reveal .landing-activities__item {
+  opacity: 0;
+  transform: translateY(var(--space-md));
+  transition:
+    opacity var(--motion-duration) var(--motion-ease),
+    transform var(--motion-duration) var(--motion-ease);
+}
+
+.has-reveal .landing-activities.reveal.is-revealed .landing-activities__item {
+  opacity: 1;
+  transform: none;
+}
+
+@for $i from 1 through 4 {
+  .has-reveal .landing-activities.reveal.is-revealed .landing-activities__item:nth-child(#{$i}) {
+    transition-delay: calc(var(--motion-duration-fast) * #{$i * 0.5});
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-reveal .landing-activities.reveal .landing-activities__item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+// --- Dish strip across the bottom of the restaurant section (LandingMenu.astro) ---
+// A list on phones and tablets (name left, price right, a rule between dishes); from the width
+// where the row above it splits into two columns, the dishes sit side by side instead.
+.landing-menu {
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+
+  @media (max-width: 30rem) {
+    padding-inline: var(--space-md);
+  }
+}
+
+.landing-menu__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-heading);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.landing-menu__title-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-wood);
+}
+
+.landing-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // One equal column per dish, however many are flagged.
+  @media (min-width: 60rem) {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+  }
+}
+
+.landing-menu__item + .landing-menu__item {
+  padding-block-start: var(--space-sm);
+  border-block-start: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+// Side by side: the rule between two dishes turns upright and stands in the middle of the gap,
+// so every dish keeps the same width.
+@media (min-width: 60rem) {
+  .landing-menu__item + .landing-menu__item {
+    position: relative;
+    padding-block-start: 0;
+    border-block-start: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: calc(var(--space-xl) / -2);
+      border-inline-start: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+    }
+  }
+}
+
+.landing-menu__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.landing-menu__name {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.landing-menu__price {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
+  color: var(--color-terracotta);
+  white-space: nowrap;
+}
+
+.landing-menu__desc {
+  margin: calc(var(--space-xs) * 0.5) 0 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  color: color-mix(in srgb, var(--color-text) 75%, transparent);
+}
+
+// --- Closing section: the reservation system (LandingReservation.astro) ---
+// Warm band easing in from the page color, like the home "Book direct" block.
+.landing-book {
+  padding-block: var(--space-3xl);
+  background-color: var(--color-surface-warm);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-bg) 0,
+    var(--color-surface-warm) var(--space-3xl)
+  );
+}
+
+.landing-book__inner {
+  max-width: 60rem; // structural cap, same as the booking page
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+}
+
+.landing-book__header {
+  margin-bottom: var(--space-lg);
+}
+
+.landing-book__perks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin: 0 0 var(--space-xl);
+  padding: 0;
+  list-style: none;
+}
+
+.landing-book__perk {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: calc(var(--space-xs) / 1.5) var(--space-sm);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 22%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.landing-book__perk-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--color-forest);
+}
+
+.landing-book__help {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs) var(--space-md);
+  margin: var(--space-lg) 0 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-normal);
+  text-align: center;
+  color: var(--color-text);
+}
+
+.landing-book__help-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-block-size: calc(var(--space-lg) + var(--space-xs)); // comfortable tap height for a text link
+  font-weight: var(--weight-bold);
+  color: var(--color-forest);
+  text-decoration: underline;
+}
+
+.landing-book__help-icon {
+  flex-shrink: 0;
+  width: var(--space-md);
+  height: var(--space-md);
 }

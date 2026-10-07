@@ -28,10 +28,10 @@ export const en = {
   'nav.contact': 'Contact',
   'nav.book': 'Book',
 
-  // --- Language switcher (live: EN + RU) ---
+  // --- Language switcher (live: EN + SL + RU) ---
   'lang.en': 'EN',
   'lang.label': 'Choose language',
-  'lang.si': 'SI', // reserved: unused until a Slovenian dictionary + content exist
+  'lang.sl': 'SI',
   'lang.ru': 'RU',
 
   // --- Generic buttons / CTAs ---
@@ -318,7 +318,6 @@ export const en = {
   // --- Sauna (shared block: apartments page + activities page) ---
   // TODO(Webline): confirm copy with the client. The sauna is wood-fired and shared by all guests
   // — it is NOT private to a house (see the unit strings above, which still say otherwise).
-  'sauna.eyebrow': 'On the property',
   'sauna.title': 'Wood-fired sauna',
   'sauna.shortTitle': 'Sauna', // heading used where the block stands on its own (activities page)
   'sauna.body':
@@ -459,14 +458,43 @@ export const en = {
   'booking.widgetTitle': 'Reservation system', // iframe title — a11y
   'booking.placeholder': 'Reservation widget will appear here.', // shown until Bentral embed is pasted
 
-  // --- Hidden advertising landing (/lp) ---
-  'lp.hero.title': 'Special offer headline',
-  'lp.hero.subtitle': 'Short supporting line.',
-  'lp.reason1': 'Reason to book #1',
-  'lp.reason2': 'Reason to book #2',
-  'lp.reason3': 'Reason to book #3',
-  'lp.socialProof': 'Social proof / testimonial.',
-  'lp.cta': 'Book your stay',
+  // --- Hidden advertising landing (/social) ---
+  // The page social profiles and ads link to: hero → the place → rooms → atmosphere → sauna →
+  // activities → restaurant → reviews → reservation widget. It is built from the blocks of the other
+  // pages and reads their strings (home.hero.subtitle, home.welcome.*, home.apartments.rooms.*,
+  // accommodation.hero.pill.*, sauna.*, activities.eyebrow, home.activities.title,
+  // activities.doorstep.eyebrow, activities.trips.driveLabel, cta.viewActivities, menu.hero.*,
+  // testimonials.*, booking.title, home.bookDirect.*), so only what is specific to the landing
+  // lives here.
+  // TODO(Webline): draft copy — review with the client before running campaigns. "About an hour
+  // from Ljubljana" restates the client-supplied drive time (≈ 55–60 min, destinations collection).
+  'lp.meta.description':
+    'A mountain house in the forest, about an hour from Ljubljana: cozy apartments, a wood-fired sauna and home-cooked food. Check availability and book directly.', // also the link-preview text when the page is shared
+  'lp.cta': 'Check availability', // every booking CTA on the landing
+  'lp.hero.title': 'Forest escape on Travna Gora',
+  'lp.hero.intro':
+    'Cozy apartments, a wood-fired sauna and home-cooked food — on a forest plateau about an hour from Ljubljana.',
+  'lp.stay.alt.balcony': 'Wooden balcony of the main house looking out over the forest',
+  'lp.stay.alt.attic': 'Attic room with a double bed and a skylight',
+  'lp.stay.alt.bathroom': 'Private bathroom with a shower',
+  // Friendly-atmosphere block (LandingAtmosphere.astro). TODO(client): draft text, and the alts
+  // describe the stand-in photos — rewrite both when the client's own photos arrive.
+  'lp.atmosphere.title': 'A friendly atmosphere',
+  'lp.atmosphere.text':
+    'Guests keep writing to us about the same thing: you quickly stop feeling like a visitor here. The hosts are always close by, there is room at the table for everyone, and evenings run long over food and talk.', // MOCK
+  'lp.atmosphere.alt.1': 'A rainbow over the house and the meadow in front of it', // MOCK — stand-in photo
+  'lp.atmosphere.alt.2': 'Tables and chairs on the terrace, looking out over the meadow and the forest', // MOCK — stand-in photo
+  'lp.atmosphere.alt.3': 'People out on the sunlit meadow below the houses', // MOCK — stand-in photo
+  'lp.atmosphere.alt.4': 'Picnic table on the meadow, with mist lying under the forest', // MOCK — stand-in photo
+  'lp.atmosphere.alt.5': 'A big shade tree, picnic tables and the wooden welcome sign on the meadow beside the house', // MOCK — stand-in photo
+  'lp.atmosphere.alt.6': 'A fire burning in the stone fireplace of the house', // MOCK — stand-in photo
+  'lp.sauna.imageAlt': 'Inside the wood-fired sauna: timber benches in warm light beside the stove',
+  'lp.restaurant.title': 'A restaurant with home cooking',
+  'lp.restaurant.favorites': 'Guest favorites', // heads the dishes flagged `featured` in the menu collection
+  'lp.restaurant.imageAlt': 'A plate of home-cooked food from the house kitchen',
+  'lp.reservation.intro':
+    'Pick your dates and book directly with us — the house, the sauna and a warm meal are waiting.',
+  'lp.reservation.help': 'Questions before you book? Call or write to us:',
 
   // --- Footer ---
   'footer.contact.title': 'Contact',

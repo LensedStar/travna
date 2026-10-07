@@ -1,0 +1,35 @@
+---
+// LandingMenu.astro — the "guest favorites" strip that closes the landing's (/social) restaurant
+// section, full width under the photos and the copy: the dishes flagged `featured` in the `menu`
+// collection, with their real prices — side by side on wide screens, a list on narrow ones. It
+// reads the same collection as the Menu page, so it follows every menu edit; with no dish flagged
+// it renders nothing. Pure .astro, zero client JS. Styling lives in src/styles/blocks/_landing.scss.
+import Icon from '../ui/Icon.astro';
+import { useTranslations } from '../../i18n';
+import { getLocalizedCollection } from '../../i18n/content';
+
+const t = useTranslations(Astro.currentLocale);
+
+const [menu] = await getLocalizedCollection('menu', Astro.currentLocale);
+const dishes = menu.data.sections.flatMap((section) => section.items).filter((item) => item.featured);
+---
+{dishes.length > 0 && (
+  <div class="landing-menu">
+    <h3 class="landing-menu__title">
+      <Icon name="heart" class="landing-menu__title-icon" />
+      <span>{t('lp.restaurant.favorites')}</span>
+    </h3>
+
+    <ul class="landing-menu__list" role="list">
+      {dishes.map((dish) => (
+        <li class="landing-menu__item">
+          <div class="landing-menu__head">
+            <span class="landing-menu__name">{dish.name}</span>
+            {dish.price && <span class="landing-menu__price">{dish.price}</span>}
+          </div>
+          {dish.description && <p class="landing-menu__desc">{dish.description}</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}

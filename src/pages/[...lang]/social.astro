@@ -1,0 +1,145 @@
+---
+// social.astro — Hidden advertising landing (TASK-025): the one page social profiles and paid
+// social (Meta) campaigns link to. The file name is the URL, in every locale: /social, /sl/social,
+// /ru/social.
+// Renaming it means updating two more places by hand: the sitemap filter in astro.config.mjs and the
+// Disallow lines in public/robots.txt. (The dictionary keys keep their short `lp.*` prefix.)
+// It wears the normal site header and footer like every other page (it started out with a minimal
+// bar of its own; the user asked for the normal navigation back). Still noindex,nofollow (BaseLayout
+// `noindex`), excluded from the sitemap (filter in astro.config.mjs) and NOT linked from the nav.
+//
+// Top → bottom, built from the blocks the other pages already use:
+//   1. Hero            → the home hero (ParallaxHero) with the landing's own headline
+//   2. The place       → the home welcome block (circular house photo + description)
+//   3. Rooms           → LandingFeature (showcase slider + copy)
+//   4. Atmosphere      → LandingAtmosphere (a short text with six photos around it)
+//   5. Sauna           → LandingFeature
+//   6. Activities      → LandingActivities (four small blocks + the one link out, to /activities)
+//   7. Restaurant      → LandingFeature, then the dishes guests keep mentioning (LandingMenu)
+//                        across the full width under it
+//   8. Guest reviews   → Testimonials
+//   9. Reservation     → the Bentral widget itself (LandingReservation) — the page ends where the
+//                        booking happens, so every CTA scrolls here instead of leaving the page.
+// The conversion goal lives in ONE place (components/sections/landingGoal.ts); swap section 9
+// together with it. Visible strings come from the i18n dictionary; styling lives in
+// src/styles/blocks/_landing.scss.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ParallaxHero from '../../islands/ParallaxHero.jsx';
+import HomeWelcome from '../../components/sections/HomeWelcome.astro';
+import LandingFeature from '../../components/sections/LandingFeature.astro';
+import LandingAtmosphere from '../../components/sections/LandingAtmosphere.astro';
+import LandingActivities from '../../components/sections/LandingActivities.astro';
+import LandingMenu from '../../components/sections/LandingMenu.astro';
+import LandingReservation from '../../components/sections/LandingReservation.astro';
+import LandingCTA from '../../components/sections/LandingCTA.astro';
+import Testimonials from '../../components/sections/Testimonials.astro';
+import { landingGoals, activeLandingGoal } from '../../components/sections/landingGoal';
+import { useTranslations, localeStaticPaths } from '../../i18n';
+
+const t = useTranslations(Astro.currentLocale);
+const pageTitle = `${t('lp.hero.title')} — ${t('site.name')}`;
+const goal = landingGoals[activeLandingGoal];
+
+// Showcase photos are the real client photos under public/images/<folder>/, each with a small
+// thumbnail beside it in <folder>/thumbs/ (scripts/make-image-derivatives.mjs).
+const photo = (folder: string, name: string, alt: string) => ({
+  src: `/images/${folder}/${name}.webp`,
+  thumb: `/images/${folder}/thumbs/${name}.webp`,
+  alt,
+});
+
+const stayImages = [
+  photo('rooms', 'rooms-01', t('lp.stay.alt.balcony')),
+  photo('rooms', 'rooms-06', t('accommodation.units.rooms.alt')),
+  photo('rooms', 'rooms-08', t('lp.stay.alt.attic')),
+  photo('rooms', 'rooms-10', t('home.apartments.rooms.alt')),
+  photo('house2', 'house2-03', t('accommodation.units.house2.alt')),
+  photo('rooms', 'rooms-07', t('lp.stay.alt.bathroom')),
+];
+
+const saunaImages = [
+  photo('house1', 'house1-01', t('lp.sauna.imageAlt')),
+  photo('house1', 'house1-03', t('sauna.imageAlt1')),
+  photo('house1', 'house1-04', t('sauna.imageAlt2')),
+];
+
+const restaurantImages = ['kitchen-02', 'kitchen-05', 'kitchen-06', 'kitchen-01', 'kitchen-03', 'kitchen-04'].map(
+  (name) => photo('kitchen', name, t('lp.restaurant.imageAlt'))
+);
+
+// One build per locale: `lang` is undefined for EN (unprefixed), 'sl' / 'ru' for the others.
+export const getStaticPaths = localeStaticPaths;
+---
+<BaseLayout title={pageTitle} description={t('lp.meta.description')} ogImage="/images/og-lp.jpg" noindex>
+  <div class="landing">
+    <ParallaxHero
+      client:load
+      title={t('lp.hero.title')}
+      subtitle={t('home.hero.subtitle')}
+      intro={t('lp.hero.intro')}
+      bookHref={`#${goal.anchor}`}
+      bookConversion={goal.conversion}
+      ctaPrimaryLabel={t(goal.labelKey)}
+      ratingsLabel={t('home.hero.ratingsLabel')}
+      bookingLabel={t('home.hero.bookingLabel')}
+      airbnbLabel={t('home.hero.airbnbLabel')}
+    />
+
+    <HomeWelcome id="place" skipPills={['home.welcome.pill.pets']}>
+      <LandingCTA slot="cta" variant="secondary" />
+    </HomeWelcome>
+
+    <LandingFeature
+      id="stay"
+      warm
+      matchHeight
+      eyebrow={t('accommodation.units.eyebrow')}
+      title={t('home.apartments.rooms.title')}
+      text={t('home.apartments.rooms.text')}
+      images={stayImages}
+      points={[t('home.apartments.rooms.b1'), t('home.apartments.rooms.b2')]}
+      pointIcon="bed"
+      pills={[
+        { icon: 'paw-print', label: t('accommodation.hero.pill.pets') },
+        { icon: 'parking', label: t('accommodation.hero.pill.parking') },
+        { icon: 'wifi', label: t('accommodation.hero.pill.wifi') },
+      ]}
+    >
+      <LandingCTA slot="cta" />
+    </LandingFeature>
+
+    <LandingAtmosphere id="atmosphere" />
+
+    <LandingFeature
+      id="sauna"
+      mirror
+      title={t('sauna.title')}
+      text={t('sauna.body')}
+      images={saunaImages}
+      points={[t('sauna.point1'), t('sauna.point2'), t('sauna.point3')]}
+      pointIcon="flame"
+    />
+
+    <LandingActivities id="activities" />
+
+    <LandingFeature
+      id="restaurant"
+      warm
+      eyebrow={t('menu.hero.eyebrow')}
+      title={t('lp.restaurant.title')}
+      text={t('menu.hero.lead')}
+      images={restaurantImages}
+      pills={[
+        { icon: 'coffee', label: t('menu.hero.pill.breakfast') },
+        { icon: 'utensils', label: t('menu.hero.pill.mains') },
+        { icon: 'leaf', label: t('menu.hero.pill.soups') },
+      ]}
+    >
+      <LandingMenu slot="foot" />
+    </LandingFeature>
+
+    <Testimonials />
+
+    <LandingReservation />
+  </div>
+</BaseLayout>

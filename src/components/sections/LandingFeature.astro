@@ -1,0 +1,118 @@
+---
+// LandingFeature.astro — one feature row of the landing (/social): a photo gallery beside an eyebrow,
+// title, a short text and a few points and/or pills. The landing stacks three of them (rooms ·
+// sauna · restaurant), alternating sides and bands. Same editorial language as the sauna block on
+// the Apartments page, and the same shared showcase slider (ShowcaseGallery — the only client JS
+// here). The `foot` slot takes content that runs the full width of the section under the row (the
+// restaurant's dish list), the default slot extra content under the copy, the `cta` slot a button.
+// All text arrives as props from the i18n dictionary; styling lives in src/styles/blocks/_landing.scss.
+import Icon from '../ui/Icon.astro';
+import ShowcaseGallery from '../../islands/ShowcaseGallery.jsx';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  text: string;
+  // `thumb` is the small file for the thumbnail strip (public/images/<folder>/thumbs/).
+  images: { src: string; alt: string; thumb?: string }[];
+  points?: string[];
+  // Line icon repeated in front of every point.
+  pointIcon?: string;
+  pills?: { icon: string; label: string }[];
+  // Copy on the left, photos on the right (wide screens) — alternate it down the page.
+  mirror?: boolean;
+  // Warm section surface, so consecutive rows read as separate bands.
+  warm?: boolean;
+  // Two columns only: make the slider exactly as tall as the copy beside it — the photo takes up
+  // the difference. Not for a row with a long copy column (it would stretch the photo into a tower).
+  matchHeight?: boolean;
+}
+const {
+  id,
+  eyebrow,
+  title,
+  text,
+  images,
+  points = [],
+  pointIcon = 'check',
+  pills = [],
+  mirror = false,
+  warm = false,
+  matchHeight = false,
+} = Astro.props;
+
+const t = useTranslations(Astro.currentLocale);
+---
+<section
+  class:list={[
+    'landing-feature',
+    'reveal',
+    { 'landing-feature--mirror': mirror, 'landing-feature--warm': warm, 'landing-feature--match-height': matchHeight },
+  ]}
+  id={id}
+>
+  <div class="landing-feature__inner">
+    <div class="landing-feature__media">
+      <ShowcaseGallery
+        client:visible
+        images={images}
+        label={title}
+        strings={{
+          galleryLabel: t('accommodation.slider.label'),
+          prevLabel: t('accommodation.slider.prev'),
+          nextLabel: t('accommodation.slider.next'),
+          closeLabel: t('home.gallery.close'),
+        }}
+      />
+    </div>
+
+    <div class="landing-feature__body">
+      {eyebrow && <p class="landing-feature__eyebrow">{eyebrow}</p>}
+      <h2 class="landing-feature__title">{title}</h2>
+      <!-- A blank line in the text starts a new paragraph. -->
+      {text.split('\n\n').map((paragraph) => (
+        <p class="landing-feature__text">{paragraph}</p>
+      ))}
+
+      {points.length > 0 && (
+        <ul class="landing-feature__points" role="list">
+          {points.map((point) => (
+            <li class="landing-feature__point">
+              <span class="landing-feature__point-icon-wrap">
+                <Icon name={pointIcon} class="landing-feature__point-icon" />
+              </span>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {pills.length > 0 && (
+        <ul class="landing-feature__pills" role="list">
+          {pills.map(({ icon, label }) => (
+            <li class="landing-feature__pill">
+              <Icon name={icon} class="landing-feature__pill-icon" />
+              <span>{label}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <slot />
+
+      {Astro.slots.has('cta') && (
+        <div class="landing-feature__cta">
+          <slot name="cta" />
+        </div>
+      )}
+    </div>
+  </div>
+
+  {Astro.slots.has('foot') && (
+    <div class="landing-feature__foot">
+      <slot name="foot" />
+    </div>
+  )}
+</section>

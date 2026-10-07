@@ -4,7 +4,7 @@
 // locale of the page being rendered, loads the global
 // SCSS (which @font-faces the self-hosted fonts), renders the skip link + global Header/Footer,
 // and exposes a content slot. Per-page SEO (title/description/og/JSON-LD) flows in via props — no
-// hardcoded meta in pages. The `noindex` prop powers the hidden /lp landing (TASK-025).
+// hardcoded meta in pages. The `noindex` prop powers the hidden /social landing (TASK-025).
 import { useTranslations, locales, defaultLocale, localizePath, stripLocale } from '../i18n';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
@@ -18,9 +18,10 @@ interface Props {
   canonicalURL?: string | URL;
   // OG share image. TODO: replace public/images/og-default.png before launch.
   ogImage?: string;
-  // Adds <meta name="robots" content="noindex, nofollow"> (used by /lp).
+  // Adds <meta name="robots" content="noindex, nofollow"> (used by /social).
   noindex?: boolean;
-  // Omits the global Header/Footer chrome for distraction-free pages (used by /lp — TASK-025).
+  // Omits the global Header/Footer chrome for distraction-free pages (TASK-025). No page uses it
+  // at the moment: the landing it was made for went back to the normal header and footer.
   bare?: boolean;
 }
 
@@ -45,7 +46,7 @@ const locale = Astro.currentLocale ?? defaultLocale;
 
 // hreflang alternates: the same page in every locale, plus x-default pointing at the default
 // locale. Built from the current path with its locale prefix removed, so it stays correct for
-// every route without a per-page list. Suppressed on noindex pages (/lp).
+// every route without a per-page list. Suppressed on noindex pages (/social).
 const basePath = stripLocale(Astro.url.pathname);
 const alternates = locales.map((code) => ({
   code,
@@ -55,7 +56,7 @@ const alternates = locales.map((code) => ({
 // JSON-LD LodgingBusiness/LocalBusiness structured data (TASK-027). Business-level — same on every
 // indexable page. All fields are placeholders sourced from the i18n dictionary where one
 // already exists (brand name, tagline, phone/email/address) — TODO: replace with the client's
-// real lodging data before launch. Emitted only on indexable pages (suppressed for /lp via `noindex`).
+// real lodging data before launch. Emitted only on indexable pages (suppressed for /social via `noindex`).
 const lodgingSchema = {
   '@context': 'https://schema.org',
   '@type': 'LodgingBusiness',
@@ -117,7 +118,7 @@ const lodgingSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    <!-- JSON-LD LodgingBusiness structured data (indexable pages only; /lp is excluded). -->
+    <!-- JSON-LD LodgingBusiness structured data (indexable pages only; /social is excluded). -->
     {!noindex && <script type="application/ld+json" set:html={JSON.stringify(lodgingSchema)} />}
 
     <!--
@@ -201,7 +202,7 @@ const lodgingSchema = {
       <slot />
     </main>
     {!bare && <Footer />}
-    <!-- GDPR consent gate for GA4 — present on every page (incl. bare /lp). Loads analytics only after consent. -->
+    <!-- GDPR consent gate for GA4 — present on every page (incl. bare ones). Loads analytics only after consent. -->
     <CookieConsent />
   </body>
 </html>

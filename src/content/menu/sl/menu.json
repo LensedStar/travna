@@ -1,0 +1,263 @@
+{
+  "scanPdf": "/menu/menu-scan.pdf",
+  "allergenLegend": [
+    {
+      "code": "GP",
+      "label": "Žita, ki vsebujejo gluten"
+    },
+    {
+      "code": "L",
+      "label": "Laktoza"
+    },
+    {
+      "code": "J",
+      "label": "Jajca"
+    },
+    {
+      "code": "R",
+      "label": "Ribe"
+    },
+    {
+      "code": "O",
+      "label": "Oreški"
+    }
+  ],
+  "sections": [
+    {
+      "id": "breakfast",
+      "title": "Zajtrk / Breakfast",
+      "items": [
+        {
+          "name": "Italijanski zajtrk",
+          "description": "Palačinke po družinskem receptu / ali dva rogljička s čokolado, marmelado ali karamelnim prelivom po izbiri. Pijača vključena.",
+          "price": "€6.00",
+          "allergens": [
+            "GP",
+            "L",
+            "J"
+          ]
+        },
+        {
+          "name": "Tradicionalni zajtrk",
+          "description": "Hrustljav toast, klobasa in sir, kuhano jajce, maslo in sadna marmelada. Pijača vključena.",
+          "price": "€6.00",
+          "allergens": [
+            "GP",
+            "L",
+            "J"
+          ]
+        },
+        {
+          "name": "Domači zajtrk",
+          "description": "Jajca na oko / jajce v toastu / ali omleta, solata iz sveže zelenjave, klobasa. Pijača vključena.",
+          "price": "€10.00",
+          "allergens": [
+            "GP",
+            "L",
+            "J"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "salads",
+      "title": "Solate / Salads",
+      "items": [
+        {
+          "name": "Vitaminska solata",
+          "description": "Zelje, korenje, jabolko.",
+          "price": "€4.50"
+        },
+        {
+          "name": "Mešana solata",
+          "description": "Sveži paradižnik, kumare, paprika, solatni listi, korenje in čebula, začinjeno z limoninim sokom, aromatičnim bučnim oljem ali oljčnim oljem — po izbiri gosta.",
+          "price": "€5.50"
+        },
+        {
+          "name": "Grška solata",
+          "description": "Sveži paradižnik, kumare, paprika, solatni listi, korenje in čebula ter mehak sir feta, začinjeno z limoninim sokom, aromatičnim bučnim oljem ali oljčnim oljem — po izbiri gosta.",
+          "price": "€6.00",
+          "allergens": [
+            "L"
+          ]
+        },
+        {
+          "name": "Kompleksna solata",
+          "description": "Narezana sveža zelenjava s prelivom cezar. Postrežena s sočnim piščančjim filejem / ocvrto ribo (R) / svinjskim zrezkom / kuhanim jajcem (J) / ali mehko omleto (J) — po izbiri gosta.",
+          "price": "€9.00",
+          "allergens": [
+            "GP",
+            "L"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soups",
+      "title": "Juhe / Soups",
+      "items": [
+        {
+          "name": "Goveja juha / Beef Soup",
+          "description": "Tradicionalna bistra goveja juha z rezanci.",
+          "price": "€4.50",
+          "allergens": [
+            "GP",
+            "J"
+          ]
+        },
+        {
+          "name": "Piščančja juha / Chicken Soup",
+          "description": "Tradicionalna bistra piščančja juha z rezanci.",
+          "price": "€4.50",
+          "allergens": [
+            "GP",
+            "J"
+          ]
+        },
+        {
+          "name": "Tomatna juha / Tomato Soup",
+          "description": "Bogata, kremasta domača juha iz zrelih paradižnikov.",
+          "price": "€5.00",
+          "allergens": [
+            "GP",
+            "L",
+            "J"
+          ]
+        },
+        {
+          "name": "Gobova juha / Mushroom Soup",
+          "description": "Domača kremna juha iz svežih gob.",
+          "price": "€5.50",
+          "featured": true,
+          "allergens": [
+            "GP",
+            "L",
+            "J"
+          ]
+        },
+        {
+          "name": "Sezonska juha / Seasonal Soup",
+          "description": "Bogata juha z mehkim mesom in sezonsko zelenjavo.",
+          "price": "€6.00"
+        }
+      ]
+    },
+    {
+      "id": "mains",
+      "title": "Glavne jedi / Main courses",
+      "badge": "Najbolj priljubljeno",
+      "items": [
+        {
+          "name": "Sirna pogača (mala)",
+          "description": "Majhna sirna pogača.",
+          "price": "€5.00",
+          "allergens": [
+            "GP",
+            "L",
+            "J"
+          ]
+        },
+        {
+          "name": "Sirna pogača (velika)",
+          "description": "Velika sirna pogača.",
+          "price": "€8.00",
+          "allergens": [
+            "GP",
+            "L",
+            "J"
+          ]
+        },
+        {
+          "name": "Peljmeni z mesom",
+          "description": "Izdatni cmoki z mesnim nadevom, postreženi s kislo smetano.",
+          "price": "€9.50",
+          "featured": true,
+          "allergens": [
+            "GP",
+            "J"
+          ]
+        },
+        {
+          "name": "Vareniki z krompirom",
+          "description": "Mehki cmoki s krompirjevim nadevom, preliti s stopljenim maslom.",
+          "price": "€9.50",
+          "allergens": [
+            "GP",
+            "J"
+          ]
+        },
+        {
+          "name": "Čevapčiči s pomfrijem",
+          "description": "Tradicionalni svaljki iz mletega mesa, postreženi z ajvarjem in sesekljano čebulo.",
+          "price": "€13.00"
+        },
+        {
+          "name": "Klobasni MIX",
+          "description": "Izbor lokalnih klobas z žara, postrežen s pomfrijem in gorčico.",
+          "price": "€13.50"
+        },
+        {
+          "name": "Domača klobasa",
+          "description": "Tradicionalna slovenska klobasa iz Sodražice. Postrežena s pomfrijem / ali z lahko solato iz sveže zelenjave, začinjeno z dišečim bučnim oljem in limoninim sokom, ter z ajvarjem in sesekljano čebulo.",
+          "price": "€14.00"
+        },
+        {
+          "name": "Piščanec s pomfrijem",
+          "description": "Sočni ocvrti koščki piščanca brez kosti in kože, postreženi s pomfrijem / ali z lahko solato iz sveže zelenjave, začinjeno z dišečim bučnim oljem in limoninim sokom.",
+          "price": "€13.00"
+        },
+        {
+          "name": "Dunajski zrezek",
+          "description": "Klasičen paniran in ocvrt zrezek po dunajsko.",
+          "price": "€13.00",
+          "allergens": [
+            "GP"
+          ]
+        },
+        {
+          "name": "Riba s solato",
+          "description": "Nežno na ponvi popečen file soma, postrežen z lahko solato iz sveže zelenjave, začinjeno z dišečim bučnim oljem in limoninim sokom.",
+          "price": "€14.00",
+          "allergens": [
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desserts",
+      "title": "Sladice / Desserts",
+      "items": [
+        {
+          "name": "Jabolčna Pita ali Zavitek",
+          "price": "€4.50",
+          "allergens": [
+            "J",
+            "GP",
+            "L"
+          ]
+        },
+        {
+          "name": "Krem Brulee",
+          "price": "€3.50",
+          "allergens": [
+            "J",
+            "GP",
+            "L"
+          ]
+        },
+        {
+          "name": "Palačinke Oladji (5 kos)",
+          "description": "Palačinke po družinskem receptu s čokolado, marmelado ali karamelnim prelivom po izbiri.",
+          "price": "€4.50",
+          "featured": true,
+          "allergens": [
+            "J",
+            "GP",
+            "L"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 // i18n core — locale config + string-access helpers + locale-aware path helpers.
 //
-// Phase 1 shipped English only; Russian is now live. Adding Slovenian later requires only
+// Phase 1 shipped English only; Russian and Slovenian are now live. Adding another locale requires only
 // (1) a dictionary file with the same key set, (2) registering it in `ui` + `locales` here and in
-// `astro.config.mjs`, and (3) translated content entries under src/content/<collection>/sl/.
+// `astro.config.mjs`, and (3) translated content entries under src/content/<collection>/<locale>/.
 // No component rewrites: pages resolve their locale from the URL via `Astro.currentLocale`.
 //
 // Usage (works identically in .astro frontmatter and .jsx React islands):
@@ -12,6 +12,7 @@
 
 import { en } from './en';
 import { ru } from './ru';
+import { sl } from './sl';
 import type { UIKey } from './types';
 
 // --- Locale registry -------------------------------------------------------
@@ -21,21 +22,21 @@ export const defaultLocale = 'en' as const;
 
 // The default locale is served unprefixed (`/contact`); every other locale is prefixed
 // (`/ru/contact`) — mirrored by `prefixDefaultLocale: false` in astro.config.mjs.
-export const locales = ['en', 'ru'] as const;
+export const locales = ['en', 'sl', 'ru'] as const;
 export type Locale = (typeof locales)[number];
 
 // Human-readable language labels for the switcher / future routing.
 export const languages: Record<string, string> = {
   en: 'English',
+  sl: 'Slovenščina',
   ru: 'Русский',
-  // sl: 'Slovenščina', // i18n-ready: enable with src/i18n/sl.ts
 };
 
 // Dictionary map keyed by locale. Fallback to defaultLocale for any missing entry.
 export const ui = {
   en,
+  sl,
   ru,
-  // sl, // i18n-ready
 } as const;
 
 // --- Helpers ---------------------------------------------------------------

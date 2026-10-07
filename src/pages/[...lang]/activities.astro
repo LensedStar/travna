@@ -67,13 +67,16 @@ const whyBullets = [
 export const getStaticPaths = localeStaticPaths;
 ---
 
-<BaseLayout title={pageTitle} description={t('activities.intro')}>
+<BaseLayout title={pageTitle} description={t('activities.intro').replaceAll('\n\n', ' ')}>
   <!-- 1. Intro hero — editorial copy beside a circular photo (accommodation-hero language, mirrored) -->
   <section class="act-band act-band--warm act-hero reveal">
     <div class="act-band__inner act-hero__inner">
       <div class="act-hero__body">
         <h1 class="act-hero__title">{t('activities.title')}</h1>
-        <p class="act-hero__lead">{t('activities.intro')}</p>
+        <!-- A blank line in the intro string starts a new paragraph. -->
+        {t('activities.intro').split('\n\n').map((paragraph) => (
+          <p class="act-hero__lead">{paragraph}</p>
+        ))}
 
         <ul class="act-hero__pills" role="list">
           {heroPills.map(({ icon, key }) => (

@@ -31,7 +31,9 @@
 .home-welcome__inner {
   position: relative;
   z-index: 1; // keep content above the section's base fade overlay
-  max-width: 70rem;
+  // Same container as the header, the hero above and the sections below, so the copy starts on
+  // the line the logo and the hero title start on.
+  max-width: 75rem;
   margin-inline: auto;
   padding-inline: var(--space-gutter);
   // Mobile-first: single centered column — photo (rising into the hero) first, copy below.

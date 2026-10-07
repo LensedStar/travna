@@ -86,6 +86,7 @@
           "name": "Gobova juha / Mushroom Soup",
           "description": "A homemade creamy soup made with fresh mushrooms.",
           "price": "€5.50",
+          "featured": true,
           "allergens": ["GP", "L", "J"]
         },
         {
@@ -116,6 +117,7 @@
           "name": "Peljmeni z mesom",
           "description": "Hearty meat-filled dumplings, served with a dollop of sour cream.",
           "price": "€9.50",
+          "featured": true,
           "allergens": ["GP", "J"]
         },
         {
@@ -176,6 +178,7 @@
           "name": "Palačinke Oladji (5 kos)",
           "description": "Family-recipe pancakes with chocolate, marmalade or caramel gravy of your choice.",
           "price": "€4.50",
+          "featured": true,
           "allergens": ["J", "GP", "L"]
         }
       ]

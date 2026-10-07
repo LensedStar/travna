@@ -6,7 +6,8 @@
 // NOTHING ELSE — no other component, page or style file changes.
 //
 // Rules (CLAUDE.md §11):
-//  - The widget lives ONLY on /rezervacija, inside this isolated wrapper.
+//  - The widget is only ever rendered through this isolated wrapper: on /rezervacija and — the
+//    landing ends with the reservation system — at the bottom of /social (LandingReservation.astro).
 //  - iframe: sensible min-height (via .booking__frame), `title`, loading="lazy".
 //  - Do NOT pass user PII to the widget.
 //  - Do not fight the widget's internal styling — the site only frames around it.

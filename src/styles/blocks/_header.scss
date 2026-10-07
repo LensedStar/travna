@@ -31,7 +31,7 @@
   -webkit-backdrop-filter: blur(var(--space-xs));
 }
 
-// The fixed header is out of flow, so reserve its height on pages that render it (bare pages — /lp —
+// The fixed header is out of flow, so reserve its height on pages that render it (bare pages
 // have no header and add no class). `--header-height` is measured at runtime in BaseLayout; the
 // fallback covers the pre-script paint. `scroll-padding-top` keeps in-page anchor / skip-link
 // targets from landing behind the bar.

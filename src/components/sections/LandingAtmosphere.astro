@@ -1,0 +1,91 @@
+---
+// LandingAtmosphere.astro — the landing's (/social) "friendly atmosphere" block: a short text
+// in the middle with six photos gathered around it. A pinwheel on wide screens (a tall photo on
+// each side, a wide one above and below the text), a row of three above and below the text on
+// tablets, a cluster of three above and below on phones. The photos fly in as the block scrolls
+// into view and the text follows them (CSS only, off the shared scroll-reveal observer). Pure
+// .astro, zero client JS.
+// Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_landing.scss.
+import { getImage } from 'astro:assets';
+import { useTranslations } from '../../i18n';
+
+// TODO(client): stand-in photos from the existing gallery — replace with the client's own (guests
+// and hosts, the table, evenings). Put the files in src/assets/images/, point these imports at
+// them and rewrite the matching `lp.atmosphere.alt.*` strings.
+import photo1 from '../../assets/images/gallery-rainbow.jpg';
+import photo2 from '../../assets/images/gallery-terrace-autumn.jpg';
+import photo3 from '../../assets/images/activ-hero.png';
+import photo4 from '../../assets/images/act-last.jpg';
+import photo5 from '../../assets/images/gallery-welcome.jpg';
+import photo6 from '../../assets/images/gallery-fireplace-real.jpg';
+
+interface Props {
+  id?: string;
+}
+const { id } = Astro.props;
+
+const t = useTranslations(Astro.currentLocale);
+
+// One photo per slot, in this order: 1 tall (left) · 2 wide (above the text) · 3 small (top right)
+// · 4 small (bottom left) · 5 wide (below the text) · 6 tall (right). Slots 1 and 6 want a
+// vertical photo, 2 and 5 a wide low one (a panorama, a long table), 3 and 4 an ordinary horizontal
+// one. Every photo is cropped to its slot, so keep the subject near the middle of the frame.
+const slots = [
+  { src: photo1, alt: t('lp.atmosphere.alt.1') },
+  { src: photo2, alt: t('lp.atmosphere.alt.2') },
+  { src: photo3, alt: t('lp.atmosphere.alt.3') },
+  { src: photo4, alt: t('lp.atmosphere.alt.4') },
+  { src: photo5, alt: t('lp.atmosphere.alt.5') },
+  { src: photo6, alt: t('lp.atmosphere.alt.6') },
+];
+
+// How wide each slot is drawn: tablets show three photos across, phones two; on wide screens the
+// two wide slots (2 and 5) take the middle column, the others a side column.
+const sizesFor = (index: number) =>
+  `(min-width: 72rem) ${index === 1 || index === 4 ? '34rem' : '25rem'}, (min-width: 40rem) 30vw, 44vw`;
+
+const photos = await Promise.all(
+  slots.map(async ({ src, alt }, index) => {
+    const sizes = sizesFor(index);
+    const optimized = await getImage({ src, widths: [360, 540, 720, 1080], sizes, format: 'webp', quality: 70 });
+    return {
+      src: optimized.src,
+      srcset: optimized.srcSet.attribute,
+      sizes,
+      width: src.width,
+      height: src.height,
+      alt,
+    };
+  })
+);
+---
+<section class="landing-atmosphere" id={id}>
+  <div class="landing-atmosphere__inner">
+    {/* Cues for the entrance animation, empty on purpose: the scroll-reveal observer marks each one
+        as it comes into view and the photos / text after it react — see "Entrance" in _landing.scss. */}
+    <span class="landing-atmosphere__cue landing-atmosphere__cue--top reveal" aria-hidden="true"></span>
+    <span class="landing-atmosphere__cue landing-atmosphere__cue--text reveal" aria-hidden="true"></span>
+    <span class="landing-atmosphere__cue landing-atmosphere__cue--bottom reveal" aria-hidden="true"></span>
+
+    <div class="landing-atmosphere__body">
+      <h2 class="landing-atmosphere__title">{t('lp.atmosphere.title')}</h2>
+      <p class="landing-atmosphere__text">{t('lp.atmosphere.text')}</p>
+    </div>
+
+    {photos.map((photo, index) => (
+      <div class={`landing-atmosphere__photo landing-atmosphere__photo--${index + 1}`}>
+        <img
+          class="landing-atmosphere__image"
+          src={photo.src}
+          srcset={photo.srcset}
+          sizes={photo.sizes}
+          alt={photo.alt}
+          width={photo.width}
+          height={photo.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    ))}
+  </div>
+</section>

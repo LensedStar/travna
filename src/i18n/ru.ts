@@ -27,10 +27,10 @@ export const ru: UIDict = {
   'nav.contact': 'Контакты',
   'nav.book': 'Забронировать',
 
-  // --- Language switcher (live: EN + RU) ---
+  // --- Language switcher (live: EN + SL + RU) ---
   'lang.en': 'EN',
   'lang.label': 'Выберите язык',
-  'lang.si': 'SI', // reserved: unused until a Slovenian dictionary + content exist
+  'lang.sl': 'SI',
   'lang.ru': 'RU',
 
   // --- Generic buttons / CTAs ---
@@ -66,7 +66,7 @@ export const ru: UIDict = {
 
   // --- Home: welcome / the house (first section after the hero) ---
   'home.welcome.title': 'Уютные апартаменты в самом сердце леса',
-  'home.welcome.lead': 'Оставьте город позади и обретите тишину на Травна-Горе — высоком лесистом горном плато над долиной Рибницы. Между деревьями раскинулись открытые луга, лес подступает прямо к вашим апартаментам, а воздух по-прежнему пахнет лесом, а не выхлопными газами. Приезжайте, чтобы замедлиться, глубоко вдохнуть и открыть для себя тихий уголок Словении, до которого добираются немногие путешественники.',
+  'home.welcome.lead': 'Оставьте городскую суету позади и обретите покой в Planinskem domu na Travni Gori. Здесь лес начинается прямо у апартаментов, между деревьями открываются просторные луга, а воздух остаётся свежим и наполненным ароматом леса. Приезжайте, чтобы замедлиться, отвлечься от повседневной спешки и отдохнуть не только телом, но и душой.',
   'home.welcome.imageAlt': 'Planinski dom na Travni gori — дом в окружении леса', // MOCK — real photo alt
   'home.welcome.pill.apartments': 'Уютные апартаменты', // MOCK
   'home.welcome.pill.kitchen': 'Домашняя кухня', // MOCK
@@ -89,7 +89,7 @@ export const ru: UIDict = {
   'home.heritage.m3.era': '1969',
   'home.heritage.m3.title': 'Лыжные годы',
   'home.heritage.m3.body': 'К концу 1960-х склоны под домом превратились в небольшой горнолыжный центр с подъёмником и деревянными бунгало — зимой сюда на целый день поднимались целыми семьями.',
-  'home.heritage.m3.alt': 'Старая открытка с видом Травна-Горы: лыжники на склоне под домом и деревянное бунгало',
+  'home.heritage.m3.alt': 'Старая открытка с видом Travna gora: лыжники на склоне под домом и деревянное бунгало',
   'home.heritage.m4.era': '2026',
   'home.heritage.m4.title': 'Дом сегодня',
   'home.heritage.m4.body': 'Почти век спустя тот же дом по-прежнему стоит на своём месте — бережно отреставрированный, с современными удобствами и готовый принять вас на отдых, который вы не забудете.',
@@ -99,7 +99,7 @@ export const ru: UIDict = {
   // TODO: replace with real apartment copy, bullets & photos from client
   'home.apartments.eyebrow': 'Апартаменты', // MOCK
   'home.apartments.title': 'Уютные пространства для неспешных дней', // MOCK
-  'home.apartments.intro': 'Тёплые комнаты с характером в глубине словенской сельской местности — вокруг лес, а на столе домашняя еда.',
+  'home.apartments.intro': 'Уютные комнаты с характером в самом сердце Словении — вокруг тишина леса, а на столе домашняя еда.',
   'home.apartments.hint': 'Выберите значок, чтобы узнать подробнее', // MOCK — shown as an on-image hint, not in the subheader
   'home.apartments.rooms.title': 'Номера для любого отдыха',
   'home.apartments.rooms.text': 'Свежие, уютные номера для компаний любого размера — тёплый приём ждёт и большие семьи, и пары, и тех, кто путешествует в одиночку.',
@@ -109,13 +109,13 @@ export const ru: UIDict = {
   'home.apartments.rooms.b3': 'Расслабьтесь в сауне на дровах — отдельно с семьёй и друзьями или вместе с другими гостями.',
   'home.apartments.rooms.alt': 'Тепло освещённый интерьер апартаментов с деревянной мебелью', // MOCK — replace with real photo
   'home.apartments.slovenia.title': 'Сердце Словении',
-  'home.apartments.slovenia.text': 'Отличное расположение рядом с самыми известными достопримечательностями Словении — среди них Любляна и карстовые пещеры, а до озёр, лесов и замков примерно час езды.',
+  'home.apartments.slovenia.text': 'Отличное расположение рядом с самыми известными достопримечательностями Словении — среди них Ljubljana и карстовые пещеры, а до озёр, лесов и замков примерно час езды.',
   'home.apartments.slovenia.tab': 'Словения', // MOCK — short label for the icon tab
   'home.apartments.slovenia.b1': 'Около часа езды до большинства главных достопримечательностей',
-  'home.apartments.slovenia.b2': 'Рядом с Любляной и знаменитыми карстовыми пещерами — Постойнской и Крижной ямой',
+  'home.apartments.slovenia.b2': 'Рядом с Ljubljana и знаменитыми карстовыми пещерами — Postojnska jama и Križna jama',
   // TODO(Webline): confirm before launch — the nearby Krokar & Rajhenavski Rog beech primeval
   // forests are UNESCO-listed; naming them explicitly is an option once the client approves.
-  'home.apartments.slovenia.b3': 'На краю одних из самых древних и лучше всего охраняемых лесов Европы',
+  'home.apartments.slovenia.b3': 'На краю одних из самых древних и охраняемых лесов Европы',
   'home.apartments.slovenia.alt': 'Макет: вид на дом снаружи в окружении словенской сельской местности', // MOCK — replace with real photo
   'home.apartments.nature.title': 'Для любителей природы',
   'home.apartments.nature.text': 'Просыпайтесь рядом с одним из красивейших лесов Европы, засыпайте под пение птиц, а если повезёт — к вам заглянут поздороваться олени.',
@@ -134,8 +134,8 @@ export const ru: UIDict = {
 
   // --- Home: editorial gallery block ---
   'home.gallery.eyebrow': 'Поближе', // MOCK
-  'home.gallery.title': 'Атмосфера дома — внутри и снаружи', // MOCK
-  'home.gallery.intro': 'Небольшая галерея тихих деталей: тёплые уголки, вечерний свет, лесные опушки и неспешные завтраки на свежем воздухе.',
+  'home.gallery.title': 'Уют внутри и снаружи',
+  'home.gallery.intro': 'Посмотрите на галерею, которая лучше всего передаёт уют, который вы получите, если остановитесь у нас.',
   'home.gallery.card.1': 'Тёплый приём',
   'home.gallery.card.2': 'Радуга над домом',
   'home.gallery.card.3': 'Вид с террасы',
@@ -146,21 +146,21 @@ export const ru: UIDict = {
   'home.gallery.card.8': 'Ужин за длинным столом', // MOCK
   'home.gallery.open': 'Открыть изображение', // MOCK
   'home.gallery.close': 'Закрыть изображение', // MOCK
-  'home.gallery.outro.title': 'Бронируйте больше, чем апартаменты', // MOCK
-  'home.gallery.outro.text': 'Приезжайте ради тихих комнат, оставайтесь ради неспешных утр, ужинов за длинным столом и ощущения, что есть место, где можно выдохнуть.', // MOCK
+  'home.gallery.outro.title': 'Получите больше, чем просто апартаменты',
+  'home.gallery.outro.text': 'Подарите себе настоящий отдых на природе — среди леса, тишины и свежего горного воздуха. Здесь можно забыть о городской суете, никуда не спешить и просто наслаждаться спокойствием.',
   'home.gallery.outro.cta': 'Забронировать отдых', // MOCK
 
   // --- Home: finding us (editorial map + scenic-route story) ---
   'home.findUs.eyebrow': 'Как нас найти', // MOCK
   'home.findUs.title': 'Где мы находимся и как к нам добраться', // MOCK
-  'home.findUs.intro': 'Мы спрятались на Травна-Горе, в словенском регионе Нотраньска, — достаточно близко, чтобы легко добраться, и достаточно далеко, чтобы почувствовать себя в другом мире.',
+  'home.findUs.intro': 'Planinski dom na Travni Gori находится в словенском регионе Notranjska — достаточно близко, чтобы сюда было легко добраться, и достаточно далеко от городской суеты, чтобы по-настоящему сменить обстановку.',
   'home.findUs.mapTitle': 'Карта с расположением Planinski dom na Travni gori', // a11y — iframe title
   // Floating map label
   'home.findUs.pin.name': 'Planinski dom na Travni gori',
   'home.findUs.pin.address': 'Travna Gora 42, 1317 Sodražica, Словения',
   'home.findUs.pin.link': 'Открыть в Google Картах',
   // Compact travel facts (beside the map)
-  'home.findUs.fact.time': '17 мин от Содражицы',
+  'home.findUs.fact.time': '17 мин от Sodražica',
   'home.findUs.fact.road': 'Лесная дорога',
   'home.findUs.fact.parking': 'Бесплатная парковка на месте',
   'home.findUs.fact.winter': 'В снег рекомендуется зимняя резина',
@@ -168,7 +168,7 @@ export const ru: UIDict = {
   'home.findUs.cta': 'Проложить маршрут',
   // Road-tip (centered icon + title + subtitle, with the route map beneath)
   'home.findUs.tip.title': 'Более простой путь в гору', // MOCK
-  'home.findUs.tip.text': 'Дело не в экономии минут, а в спокойной поездке. Езжайте по обозначенному маршруту через Содражицу: дорога широкая и ухоженная на всём пути наверх. Дорога южнее уже и проходит вдоль края крутого обрыва, поэтому её лучше оставить местным.',
+  'home.findUs.tip.text': 'Для комфортной поездки рекомендуем маршрут через Sodražica. Дорога здесь широкая, ухоженная и удобная на всём подъёме. Южный маршрут более узкий и проходит рядом с крутым склоном, поэтому для гостей он менее удобен.',
   'home.findUs.tip.alt': 'Карта маршрута: более простая и ухоженная дорога к Planinski dom na Travni gori', // MOCK — replace with final route map
   'home.findUs.tip.zoom': 'Увеличить карту маршрута',
   'home.findUs.tip.close': 'Закрыть увеличенную карту маршрута',
@@ -200,13 +200,14 @@ export const ru: UIDict = {
 
   // --- Accommodation page: hero / intro ---
   'accommodation.hero.eyebrow': 'Дом', // MOCK
-  'accommodation.hero.title': 'Уютные апартаменты с видом на настоящую словенскую природу', // MOCK
-  'accommodation.hero.lead': 'Высоко на плато Травна-Гора наш дом стоит прямо на опушке леса, где воздух прохладен, а по утрам над деревьями медленно оседает туман. Два уютных апартамента, согретые деревом и тишиной, созданы для гостей, которые приезжают, чтобы замедлиться.',
-  'accommodation.hero.body': 'Дорога наверх петляет через лес и выходит на плато; бесплатная парковка — прямо у двери. С террасы открывается вид поверх крон деревьев на долину внизу — отличное место для чашки кофе на рассвете или бокала вина, когда наползает туман.',
-  'accommodation.hero.imageAlt': 'Горный дом на Травна-Горе в окружении леса', // MOCK — replace with real photo
+  'accommodation.hero.title': 'Уютные апартаменты с видом на словенскую природу',
+  'accommodation.hero.lead': 'На плато Travna gora, прямо у леса, расположены уютные апартаменты для спокойного отдыха вдали от городской суеты. Здесь свежий горный воздух, тишина и настоящая словенская природа вокруг.',
+  // Two paragraphs — AccommodationHero splits the body on the blank line.
+  'accommodation.hero.body': 'Уютные интерьеры и спокойная атмосфера создают всё необходимое для комфортного отдыха. Это место для тех, кто хочет сменить привычный ритм, больше времени проводить на природе и просто никуда не спешить.\n\nДорога к дому проходит через лес и поднимается на плато. Бесплатная парковка находится рядом. С террасы открывается вид на лес и долину — отличное место для утреннего кофе или спокойного вечера на свежем воздухе.',
+  'accommodation.hero.imageAlt': 'Горный дом на Travna gora в окружении леса', // MOCK — replace with real photo
   'accommodation.hero.badge.title': 'Природа', // MOCK
   'accommodation.hero.badge.sub': 'со всех сторон', // MOCK
-  'accommodation.hero.fact.location': 'Травна-Гора, Нотраньска', // MOCK
+  'accommodation.hero.fact.location': 'Travna gora, Notranjska', // MOCK
   'accommodation.hero.fact.locationLabel': 'Где мы',
   'accommodation.hero.fact.altitude': '≈ 900 м над уровнем моря', // MOCK — confirm real altitude
   'accommodation.hero.fact.altitudeLabel': 'Высота',
@@ -283,23 +284,24 @@ export const ru: UIDict = {
   'accommodation.kitchen.eyebrow': 'За столом',
   'accommodation.kitchen.title': 'Завтрак и домашняя кухня',
   'accommodation.kitchen.lead': 'Нет ничего лучше запаха свежего хлеба и кофе, который по утрам разносится по дому. Завтрак здесь домашний, неторопливый и готовится так, как было всегда, — из местных сезонных продуктов, а не из пакетов.',
-  'accommodation.kitchen.body': 'Выйдите с ним на террасу, пока горный воздух ещё прохладен, или задержитесь за столом сколько захотите — утро на Травна-Горе создано для того, чтобы никуда не спешить. А если захочется приготовить что-то самим, наша полностью оборудованная гостевая кухня в вашем распоряжении — всё готово, когда бы ни проснулся аппетит.',
+  // Two paragraphs — AccommodationKitchen splits the body on the blank line.
+  'accommodation.kitchen.body': 'Начните утро с завтрака на террасе и свежего горного воздуха или просто подольше посидите за столом — здесь не нужно никуда спешить.\n\nЕсли захочется приготовить что-то самостоятельно, в вашем распоряжении полностью оборудованная кухня со всем необходимым.',
   'accommodation.kitchen.imageAlt': 'Деревенский стол, накрытый домашним завтраком', // MOCK — replace with real photo
-  'accommodation.kitchen.point1': 'Домашний завтрак, свежеприготовленный каждое утро',
-  'accommodation.kitchen.point2': 'Местные сезонные продукты из региона',
-  'accommodation.kitchen.point4': 'С радостью учтём особенности питания и аллергии по запросу',
+  'accommodation.kitchen.point1': 'Домашний завтрак, который готовится каждое утро из свежих продуктов.',
+  'accommodation.kitchen.point2': 'По возможности мы используем местные и сезонные продукты из региона.',
+  'accommodation.kitchen.point4': 'Особенности питания и аллергии можно заранее указать при бронировании — мы постараемся всё учесть.',
   'accommodation.kitchen.cta': 'Посмотреть меню',
 
   // --- Sauna (shared block: apartments page + activities page) ---
   // TODO(Webline): confirm copy with the client. The sauna is wood-fired and shared by all guests
   // — it is NOT private to a house (see the unit strings above, which still say otherwise).
-  'sauna.eyebrow': 'На территории',
   'sauna.title': 'Сауна на дровах',
   'sauna.shortTitle': 'Сауна', // heading used where the block stands on its own (activities page)
-  'sauna.body': 'После дня в лесу нет ничего лучше тепла, дерева и тишины. Сауна топится дровами, как здесь было всегда, — дайте ей как следует прогреться, а потом выйдите на прохладный горный воздух.',
-  'sauna.point1': 'Современная сауна со всем необходимым',
-  'sauna.point2': 'Расслабьтесь после долгого дня',
-  'sauna.point3': 'Польза для тела и души',
+  // Two paragraphs — Sauna and LandingFeature split the body on the blank line.
+  'sauna.body': 'После прогулок и активного дня на природе особенно приятно согреться и расслабиться в сауне. Она топится дровами и создаёт особую атмосферу тепла и уюта.\n\nДайте сауне хорошо прогреться, отдохните в тишине, а после выйдите на свежий прохладный воздух Travna gora. Отличный способ восстановить силы и завершить день в полном спокойствии.',
+  'sauna.point1': 'Современная сауна со всем необходимым для комфортного отдыха.',
+  'sauna.point2': 'Идеальное место, чтобы расслабиться после насыщенного дня.',
+  'sauna.point3': 'Тепло, тишина и отдых для тела и души.',
   'sauna.imageAlt1': 'Обшитая деревом сауна со стеклянной дверью и ведром',
   'sauna.imageAlt2': 'Душ рядом с сауной и деревянное ведро для обливания',
 
@@ -309,7 +311,7 @@ export const ru: UIDict = {
   'testimonials.score.meta': 'На основе 400 отзывов на Booking.com',
   'testimonials.eyebrow': 'Голоса гостей', // MOCK
   'testimonials.title': 'Что гости увозят с собой', // MOCK
-  'testimonials.intro': 'Не верьте нам на слово — вот что говорят гости после отдыха на Травна-Горе.',
+  'testimonials.intro': 'Не верьте нам на слово — вот что говорят гости после отдыха у нас.',
   'testimonials.t1.quote': 'Мы приехали очень поздно, но нас всё равно встретили и заселили — чудесное место. Отдельное спасибо за вкусный завтрак! Красивые виды.',
   'testimonials.t1.author': 'Ayura7',
   'testimonials.t1.meta': 'Путешествие в одиночку, проживание в июне',
@@ -336,10 +338,11 @@ export const ru: UIDict = {
   // --- Activities page — "Discover Slovenia from Travna Gora" ---
   // Real orientational content (nearby sights + approximate drive times supplied by the client).
   // Drive times are approximate — confirm before launch.
-  'activities.eyebrow': 'Вокруг Травна-Горы',
-  'activities.title': 'Открывайте Словению с Травна-Горы',
-  'activities.intro': 'Травна-Гора — тихое место, где можно замедлиться, но из этого лесного уголка Словении до многих самых любимых достопримечательностей страны легко добраться за день. Просыпайтесь под пение птиц и дышите лесным воздухом, а затем отправляйтесь к пещерам, замкам, озёрам и в столицу — до большинства из них около часа езды.',
-  'activities.hero.imageAlt': 'Лесной пейзаж вокруг Травна-Горы', // MOCK photo — TODO(Webline): swap alt with real photo
+  'activities.eyebrow': 'Вокруг Travna gora',
+  'activities.title': 'Открывайте Словению с Travna gora',
+  // Two paragraphs — the activities hero splits the intro on the blank line.
+  'activities.intro': 'Travna gora — спокойное место для отдыха на природе и удобная отправная точка для путешествий по Словении. Отсюда легко добраться до многих известных достопримечательностей страны — пещер, замков, озёр и Ljubljana.\n\nУтро можно начать в тишине среди леса, а затем отправиться исследовать Словению. До большинства популярных мест — около часа на автомобиле.',
+  'activities.hero.imageAlt': 'Лесной пейзаж вокруг Travna gora', // MOCK photo — TODO(Webline): swap alt with real photo
   // Badge figure restates the approximate drive time already in the intro copy — confirm before launch.
   'activities.hero.badge.title': '≈ 1 час',
   'activities.hero.badge.sub': 'до большинства достопримечательностей',
@@ -347,17 +350,17 @@ export const ru: UIDict = {
   'activities.hero.pill.caves': 'Карстовые пещеры',
   'activities.hero.pill.castles': 'Замки',
   'activities.hero.pill.lakes': 'Озёра и леса',
-  'activities.hero.pill.capital': 'Любляна',
+  'activities.hero.pill.capital': 'Ljubljana',
 
   // Doorstep activities — image cards rendered from the `activities` content collection.
   'activities.doorstep.eyebrow': 'Прямо у порога',
   'activities.doorstep.title': 'Сразу за дверью',
-  'activities.doorstep.intro': 'Далеко ехать не нужно. Тропы, лесные дороги и смотровые площадки начинаются прямо на Травна-Горе и вокруг соседней горной хижины Koča na Kamnem Griču.',
+  'activities.doorstep.intro': 'Чтобы оказаться на природе, никуда ехать не нужно. Прогулочные тропы, лесные дороги и красивые смотровые точки начинаются прямо на Travna gora и продолжаются вокруг соседней горной хижины Koča na Kamnem Griču.',
 
   // Day-trip destinations — cards rendered from the `destinations` content collection.
   'activities.trips.eyebrow': 'Лёгкие поездки на день',
-  'activities.trips.title': 'Словения в часе езды',
-  'activities.trips.intro': 'Травна-Гора лежит между Любляной и знаменитыми карстовыми пещерами Словении, поэтому это идеальная база для путешествий: до большинства этих мест заметно меньше часа езды.',
+  'activities.trips.title': 'Словения рядом',
+  'activities.trips.intro': 'Travna gora лежит между Ljubljana и знаменитыми карстовыми пещерами Словении, поэтому это идеальная база для путешествий: до большинства этих мест заметно меньше часа езды.',
   'activities.trips.driveLabel': 'В пути примерно', // label prefix on each distance badge
   'activities.trips.directions': 'Проложить маршрут', // link out to Google Maps, opens in a new tab
 
@@ -369,17 +372,17 @@ export const ru: UIDict = {
 
   // Why guests love it — benefits list (icon + text).
   'activities.why.eyebrow': 'За что гости любят это место',
-  'activities.why.title': 'Тихий уголок рядом со всем',
-  'activities.why.b1': 'Полный покой — никакого городского шума',
-  'activities.why.b2': 'На краю одних из крупнейших лесов Европы',
-  'activities.why.b3': 'Возможность увидеть бурых медведей в дикой природе',
-  'activities.why.b4': 'Между Любляной и регионом карстовых пещер',
+  'activities.why.title': 'Тишина природы и удобное расположение',
+  'activities.why.b1': 'Тишина вдали от города.',
+  'activities.why.b2': 'Большие лесные массивы рядом.',
+  'activities.why.b3': 'Бурые медведи в дикой природе.',
+  'activities.why.b4': 'Между Ljubljana и карстовым регионом.',
 
   // --- Menu page ---
   'menu.title': 'Меню',
   'menu.intro': 'Домашние блюда из местных продуктов, которые подаются в столовой дома.', // MOCK
   'menu.hero.eyebrow': 'С нашей кухни', // MOCK
-  'menu.hero.lead': 'Всё здесь готовится в доме, как было всегда: семейные рецепты, местные сезонные продукты и никаких полуфабрикатов. Утро начинается с домашнего завтрака, позже кухня переходит к согревающим супам и сытным горным блюдам, а на десерт — что-нибудь сладкое.',
+  'menu.hero.lead': 'Мы готовим из свежих местных и сезонных продуктов, используя проверенные домашние рецепты. Утром подаём домашний завтрак, а в течение дня — горячие супы, сытные блюда и домашние десерты.',
   'menu.hero.imageAlt': 'Столовая дома, накрытая к трапезе', // MOCK — real photo, alt TODO(Webline)
   'menu.hero.badge.title': 'Домашнее', // MOCK
   'menu.hero.badge.sub': 'семейные рецепты', // MOCK
@@ -422,14 +425,35 @@ export const ru: UIDict = {
   'booking.widgetTitle': 'Система бронирования', // iframe title — a11y
   'booking.placeholder': 'Здесь появится виджет бронирования.', // shown until Bentral embed is pasted
 
-  // --- Hidden advertising landing (/lp) ---
-  'lp.hero.title': 'Заголовок специального предложения',
-  'lp.hero.subtitle': 'Короткая поясняющая строка.',
-  'lp.reason1': 'Причина забронировать №1',
-  'lp.reason2': 'Причина забронировать №2',
-  'lp.reason3': 'Причина забронировать №3',
-  'lp.socialProof': 'Социальное доказательство / отзыв.',
-  'lp.cta': 'Забронировать отдых',
+  // --- Hidden advertising landing (/social) ---
+  // The page social profiles and ads link to: hero → the place → rooms → sauna → restaurant →
+  // reviews → reservation widget. It is built from the blocks of the other pages and reads their
+  // strings (home.hero.subtitle, home.welcome.*, home.apartments.rooms.*, accommodation.hero.pill.*,
+  // sauna.*, menu.hero.*, testimonials.*, booking.title, home.bookDirect.*), so only what is
+  // specific to the landing lives here.
+  // TODO(Webline): draft copy — review with the client before running campaigns. "About an hour
+  // from Ljubljana" restates the client-supplied drive time (≈ 55–60 min, destinations collection).
+  'lp.meta.description': 'Горный дом в лесу примерно в часе езды от Ljubljana: уютные апартаменты, сауна на дровах и домашняя кухня. Проверьте наличие мест и бронируйте напрямую.', // also the link-preview text when the page is shared
+  'lp.cta': 'Выбрать даты', // every booking CTA on the landing — kept short so it fits a phone button on one line
+  'lp.hero.title': 'Отдых в лесу на Travna gora',
+  'lp.hero.intro': 'Уютные апартаменты, сауна на дровах и домашняя кухня — на лесистом плато примерно в часе езды от Ljubljana.',
+  'lp.stay.alt.balcony': 'Деревянный балкон главного дома с видом на лес',
+  'lp.stay.alt.attic': 'Мансардный номер с двуспальной кроватью и окном в крыше',
+  'lp.stay.alt.bathroom': 'Собственная ванная комната с душем',
+  'lp.atmosphere.title': 'Дружеская атмосфера',
+  'lp.atmosphere.text': 'Гости часто пишут нам об одном и том же: здесь быстро перестаёшь чувствовать себя приезжим. Хозяева всегда рядом, за столом находится место каждому, а вечера затягиваются за едой и разговорами.', // MOCK
+  'lp.atmosphere.alt.1': 'Радуга над домом и лугом перед ним', // MOCK — stand-in photo
+  'lp.atmosphere.alt.2': 'Столики и стулья на террасе с видом на луг и лес', // MOCK — stand-in photo
+  'lp.atmosphere.alt.3': 'Люди на залитом солнцем лугу под домами', // MOCK — stand-in photo
+  'lp.atmosphere.alt.4': 'Стол для пикника на лугу, под лесом стелется туман', // MOCK — stand-in photo
+  'lp.atmosphere.alt.5': 'Большое тенистое дерево, столы для пикника и деревянная приветственная вывеска на лугу у дома', // MOCK — stand-in photo
+  'lp.atmosphere.alt.6': 'Огонь в каменном камине дома', // MOCK — stand-in photo
+  'lp.sauna.imageAlt': 'Сауна на дровах изнутри: деревянные полки в тёплом свете рядом с печью',
+  'lp.restaurant.title': 'Ресторан с домашней кухней',
+  'lp.restaurant.favorites': 'Любимые блюда гостей', // heads the dishes flagged `featured` in the menu collection
+  'lp.restaurant.imageAlt': 'Тарелка домашней еды с нашей кухни',
+  'lp.reservation.intro': 'Выберите даты и забронируйте напрямую у нас — дом, сауна и горячий ужин уже ждут вас.',
+  'lp.reservation.help': 'Остались вопросы перед бронированием? Позвоните или напишите нам:',
 
   // --- Footer ---
   'footer.contact.title': 'Контакты',

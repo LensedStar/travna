@@ -227,6 +227,10 @@
   color: color-mix(in srgb, var(--color-text) 65%, transparent);
 }
 
+.acc-hero__text + .acc-hero__text {
+  margin-top: var(--space-sm);
+}
+
 // Small amenity pills under the intro copy — compact, low-key, line-icon + short label.
 .acc-hero__pills {
   display: flex;

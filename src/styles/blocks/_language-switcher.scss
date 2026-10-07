@@ -38,7 +38,9 @@
   z-index: 110;
   display: flex;
   flex-direction: column;
-  min-width: var(--space-3xl);
+  gap: calc(var(--space-xs) / 2);
+  // At least as wide as the toggle, so the panel hangs squarely under it.
+  min-width: 100%;
   margin: var(--space-xs) 0 0;
   padding: var(--space-xs);
   list-style: none;
@@ -47,15 +49,18 @@
   box-shadow: var(--shadow-card);
 }
 
+// The options are links, i.e. inline by default: without `display: block` their padding takes no
+// space, so the rows overlap and the hover pill hugs the text instead of filling the row.
 .language-switcher__option {
-  width: 100%;
-  padding: var(--space-xs) var(--space-sm);
+  display: block;
+  padding: var(--space-xs) var(--space-md);
   font-family: var(--font-body);
   font-size: var(--text-body);
-  text-align: left;
+  line-height: var(--leading-tight);
+  text-align: center;
+  white-space: nowrap;
   color: var(--color-text);
   background-color: transparent;
-  border: 0;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition:
@@ -63,11 +68,17 @@
     background-color var(--motion-duration-fast) var(--motion-ease);
 }
 
+// A light forest wash rather than a solid fill — the same forest the nav links turn on hover.
+// Forest text on that wash over the page background = 6.2:1 (AA).
 .language-switcher__option:hover,
 .language-switcher__option:focus-visible {
-  // Cocoa text on the mist hover background = 6.8:1 (AA). Forest text would be 3.9:1, below AA (TASK-031).
-  color: var(--color-text);
-  background-color: var(--color-mist);
+  color: var(--color-forest);
+  background-color: color-mix(in srgb, var(--color-forest) 10%, transparent);
+}
+
+// The language being viewed.
+.language-switcher__option[aria-current='true'] {
+  font-weight: var(--weight-bold);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -98,6 +98,10 @@
   color: var(--color-text);
 }
 
+.act-hero__lead + .act-hero__lead {
+  margin-top: var(--space-sm);
+}
+
 // Highlight pills under the intro copy — compact, line-icon + short label.
 .act-hero__pills {
   display: flex;

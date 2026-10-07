@@ -86,6 +86,9 @@ const menu = defineCollection({
             description: z.string().optional(),
             price: z.string().optional(), // string to keep currency/format flexible
             allergens: z.array(z.string()).optional(), // allergen codes, see allergenLegend
+            // Shown in the landing's (/social) "guest favorites" teaser — the dishes guests name in
+            // their reviews. Flag the same items in every locale's menu.json.
+            featured: z.boolean().optional(),
           })
         ),
       })

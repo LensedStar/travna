@@ -118,6 +118,8 @@
   // Warm wood-toned frame, matching the heritage timeline photo treatment.
   outline: 2px solid var(--color-wood);
   outline-offset: calc(var(--space-xs) / 2);
+  // Vertical scrolling stays with the page; horizontal swipes change the photo (ShowcaseGallery).
+  touch-action: pan-y pinch-zoom;
 }
 
 .house-showcase__image-button {

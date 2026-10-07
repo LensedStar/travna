@@ -11,7 +11,7 @@
 import SectionHeader from '../ui/SectionHeader.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import { useTranslations } from '../../i18n';
+import { useTranslations, localizePath } from '../../i18n';
 
 const t = useTranslations(Astro.currentLocale);
 
@@ -157,7 +157,7 @@ const slides = [
 
             <div class="apartments__slide-cta">
               {slides.map((p, i) => (
-                <Button href={p.href} variant="primary" class={`apartments__cta apartments__cta--${i}`}>
+                <Button href={localizePath(p.href, Astro.currentLocale)} variant="primary" class={`apartments__cta apartments__cta--${i}`}>
                   {t(p.cta)}
                 </Button>
               ))}

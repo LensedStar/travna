@@ -6,32 +6,44 @@
 // + round badge + divider + pills). Pure .astro, zero client JS. Visible strings come from the
 // i18n dictionary; styling lives in src/styles/blocks/_home-welcome.scss. Copy is MOCK placeholder
 // (see en.ts // TODO).
+// Also opens the landing (/social) under the same hero: there it gets an anchor `id` and swaps the
+// button for the landing's own CTA through the `cta` slot.
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import { useTranslations, localizePath } from '../../i18n';
 
+interface Props {
+  id?: string;
+  // Pill keys to leave out. The landing drops the pets pill: it sat alone on a row of its own and
+  // pushed the button down.
+  skipPills?: string[];
+}
+const { id, skipPills = [] } = Astro.props;
+
 const t = useTranslations(Astro.currentLocale);
 
 // House-highlight pills — line-icon + i18n key. Reorder/extend here without touching the layout.
-const pills = [
+const allPills = [
   { icon: 'bed', key: 'home.welcome.pill.apartments' },
   { icon: 'flame', key: 'home.welcome.pill.kitchen' },
   { icon: 'trees', key: 'home.welcome.pill.forest' },
   { icon: 'paw-print', key: 'home.welcome.pill.pets' },
 ] as const;
+const pills = allPills.filter(({ key }) => !skipPills.includes(key));
 ---
-<section class="home-welcome reveal">
+<section class="home-welcome reveal" id={id}>
   <div class="home-welcome__inner">
     <div class="home-welcome__media-col">
       <div class="home-welcome__ring" aria-hidden="true"></div>
 
       <div class="home-welcome__media">
+        {/* WebP derivative of post-hero-main-house-image.png — see scripts/make-image-derivatives.mjs. */}
         <img
           class="home-welcome__photo"
-          src="/images/post-hero-main-house-image.png"
+          src="/images/post-hero-main-house-image.webp"
           alt={t('home.welcome.imageAlt')}
-          width="1085"
-          height="1450"
+          width="800"
+          height="1069"
           loading="eager"
           decoding="async"
         />
@@ -58,7 +70,9 @@ const pills = [
       </ul>
 
       <div class="home-welcome__cta">
-        <Button href={localizePath('/accommodation', Astro.currentLocale)} variant="secondary">{t('cta.viewAccommodation')}</Button>
+        <slot name="cta">
+          <Button href={localizePath('/accommodation', Astro.currentLocale)} variant="secondary">{t('cta.viewAccommodation')}</Button>
+        </slot>
       </div>
     </div>
   </div>

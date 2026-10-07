@@ -1,0 +1,62 @@
+---
+// LandingReservation.astro — the landing's (/social) closing section: the reservation system itself.
+// Every CTA on the landing scrolls here (the section id comes from landingGoal.ts). Short heading,
+// the three book-direct benefits as quiet pills, then the isolated Bentral widget — still pasted
+// in ONE file only (BentralEmbed.astro) — and a contact line for guests who would rather ask first.
+// Pure .astro, zero client JS. Visible strings come from the i18n dictionary; styling lives in
+// src/styles/blocks/_landing.scss (the widget frame itself is styled by blocks/_booking.scss).
+import SectionHeader from '../ui/SectionHeader.astro';
+import Icon from '../ui/Icon.astro';
+import BentralEmbed from '../booking/BentralEmbed.astro';
+import { useTranslations } from '../../i18n';
+import { landingGoals } from './landingGoal';
+
+const t = useTranslations(Astro.currentLocale);
+
+// Same three benefits (and icons) as the home "Book direct" block — titles only.
+const perks = [
+  { icon: 'check', label: t('home.bookDirect.benefit1Title') },
+  { icon: 'tag', label: t('home.bookDirect.benefit2Title') },
+  { icon: 'message-circle', label: t('home.bookDirect.benefit3Title') },
+];
+
+// Contact links are derived from the dictionary values, so replacing the placeholder phone / email
+// there updates the links too. TODO(Webline): real phone + email before launch.
+const phone = t('footer.contact.phone');
+const email = t('footer.contact.email');
+const telHref = `tel:${phone.replace(/[^\d+]/g, '')}`;
+const mailHref = `mailto:${email}`;
+---
+<section class="landing-book" id={landingGoals.booking.anchor}>
+  <div class="landing-book__inner">
+    <SectionHeader
+      title={t('booking.title')}
+      subtitle={t('lp.reservation.intro')}
+      align="center"
+      class="landing-book__header"
+    />
+
+    <ul class="landing-book__perks" role="list">
+      {perks.map(({ icon, label }) => (
+        <li class="landing-book__perk">
+          <Icon name={icon} class="landing-book__perk-icon" />
+          <span>{label}</span>
+        </li>
+      ))}
+    </ul>
+
+    <BentralEmbed />
+
+    <p class="landing-book__help">
+      <span>{t('lp.reservation.help')}</span>
+      <a class="landing-book__help-link" href={telHref}>
+        <Icon name="phone" class="landing-book__help-icon" />
+        {phone}
+      </a>
+      <a class="landing-book__help-link" href={mailHref}>
+        <Icon name="mail" class="landing-book__help-icon" />
+        {email}
+      </a>
+    </p>
+  </div>
+</section>

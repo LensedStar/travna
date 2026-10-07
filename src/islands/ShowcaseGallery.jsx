@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 // Line-style glyphs mirroring src/components/ui/Icon.astro (Lucide weight) so the React islands
 // stay visually consistent with the .astro icon set — no emoji. Shared with HouseShowcase.jsx.
@@ -37,18 +38,24 @@ export function Glyph({ name, className = 'house-showcase__tag-icon' }) {
   );
 }
 
+// Minimum horizontal travel (px) for a touch to count as a swipe rather than a tap.
+const SWIPE_THRESHOLD = 40;
+
 /**
  * The photo slider shared by the showcases on the site: framed main photo with a zoom affordance,
  * circular arrows, an index badge, a thumbnail strip and a full-screen lightbox. Used by the
- * houses/rooms showcases (HouseShowcase.jsx) and by the sauna block, so those galleries behave and
- * look identical. Callers that swap the whole image set (e.g. the house-type switcher) pass a
- * `key` alongside the images so the active index resets with them.
+ * houses/rooms showcases (HouseShowcase.jsx), the sauna block and the landing's feature rows, so
+ * those galleries behave and look identical. Callers that swap the whole image set (e.g. the
+ * house-type switcher) pass a `key` alongside the images so the active index resets with them.
+ * An image may carry a small `thumb` for the thumbnail strip; without one the strip falls back to
+ * the full-size `src`.
  *
- * @param {{ images?: Array<{ src: string, alt?: string }>, label?: string, strings?: Record<string, string> }} props
+ * @param {{ images?: Array<{ src: string, alt?: string, thumb?: string }>, label?: string, strings?: Record<string, string> }} props
  */
 export default function ShowcaseGallery({ images = [], label = '', strings = {} }) {
   const [activeImage, setActiveImage] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const touchStart = useRef(null);
 
   const imageCount = images.length;
   const image = images[activeImage] ?? null;
@@ -63,6 +70,29 @@ export default function ShowcaseGallery({ images = [], label = '', strings = {} 
       setActiveImage((current) => (current + 1) % imageCount);
     },
   }), [imageCount]);
+
+  // Swipe left/right on the photo (and in the lightbox) to change it. A mostly-vertical gesture is
+  // a page scroll and is left alone; a swipe never produces a click, so it can't open the lightbox.
+  const swipeHandlers = {
+    onTouchStart: (event) => {
+      const touch = event.changedTouches[0];
+      touchStart.current = { x: touch.clientX, y: touch.clientY };
+    },
+    onTouchEnd: (event) => {
+      const start = touchStart.current;
+      touchStart.current = null;
+      if (!start) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - start.x;
+      const dy = touch.clientY - start.y;
+      if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) <= Math.abs(dy)) return;
+      if (dx < 0) nextImage();
+      else prevImage();
+    },
+    onTouchCancel: () => {
+      touchStart.current = null;
+    },
+  };
 
   // On phones the thumbnails are one horizontally scrolling row; keep the active one in view when
   // the photo changes via the arrows or the lightbox. Scrolls only the row, never the page.
@@ -113,7 +143,7 @@ export default function ShowcaseGallery({ images = [], label = '', strings = {} 
   return (
     <>
       <div className="house-showcase__media">
-        <div className="house-showcase__frame">
+        <div className="house-showcase__frame" {...swipeHandlers}>
           <button
             type="button"
             className="house-showcase__image-button"
@@ -168,14 +198,17 @@ export default function ShowcaseGallery({ images = [], label = '', strings = {} 
                 aria-label={`${label} ${index + 1}`}
                 aria-selected={index === activeImage}
               >
-                <img className="house-showcase__thumb-image" src={item.src} alt="" loading="lazy" decoding="async" />
+                <img className="house-showcase__thumb-image" src={item.thumb ?? item.src} alt="" loading="lazy" decoding="async" />
               </button>
             ))}
           </div>
         )}
       </div>
 
-      {isLightboxOpen && (
+      {/* Portalled to <body>: rendered in place, the overlay is painted inside whatever stacking
+          context its section creates (an inner wrapper with `z-index: 1` is enough), and the fixed
+          site header then sits on top of it — covering the close button. */}
+      {isLightboxOpen && createPortal(
         <div
           className="house-showcase__lightbox"
           role="dialog"
@@ -213,7 +246,11 @@ export default function ShowcaseGallery({ images = [], label = '', strings = {} 
             </>
           )}
 
-          <figure className="house-showcase__lightbox-figure" onClick={(event) => event.stopPropagation()}>
+          <figure
+            className="house-showcase__lightbox-figure"
+            onClick={(event) => event.stopPropagation()}
+            {...swipeHandlers}
+          >
             <img
               className="house-showcase__lightbox-image"
               src={image.src}
@@ -224,7 +261,8 @@ export default function ShowcaseGallery({ images = [], label = '', strings = {} 
               {label} · {activeImage + 1}/{imageCount}
             </figcaption>
           </figure>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

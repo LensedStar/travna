@@ -45,7 +45,10 @@ const t = useTranslations(Astro.currentLocale);
       <h1 class="acc-hero__title">{t('accommodation.hero.title')}</h1>
 
       <p class="acc-hero__lead">{t('accommodation.hero.lead')}</p>
-      <p class="acc-hero__text">{t('accommodation.hero.body')}</p>
+      <!-- A blank line in the body string starts a new paragraph. -->
+      {t('accommodation.hero.body').split('\n\n').map((paragraph) => (
+        <p class="acc-hero__text">{paragraph}</p>
+      ))}
 
       <ul class="acc-hero__pills" role="list">
         <li class="acc-hero__pill">

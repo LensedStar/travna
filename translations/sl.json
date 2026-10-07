@@ -1,6 +1,6 @@
 {
   "_readme": {
-    "purpose": "Every translatable string on the Dom na Travni gori website, in one file. Source locale: en. This file: sl.",
+    "purpose": "Every translatable string on the Dom na Travni gori website, in one file. Locale: sl.",
     "howToTranslate": [
       "Translate ONLY the values. Never change, translate, reorder or drop a key.",
       "Return the exact same JSON shape with the same key set — one file per target locale.",
@@ -12,15 +12,12 @@
       "A value that is an empty string is intentionally unused — keep it empty, keep the key."
     ],
     "sections": {
-      "ui": "UI strings from src/i18n/en.ts — key set must match exactly when creating src/i18n/<locale>.ts.",
-      "content": "Content-collection fields from src/content/. Key format: <collection>.<entry-id>.<field>, and menu.sections.<i>.items.<j>.<field> for the menu."
+      "ui": "UI strings — becomes src/i18n/<locale>.ts (the key set must match exactly).",
+      "content": "Content-collection fields — becomes src/content/<collection>/<locale>/*.json. Key format: <collection>.<entry-id>.<field>, and menu.sections.<i>.items.<j>.<field> for the menu."
     },
-    "generatedFrom": [
-      "src/i18n/en.ts",
-      "src/content/**/*.json"
-    ],
+    "generatedBy": "node scripts/export-translations.mjs sl",
     "counts": {
-      "ui": 364,
+      "ui": 377,
       "content": 107
     }
   },
@@ -39,9 +36,9 @@
     "nav.menu": "Jedilnik",
     "nav.contact": "Kontakt",
     "nav.book": "Rezerviraj",
-    "lang.current": "SI",
+    "lang.en": "EN",
     "lang.label": "Izberite jezik",
-    "lang.si": "SI",
+    "lang.sl": "SI",
     "lang.ru": "RU",
     "cta.checkAvailability": "Preverite razpoložljivost",
     "cta.exploreArea": "Raziščite okolico",
@@ -255,7 +252,6 @@
     "accommodation.kitchen.point2": "Lokalne, sezonske sestavine iz regije",
     "accommodation.kitchen.point4": "Na željo z veseljem upoštevamo posebne prehranske potrebe in alergije",
     "accommodation.kitchen.cta": "Oglejte si jedilnik",
-    "sauna.eyebrow": "Na posestvu",
     "sauna.title": "Savna na drva",
     "sauna.shortTitle": "Savna",
     "sauna.body": "Po dnevu v gozdu ni nič boljšega od toplote, lesa in tišine. Savna se kuri na drva, tako kot je bilo tu od nekdaj — dajte ji čas, da se dobro segreje, nato pa stopite ven na hladen gorski zrak.",
@@ -359,13 +355,27 @@
     "booking.intro": "Kratek uvod nad rezervacijskim pripomočkom.",
     "booking.widgetTitle": "Rezervacijski sistem",
     "booking.placeholder": "Tu se bo prikazal rezervacijski pripomoček.",
-    "lp.hero.title": "Naslov posebne ponudbe",
-    "lp.hero.subtitle": "Kratka podporna vrstica.",
-    "lp.reason1": "Razlog za rezervacijo št. 1",
-    "lp.reason2": "Razlog za rezervacijo št. 2",
-    "lp.reason3": "Razlog za rezervacijo št. 3",
-    "lp.socialProof": "Družbeni dokaz / mnenje gosta.",
-    "lp.cta": "Rezervirajte bivanje",
+    "lp.meta.description": "Planinski dom sredi gozda, približno uro vožnje iz Ljubljane: prijetni apartmaji, savna na drva in domača kuhinja. Preverite razpoložljivost in rezervirajte neposredno.",
+    "lp.cta": "Preverite termine",
+    "lp.hero.title": "Gozdni oddih na Travni gori",
+    "lp.hero.intro": "Prijetni apartmaji, savna na drva in domača kuhinja — na gozdnati planoti, približno uro vožnje iz Ljubljane.",
+    "lp.stay.alt.balcony": "Lesen balkon glavne hiše s pogledom na gozd",
+    "lp.stay.alt.attic": "Mansardna soba z zakonsko posteljo in strešnim oknom",
+    "lp.stay.alt.bathroom": "Lastna kopalnica s prho",
+    "lp.atmosphere.title": "Prijateljsko vzdušje",
+    "lp.atmosphere.text": "Gostje nam pogosto pišejo isto: tukaj se hitro nehaš počutiti kot obiskovalec. Gostitelji so vedno blizu, za mizo se najde prostor za vsakogar, večeri pa se zavlečejo ob hrani in pogovoru.",
+    "lp.atmosphere.alt.1": "Mavrica nad hišo in travnikom pred njo",
+    "lp.atmosphere.alt.2": "Mize in stoli na terasi s pogledom na travnik in gozd",
+    "lp.atmosphere.alt.3": "Ljudje na s soncem obsijanem travniku pod hišami",
+    "lp.atmosphere.alt.4": "Piknik miza na travniku, pod gozdom leži megla",
+    "lp.atmosphere.alt.5": "Veliko senčno drevo, piknik mize in lesena tabla z dobrodošlico na travniku ob hiši",
+    "lp.atmosphere.alt.6": "Ogenj v kamnitem kaminu hiše",
+    "lp.sauna.imageAlt": "Notranjost savne na drva: lesene klopi v topli svetlobi ob peči",
+    "lp.restaurant.title": "Restavracija z domačo kuhinjo",
+    "lp.restaurant.favorites": "Priljubljeno med gosti",
+    "lp.restaurant.imageAlt": "Krožnik domače hrane iz hišne kuhinje",
+    "lp.reservation.intro": "Izberite termin in rezervirajte neposredno pri nas — hiša, savna in topel obrok vas že čakajo.",
+    "lp.reservation.help": "Imate pred rezervacijo vprašanje? Pokličite nas ali nam pišite:",
     "footer.contact.title": "Kontakt",
     "footer.contact.phone": "+386 0 000 000",
     "footer.contact.email": "info@example.com",
