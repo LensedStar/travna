@@ -6,30 +6,36 @@
 // + round badge + divider + pills). Pure .astro, zero client JS. Visible strings come from the
 // i18n dictionary; styling lives in src/styles/blocks/_home-welcome.scss. Copy is MOCK placeholder
 // (see en.ts // TODO).
-// Also opens the landing (/social) under the same hero: there it gets an anchor `id` and swaps the
-// button for the landing's own CTA through the `cta` slot.
+// Also opens the landing (/social) under the same hero: there it gets an anchor `id`, the landing's
+// own title, text and pills, and swaps the button for the landing's own CTA through the `cta` slot.
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import { useTranslations, localizePath } from '../../i18n';
 
 interface Props {
   id?: string;
-  // Pill keys to leave out. The landing drops the pets pill: it sat alone on a row of its own and
-  // pushed the button down.
-  skipPills?: string[];
+  // Copy overrides — the home page passes none and gets the home strings below. The landing passes
+  // three pills, not four: a fourth sat alone on a row of its own and pushed the button down.
+  title?: string;
+  lead?: string;
+  pills?: { icon: string; label: string }[];
 }
-const { id, skipPills = [] } = Astro.props;
-
 const t = useTranslations(Astro.currentLocale);
 
-// House-highlight pills — line-icon + i18n key. Reorder/extend here without touching the layout.
-const allPills = [
-  { icon: 'bed', key: 'home.welcome.pill.apartments' },
-  { icon: 'flame', key: 'home.welcome.pill.kitchen' },
-  { icon: 'trees', key: 'home.welcome.pill.forest' },
-  { icon: 'paw-print', key: 'home.welcome.pill.pets' },
-] as const;
-const pills = allPills.filter(({ key }) => !skipPills.includes(key));
+// House-highlight pills — line-icon + label. Reorder/extend here without touching the layout.
+const homePills = [
+  { icon: 'bed', label: t('home.welcome.pill.apartments') },
+  { icon: 'flame', label: t('home.welcome.pill.kitchen') },
+  { icon: 'trees', label: t('home.welcome.pill.forest') },
+  { icon: 'paw-print', label: t('home.welcome.pill.pets') },
+];
+
+const {
+  id,
+  title = t('home.welcome.title'),
+  lead = t('home.welcome.lead'),
+  pills = homePills,
+} = Astro.props;
 ---
 <section class="home-welcome reveal" id={id}>
   <div class="home-welcome__inner">
@@ -56,15 +62,15 @@ const pills = allPills.filter(({ key }) => !skipPills.includes(key));
     </div>
 
     <div class="home-welcome__body">
-      <h2 class="home-welcome__title">{t('home.welcome.title')}</h2>
+      <h2 class="home-welcome__title">{title}</h2>
 
-      <p class="home-welcome__lead">{t('home.welcome.lead')}</p>
+      <p class="home-welcome__lead">{lead}</p>
 
       <ul class="home-welcome__pills" role="list">
-        {pills.map(({ icon, key }) => (
+        {pills.map(({ icon, label }) => (
           <li class="home-welcome__pill">
             <Icon name={icon} class="home-welcome__pill-icon" />
-            <span>{t(key)}</span>
+            <span>{label}</span>
           </li>
         ))}
       </ul>

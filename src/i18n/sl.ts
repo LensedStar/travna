@@ -262,43 +262,69 @@ export const sl: UIDict = {
   'accommodation.units.title': 'Hiše in sobe', // MOCK
   'accommodation.units.intro':
     'Lorem ipsum dolor sit amet — izberite celo hišo samo zase ali prijetno sobo v glavni stavbi.', // MOCK
-  // Houses group
-  'accommodation.units.houses.title': 'Samostojne hiše', // MOCK
+  // Houses group. Names, capacities and the room list are the client's own description (2026-10-08):
+  // two mobile houses — no. 1 for 6 guests (three rooms, kitchen, two WCs, shower, terrace) and
+  // no. 3, "house three", for 5 guests; there is no number 2 — plus the sauna, which in summer is
+  // let as a mobile house for 2. The client said nothing more about house 3, so the rest of its copy
+  // describes only what the client's photos show — TODO(Webline): confirm with the client.
+  // Translated from the EN wording — TODO(Webline): native read.
+  'accommodation.units.houses.title': 'Mobilne hiške',
   'accommodation.units.houses.text':
-    'Počitek z družino ali v dvoje v lastni samostojni hiši — z lastno savno in lastno kuhinjo.', // MOCK
-  'accommodation.units.house1.name': 'Družinska hiša', // MOCK
-  'accommodation.units.house1.text': 'Cela hiša samo za vas — zaseben vhod, lastna kuhinja in oprema za žar, za 1–6 oseb.', // MOCK
-  'accommodation.units.house1.capacity': 'Za 1–6 oseb', // MOCK
-  'accommodation.units.house1.size': 'Kuhinja · terasa', // MOCK
-  'accommodation.units.house1.tag.sleeps': 'Za 1–6 oseb', // MOCK
-  'accommodation.units.house1.tag.size': '44 m²', // MOCK
-  'accommodation.units.house1.tag.sauna': 'Savna na drva', // MOCK
-  'accommodation.units.house1.tag.bbq': 'Lastna kuhinja in žar', // MOCK
-  'accommodation.units.house1.alt': 'Terasa hiše s pogledom na gozd', // MOCK — replace with real photo
-  'accommodation.units.house2.name': 'Mobilna hiška', // MOCK
-  'accommodation.units.house2.text': 'Prijetna mobilna hiška z zasebnim vhodom, savno, teraso in opremo za žar — za največ 3 osebe.', // MOCK
-  'accommodation.units.house2.capacity': 'Do 3 osebe', // MOCK — TODO(Webline): confirm the real capacity
-  'accommodation.units.house2.size': '1 spalnica · kuhinja · vrt', // MOCK
-  'accommodation.units.house2.tag.sleeps': 'Do 3 osebe', // MOCK
-  'accommodation.units.house2.tag.bedrooms': '1 spalnica', // MOCK
-  'accommodation.units.house2.tag.size': '35 m²', // MOCK
-  'accommodation.units.house2.tag.sauna': 'Savna na drva', // MOCK
-  'accommodation.units.house2.tag.bbq': 'Oprema za žar', // MOCK
-  'accommodation.units.house2.alt': 'Notranjost mobilne počitniške hiške s kuhinjo in stopnicami na galerijo', // MOCK — replace with real photo
-  // Rooms group
+    'Dve mobilni hiški, vsaka samo za vas — Mobilna hiška 1 za največ šest gostov in Mobilna hiška 3 za največ pet. Poleti oddajamo tudi savno kot mobilno hiško za dva.',
+  'accommodation.units.house1.name': 'Mobilna hiška 1',
+  'accommodation.units.house1.text': 'Večja od obeh: tri sobe, kuhinja, dva WC-ja, tuš in terasa — prostora je za največ šest gostov.',
+  'accommodation.units.house1.capacity': 'Do 6 oseb',
+  'accommodation.units.house1.size': '3 sobe · kuhinja · terasa',
+  'accommodation.units.house1.tag.sleeps': 'Do 6 oseb',
+  'accommodation.units.house1.tag.rooms': '3 sobe',
+  'accommodation.units.house1.tag.kitchen': 'Kuhinja',
+  'accommodation.units.house1.tag.bathroom': '2 WC-ja · tuš',
+  'accommodation.units.house1.tag.terrace': 'Terasa',
+  'accommodation.units.house1.alt1': 'Mobilna hiška 1 s travnika: obložena z lesom, na robu gozda',
+  'accommodation.units.house1.alt2': 'Pokrita lesena terasa Mobilne hiške 1 z mizo in stoli ter pogledom na travnik in gozd',
+  'accommodation.units.house1.alt3': 'Dnevni prostor Mobilne hiške 1 z jedilno mizo, televizorjem in steklenimi vrati na teraso',
+  'accommodation.units.house1.alt4': 'Kuhinja Mobilne hiške 1 s kuhalno ploščo, pečico, mikrovalovno pečico in hladilnikom',
+  'accommodation.units.house1.alt5': 'Kuhinja Mobilne hiške 1 v svetlem lesu, pogled iz dnevnega prostora',
+  'accommodation.units.house3.name': 'Mobilna hiška 3',
+  'accommodation.units.house3.text': 'Svetla mobilna hiška za največ pet gostov — s kuhinjo, sedežno garnituro, dvema galerijama pod streho, kopalnico s tušem in teraso.', // capacity: client; the rest: from the photos
+  'accommodation.units.house3.capacity': 'Do 5 oseb',
+  'accommodation.units.house3.size': 'Kuhinja · kopalnica · terasa', // from the photos
+  'accommodation.units.house3.tag.sleeps': 'Do 5 oseb',
+  'accommodation.units.house3.tag.kitchen': 'Kuhinja', // from the photos
+  'accommodation.units.house3.tag.bathroom': 'Kopalnica s tušem', // from the photos
+  'accommodation.units.house3.tag.terrace': 'Terasa', // from the photos
+  'accommodation.units.house3.alt1': 'Notranjost Mobilne hiške 3: kuhinja ob steni, jedilna miza, sedežna garnitura in galerija na koncu prostora',
+  'accommodation.units.house3.alt2': 'Sedežna garnitura v Mobilni hiški 3 pod galerijo, do katere vodi lesena lestev',
+  'accommodation.units.house3.alt3': 'Jedilna miza, kuhinja in stopnice na drugo galerijo v Mobilni hiški 3',
+  'accommodation.units.house3.alt4': 'Jedilna miza ob vratih na teraso v Mobilni hiški 3, v ospredju lestev na galerijo',
+  'accommodation.units.house3.alt5': 'Kuhinja Mobilne hiške 3 s stopnicami na galerijo in vrati v kopalnico v ozadju',
+  'accommodation.units.house3.alt6': 'Kopalnica Mobilne hiške 3 z umivalnikom, okroglim ogledalom in straniščem',
+  'accommodation.units.house3.alt7': 'Steklena tuš kabina in umivalnik v kopalnici Mobilne hiške 3',
+  'accommodation.units.house3.alt8': 'Lesena terasa Mobilne hiške 3 z mizo in stoli v gorski megli',
+  'accommodation.units.house3.alt9': 'Lesena terasa Mobilne hiške 3, pogled skozi zaveso steklenih vrat',
+  // Rooms group — one showcase entry per room, picked with the room selector. Room numbers and guest
+  // counts are the client's list (2026-10-08): 1 (also called 101) – 2, 2 – 5, 3 – 4, 4 – 5, 5 – 3,
+  // 7 – 4, 9 – 6, 10 – 6, 11 – 3; the list itself lives in AccommodationUnits.astro. The client gave
+  // no description per room, so the feature pills name only what that room's photos show —
+  // TODO(Webline): confirm with the client. New strings translated from EN — native read needed.
   'accommodation.units.rooms.title': 'Sobe v glavni hiši', // MOCK
   'accommodation.units.rooms.text':
-    'Prijetne sobe z lepimi razgledi in vsem drobnim udobjem, ki ga potrebujete.', // MOCK
-  // Single showcase entry for the main house (no per-room breakdown) — richer copy + gallery.
-  'accommodation.units.rooms.name': 'Prijetne sobe v nadstropju', // MOCK
-  'accommodation.units.rooms.detail':
     'Tople, z lesom obložene sobe pod ostrešjem glavne hiše — klasičen planinski slog, sveže in čisto, vsaka z lastno kopalnico in pogledom na gozd ali dolino.',
-  'accommodation.units.rooms.tag.sleeps': 'Do 4 osebe', // MOCK
-  'accommodation.units.rooms.tag.rooms': '4 prijetne sobe', // MOCK
-  'accommodation.units.rooms.tag.size': 'Dvoposteljne in družinske', // MOCK
-  'accommodation.units.rooms.tag.sauna': 'Skupna savna', // MOCK
-  'accommodation.units.rooms.tag.wifi': 'Brezplačen Wi-Fi', // MOCK
-  'accommodation.units.rooms.alt': 'Z lesom obložena dvoposteljna soba pod ostrešjem s pogledom na gozd', // MOCK — replace with real photo
+  'accommodation.units.rooms.choose': 'Izberite sobo', // label above the room selector
+  'accommodation.units.rooms.name': 'Soba {n}', // {n} = the room number
+  'accommodation.units.rooms.capacity': 'Do {n} oseb', // {n} = number of guests
+  'accommodation.units.rooms.tag.bathroom': 'Lastna kopalnica', // from the photos
+  'accommodation.units.rooms.tag.kitchen': 'Kuhinja', // from the photos
+  'accommodation.units.rooms.tag.kitchenette': 'Čajna kuhinja', // from the photos
+  'accommodation.units.rooms.tag.balcony': 'Balkon', // from the photos
+  // Photo alt texts are built as "<room name> — <what the photo shows>".
+  'accommodation.units.rooms.shot.room': 'pogled na sobo',
+  'accommodation.units.rooms.shot.beds': 'postelje',
+  'accommodation.units.rooms.shot.kitchen': 'kuhinjski kotiček',
+  'accommodation.units.rooms.shot.bathroom': 'kopalnica s tušem',
+  'accommodation.units.rooms.shot.balcony': 'balkon',
+  'accommodation.units.rooms.shot.view': 'pogled skozi okno',
+  'accommodation.units.rooms.alt': 'Z lesom obložena dvoposteljna soba pod ostrešjem s pogledom na gozd', // landing's rooms slider (older mixed set in public/images/rooms/)
   'accommodation.units.capacityLabel': 'Kapaciteta',
 
   // --- Accommodation page: breakfast & kitchen ---
@@ -316,7 +342,8 @@ export const sl: UIDict = {
 
   // --- Sauna (shared block: apartments page + activities page) ---
   // TODO(Webline): confirm copy with the client. The sauna is wood-fired and shared by all guests
-  // — it is NOT private to a house (see the unit strings above, which still say otherwise).
+  // — it is NOT private to a house. In summer it is let as a mobile house for two (client,
+  // 2026-10-08) — said in accommodation.units.houses.text, not in this block.
   'sauna.title': 'Savna na drva',
   'sauna.shortTitle': 'Savna', // heading used where the block stands on its own (activities page)
   'sauna.body':
@@ -324,8 +351,20 @@ export const sl: UIDict = {
   'sauna.point1': 'Sodobna savna z vsem, kar potrebujete',
   'sauna.point2': 'Sprostitev po dolgem dnevu',
   'sauna.point3': 'Dobro za telo in duha',
-  'sauna.imageAlt1': 'Z lesom obložena savna s steklenimi vrati in vedrom',
-  'sauna.imageAlt2': 'Prha ob savni z lesenim vedrom za polivanje',
+  // Alt texts of the sauna photos, one per photo — the order is set in components/sections/saunaPhotos.ts.
+  'sauna.photo.room': 'Notranjost savne na drva: lesene klopi v topli svetlobi ob peči',
+  'sauna.photo.benches': 'Peč v savni s košaro kamnov ob dvonivojskih lesenih klopeh',
+  'sauna.photo.stove': 'Peč v savni, obložena s kamni, za leseno zaščitno ograjo',
+  'sauna.photo.door': 'Z lesom obložena savna s steklenimi vrati in vedrom',
+  'sauna.photo.shower': 'Prha ob savni z lesenim vedrom za polivanje',
+  'sauna.photo.lounge': 'Počivalnica v hišici s savno s kavčem, okroglo mizo in stoli iz ratana',
+  'sauna.photo.table': 'Okrogla miza in stoli iz ratana pred kotno sedežno garnituro v počivalnici',
+  'sauna.photo.terrace': 'Pokrita lesena terasa hišice s savno z mizo, stoli in vhodnimi vrati',
+  'sauna.photo.tub': 'Okrogla kad za ohladitev, vgrajena v tla terase',
+  'sauna.photo.chairs': 'Dva stola iz ratana na terasi s pogledom čez travnik na gozd',
+  'sauna.photo.view': 'Pogled z mize na terasi čez strehe na gozd v megli',
+  'sauna.photo.exterior': 'Hišica s savno: lesena hišica s pokrito teraso na robu gozda',
+  'sauna.photo.evening': 'Pokrita terasa hišice s savno zvečer, s prižganimi lučmi nad mizo in stoli',
 
   // --- Testimonials (real guest reviews, translated from Booking.com) ---
   'testimonials.score.value': '8.8',
@@ -458,19 +497,34 @@ export const sl: UIDict = {
   'booking.placeholder': 'Tu se bo prikazal rezervacijski pripomoček.', // shown until Bentral embed is pasted
 
   // --- Hidden advertising landing (/social) ---
-  // The page social profiles and ads link to: hero → the place → rooms → sauna → restaurant →
-  // reviews → reservation widget. It is built from the blocks of the other pages and reads their
-  // strings (home.hero.subtitle, home.welcome.*, home.apartments.rooms.*, accommodation.hero.pill.*,
-  // sauna.*, menu.hero.*, testimonials.*, booking.title, home.bookDirect.*), so only what is
-  // specific to the landing lives here.
-  // TODO(Webline): draft copy — review with the client before running campaigns. "About an hour
-  // from Ljubljana" restates the client-supplied drive time (≈ 55–60 min, destinations collection).
+  // The page social profiles and ads link to: hero → the place → rooms → atmosphere → sauna →
+  // activities → restaurant → reviews → reservation widget. It is built from the blocks of the other
+  // pages but carries its own copy: every text worded for the landing lives here, so rewriting it
+  // never changes another page. Only short labels that read the same everywhere are still shared
+  // (home.welcome.pill.apartments / .kitchen, accommodation.units.eyebrow, accommodation.hero.pill.*,
+  // sauna.title, menu.hero.pill.breakfast / .soups, cta.viewActivities, testimonials.score.* and the
+  // reviews themselves, home.bookDirect.benefit*Title).
+  // TODO(Webline): the Slovenian landing still carries the wording of the pages the blocks come
+  // from, plus the earlier drafts — replace with the final SL landing copy before running campaigns
+  // (the Russian one is final, see ru.ts).
   'lp.meta.description':
     'Planinski dom sredi gozda, približno uro vožnje iz Ljubljane: prijetni apartmaji, savna na drva in domača kuhinja. Preverite razpoložljivost in rezervirajte neposredno.', // also the link-preview text when the page is shared
   'lp.cta': 'Preverite termine', // every booking CTA on the landing — kept short so it fits a phone button on one line
   'lp.hero.title': 'Gozdni oddih na Travni gori',
+  'lp.hero.subtitle': 'Kjer čas teče počasneje', // same wording as home.hero.subtitle
   'lp.hero.intro':
     'Prijetni apartmaji, savna na drva in domača kuhinja — na gozdnati planoti, približno uro vožnje iz Ljubljane.',
+  // The place — the home welcome block under the landing's own copy.
+  'lp.place.title': 'Prijetni apartmaji v osrčju gozda', // same wording as home.welcome.title
+  'lp.place.text':
+    'Pustite mesto za sabo in poiščite mir na Travni gori, visoki gozdnati planoti nad Ribniško dolino. Med drevesi se odpirajo travniki, gozd sega vse do vašega apartmaja, zrak pa še vedno diši po gozdu, ne po prometu. Pridite, da se upočasnite, globoko zadihate in raziščete miren kotiček Slovenije, ki ga odkrije le malo popotnikov.', // same wording as home.welcome.lead
+  'lp.place.pill.nature': 'Gozd pred vrati', // same wording as home.welcome.pill.forest
+  // Rooms row.
+  'lp.stay.title': 'Sobe za vsako bivanje', // same wording as home.apartments.rooms.title
+  'lp.stay.text':
+    'Sveže, prijetne sobe za skupine vseh velikosti — topla dobrodošlica čaka velike družine, pare in tiste, ki potujejo sami.', // same wording as home.apartments.rooms.text
+  'lp.stay.point1': 'Rezervirajte celo hišo samo zase — zaseben vhod, lastna kuhinja, za 1–6 oseb.', // same wording as home.apartments.rooms.b1
+  'lp.stay.point2': 'Ali samo sobo — prijetne možnosti za 1–4 goste.', // same wording as home.apartments.rooms.b2
   'lp.stay.alt.balcony': 'Lesen balkon glavne hiše s pogledom na gozd',
   'lp.stay.alt.attic': 'Mansardna soba z zakonsko posteljo in strešnim oknom',
   'lp.stay.alt.bathroom': 'Lastna kopalnica s prho',
@@ -483,10 +537,39 @@ export const sl: UIDict = {
   'lp.atmosphere.alt.4': 'Piknik miza na travniku, pod gozdom leži megla', // MOCK — stand-in photo
   'lp.atmosphere.alt.5': 'Veliko senčno drevo, piknik mize in lesena tabla z dobrodošlico na travniku ob hiši', // MOCK — stand-in photo
   'lp.atmosphere.alt.6': 'Ogenj v kamnitem kaminu hiše', // MOCK — stand-in photo
-  'lp.sauna.imageAlt': 'Notranjost savne na drva: lesene klopi v topli svetlobi ob peči',
+  // Sauna row. A blank line in the text starts a new paragraph.
+  'lp.sauna.text':
+    'Po dnevu v gozdu ni nič boljšega od toplote, lesa in tišine. Savna se kuri na drva, tako kot je bilo tu od nekdaj — dajte ji čas, da se dobro segreje, nato pa stopite ven na hladen gorski zrak.', // same wording as sauna.body
+  'lp.sauna.point1': 'Sodobna savna z vsem, kar potrebujete', // same wording as sauna.point1
+  'lp.sauna.point2': 'Sprostitev po dolgem dnevu', // same wording as sauna.point2
+  'lp.sauna.point3': 'Dobro za telo in duha', // same wording as sauna.point3
+  // Activities teaser (LandingActivities.astro): heading, a short intro and four tiles — a name and
+  // one line each. The photos come from the activities / destinations collections.
+  'lp.activities.eyebrow': 'Okrog Travne gore', // same wording as activities.eyebrow
+  'lp.activities.title': 'Raziščite okolico', // same wording as home.activities.title
+  'lp.activities.intro':
+    'Narava se začne tako rekoč na pragu. Od tu se lahko odpravite na sprehod po gozdu, s kolesom po okolici ali na izlet do naravnih znamenitosti regije.', // translated from the Russian landing copy — TODO(Webline): review
+  'lp.activities.hiking.title': 'Pohodništvo in razgledi',
+  'lp.activities.hiking.text': 'Pohodniške poti in gozdne steze se začnejo tik ob hiši.', // translated from the Russian landing copy — TODO(Webline): review
+  'lp.activities.cycling.title': 'Kolesarjenje po gozdnih poteh',
+  'lp.activities.cycling.text': 'Mirne gozdne ceste so kot nalašč za kolesarjenje, daleč od prometa.', // translated from the Russian landing copy — TODO(Webline): review
+  'lp.activities.bears.title': 'Opazovanje rjavih medvedov (Kočevsko)',
+  'lp.activities.bears.text': 'Približno 20–30 minut vožnje z avtomobilom.', // translated from the Russian landing copy — TODO(Webline): review
+  'lp.activities.cave.title': 'Križna jama',
+  'lp.activities.cave.text': 'Ena izmed znanih slovenskih kraških jam — približno 40 minut vožnje.', // translated from the Russian landing copy — TODO(Webline): review
+  // Restaurant row.
+  'lp.restaurant.eyebrow': 'Iz naše kuhinje', // same wording as menu.hero.eyebrow
   'lp.restaurant.title': 'Restavracija z domačo kuhinjo',
+  'lp.restaurant.text':
+    'Vse tukaj je skuhano v hiši, tako kot od nekdaj — družinski recepti, lokalne in sezonske sestavine in nič iz vrečke. Jutro se začne z domačim zajtrkom, pozneje se kuhinja posveti grejočim juham in izdatnim planinskim glavnim jedem, za konec pa je tu še nekaj sladkega.', // same wording as menu.hero.lead
+  'lp.restaurant.pill.mains': 'Izdatne glavne jedi', // same wording as menu.hero.pill.mains
   'lp.restaurant.favorites': 'Priljubljeno med gosti', // heads the dishes flagged `featured` in the menu collection
   'lp.restaurant.imageAlt': 'Krožnik domače hrane iz hišne kuhinje',
+  // Guest reviews — the shared Testimonials block under the landing's own heading.
+  'lp.reviews.title': 'Kaj gostje odnesejo s seboj', // same wording as testimonials.title
+  'lp.reviews.intro': 'Ne verjemite samo nam — preberite, kaj so gostje povedali po bivanju na Travni gori.', // same wording as testimonials.intro
+  // Reservation (LandingReservation.astro).
+  'lp.reservation.title': 'Rezervirajte bivanje', // same wording as booking.title
   'lp.reservation.intro':
     'Izberite termin in rezervirajte neposredno pri nas — hiša, savna in topel obrok vas že čakajo.',
   'lp.reservation.help': 'Imate pred rezervacijo vprašanje? Pokličite nas ali nam pišite:',

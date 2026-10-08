@@ -216,14 +216,41 @@
   color: var(--color-bg);
 }
 
-// Wraps to as many rows as needed, so the gallery scales to any number of images.
+// One row of thumbs, the same size in every slider, centred under the photo: it never wraps to a
+// second line and shows no scrollbar. The strip is only as wide as its thumbs, so a short gallery
+// sits in the middle. The padding/negative margin pair keeps room for the thumbs' outlines inside
+// the scroll box, and the max-width stops a long strip at the photo's edges.
 .house-showcase__thumbs {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+  --thumb-size: 4rem; // structural: the thumb's width, shared by every slider
+  display: flex;
   gap: var(--space-sm);
+  align-self: center;
+  max-width: calc(100% + var(--space-xs) * 2);
+  margin: calc(var(--space-xs) * -1);
+  padding: var(--space-xs);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--space-xs);
+  scrollbar-width: none;
+}
+
+.house-showcase__thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+// More photos than fit the row: ShowcaseGallery counts how many whole thumbs fit and sets
+// --thumbs-visible, and the strip is exactly that wide — no thumb cut off at the edge. The rest
+// slide in as the photo changes (ShowcaseGallery keeps the active thumb in view).
+.house-showcase__thumbs--fit {
+  max-width: calc(
+    var(--thumbs-visible) * (var(--thumb-size) + var(--space-sm)) - var(--space-sm) + var(--space-xs) * 2
+  );
 }
 
 .house-showcase__thumb {
+  flex: 0 0 var(--thumb-size);
+  scroll-snap-align: start;
   overflow: hidden;
   padding: 0;
   border: 0;
@@ -332,6 +359,75 @@
 // cream label would sit on the pale track, invisible. Paint the highlight on the button itself.
 .house-showcase__switcher:not(:has(.house-showcase__switch-indicator)) .house-showcase__switch--active {
   background-color: var(--color-forest);
+}
+
+// Unit selector as a row of tiles (`selector="tiles"` in HouseShowcase.jsx) — the rooms of the main
+// house, too many for the pills in the panel. It spans the showcase above the gallery and the
+// panel, so on a phone it comes before the photos it switches. Each tile names the room and shows
+// how many guests it sleeps. Same track, options and sliding highlight as the pills, laid out as a
+// grid: one row on desktop, five across on tablets, three on phones (see the queries below).
+.house-showcase__selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-block-end: var(--space-lg);
+}
+
+.house-showcase__selector-label {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+
+.house-showcase__switcher--tiles {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.house-showcase__switcher--tiles .house-showcase__switch,
+.house-showcase__switcher--tiles .house-showcase__switch-indicator {
+  border-radius: var(--radius-md);
+}
+
+.house-showcase__switcher--tiles .house-showcase__switch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--space-xs) / 2);
+  padding: var(--space-sm) var(--space-xs);
+}
+
+.house-showcase__switch-name {
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+}
+
+// Guest count under the room name: the same "users" glyph as the capacity pill, and the number.
+.house-showcase__switch-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--space-xs) / 2);
+  line-height: var(--leading-tight);
+}
+
+.house-showcase__switch-meta-icon {
+  flex-shrink: 0;
+  width: var(--space-sm);
+  height: var(--space-sm);
+}
+
+// With the selector out of the panel, a room's panel holds only a name, a few pills and the
+// button: let it be as tall as that instead of stretching to the gallery with a hole in the middle.
+.house-showcase--tiles .house-showcase__panel {
+  align-self: start;
 }
 
 .house-showcase__copy {
@@ -477,6 +573,12 @@
     justify-content: flex-start;
   }
 
+  // Room tiles no longer fit on one row: five across.
+  .house-showcase__switcher--tiles {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
   // Stack back to gallery-then-panel like the non-mirrored group.
   .units__group--mirror .house-showcase__media {
     grid-column: 1;
@@ -502,28 +604,26 @@
     padding-inline: var(--space-xs);
   }
 
+  .house-showcase__switcher--tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .house-showcase__selector {
+    margin-block-end: var(--space-md);
+  }
+
   // Slimmer chips so two short ones share a row instead of stacking one per line.
   .house-showcase__tag {
     gap: var(--space-xs);
     padding: var(--space-xs) var(--space-sm);
   }
 
-  // One swipeable row of thumbnails instead of a tall wall of them (13+ photos per house). The
-  // padding/negative margin pair keeps room for the thumbs' outlines inside the scroll box.
+  // Phones: larger thumbs for a comfortable tap, in a row that swipes freely across the full
+  // width — the thumb peeking in at the edge shows there are more.
   .house-showcase__thumbs {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: 5rem;
-    margin: calc(var(--space-xs) * -1);
-    padding: var(--space-xs);
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
+    --thumb-size: 5rem;
+    max-width: calc(100% + var(--space-xs) * 2);
     scroll-snap-type: x proximity;
-    scrollbar-width: thin;
-  }
-
-  .house-showcase__thumb {
-    scroll-snap-align: start;
   }
 
   .house-showcase__lightbox {
@@ -541,6 +641,19 @@
 
   .house-showcase__control--next {
     right: var(--space-sm);
+  }
+}
+
+// Narrowest phones: three tiles of ~78px cannot hold "Номер 10" on one line with the usual
+// padding, so the track tightens and the tiles give their side padding to the label.
+@media (max-width: 22.5rem) {
+  .house-showcase__switcher--tiles {
+    gap: calc(var(--space-xs) / 2);
+    padding: calc(var(--space-xs) / 2);
+  }
+
+  .house-showcase__switcher--tiles .house-showcase__switch {
+    padding-inline: 0;
   }
 }
 

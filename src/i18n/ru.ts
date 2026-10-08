@@ -244,40 +244,66 @@ export const ru: UIDict = {
   'accommodation.units.eyebrow': 'Где вы будете жить', // MOCK
   'accommodation.units.title': 'Дома и номера', // MOCK
   'accommodation.units.intro': 'Lorem ipsum dolor sit amet — выберите целый дом только для себя или уютный номер в главном здании.',
-  // Houses group
-  'accommodation.units.houses.title': 'Отдельные дома', // MOCK
-  'accommodation.units.houses.text': 'Отдыхайте всей семьёй или вдвоём в собственном отдельном доме — со своей сауной и своей кухней.',
-  'accommodation.units.house1.name': 'Семейный дом', // MOCK
-  'accommodation.units.house1.text': 'Целый дом только для вас — отдельный вход, своя кухня и оборудование для барбекю, от 1 до 6 гостей.', // MOCK
-  'accommodation.units.house1.capacity': '1–6 гостей', // MOCK
-  'accommodation.units.house1.size': 'Кухня · терраса', // MOCK
-  'accommodation.units.house1.tag.sleeps': '1–6 гостей', // MOCK
-  'accommodation.units.house1.tag.size': '44 м²', // MOCK
-  'accommodation.units.house1.tag.sauna': 'Сауна на дровах', // MOCK
-  'accommodation.units.house1.tag.bbq': 'Своя кухня и барбекю', // MOCK
-  'accommodation.units.house1.alt': 'Терраса дома с видом на лес', // MOCK — replace with real photo
-  'accommodation.units.house2.name': 'Мобильный дом', // MOCK
-  'accommodation.units.house2.text': 'Уютный мобильный дом с отдельным входом, сауной, террасой и оборудованием для барбекю — до 3 человек.', // MOCK
-  'accommodation.units.house2.capacity': 'До 3 человек', // MOCK — TODO(Webline): confirm the real capacity
-  'accommodation.units.house2.size': '1 спальня · кухня · сад', // MOCK
-  'accommodation.units.house2.tag.sleeps': 'До 3 человек', // MOCK
-  'accommodation.units.house2.tag.bedrooms': '1 спальня', // MOCK
-  'accommodation.units.house2.tag.size': '35 м²', // MOCK
-  'accommodation.units.house2.tag.sauna': 'Сауна на дровах', // MOCK
-  'accommodation.units.house2.tag.bbq': 'Оборудование для барбекю', // MOCK
-  'accommodation.units.house2.alt': 'Интерьер мобильного дома для отдыха с кухней и лестницей на мансарду', // MOCK — replace with real photo
-  // Rooms group
+  // Houses group. Names, capacities and the room list are the client's own description (2026-10-08,
+  // given in Russian): two mobile houses — no. 1 for 6 guests (three rooms, kitchen, two WCs,
+  // shower, terrace) and no. 3, "домик три", for 5 guests; there is no number 2 — plus the sauna,
+  // which in summer is let as a mobile house for 2. The client said nothing more about house 3, so
+  // the rest of its copy describes only what the client's photos show — TODO(Webline): confirm.
+  'accommodation.units.houses.title': 'Мобильные домики',
+  'accommodation.units.houses.text': 'Два мобильных домика, каждый — только для вас: мобильный домик 1 вмещает до шести гостей, мобильный домик 3 — до пяти. Летом сауна тоже сдаётся как мобильный домик на двоих.',
+  'accommodation.units.house1.name': 'Мобильный домик 1',
+  'accommodation.units.house1.text': 'Больший из двух домиков: три комнаты, кухня, два туалета, душ и терраса — места хватит для шести гостей.',
+  'accommodation.units.house1.capacity': 'До 6 человек',
+  'accommodation.units.house1.size': '3 комнаты · кухня · терраса',
+  'accommodation.units.house1.tag.sleeps': 'До 6 человек',
+  'accommodation.units.house1.tag.rooms': '3 комнаты',
+  'accommodation.units.house1.tag.kitchen': 'Кухня',
+  'accommodation.units.house1.tag.bathroom': '2 туалета · душ',
+  'accommodation.units.house1.tag.terrace': 'Терраса',
+  'accommodation.units.house1.alt1': 'Мобильный домик 1, вид с луга: обшит деревом, стоит на опушке леса',
+  'accommodation.units.house1.alt2': 'Крытая деревянная терраса мобильного домика 1 со столом и стульями, с видом на луг и лес',
+  'accommodation.units.house1.alt3': 'Гостиная мобильного домика 1: обеденный стол, телевизор и стеклянные двери на террасу',
+  'accommodation.units.house1.alt4': 'Кухня мобильного домика 1 с варочной панелью, духовкой, микроволновой печью и холодильником',
+  'accommodation.units.house1.alt5': 'Кухня мобильного домика 1 в светлом дереве, вид из гостиной',
+  'accommodation.units.house3.name': 'Мобильный домик 3',
+  'accommodation.units.house3.text': 'Светлый мобильный домик для компании до пяти человек: кухня, уголок с диваном, две антресоли под крышей, ванная комната с душем и терраса.', // capacity: client; the rest: from the photos
+  'accommodation.units.house3.capacity': 'До 5 человек',
+  'accommodation.units.house3.size': 'Кухня · ванная · терраса', // from the photos
+  'accommodation.units.house3.tag.sleeps': 'До 5 человек',
+  'accommodation.units.house3.tag.kitchen': 'Кухня', // from the photos
+  'accommodation.units.house3.tag.bathroom': 'Ванная с душем', // from the photos
+  'accommodation.units.house3.tag.terrace': 'Терраса', // from the photos
+  'accommodation.units.house3.alt1': 'Интерьер мобильного домика 3: кухня вдоль стены, обеденный стол, диван и антресоль в дальнем конце',
+  'accommodation.units.house3.alt2': 'Уголок с диваном в мобильном домике 3 под антресолью, на которую ведёт деревянная лестница',
+  'accommodation.units.house3.alt3': 'Обеденный стол, кухня и ступени на вторую антресоль в мобильном домике 3',
+  'accommodation.units.house3.alt4': 'Обеденный стол у дверей на террасу в мобильном домике 3, на переднем плане — лестница на антресоль',
+  'accommodation.units.house3.alt5': 'Кухня мобильного домика 3, ступени на антресоль и дверь в ванную комнату',
+  'accommodation.units.house3.alt6': 'Ванная комната мобильного домика 3 с раковиной, круглым зеркалом и унитазом',
+  'accommodation.units.house3.alt7': 'Стеклянная душевая кабина и раковина в ванной комнате мобильного домика 3',
+  'accommodation.units.house3.alt8': 'Деревянная терраса мобильного домика 3 со столом и стульями в горном тумане',
+  'accommodation.units.house3.alt9': 'Деревянная терраса мобильного домика 3, вид через занавеску стеклянной двери',
+  // Rooms group — one showcase entry per room, picked with the room selector. Room numbers and guest
+  // counts are the client's list (2026-10-08, given in Russian): 1 (also called 101) – 2, 2 – 5,
+  // 3 – 4, 4 – 5, 5 – 3, 7 – 4, 9 – 6, 10 – 6, 11 – 3; the list itself lives in
+  // AccommodationUnits.astro. The client gave no description per room, so the feature pills name
+  // only what that room's photos show — TODO(Webline): confirm with the client.
   'accommodation.units.rooms.title': 'Номера в главном доме', // MOCK
-  'accommodation.units.rooms.text': 'Уютные номера с красивыми видами и всеми мелочами, нужными для комфорта.',
-  // Single showcase entry for the main house (no per-room breakdown) — richer copy + gallery.
-  'accommodation.units.rooms.name': 'Уютные номера наверху', // MOCK
-  'accommodation.units.rooms.detail': 'Тёплые, обшитые деревом номера под крышей главного дома — классический горный стиль, свежесть и чистота; в каждом — собственная ванная комната и вид на лес или долину.',
-  'accommodation.units.rooms.tag.sleeps': 'До 4 человек', // MOCK
-  'accommodation.units.rooms.tag.rooms': '4 уютных номера', // MOCK
-  'accommodation.units.rooms.tag.size': 'Двухместные и семейные', // MOCK
-  'accommodation.units.rooms.tag.sauna': 'Общая сауна', // MOCK
-  'accommodation.units.rooms.tag.wifi': 'Бесплатный Wi-Fi', // MOCK
-  'accommodation.units.rooms.alt': 'Обшитый деревом двухместный номер под крышей с видом на лес', // MOCK — replace with real photo
+  'accommodation.units.rooms.text': 'Тёплые, обшитые деревом номера под крышей главного дома — классический горный стиль, свежесть и чистота; в каждом — собственная ванная комната и вид на лес или долину.',
+  'accommodation.units.rooms.choose': 'Выберите номер', // label above the room selector
+  'accommodation.units.rooms.name': 'Номер {n}', // {n} = the room number
+  'accommodation.units.rooms.capacity': 'До {n} человек', // {n} = number of guests
+  'accommodation.units.rooms.tag.bathroom': 'Собственная ванная', // from the photos
+  'accommodation.units.rooms.tag.kitchen': 'Кухня', // from the photos
+  'accommodation.units.rooms.tag.kitchenette': 'Мини-кухня', // from the photos
+  'accommodation.units.rooms.tag.balcony': 'Балкон', // from the photos
+  // Photo alt texts are built as "<room name> — <what the photo shows>".
+  'accommodation.units.rooms.shot.room': 'общий вид номера',
+  'accommodation.units.rooms.shot.beds': 'кровати',
+  'accommodation.units.rooms.shot.kitchen': 'кухонный уголок',
+  'accommodation.units.rooms.shot.bathroom': 'ванная комната с душем',
+  'accommodation.units.rooms.shot.balcony': 'балкон',
+  'accommodation.units.rooms.shot.view': 'вид из окна',
+  'accommodation.units.rooms.alt': 'Обшитый деревом двухместный номер под крышей с видом на лес', // landing's rooms slider (older mixed set in public/images/rooms/)
   'accommodation.units.capacityLabel': 'Вместимость',
 
   // --- Accommodation page: breakfast & kitchen ---
@@ -294,7 +320,8 @@ export const ru: UIDict = {
 
   // --- Sauna (shared block: apartments page + activities page) ---
   // TODO(Webline): confirm copy with the client. The sauna is wood-fired and shared by all guests
-  // — it is NOT private to a house (see the unit strings above, which still say otherwise).
+  // — it is NOT private to a house. In summer it is let as a mobile house for two (client,
+  // 2026-10-08) — said in accommodation.units.houses.text, not in this block.
   'sauna.title': 'Сауна на дровах',
   'sauna.shortTitle': 'Сауна', // heading used where the block stands on its own (activities page)
   // Two paragraphs — Sauna and LandingFeature split the body on the blank line.
@@ -302,8 +329,20 @@ export const ru: UIDict = {
   'sauna.point1': 'Современная сауна со всем необходимым для комфортного отдыха.',
   'sauna.point2': 'Идеальное место, чтобы расслабиться после насыщенного дня.',
   'sauna.point3': 'Тепло, тишина и отдых для тела и души.',
-  'sauna.imageAlt1': 'Обшитая деревом сауна со стеклянной дверью и ведром',
-  'sauna.imageAlt2': 'Душ рядом с сауной и деревянное ведро для обливания',
+  // Alt texts of the sauna photos, one per photo — the order is set in components/sections/saunaPhotos.ts.
+  'sauna.photo.room': 'Сауна на дровах изнутри: деревянные полки в тёплом свете рядом с печью',
+  'sauna.photo.benches': 'Печь сауны с корзиной камней рядом с двухъярусными деревянными полками',
+  'sauna.photo.stove': 'Печь сауны с камнями за деревянным ограждением',
+  'sauna.photo.door': 'Обшитая деревом сауна со стеклянной дверью и ведром',
+  'sauna.photo.shower': 'Душ рядом с сауной и деревянное ведро для обливания',
+  'sauna.photo.lounge': 'Комната отдыха в домике сауны: диван, круглый стол и плетёные кресла',
+  'sauna.photo.table': 'Круглый стол и плетёные кресла у углового дивана в комнате отдыха',
+  'sauna.photo.terrace': 'Крытая деревянная терраса домика сауны со столом, стульями и входной дверью',
+  'sauna.photo.tub': 'Круглая купель, встроенная в пол террасы',
+  'sauna.photo.chairs': 'Два плетёных кресла на террасе с видом через луг на лес',
+  'sauna.photo.view': 'Вид со стола на террасе поверх крыш на лес в тумане',
+  'sauna.photo.exterior': 'Домик сауны — деревянный домик с крытой террасой на опушке леса',
+  'sauna.photo.evening': 'Крытая терраса домика сауны вечером: над столом и стульями горят лампы',
 
   // --- Testimonials (real guest reviews, translated from Booking.com) ---
   'testimonials.score.value': '8.8',
@@ -426,34 +465,73 @@ export const ru: UIDict = {
   'booking.placeholder': 'Здесь появится виджет бронирования.', // shown until Bentral embed is pasted
 
   // --- Hidden advertising landing (/social) ---
-  // The page social profiles and ads link to: hero → the place → rooms → sauna → restaurant →
-  // reviews → reservation widget. It is built from the blocks of the other pages and reads their
-  // strings (home.hero.subtitle, home.welcome.*, home.apartments.rooms.*, accommodation.hero.pill.*,
-  // sauna.*, menu.hero.*, testimonials.*, booking.title, home.bookDirect.*), so only what is
-  // specific to the landing lives here.
-  // TODO(Webline): draft copy — review with the client before running campaigns. "About an hour
-  // from Ljubljana" restates the client-supplied drive time (≈ 55–60 min, destinations collection).
-  'lp.meta.description': 'Горный дом в лесу примерно в часе езды от Ljubljana: уютные апартаменты, сауна на дровах и домашняя кухня. Проверьте наличие мест и бронируйте напрямую.', // also the link-preview text when the page is shared
+  // The page social profiles and ads link to: hero → the place → rooms → atmosphere → sauna →
+  // activities → restaurant → reviews → reservation widget. It is built from the blocks of the other
+  // pages but carries its own copy: every text worded for the landing lives here, so rewriting it
+  // never changes another page. Only short labels that read the same everywhere are still shared
+  // (home.welcome.pill.apartments / .kitchen, accommodation.units.eyebrow, accommodation.hero.pill.*,
+  // sauna.title, menu.hero.pill.breakfast / .soups, cta.viewActivities, testimonials.score.* and the
+  // reviews themselves, home.bookDirect.benefit*Title).
+  // Final copy, supplied on 2026-10-07. On this page the place names are written in Cyrillic
+  // ("Травна-Гора", "Любляна"), unlike the rest of the Russian site — that is the supplied text,
+  // not an oversight. The image alts are still the earlier drafts.
+  'lp.meta.description': 'Горный дом в лесу примерно в часе езды от Любляны: уютные апартаменты, сауна на дровах и домашняя кухня. Проверьте наличие мест и бронируйте напрямую.', // also the link-preview text when the page is shared
   'lp.cta': 'Выбрать даты', // every booking CTA on the landing — kept short so it fits a phone button on one line
-  'lp.hero.title': 'Отдых в лесу на Travna gora',
-  'lp.hero.intro': 'Уютные апартаменты, сауна на дровах и домашняя кухня — на лесистом плато примерно в часе езды от Ljubljana.',
+  'lp.hero.title': 'Отдых на природе на Травна-Горе',
+  'lp.hero.subtitle': 'Место, где можно по-настоящему отдохнуть',
+  'lp.hero.intro': 'Уютные апартаменты, домашняя кухня и сауна на дровах среди лесов Травна-Горы — примерно в часе езды от Любляны.',
+  // The place — the home welcome block under the landing's own copy.
+  'lp.place.title': 'Уютные апартаменты среди леса',
+  'lp.place.text': 'Оставьте городскую суету позади и отдохните в Planinskem domu na Travni Gori. Здесь лес начинается прямо у дома, вокруг открываются зелёные луга, а воздух остаётся свежим и лесным. Это место, куда приезжают за природой, тишиной и возможностью просто сменить привычный ритм.',
+  'lp.place.pill.nature': 'Природа вокруг',
+  // Rooms row.
+  'lp.stay.title': 'Отдых для двоих, семьи или компании',
+  'lp.stay.text': 'Можно выбрать отдельный номер или снять целый дом. Здесь будет комфортно и паре, и семье с детьми, и компании друзей.',
+  'lp.stay.point1': 'Целый дом с отдельным входом и собственной кухней рассчитан на размещение до 6 гостей.',
+  'lp.stay.point2': 'Также доступны отдельные уютные номера для 1–4 гостей.',
   'lp.stay.alt.balcony': 'Деревянный балкон главного дома с видом на лес',
   'lp.stay.alt.attic': 'Мансардный номер с двуспальной кроватью и окном в крыше',
   'lp.stay.alt.bathroom': 'Собственная ванная комната с душем',
-  'lp.atmosphere.title': 'Дружеская атмосфера',
-  'lp.atmosphere.text': 'Гости часто пишут нам об одном и том же: здесь быстро перестаёшь чувствовать себя приезжим. Хозяева всегда рядом, за столом находится место каждому, а вечера затягиваются за едой и разговорами.', // MOCK
+  'lp.atmosphere.title': 'Тёплая домашняя атмосфера',
+  'lp.atmosphere.text': 'Здесь легко почувствовать себя как дома. Хозяева всегда рядом, гостей встречают лично, а за общим столом нередко проводят больше времени, чем планировали — за ужином и хорошим разговором.',
   'lp.atmosphere.alt.1': 'Радуга над домом и лугом перед ним', // MOCK — stand-in photo
   'lp.atmosphere.alt.2': 'Столики и стулья на террасе с видом на луг и лес', // MOCK — stand-in photo
   'lp.atmosphere.alt.3': 'Люди на залитом солнцем лугу под домами', // MOCK — stand-in photo
   'lp.atmosphere.alt.4': 'Стол для пикника на лугу, под лесом стелется туман', // MOCK — stand-in photo
   'lp.atmosphere.alt.5': 'Большое тенистое дерево, столы для пикника и деревянная приветственная вывеска на лугу у дома', // MOCK — stand-in photo
   'lp.atmosphere.alt.6': 'Огонь в каменном камине дома', // MOCK — stand-in photo
-  'lp.sauna.imageAlt': 'Сауна на дровах изнутри: деревянные полки в тёплом свете рядом с печью',
-  'lp.restaurant.title': 'Ресторан с домашней кухней',
-  'lp.restaurant.favorites': 'Любимые блюда гостей', // heads the dishes flagged `featured` in the menu collection
+  // Sauna row. A blank line in the text starts a new paragraph.
+  'lp.sauna.text': 'После прогулки по лесу или насыщенного дня приятно согреться и восстановить силы в сауне на дровах. Натуральное дерево, мягкое тепло и тишина помогают полностью расслабиться.\n\nПосле сауны можно выйти на свежий воздух Травна-Горы и немного отдохнуть на природе.',
+  'lp.sauna.point1': 'Современная сауна со всем необходимым.',
+  'lp.sauna.point2': 'Отличный способ расслабиться после активного дня.',
+  'lp.sauna.point3': 'Тепло и отдых в спокойной атмосфере.',
+  // Activities teaser (LandingActivities.astro): heading, a short intro and four tiles — a name and
+  // one line each. The photos come from the activities / destinations collections.
+  'lp.activities.eyebrow': 'Вокруг Травна-Горы',
+  'lp.activities.title': 'Чем заняться рядом',
+  'lp.activities.intro': 'Природа начинается буквально у порога. Отсюда можно отправиться на прогулку по лесу, проехать по окрестностям на велосипеде или выбраться к природным достопримечательностям региона.',
+  'lp.activities.hiking.title': 'Походы и смотровые площадки',
+  'lp.activities.hiking.text': 'Пешеходные маршруты и лесные тропы начинаются прямо рядом с домом.',
+  'lp.activities.cycling.title': 'Велопрогулки по лесным тропам',
+  'lp.activities.cycling.text': 'Спокойные лесные дороги отлично подходят для велосипедных прогулок вдали от оживлённого движения.',
+  'lp.activities.bears.title': 'Наблюдение за бурыми медведями в Кочевье',
+  'lp.activities.bears.text': 'Примерно 20–30 минут на автомобиле.',
+  'lp.activities.cave.title': 'Крижна яма',
+  'lp.activities.cave.text': 'Одна из известных карстовых пещер Словении — примерно в 40 минутах езды.',
+  // Restaurant row.
+  'lp.restaurant.eyebrow': 'Домашняя кухня',
+  'lp.restaurant.title': 'Вкусная еда без лишнего',
+  'lp.restaurant.text': 'Мы готовим простую домашнюю еду из свежих продуктов. Утром можно заказать завтрак, а в течение дня — горячие супы, сытные основные блюда, салаты и домашние десерты.',
+  'lp.restaurant.pill.mains': 'Основные блюда',
+  'lp.restaurant.favorites': 'Популярные блюда', // heads the dishes flagged `featured` in the menu collection
   'lp.restaurant.imageAlt': 'Тарелка домашней еды с нашей кухни',
-  'lp.reservation.intro': 'Выберите даты и забронируйте напрямую у нас — дом, сауна и горячий ужин уже ждут вас.',
-  'lp.reservation.help': 'Остались вопросы перед бронированием? Позвоните или напишите нам:',
+  // Guest reviews — the shared Testimonials block under the landing's own heading.
+  'lp.reviews.title': 'Что говорят наши гости',
+  'lp.reviews.intro': 'Лучше всего об атмосфере этого места рассказывают люди, которые уже здесь побывали.',
+  // Reservation (LandingReservation.astro).
+  'lp.reservation.title': 'Выберите даты для отдыха',
+  'lp.reservation.intro': 'Проведите несколько дней среди лесов Травна-Горы. Выберите подходящие даты и забронируйте проживание напрямую.',
+  'lp.reservation.help': 'Остались вопросы перед бронированием? Позвоните или напишите нам.',
 
   // --- Footer ---
   'footer.contact.title': 'Контакты',

@@ -1,92 +1,113 @@
 ---
 // AccommodationUnits.astro — Apartments page "where you'll stay" block.
 // Two clearly separated groups, each presented through the shared HouseShowcase island (gallery +
-// info panel): standalone HOUSES (type switcher across houses) and ROOMS in the main house (a single
-// showcase entry — richer gallery + description rather than a per-room breakdown). Visible strings
-// from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-units.scss. All
-// three groups use real client photos; copy is still MOCK per house/room — TODO(Webline): real
-// unit copy & details. Bookable selection/pricing stays on /rezervacija (Bentral).
+// info panel): standalone HOUSES (pill switcher across the houses) and ROOMS in the main house (a
+// room selector — one entry per room, with its own photos and guest count). Visible strings
+// from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-units.scss. Both
+// groups use real client photos and the client's own naming and capacities (Mobile house 1 and
+// Mobile house 3 — there is no number 2; rooms by their room number). The client gave no
+// description per room — TODO(Webline): real room copy & details. Bookable selection/pricing
+// stays on /rezervacija (Bentral).
 import HouseShowcase from '../../islands/HouseShowcase.jsx';
 import { useTranslations, localizePath } from '../../i18n';
 
 const t = useTranslations(Astro.currentLocale);
 
-// `src` values below are real client photos — TODO(Webline): real copy for house1/house2.
+// House photos are the client's own, under public/images/<folder>/, each with a small thumbnail
+// beside it in <folder>/thumbs/ (scripts/make-image-derivatives.mjs).
+const photo = (folder: string, name: string, alt: string) => ({
+  src: `/images/${folder}/${name}.webp`,
+  thumb: `/images/${folder}/thumbs/${name}.webp`,
+  alt,
+});
+
 const houses = [
   {
     name: t('accommodation.units.house1.name'),
     text: t('accommodation.units.house1.text'),
     capacity: t('accommodation.units.house1.capacity'),
     size: t('accommodation.units.house1.size'),
-    // Short set of key pills (4–5) instead of the full amenity list — MOCK from Bentral listing.
+    // Key pills — exactly what the client listed for this house.
     tags: [
       { icon: 'users', label: t('accommodation.units.house1.tag.sleeps') },
-      { icon: 'maximize', label: t('accommodation.units.house1.tag.size') },
-      { icon: 'flame', label: t('accommodation.units.house1.tag.sauna') },
-      { icon: 'utensils', label: t('accommodation.units.house1.tag.bbq') },
+      { icon: 'bed', label: t('accommodation.units.house1.tag.rooms') },
+      { icon: 'utensils', label: t('accommodation.units.house1.tag.kitchen') },
+      { icon: 'shower-head', label: t('accommodation.units.house1.tag.bathroom') },
+      { icon: 'armchair', label: t('accommodation.units.house1.tag.terrace') },
     ],
     images: [
-      { src: '/images/house1/house1-01.webp', alt: t('accommodation.units.house1.alt') },
-      { src: '/images/house1/house1-02.webp', alt: t('accommodation.units.house1.alt') },
-      { src: '/images/house1/house1-03.webp', alt: t('accommodation.units.house1.alt') },
-      { src: '/images/house1/house1-04.webp', alt: t('accommodation.units.house1.alt') },
+      photo('house1', 'house1-01', t('accommodation.units.house1.alt1')),
+      photo('house1', 'house1-02', t('accommodation.units.house1.alt2')),
+      photo('house1', 'house1-03', t('accommodation.units.house1.alt3')),
+      photo('house1', 'house1-04', t('accommodation.units.house1.alt4')),
+      photo('house1', 'house1-05', t('accommodation.units.house1.alt5')),
     ],
   },
   {
-    name: t('accommodation.units.house2.name'),
-    text: t('accommodation.units.house2.text'),
-    capacity: t('accommodation.units.house2.capacity'),
-    size: t('accommodation.units.house2.size'),
-    // Short set of key pills (4–5) instead of the full amenity list — MOCK from Bentral listing.
+    name: t('accommodation.units.house3.name'),
+    text: t('accommodation.units.house3.text'),
+    capacity: t('accommodation.units.house3.capacity'),
+    size: t('accommodation.units.house3.size'),
+    // Key pills — the capacity is the client's; the rest is what the client's photos show.
     tags: [
-      { icon: 'users', label: t('accommodation.units.house2.tag.sleeps') },
-      { icon: 'bed', label: t('accommodation.units.house2.tag.bedrooms') },
-      { icon: 'maximize', label: t('accommodation.units.house2.tag.size') },
-      { icon: 'flame', label: t('accommodation.units.house2.tag.sauna') },
-      { icon: 'utensils', label: t('accommodation.units.house2.tag.bbq') },
+      { icon: 'users', label: t('accommodation.units.house3.tag.sleeps') },
+      { icon: 'utensils', label: t('accommodation.units.house3.tag.kitchen') },
+      { icon: 'shower-head', label: t('accommodation.units.house3.tag.bathroom') },
+      { icon: 'armchair', label: t('accommodation.units.house3.tag.terrace') },
     ],
     images: [
-      { src: '/images/house2/house2-01.webp', alt: t('accommodation.units.house2.alt') },
-      { src: '/images/house2/house2-02.webp', alt: t('accommodation.units.house2.alt') },
-      { src: '/images/house2/house2-03.webp', alt: t('accommodation.units.house2.alt') },
-      { src: '/images/house2/house2-04.webp', alt: t('accommodation.units.house2.alt') },
-      { src: '/images/house2/house2-05.webp', alt: t('accommodation.units.house2.alt') },
+      photo('house3', 'house3-01', t('accommodation.units.house3.alt1')),
+      photo('house3', 'house3-02', t('accommodation.units.house3.alt2')),
+      photo('house3', 'house3-03', t('accommodation.units.house3.alt3')),
+      photo('house3', 'house3-04', t('accommodation.units.house3.alt4')),
+      photo('house3', 'house3-05', t('accommodation.units.house3.alt5')),
+      photo('house3', 'house3-06', t('accommodation.units.house3.alt6')),
+      photo('house3', 'house3-07', t('accommodation.units.house3.alt7')),
+      photo('house3', 'house3-08', t('accommodation.units.house3.alt8')),
+      photo('house3', 'house3-09', t('accommodation.units.house3.alt9')),
     ],
   },
 ];
 
-// Rooms in the main house: shown as a single showcase (same component as the houses) rather than
-// listing every room — a richer gallery + description. One entry, so the type switcher stays hidden.
-const rooms = [
-  {
-    name: t('accommodation.units.rooms.name'),
-    text: t('accommodation.units.rooms.detail'),
-    capacity: t('accommodation.units.rooms.tag.sleeps'),
-    size: t('accommodation.units.rooms.tag.rooms'),
+// Rooms in the main house: one showcase entry per room, picked with the room selector. `no` and
+// `guests` are the client's list (room 1 is also called 101). A room is listed once it has photos
+// in public/images/room<no>/ — 8, 12 and 13 have none yet. `tags` name only what that room's
+// photos show; `shots` has one entry per photo, in gallery order, saying what the photo shows (it
+// becomes the alt text) — so adding a photo means adding the file and one word here.
+const roomList = [
+  { no: 1, guests: 2, tags: ['bathroom', 'balcony'], shots: ['beds', 'beds', 'beds', 'room', 'room', 'bathroom', 'balcony', 'balcony'] },
+  { no: 2, guests: 5, tags: ['bathroom', 'kitchenette', 'balcony'], shots: ['beds', 'room', 'kitchen', 'kitchen', 'kitchen', 'bathroom', 'balcony'] },
+  { no: 3, guests: 4, tags: ['bathroom', 'kitchenette'], shots: ['room', 'room', 'kitchen', 'bathroom', 'view'] },
+  { no: 4, guests: 5, tags: ['bathroom', 'balcony'], shots: ['room', 'beds', 'room', 'bathroom', 'balcony'] },
+  { no: 5, guests: 3, tags: ['bathroom'], shots: ['beds', 'room', 'room', 'bathroom'] },
+  { no: 7, guests: 4, tags: ['bathroom', 'kitchen'], shots: ['room', 'beds', 'bathroom'] },
+  { no: 9, guests: 6, tags: ['bathroom', 'kitchen'], shots: ['room', 'kitchen', 'beds', 'beds', 'bathroom'] },
+  { no: 10, guests: 6, tags: ['bathroom', 'kitchen'], shots: ['room', 'beds', 'beds', 'beds', 'bathroom'] },
+  { no: 11, guests: 3, tags: ['bathroom', 'kitchenette'], shots: ['room', 'beds', 'kitchen', 'bathroom', 'view'] },
+] as const;
+
+const roomTagIcons = { bathroom: 'shower-head', kitchen: 'utensils', kitchenette: 'utensils', balcony: 'armchair' } as const;
+
+const rooms = roomList.map(({ no, guests, tags, shots }) => {
+  const name = t('accommodation.units.rooms.name').replace('{n}', String(no));
+  const capacity = t('accommodation.units.rooms.capacity').replace('{n}', String(guests));
+  return {
+    name,
+    capacity,
+    guests,
     tags: [
-      { icon: 'users', label: t('accommodation.units.rooms.tag.sleeps') },
-      { icon: 'bed', label: t('accommodation.units.rooms.tag.rooms') },
-      { icon: 'maximize', label: t('accommodation.units.rooms.tag.size') },
-      { icon: 'flame', label: t('accommodation.units.rooms.tag.sauna') },
-      { icon: 'wifi', label: t('accommodation.units.rooms.tag.wifi') },
+      { icon: 'users', label: capacity },
+      ...tags.map((tag) => ({ icon: roomTagIcons[tag], label: t(`accommodation.units.rooms.tag.${tag}`) })),
     ],
-    images: [
-      { src: '/images/rooms/rooms-01.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-02.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-03.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-04.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-05.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-06.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-07.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-08.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-09.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-10.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-11.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-12.webp', alt: t('accommodation.units.rooms.alt') },
-      { src: '/images/rooms/rooms-13.webp', alt: t('accommodation.units.rooms.alt') },
-    ],
-  },
-];
+    images: shots.map((shot, index) =>
+      photo(
+        `room${no}`,
+        `room${no}-${String(index + 1).padStart(2, '0')}`,
+        `${name} — ${t(`accommodation.units.rooms.shot.${shot}`)}`
+      )
+    ),
+  };
+});
 ---
 <section class="units">
   <div class="units__inner">
@@ -125,8 +146,10 @@ const rooms = [
       <HouseShowcase
         client:visible
         houses={rooms}
+        selector="tiles"
         bookHref={localizePath('/rezervacija', Astro.currentLocale)}
         strings={{
+          selectorLabel: t('accommodation.units.rooms.choose'),
           galleryLabel: t('accommodation.slider.label'),
           prevLabel: t('accommodation.slider.prev'),
           nextLabel: t('accommodation.slider.next'),

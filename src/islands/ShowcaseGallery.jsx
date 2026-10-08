@@ -19,6 +19,10 @@ export const GLYPHS = {
     '<path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.86a10 10 0 0 1 14 0"/><path d="M8.5 16.43a5 5 0 0 1 7 0"/>',
   utensils:
     '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+  armchair:
+    '<path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"/><path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H7v-2a2 2 0 0 0-4 0Z"/><path d="M5 18v2"/><path d="M19 18v2"/>',
+  'shower-head':
+    '<path d="m4 4 2.5 2.5"/><path d="M13.5 6.5a4.95 4.95 0 0 0-7 7"/><path d="M15 5 5 15"/><path d="M14 17v.01"/><path d="M10 16v.01"/><path d="M13 13v.01"/><path d="M16 10v.01"/><path d="M11 20v.01"/><path d="M17 14v.01"/><path d="M20 11v.01"/>',
 };
 
 export function Glyph({ name, className = 'house-showcase__tag-icon' }) {
@@ -94,9 +98,29 @@ export default function ShowcaseGallery({ images = [], label = '', strings = {} 
     },
   };
 
-  // On phones the thumbnails are one horizontally scrolling row; keep the active one in view when
-  // the photo changes via the arrows or the lightbox. Scrolls only the row, never the page.
+  // The thumbnails are one row of fixed-size thumbs. When the gallery has more photos than fit
+  // under the photo, the row is sized to a whole number of thumbs (so none is cut off at the edge):
+  // count how many fit and hand the number to the styles (.house-showcase__thumbs--fit).
   const thumbsRef = useRef(null);
+  const [thumbsVisible, setThumbsVisible] = useState(null);
+  useEffect(() => {
+    const row = thumbsRef.current;
+    const media = row?.parentElement;
+    if (!media || typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(([entry]) => {
+      const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+      const size = parseFloat(getComputedStyle(row.firstElementChild).flexBasis);
+      if (!size) return;
+      // The small allowance keeps a row that fits exactly from losing a thumb to rounding.
+      const fits = Math.max(1, Math.floor((entry.contentRect.width + gap) / (size + gap) + 0.001));
+      setThumbsVisible(fits < imageCount ? fits : null);
+    });
+    observer.observe(media);
+    return () => observer.disconnect();
+  }, [imageCount]);
+
+  // Keep the active thumb in view when the photo changes via the arrows or the lightbox. Scrolls
+  // only the row, never the page.
   useEffect(() => {
     const row = thumbsRef.current;
     const thumb = row?.children[activeImage];
@@ -107,7 +131,7 @@ export default function ShowcaseGallery({ images = [], label = '', strings = {} 
       left: row.scrollLeft + thumbBox.left - rowBox.left - (rowBox.width - thumbBox.width) / 2,
       behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
     });
-  }, [activeImage]);
+  }, [activeImage, thumbsVisible]);
 
   // Lock background scroll + wire up keyboard nav while the lightbox is open
   // (same pattern as the home-page gallery — no in-modal zoom/pan to fight the scroll).
@@ -188,7 +212,13 @@ export default function ShowcaseGallery({ images = [], label = '', strings = {} 
         </div>
 
         {imageCount > 1 && (
-          <div className="house-showcase__thumbs" role="tablist" aria-label={strings.galleryLabel} ref={thumbsRef}>
+          <div
+            className={thumbsVisible ? 'house-showcase__thumbs house-showcase__thumbs--fit' : 'house-showcase__thumbs'}
+            style={thumbsVisible ? { '--thumbs-visible': thumbsVisible } : undefined}
+            role="tablist"
+            aria-label={strings.galleryLabel}
+            ref={thumbsRef}
+          >
             {images.map((item, index) => (
               <button
                 key={`${label}-${item.src}`}

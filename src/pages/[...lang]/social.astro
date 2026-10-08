@@ -21,7 +21,8 @@
 //   9. Reservation     → the Bentral widget itself (LandingReservation) — the page ends where the
 //                        booking happens, so every CTA scrolls here instead of leaving the page.
 // The conversion goal lives in ONE place (components/sections/landingGoal.ts); swap section 9
-// together with it. Visible strings come from the i18n dictionary; styling lives in
+// together with it. Visible strings come from the i18n dictionary — the landing's own copy under
+// `lp.*`, so rewording this page never changes the pages the blocks come from; styling lives in
 // src/styles/blocks/_landing.scss.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ParallaxHero from '../../islands/ParallaxHero.jsx';
@@ -34,6 +35,7 @@ import LandingReservation from '../../components/sections/LandingReservation.ast
 import LandingCTA from '../../components/sections/LandingCTA.astro';
 import Testimonials from '../../components/sections/Testimonials.astro';
 import { landingGoals, activeLandingGoal } from '../../components/sections/landingGoal';
+import { saunaPhotos } from '../../components/sections/saunaPhotos';
 import { useTranslations, localeStaticPaths } from '../../i18n';
 
 const t = useTranslations(Astro.currentLocale);
@@ -53,15 +55,12 @@ const stayImages = [
   photo('rooms', 'rooms-06', t('accommodation.units.rooms.alt')),
   photo('rooms', 'rooms-08', t('lp.stay.alt.attic')),
   photo('rooms', 'rooms-10', t('home.apartments.rooms.alt')),
-  photo('house2', 'house2-03', t('accommodation.units.house2.alt')),
+  photo('house3', 'house3-01', t('accommodation.units.house3.alt1')),
   photo('rooms', 'rooms-07', t('lp.stay.alt.bathroom')),
 ];
 
-const saunaImages = [
-  photo('house1', 'house1-01', t('lp.sauna.imageAlt')),
-  photo('house1', 'house1-03', t('sauna.imageAlt1')),
-  photo('house1', 'house1-04', t('sauna.imageAlt2')),
-];
+// The same photo set as the Sauna block of the other pages.
+const saunaImages = saunaPhotos(t);
 
 const restaurantImages = ['kitchen-02', 'kitchen-05', 'kitchen-06', 'kitchen-01', 'kitchen-03', 'kitchen-04'].map(
   (name) => photo('kitchen', name, t('lp.restaurant.imageAlt'))
@@ -75,7 +74,7 @@ export const getStaticPaths = localeStaticPaths;
     <ParallaxHero
       client:load
       title={t('lp.hero.title')}
-      subtitle={t('home.hero.subtitle')}
+      subtitle={t('lp.hero.subtitle')}
       intro={t('lp.hero.intro')}
       bookHref={`#${goal.anchor}`}
       bookConversion={goal.conversion}
@@ -85,7 +84,16 @@ export const getStaticPaths = localeStaticPaths;
       airbnbLabel={t('home.hero.airbnbLabel')}
     />
 
-    <HomeWelcome id="place" skipPills={['home.welcome.pill.pets']}>
+    <HomeWelcome
+      id="place"
+      title={t('lp.place.title')}
+      lead={t('lp.place.text')}
+      pills={[
+        { icon: 'bed', label: t('home.welcome.pill.apartments') },
+        { icon: 'flame', label: t('home.welcome.pill.kitchen') },
+        { icon: 'trees', label: t('lp.place.pill.nature') },
+      ]}
+    >
       <LandingCTA slot="cta" variant="secondary" />
     </HomeWelcome>
 
@@ -94,10 +102,10 @@ export const getStaticPaths = localeStaticPaths;
       warm
       matchHeight
       eyebrow={t('accommodation.units.eyebrow')}
-      title={t('home.apartments.rooms.title')}
-      text={t('home.apartments.rooms.text')}
+      title={t('lp.stay.title')}
+      text={t('lp.stay.text')}
       images={stayImages}
-      points={[t('home.apartments.rooms.b1'), t('home.apartments.rooms.b2')]}
+      points={[t('lp.stay.point1'), t('lp.stay.point2')]}
       pointIcon="bed"
       pills={[
         { icon: 'paw-print', label: t('accommodation.hero.pill.pets') },
@@ -114,9 +122,9 @@ export const getStaticPaths = localeStaticPaths;
       id="sauna"
       mirror
       title={t('sauna.title')}
-      text={t('sauna.body')}
+      text={t('lp.sauna.text')}
       images={saunaImages}
-      points={[t('sauna.point1'), t('sauna.point2'), t('sauna.point3')]}
+      points={[t('lp.sauna.point1'), t('lp.sauna.point2'), t('lp.sauna.point3')]}
       pointIcon="flame"
     />
 
@@ -125,20 +133,20 @@ export const getStaticPaths = localeStaticPaths;
     <LandingFeature
       id="restaurant"
       warm
-      eyebrow={t('menu.hero.eyebrow')}
+      eyebrow={t('lp.restaurant.eyebrow')}
       title={t('lp.restaurant.title')}
-      text={t('menu.hero.lead')}
+      text={t('lp.restaurant.text')}
       images={restaurantImages}
       pills={[
         { icon: 'coffee', label: t('menu.hero.pill.breakfast') },
-        { icon: 'utensils', label: t('menu.hero.pill.mains') },
+        { icon: 'utensils', label: t('lp.restaurant.pill.mains') },
         { icon: 'leaf', label: t('menu.hero.pill.soups') },
       ]}
     >
       <LandingMenu slot="foot" />
     </LandingFeature>
 
-    <Testimonials />
+    <Testimonials title={t('lp.reviews.title')} intro={t('lp.reviews.intro')} />
 
     <LandingReservation />
   </div>

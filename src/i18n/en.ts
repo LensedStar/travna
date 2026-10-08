@@ -263,43 +263,68 @@ export const en = {
   'accommodation.units.title': 'Houses and rooms', // MOCK
   'accommodation.units.intro':
     'Lorem ipsum dolor sit amet — choose a whole house to yourselves, or a cozy room in the main building.', // MOCK
-  // Houses group
-  'accommodation.units.houses.title': 'Standalone houses', // MOCK
+  // Houses group. Names, capacities and the room list are the client's own description (2026-10-08):
+  // two mobile houses — no. 1 for 6 guests (three rooms, kitchen, two WCs, shower, terrace) and
+  // no. 3, "house three", for 5 guests; there is no number 2 — plus the sauna, which in summer is
+  // let as a mobile house for 2. The client said nothing more about house 3, so the rest of its copy
+  // describes only what the client's photos show — TODO(Webline): confirm with the client.
+  'accommodation.units.houses.title': 'Mobile houses',
   'accommodation.units.houses.text':
-    'Rest as a family or as a couple in a standalone house of your own — your own sauna, your own kitchen.', // MOCK
-  'accommodation.units.house1.name': 'Family house', // MOCK
-  'accommodation.units.house1.text': 'A whole house to yourselves — private entrance, own kitchen and BBQ equipment, sleeping 1–6.', // MOCK
-  'accommodation.units.house1.capacity': 'Sleeps 1–6', // MOCK
-  'accommodation.units.house1.size': 'Kitchen · terrace', // MOCK
-  'accommodation.units.house1.tag.sleeps': 'Sleeps 1–6', // MOCK
-  'accommodation.units.house1.tag.size': '44 m²', // MOCK
-  'accommodation.units.house1.tag.sauna': 'Wood-fired sauna', // MOCK
-  'accommodation.units.house1.tag.bbq': 'Own kitchen & BBQ', // MOCK
-  'accommodation.units.house1.alt': 'Terrace of the house with forest views', // MOCK — replace with real photo
-  'accommodation.units.house2.name': 'Mobile house', // MOCK
-  'accommodation.units.house2.text': 'A snug mobile house with private entrance, sauna, terrace and BBQ equipment — up to 3 persons.', // MOCK
-  'accommodation.units.house2.capacity': 'Up to 3 persons', // MOCK — TODO(Webline): confirm the real capacity
-  'accommodation.units.house2.size': '1 bedroom · kitchen · garden', // MOCK
-  'accommodation.units.house2.tag.sleeps': 'Up to 3 persons', // MOCK
-  'accommodation.units.house2.tag.bedrooms': '1 bedroom', // MOCK
-  'accommodation.units.house2.tag.size': '35 m²', // MOCK
-  'accommodation.units.house2.tag.sauna': 'Wood-fired sauna', // MOCK
-  'accommodation.units.house2.tag.bbq': 'BBQ equipment', // MOCK
-  'accommodation.units.house2.alt': 'Interior of the mobile holiday home with kitchen and loft stairs', // MOCK — replace with real photo
-  // Rooms group
+    'Two mobile houses, each one all to yourselves — Mobile house 1 for up to six guests and Mobile house 3 for up to five. In summer the sauna is also let as a mobile house for two.',
+  'accommodation.units.house1.name': 'Mobile house 1',
+  'accommodation.units.house1.text': 'The larger of the two: three rooms, a kitchen, two WCs, a shower and a terrace — room for up to six guests.',
+  'accommodation.units.house1.capacity': 'Up to 6 persons',
+  'accommodation.units.house1.size': '3 rooms · kitchen · terrace',
+  'accommodation.units.house1.tag.sleeps': 'Up to 6 persons',
+  'accommodation.units.house1.tag.rooms': '3 rooms',
+  'accommodation.units.house1.tag.kitchen': 'Kitchen',
+  'accommodation.units.house1.tag.bathroom': '2 WCs · shower',
+  'accommodation.units.house1.tag.terrace': 'Terrace',
+  'accommodation.units.house1.alt1': 'Mobile house 1 seen from the meadow, timber-clad, at the edge of the forest',
+  'accommodation.units.house1.alt2': 'Covered wooden terrace of Mobile house 1 with a table and chairs, looking out over the meadow and the forest',
+  'accommodation.units.house1.alt3': 'Living room of Mobile house 1 with a dining table, a TV and glass doors onto the terrace',
+  'accommodation.units.house1.alt4': 'Kitchen of Mobile house 1 with a hob, an oven, a microwave and a fridge',
+  'accommodation.units.house1.alt5': 'The pale-wood kitchen of Mobile house 1 seen from the living room',
+  'accommodation.units.house3.name': 'Mobile house 3',
+  'accommodation.units.house3.text': 'A bright mobile house for up to five guests, with a kitchen, a sofa corner, two lofts under the roof, a bathroom with a shower and a terrace.', // capacity: client; the rest: from the photos
+  'accommodation.units.house3.capacity': 'Up to 5 persons',
+  'accommodation.units.house3.size': 'Kitchen · bathroom · terrace', // from the photos
+  'accommodation.units.house3.tag.sleeps': 'Up to 5 persons',
+  'accommodation.units.house3.tag.kitchen': 'Kitchen', // from the photos
+  'accommodation.units.house3.tag.bathroom': 'Bathroom with shower', // from the photos
+  'accommodation.units.house3.tag.terrace': 'Terrace', // from the photos
+  'accommodation.units.house3.alt1': 'Inside Mobile house 3: the kitchen along one wall, a dining table, a sofa and a loft at the far end',
+  'accommodation.units.house3.alt2': 'Sofa corner of Mobile house 3 under a loft reached by a wooden ladder',
+  'accommodation.units.house3.alt3': 'Dining table, kitchen and the stairs up to the second loft in Mobile house 3',
+  'accommodation.units.house3.alt4': 'Dining table by the terrace doors in Mobile house 3, with the loft ladder in front',
+  'accommodation.units.house3.alt5': 'Kitchen of Mobile house 3 with the stairs to the loft and the bathroom door beyond',
+  'accommodation.units.house3.alt6': 'Bathroom of Mobile house 3 with a washbasin, a round mirror and a WC',
+  'accommodation.units.house3.alt7': 'Glass shower cabin and washbasin in the bathroom of Mobile house 3',
+  'accommodation.units.house3.alt8': 'Wooden terrace of Mobile house 3 with a table and chairs, in the mountain fog',
+  'accommodation.units.house3.alt9': 'The wooden terrace of Mobile house 3 seen through the curtain of the glass door',
+  // Rooms group — one showcase entry per room, picked with the room selector. Room numbers and guest
+  // counts are the client's list (2026-10-08): 1 (also called 101) – 2, 2 – 5, 3 – 4, 4 – 5, 5 – 3,
+  // 7 – 4, 9 – 6, 10 – 6, 11 – 3; the list itself lives in AccommodationUnits.astro. The client gave
+  // no description per room, so the feature pills name only what that room's photos show —
+  // TODO(Webline): confirm with the client.
   'accommodation.units.rooms.title': 'Rooms in the main house', // MOCK
   'accommodation.units.rooms.text':
-    'Cozy rooms with lovely views and all the little comforts you need.', // MOCK
-  // Single showcase entry for the main house (no per-room breakdown) — richer copy + gallery.
-  'accommodation.units.rooms.name': 'Cozy rooms upstairs', // MOCK
-  'accommodation.units.rooms.detail':
     'Warm, wood-lined rooms under the eaves of the main house — classic mountain style, fresh and clean, each with its own private bathroom and forest or valley views.',
-  'accommodation.units.rooms.tag.sleeps': 'Up to 4 persons', // MOCK
-  'accommodation.units.rooms.tag.rooms': '4 cozy rooms', // MOCK
-  'accommodation.units.rooms.tag.size': 'Doubles & family', // MOCK
-  'accommodation.units.rooms.tag.sauna': 'Shared sauna', // MOCK
-  'accommodation.units.rooms.tag.wifi': 'Free Wi-Fi', // MOCK
-  'accommodation.units.rooms.alt': 'A wood-lined double room under the eaves with forest views', // MOCK — replace with real photo
+  'accommodation.units.rooms.choose': 'Choose a room', // label above the room selector
+  'accommodation.units.rooms.name': 'Room {n}', // {n} = the room number
+  'accommodation.units.rooms.capacity': 'Up to {n} persons', // {n} = number of guests
+  'accommodation.units.rooms.tag.bathroom': 'Private bathroom', // from the photos
+  'accommodation.units.rooms.tag.kitchen': 'Kitchen', // from the photos
+  'accommodation.units.rooms.tag.kitchenette': 'Kitchenette', // from the photos
+  'accommodation.units.rooms.tag.balcony': 'Balcony', // from the photos
+  // Photo alt texts are built as "<room name> — <what the photo shows>".
+  'accommodation.units.rooms.shot.room': 'view of the room',
+  'accommodation.units.rooms.shot.beds': 'the beds',
+  'accommodation.units.rooms.shot.kitchen': 'the kitchen corner',
+  'accommodation.units.rooms.shot.bathroom': 'bathroom with a shower',
+  'accommodation.units.rooms.shot.balcony': 'the balcony',
+  'accommodation.units.rooms.shot.view': 'view from the window',
+  'accommodation.units.rooms.alt': 'A wood-lined double room under the eaves with forest views', // landing's rooms slider (older mixed set in public/images/rooms/)
   'accommodation.units.capacityLabel': 'Capacity',
 
   // --- Accommodation page: breakfast & kitchen ---
@@ -317,7 +342,8 @@ export const en = {
 
   // --- Sauna (shared block: apartments page + activities page) ---
   // TODO(Webline): confirm copy with the client. The sauna is wood-fired and shared by all guests
-  // — it is NOT private to a house (see the unit strings above, which still say otherwise).
+  // — it is NOT private to a house. In summer it is let as a mobile house for two (client,
+  // 2026-10-08) — said in accommodation.units.houses.text, not in this block.
   'sauna.title': 'Wood-fired sauna',
   'sauna.shortTitle': 'Sauna', // heading used where the block stands on its own (activities page)
   'sauna.body':
@@ -325,8 +351,20 @@ export const en = {
   'sauna.point1': 'A modern sauna with everything you need',
   'sauna.point2': 'Unwind after a long day',
   'sauna.point3': 'Good for body and mind',
-  'sauna.imageAlt1': 'The wood-lined sauna with its glass door and bucket',
-  'sauna.imageAlt2': 'The shower beside the sauna with a wooden dousing bucket',
+  // Alt texts of the sauna photos, one per photo — the order is set in components/sections/saunaPhotos.ts.
+  'sauna.photo.room': 'Inside the wood-fired sauna: timber benches in warm light beside the stove',
+  'sauna.photo.benches': 'The sauna stove with its basket of stones beside the two-tier wooden benches',
+  'sauna.photo.stove': 'The sauna stove piled with stones behind a wooden guard rail',
+  'sauna.photo.door': 'The wood-lined sauna with its glass door and bucket',
+  'sauna.photo.shower': 'The shower beside the sauna with a wooden dousing bucket',
+  'sauna.photo.lounge': 'The rest room of the sauna house with a sofa, a round table and rattan chairs',
+  'sauna.photo.table': 'Round table and rattan chairs in front of the corner sofa in the rest room',
+  'sauna.photo.terrace': 'Covered wooden terrace of the sauna house with a table, chairs and the entrance door',
+  'sauna.photo.tub': 'Round plunge tub set into the floor of the terrace',
+  'sauna.photo.chairs': 'Two rattan chairs on the terrace, looking over the meadow to the forest',
+  'sauna.photo.view': 'View from the terrace table over the roofs to the forest in the fog',
+  'sauna.photo.exterior': 'The sauna house, a timber cabin with a covered terrace at the edge of the forest',
+  'sauna.photo.evening': 'The covered terrace of the sauna house in the evening, lamps lit over the table and chairs',
 
   // --- Testimonials (real guest reviews, translated from Booking.com) ---
   'testimonials.score.value': '8.8',
@@ -461,19 +499,33 @@ export const en = {
   // --- Hidden advertising landing (/social) ---
   // The page social profiles and ads link to: hero → the place → rooms → atmosphere → sauna →
   // activities → restaurant → reviews → reservation widget. It is built from the blocks of the other
-  // pages and reads their strings (home.hero.subtitle, home.welcome.*, home.apartments.rooms.*,
-  // accommodation.hero.pill.*, sauna.*, activities.eyebrow, home.activities.title,
-  // activities.doorstep.eyebrow, activities.trips.driveLabel, cta.viewActivities, menu.hero.*,
-  // testimonials.*, booking.title, home.bookDirect.*), so only what is specific to the landing
-  // lives here.
-  // TODO(Webline): draft copy — review with the client before running campaigns. "About an hour
-  // from Ljubljana" restates the client-supplied drive time (≈ 55–60 min, destinations collection).
+  // pages but carries its own copy: every text worded for the landing lives here, so rewriting it
+  // never changes another page. Only short labels that read the same everywhere are still shared
+  // (home.welcome.pill.apartments / .kitchen, accommodation.units.eyebrow, accommodation.hero.pill.*,
+  // sauna.title, menu.hero.pill.breakfast / .soups, cta.viewActivities, testimonials.score.* and the
+  // reviews themselves, home.bookDirect.benefit*Title).
+  // The Russian landing copy was supplied as final text (2026-10-07). EN and SL still carry the
+  // wording of the pages the blocks come from, plus the earlier drafts — TODO(Webline): replace
+  // with the EN / SL landing copy before running campaigns. "About an hour from Ljubljana" restates
+  // the client-supplied drive time (≈ 55–60 min, destinations collection).
   'lp.meta.description':
     'A mountain house in the forest, about an hour from Ljubljana: cozy apartments, a wood-fired sauna and home-cooked food. Check availability and book directly.', // also the link-preview text when the page is shared
   'lp.cta': 'Check availability', // every booking CTA on the landing
   'lp.hero.title': 'Forest escape on Travna Gora',
+  'lp.hero.subtitle': 'Where time runs slower', // same wording as home.hero.subtitle
   'lp.hero.intro':
     'Cozy apartments, a wood-fired sauna and home-cooked food — on a forest plateau about an hour from Ljubljana.',
+  // The place — the home welcome block under the landing's own copy.
+  'lp.place.title': 'Cozy apartments in the heart of the forest', // same wording as home.welcome.title
+  'lp.place.text':
+    'Leave the city behind and find quiet on Travna Gora, a high mountain plateau above the Ribnica valley, covered in forest. Open meadows sit between the trees, the forest comes right up to your apartment, and the air still smells like forest, not traffic. Come to slow down, breathe deeply and explore a quiet corner of Slovenia few travelers ever find.', // same wording as home.welcome.lead
+  'lp.place.pill.nature': 'Forest at the doorstep', // same wording as home.welcome.pill.forest
+  // Rooms row.
+  'lp.stay.title': 'Rooms for every stay', // same wording as home.apartments.rooms.title
+  'lp.stay.text':
+    'Fresh, cozy rooms for groups of any size — a warm welcome for big families, couples, and solo travelers alike.', // same wording as home.apartments.rooms.text
+  'lp.stay.point1': 'Book the whole house to yourselves — private entrance, own kitchen, sleeps 1–6.', // same wording as home.apartments.rooms.b1
+  'lp.stay.point2': 'Or just a room — cozy options for 1–4 guests.', // same wording as home.apartments.rooms.b2
   'lp.stay.alt.balcony': 'Wooden balcony of the main house looking out over the forest',
   'lp.stay.alt.attic': 'Attic room with a double bed and a skylight',
   'lp.stay.alt.bathroom': 'Private bathroom with a shower',
@@ -488,10 +540,40 @@ export const en = {
   'lp.atmosphere.alt.4': 'Picnic table on the meadow, with mist lying under the forest', // MOCK — stand-in photo
   'lp.atmosphere.alt.5': 'A big shade tree, picnic tables and the wooden welcome sign on the meadow beside the house', // MOCK — stand-in photo
   'lp.atmosphere.alt.6': 'A fire burning in the stone fireplace of the house', // MOCK — stand-in photo
-  'lp.sauna.imageAlt': 'Inside the wood-fired sauna: timber benches in warm light beside the stove',
+  // Sauna row. A blank line in the text starts a new paragraph.
+  'lp.sauna.text':
+    'After a day in the forest there is nothing better than heat, wood and quiet. The sauna is wood-fired, the way it has always been here — give it time to warm through, then step out into the cool mountain air.', // same wording as sauna.body
+  'lp.sauna.point1': 'A modern sauna with everything you need', // same wording as sauna.point1
+  'lp.sauna.point2': 'Unwind after a long day', // same wording as sauna.point2
+  'lp.sauna.point3': 'Good for body and mind', // same wording as sauna.point3
+  // Activities teaser (LandingActivities.astro): heading, a short intro and four tiles — a name and
+  // one line each. The photos come from the activities / destinations collections.
+  'lp.activities.eyebrow': 'Around Travna Gora', // same wording as activities.eyebrow
+  'lp.activities.title': 'Explore the surroundings', // same wording as home.activities.title
+  'lp.activities.intro':
+    'Nature starts right at the doorstep. From here you can set off on a walk through the forest, cycle around the area or head out to the natural sights of the region.', // translated from the Russian landing copy — TODO(Webline): review
+  'lp.activities.hiking.title': 'Hiking & viewpoints',
+  'lp.activities.hiking.text': 'Walking routes and forest trails start right next to the house.', // translated from the Russian landing copy — TODO(Webline): review
+  'lp.activities.cycling.title': 'Cycling the forest trails',
+  'lp.activities.cycling.text': 'Quiet forest roads are ideal for cycling, away from busy traffic.', // translated from the Russian landing copy — TODO(Webline): review
+  'lp.activities.bears.title': 'Brown bear watching (Kočevsko)',
+  'lp.activities.bears.text': 'About 20–30 minutes by car.', // translated from the Russian landing copy — TODO(Webline): review
+  'lp.activities.cave.title': 'Križna Cave (Cross Cave)',
+  'lp.activities.cave.text': 'One of the well-known karst caves of Slovenia — about a 40-minute drive.', // translated from the Russian landing copy — TODO(Webline): review
+  // Restaurant row.
+  'lp.restaurant.eyebrow': 'From our kitchen', // same wording as menu.hero.eyebrow
   'lp.restaurant.title': 'A restaurant with home cooking',
+  'lp.restaurant.text':
+    'Everything here is cooked in the house, the way it has always been done — family recipes, local and seasonal produce, and nothing out of a packet. Mornings start with a homemade breakfast; later the kitchen turns to warming soups and hearty mountain mains, with something sweet to finish.', // same wording as menu.hero.lead
+  'lp.restaurant.pill.mains': 'Hearty mains', // same wording as menu.hero.pill.mains
   'lp.restaurant.favorites': 'Guest favorites', // heads the dishes flagged `featured` in the menu collection
   'lp.restaurant.imageAlt': 'A plate of home-cooked food from the house kitchen',
+  // Guest reviews — the shared Testimonials block under the landing's own heading.
+  'lp.reviews.title': 'What guests take home with them', // same wording as testimonials.title
+  'lp.reviews.intro':
+    'Don’t just take our word for it — here’s what guests had to say after their stay at Travna Gora.', // same wording as testimonials.intro
+  // Reservation (LandingReservation.astro).
+  'lp.reservation.title': 'Book your stay', // same wording as booking.title
   'lp.reservation.intro':
     'Pick your dates and book directly with us — the house, the sauna and a warm meal are waiting.',
   'lp.reservation.help': 'Questions before you book? Call or write to us:',

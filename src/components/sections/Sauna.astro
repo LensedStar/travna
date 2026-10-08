@@ -5,6 +5,7 @@
 // come from the i18n dictionary; styling lives in src/styles/blocks/_sauna.scss.
 import Icon from '../ui/Icon.astro';
 import ShowcaseGallery from '../../islands/ShowcaseGallery.jsx';
+import { saunaPhotos } from './saunaPhotos';
 import { useTranslations } from '../../i18n';
 
 // `title` lets the activities page head the block with the short "Sauna" heading; `warm` puts it
@@ -19,11 +20,8 @@ const t = useTranslations(Astro.currentLocale);
 
 const points = [t('sauna.point1'), t('sauna.point2'), t('sauna.point3')];
 
-// Real client photos of the sauna in one of the houses.
-const images = [
-  { src: '/images/house1/house1-03.webp', alt: t('sauna.imageAlt1') },
-  { src: '/images/house1/house1-04.webp', alt: t('sauna.imageAlt2') },
-];
+// Real client photos of the sauna — the set is listed once, in saunaPhotos.ts.
+const images = saunaPhotos(t);
 ---
 <section class:list={['sauna', 'reveal', { 'sauna--warm': warm }]}>
   <div class="sauna__inner">

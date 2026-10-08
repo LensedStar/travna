@@ -1,11 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import ShowcaseGallery, { Glyph } from './ShowcaseGallery.jsx';
 
 /**
- * @param {{ houses?: Array<Record<string, any>>, strings?: Record<string, string> }} props
+ * `selector` picks how the unit switcher is drawn:
+ *   - 'pills' (default) — segmented pills inside the info panel, for a couple of options (the houses);
+ *   - 'tiles' — a row of tiles across the showcase, above the gallery, each with the unit's name and
+ *     the number of guests it sleeps (`guests`), for many options (the rooms). Above the gallery it
+ *     also comes before the photos on a phone, where the panel sits under them.
+ *
+ * @param {{ houses?: Array<Record<string, any>>, strings?: Record<string, string>, bookHref?: string, selector?: 'pills' | 'tiles' }} props
  */
-export default function HouseShowcase({ houses = [], strings = {}, bookHref }) {
+export default function HouseShowcase({ houses = [], strings = {}, bookHref, selector = 'pills' }) {
   const [activeHouse, setActiveHouse] = useState(0);
+  const tiles = selector === 'tiles';
+  const selectorLabelId = useId();
 
   // Sliding highlight behind the house-type switcher: we measure the active button (widths differ
   // per label) and move an absolutely-positioned indicator to it. `switcherReady` suppresses the
@@ -53,8 +61,67 @@ export default function HouseShowcase({ houses = [], strings = {}, bookHref }) {
 
   if (!house) return null;
 
+  const switcher = houseCount > 1 && (
+    <div
+      className={tiles ? 'house-showcase__switcher house-showcase__switcher--tiles' : 'house-showcase__switcher'}
+      role="tablist"
+      aria-label={tiles ? undefined : strings.galleryLabel}
+      aria-labelledby={tiles ? selectorLabelId : undefined}
+      ref={switcherRef}
+    >
+      {indicator && (
+        <span
+          className={
+            switcherReady
+              ? 'house-showcase__switch-indicator house-showcase__switch-indicator--ready'
+              : 'house-showcase__switch-indicator'
+          }
+          style={{
+            transform: `translate(${indicator.left}px, ${indicator.top}px)`,
+            width: `${indicator.width}px`,
+            height: `${indicator.height}px`,
+          }}
+          aria-hidden="true"
+        />
+      )}
+      {houses.map((item, index) => (
+        <button
+          key={item.name}
+          type="button"
+          role="tab"
+          className={index === activeHouse ? 'house-showcase__switch house-showcase__switch--active' : 'house-showcase__switch'}
+          onClick={() => setActiveHouse(index)}
+          aria-selected={index === activeHouse}
+          // The tile shows the guest count as an icon and a bare number; spell it out for screen readers.
+          aria-label={tiles && item.capacity ? `${item.name} — ${item.capacity}` : undefined}
+        >
+          {tiles ? (
+            <>
+              <span className="house-showcase__switch-name">{item.name}</span>
+              {item.guests != null && (
+                <span className="house-showcase__switch-meta">
+                  <Glyph name="users" className="house-showcase__switch-meta-icon" />
+                  {item.guests}
+                </span>
+              )}
+            </>
+          ) : (
+            item.name
+          )}
+        </button>
+      ))}
+    </div>
+  );
+
   return (
-    <div className="house-showcase">
+    <div className={tiles ? 'house-showcase house-showcase--tiles' : 'house-showcase'}>
+      {tiles && switcher && (
+        <div className="house-showcase__selector">
+          <p className="house-showcase__selector-label" id={selectorLabelId}>{strings.selectorLabel}</p>
+          {switcher}
+        </div>
+      )}
+
       <div className="house-showcase__body">
         {/* `key` resets the gallery to its first photo when another house is selected. */}
         <ShowcaseGallery
@@ -65,40 +132,10 @@ export default function HouseShowcase({ houses = [], strings = {}, bookHref }) {
         />
 
         <div className="house-showcase__panel">
-          {houseCount > 1 && (
-            <div className="house-showcase__switcher" role="tablist" aria-label={strings.galleryLabel} ref={switcherRef}>
-              {indicator && (
-                <span
-                  className={
-                    switcherReady
-                      ? 'house-showcase__switch-indicator house-showcase__switch-indicator--ready'
-                      : 'house-showcase__switch-indicator'
-                  }
-                  style={{
-                    transform: `translate(${indicator.left}px, ${indicator.top}px)`,
-                    width: `${indicator.width}px`,
-                    height: `${indicator.height}px`,
-                  }}
-                  aria-hidden="true"
-                />
-              )}
-              {houses.map((item, index) => (
-                <button
-                  key={item.name}
-                  type="button"
-                  role="tab"
-                  className={index === activeHouse ? 'house-showcase__switch house-showcase__switch--active' : 'house-showcase__switch'}
-                  onClick={() => setActiveHouse(index)}
-                  aria-selected={index === activeHouse}
-                >
-                  {item.name}
-                </button>
-              ))}
-            </div>
-          )}
+          {!tiles && switcher}
           <div className="house-showcase__copy">
             <h4 className="house-showcase__title">{house.name}</h4>
-            <p className="house-showcase__text">{house.text}</p>
+            {house.text && <p className="house-showcase__text">{house.text}</p>}
           </div>
           <ul className="house-showcase__tags" role="list">
             {(house.tags ?? [

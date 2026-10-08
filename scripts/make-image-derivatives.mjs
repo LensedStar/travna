@@ -20,7 +20,12 @@ const kb = (file) => `${(fs.statSync(file).size / 1024).toFixed(0)} KB`;
 // --- Showcase thumbnails ---------------------------------------------------
 // The showcase slider's thumbnail strip shows each photo ~5rem wide; without a thumbnail it loads
 // the full-size photo for every one of them. 16:10 matches .house-showcase__thumb-image.
-const THUMB_FOLDERS = ['house1', 'house2', 'rooms', 'kitchen'];
+const THUMB_FOLDERS = [
+  'house1', 'house2', 'house3', 'sauna', 'rooms', 'kitchen',
+  // One folder per room of the main house, by the client's room number. Add a room here once it
+  // has photos (8, 12 and 13 had none when this was written).
+  'room1', 'room2', 'room3', 'room4', 'room5', 'room7', 'room9', 'room10', 'room11',
+];
 const THUMB = { width: 320, height: 200 };
 
 for (const folder of THUMB_FOLDERS) {
