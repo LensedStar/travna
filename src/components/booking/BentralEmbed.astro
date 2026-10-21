@@ -1,9 +1,8 @@
 ---
 // BentralEmbed.astro — ISOLATED Bentral reservation embed (TASK-024).
 //
-// This is the ONLY file to touch when the real Bentral widget is supplied. Replacing the
-// placeholder iframe below with the real Bentral embed code / object ID must require editing
-// NOTHING ELSE — no other component, page or style file changes.
+// This is the ONLY file that knows about Bentral: changing the object, key or colours means editing
+// nothing else — no other component, page or style file.
 //
 // Rules (CLAUDE.md §11):
 //  - The widget is only ever rendered through this isolated wrapper: on /rezervacija and — the
@@ -12,33 +11,67 @@
 //  - Do NOT pass user PII to the widget.
 //  - Do not fight the widget's internal styling — the site only frames around it.
 //
+// Bentral's embed code is a <script> (service/embed/booking.js) that document.write()s an iframe of
+// service/embed/booking.html and then resizes it to the height the widget reports. The same iframe is
+// rendered here directly, so the page is not held up by a blocking third-party script and the iframe
+// keeps its title and lazy loading; the resize is done by the small script below.
+//
 // Visible/a11y strings come from the i18n dictionary (no hardcoded copy).
-import { useTranslations } from '../../i18n';
+import { useTranslations, resolveLocale } from '../../i18n';
 
-const t = useTranslations(Astro.currentLocale);
+const locale = resolveLocale(Astro.currentLocale);
+const t = useTranslations(locale);
 
-// placeholder embed target. The real Bentral object renders from a Bentral-hosted URL
-// (e.g. https://www.bentral.com/...) pasted by Webline/client at launch.
-// TODO: replace `placeholderSrc` (and the iframe `src` below) with the real Bentral embed URL.
-const placeholderSrc = 'about:blank';
+// Bentral's widget comes in Slovenian and English (lang=ru returns the English one), so the Russian
+// pages get the English widget.
+const bentralLang = locale === 'sl' ? 'sl' : 'en';
+
+// Parameters from Bentral's embed code. The colours are set in Bentral's widget settings and mirror
+// the site tokens (src/styles/tokens/_colors.scss): headers = forest, section rows = surface-warm,
+// rows = surface / text, button = terracotta / bg (as .btn--primary), border = mist.
+const params = new URLSearchParams({
+  id: '5f7a59784e415f4d',
+  width: 'full',
+  'header-bg': '3e5a40',
+  'header-color': 'ffffff',
+  'header2-bg': 'f9f3ed',
+  'header2-color': '3e5a40',
+  'table-bg': 'ffffff',
+  'table-color': '3a2e26',
+  'btn-bg': 'a65a3a',
+  'btn-color': 'fbf8f3',
+  'border-color': 'b8bca8',
+  lang: bentralLang,
+  key: 'dc437a95565e5e3efaacef3ee7dd1ff8',
+});
+const src = `https://www.bentral.com/service/embed/booking.html?${params}`;
 ---
 
 <div class="booking__embed">
-  {/*
-    ================================================================================
-    TODO: PASTE THE REAL BENTRAL EMBED HERE.
-    Replace the placeholder <iframe> below with the Bentral-provided <iframe> (or
-    object-id snippet). Keep `title`, `loading="lazy"` and the `.booking__frame`
-    class so the site styling and a11y/lazy-loading behaviour are preserved.
-    Do NOT pass any user PII to the widget URL.
-    ================================================================================
-  */}
   <iframe
     class="booking__frame"
-    src={placeholderSrc}
+    src={src}
     title={t('booking.widgetTitle')}
-    loading="lazy"></iframe>
-
-  {/* Placeholder note — visible until the real embed replaces the iframe above. */}
-  <p class="booking__placeholder">{t('booking.placeholder')}</p>
+    loading="lazy"
+    data-bentral-frame></iframe>
 </div>
+
+<script>
+  // The widget posts "<frame id>_<content height>" to this page on load and whenever its height
+  // changes (step 2, date picker…). Grow the iframe that sent it to fit, with the same 30px headroom
+  // Bentral's own loader adds. Only messages from Bentral are read.
+  const BENTRAL_ORIGIN = 'https://www.bentral.com';
+  const HEADROOM_PX = 30;
+
+  window.addEventListener('message', (event) => {
+    if (event.origin !== BENTRAL_ORIGIN || typeof event.data !== 'string') return;
+    const height = parseInt(event.data.split('_')[1], 10);
+    if (!Number.isFinite(height)) return;
+
+    document.querySelectorAll<HTMLIFrameElement>('iframe[data-bentral-frame]').forEach((frame) => {
+      if (frame.contentWindow === event.source) {
+        frame.style.height = `${height + HEADROOM_PX}px`;
+      }
+    });
+  });
+</script>

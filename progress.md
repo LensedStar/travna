@@ -769,35 +769,35 @@
 
 ## Landing URL — /lp renamed to /planinski-dom-na-travni-gori
 **Date:** 2026-10-06
-**Status:** done — not committed
+**Status:** done
 **Summary:** At the user's request the landing moved from `/lp` to `/planinski-dom-na-travni-gori` (and `/sl/…`, `/ru/…`). The page file name is the URL, so `src/pages/[...lang]/lp.astro` became `planinski-dom-na-travni-gori.astro`; the two other places that name the path were updated with it — the sitemap filter in `astro.config.mjs` and the `Disallow` lines in `public/robots.txt` — plus the comments that referred to `/lp`. The dictionary keys keep their `lp.*` prefix (internal ids, not the URL). No redirect from `/lp` was added: that address was only ever the MOCK skeleton and nothing links to it. The page is still `noindex, nofollow`, out of the sitemap and disallowed for search crawlers — a brand-name URL does not change that. Wherever the entry above says `/lp`, read the new path.
 **Verified:** `npm run build` — 24 pages; the three landing pages build at the new path and no `/lp` folder remains; sitemap 21 URLs without the landing; language switcher targets are the new paths; no reference to the old address left in `dist`.
 **Files changed:** src/pages/[...lang]/planinski-dom-na-travni-gori.astro (renamed from lp.astro), astro.config.mjs, public/robots.txt, comments in src/** and scripts/make-image-derivatives.mjs
 
 ## Language switcher — dropdown spacing and hover colour (ad-hoc, outside tasks.json)
 **Date:** 2026-10-06
-**Status:** done — not committed
+**Status:** done
 **Summary:** The dropdown rows were cramped and the hover highlight was a small grey-green box hugging the text. Cause: when the switcher went functional its options became `<a>` links, which are inline, so their padding took no space — each row was 42px tall but sat 29px from the next, and `width: 100%` did nothing. The options are now `display: block`, centred, with a small gap between rows, so every row is the same size and the highlight fills it (its radius is concentric with the panel's). The hover/focus colour changed from solid mist to a 10% forest wash with forest text (6.2:1, AA) — the same forest the nav links turn on hover. The language being viewed is bold in the list. The panel's `min-width` is now the toggle's width instead of `--space-3xl`, which shrinks on phones.
 **Verified:** Playwright at 1280 / 820 / 375px on `/sl/`, `/ru/` and the landing — rows equal width, no overlap, no horizontal overflow.
 **Files changed:** src/styles/blocks/_language-switcher.scss
 
 ## Landing — normal site navigation restored
 **Date:** 2026-10-06
-**Status:** done — not committed
+**Status:** done
 **Summary:** At the user's request `/planinski-dom-na-travni-gori` now wears the normal site header and footer instead of its own minimal bar and footer strip (overrides CLAUDE.md §12 / PRD §4.2.7 "minimal/no global nav" — the user's call). The page simply dropped `bare`; `LandingBar.astro`, `LandingFooter.astro`, their styles, the short bar CTA (`compact` in `LandingCTA`, `shortLabelKey` in `landingGoal.ts`) and the keys `lp.bar.cta` / `lp.footer.site` were removed as dead code, and the `header`/`footer` slots added to `BaseLayout` for them were taken out again (`bare` stays, unused). The page's own buttons still scroll to the reservation block; the header's Book button goes to `/rezervacija` as on every page. Still `noindex`, out of the sitemap and not linked from the nav. Because the page now loads the site header, the header and footer logo point at `logo-256.webp` (26 KB) instead of the 1.9 MB `logo.png` — on every page. `translations/*.json` regenerated (370 UI keys each).
 **Verified:** build clean, 24 pages. In a browser on the built site (390px + 1440px): header and footer present, burger menu / inline links work, language switch stays on the page in the other locale, page CTAs land with the heading right under the header, photo zoom covers the header, no console or network errors. Layout audit × 3 locales × 5 widths clean, except RU at 1024px — the pre-existing site-header overflow ("Забронировать" cut off), which this page now shares with every other RU page.
 **Files changed:** src/pages/[...lang]/planinski-dom-na-travni-gori.astro, src/layouts/BaseLayout.astro, src/components/layout/{Header,Footer}.astro (logo src), src/components/layout/{LandingBar,LandingFooter}.astro (removed), src/components/sections/LandingCTA.astro, src/components/sections/landingGoal.ts, src/styles/blocks/{_landing,_header}.scss, src/i18n/{en,sl,ru}.ts, scripts/make-image-derivatives.mjs, translations/{en,sl,ru}.json
 
 ## Landing — pets pill removed from the welcome block (ad-hoc, outside tasks.json)
 **Date:** 2026-10-06
-**Status:** done — not committed
+**Status:** done
 **Summary:** At the user's request the "Pets welcome" pill is gone from the welcome block on `/planinski-dom-na-travni-gori`: on desktop it wrapped onto a row of its own and pushed the button down. `HomeWelcome` got a `skipPills` prop (i18n keys to leave out) and the landing passes `home.welcome.pill.pets`; the home page passes nothing and keeps all four pills. The pets pill in the landing's Rooms row (`accommodation.hero.pill.pets`) was left in place — it was not the one in the user's screenshot.
 **Verified:** Playwright on the dev server, 1440px + 390px, EN / SL / RU: three pills on the landing, four on the home page; RU desktop pills now fit one row and the button sits 48px higher (422px vs 470px from the top of the copy column); no horizontal overflow.
 **Files changed:** src/components/sections/HomeWelcome.astro, src/pages/[...lang]/planinski-dom-na-travni-gori.astro
 
 ## Landing — Rooms row: slider as tall as the copy (ad-hoc, outside tasks.json)
 **Date:** 2026-10-06
-**Status:** done — not committed
+**Status:** done
 **Summary:** At the user's request the slider in the Rooms row of `/planinski-dom-na-travni-gori` is now exactly as tall as the copy column beside it (eyebrow → button); before, the two were centred against each other and the copy stuck out above and below. `LandingFeature` got a `matchHeight` prop → `.landing-feature--match-height` (two-column layout only, ≥60rem): the gallery is taken out of flow so the copy alone sets the row height, the frame flexes to fill what the thumbnails leave and the photo covers it instead of holding 3:2. The gallery is inset from the top by the reach of the frame's outline so the wood line, not the photo under it, starts level with the copy. Enabled on the Rooms row only — the row the user pointed at. Sauna and restaurant rows are unchanged on purpose: the sauna copy is shorter than its photo on wide screens (matching would squeeze the photo to about 2:1), and the restaurant copy is 840–1170px tall because of the dish list (matching would stretch the photo into a tower, down to 1:2 at 1024px).
 **Verified:** Playwright on the dev server, EN / SL / RU × 390 / 768 / 960 / 1024 / 1280 / 1440 / 1920px: slider and copy heights are equal at every two-column width (bottoms flush, tops within 1px of the outline); one-column layout unchanged; no horizontal overflow. Photo shape in that row now ranges from 0.78 (RU, 960px) to 1.82 (EN, 1280px). Arrows through all six photos keep the frame size, thumbnails switch, lightbox opens full-screen and closes on Esc, no console errors. `npm run build` clean, 24 pages.
 **Not fixed (pre-existing):** at 960–1300px the six thumbnails wrap onto a second row (4 + 2 or 5 + 1).
@@ -814,7 +814,7 @@
 
 ## Landing — "Friendly atmosphere": wood frames + fly-in entrance (ad-hoc, outside tasks.json)
 **Date:** 2026-10-06
-**Status:** done — not committed
+**Status:** done
 **Summary:** Two changes to the atmosphere block at the user's request.
 - **Frames.** The six photos now carry the same frame as the showcase slider's photo (`.house-showcase__frame`): 2px wood outline set off the photo, `--radius-md` corners instead of `--radius-lg`. The grid gap is `--space-md` at every width (was `--space-sm` on phones) so two neighbouring frames keep clear of each other.
 - **Entrance.** The photos fly in — the top three from above, the bottom three from below, the outer ones from their own side too, each with a slight tilt that straightens as it lands — and the text appears afterwards. Order: photos 1 → 2 → 3, then 4 → 5 → 6, then the text. Transform + opacity only; timings are multiples of the motion tokens.
@@ -826,14 +826,14 @@
 
 ## Landing — "Friendly atmosphere" on a white band (ad-hoc, outside tasks.json)
 **Date:** 2026-10-06
-**Status:** done — not committed
+**Status:** done
 **Summary:** At the user's request the atmosphere section's background is white (`--color-surface`) instead of the page color. Like the warm bands of the feature rows it eases in and out over `--space-3xl` at the top and bottom, so it never meets the Rooms band above or the Sauna row below on a hard line.
 **Verified:** Playwright on the dev server, 1440px + 390px: background sampled down the page goes warm → page color → white → page color with no seam; no console or network errors.
 **Files changed:** src/styles/blocks/_landing.scss
 
 ## Landing — activities teaser after the sauna (ad-hoc, outside tasks.json)
 **Date:** 2026-10-07
-**Status:** done — not committed
+**Status:** done
 **Summary:** At the user's request a new block sits between Sauna and Restaurant on `/planinski-dom-na-travni-gori`: four small activity blocks and one link to the Activities page (`LandingActivities.astro`, `#activities`, pure .astro, no client JS).
 - **Content.** Each block is a photo, a name and one line saying where it is: "Right on the doorstep" for the two doorstep activities, the drive time for the two day trips (screen readers get "Approx. drive:" in front of it). Everything is read from the `activities` and `destinations` collections, so names, photos and drive times follow the Activities page. Which four is a list of file names at the top of the component (`picks`) — currently hiking, cycling, brown bear watching, Križna cave; my choice, picked for four clearly different photos. A name with no matching file is skipped.
 - **No new strings.** Heading and button reuse existing keys (`activities.eyebrow`, `home.activities.title`, `activities.doorstep.eyebrow`, `activities.trips.driveLabel`, `cta.viewActivities`), so SL and RU carry the client's own translation and `translations/*.json` did not change.
@@ -846,7 +846,7 @@
 
 ## Landing — restaurant: dish list full width under the row, desserts pill removed (ad-hoc, outside tasks.json)
 **Date:** 2026-10-07
-**Status:** done — not committed
+**Status:** done
 **Summary:** Two changes to the restaurant section of `/planinski-dom-na-travni-gori` at the user's request.
 - **"Guest favorites" moved.** The dish card left the copy column and now closes the section, full width of the container, under the slider and the copy. (First built above them — a misreading of the request; the user corrected it the same day.) `LandingFeature` got a `foot` slot for it (full-width content under the row); the page passes `<LandingMenu slot="foot" />`. From 960px — where the row above splits into two columns — the dishes sit side by side, one equal column each with an upright rule between them; narrower, it is the same list as before (name left, price right). With the list gone the copy column is 370–490px tall instead of 840–1170px, so the slider no longer floats in an empty column.
 - **"Homemade desserts" pill removed** from the row (three pills left: breakfast, mains, soups & salads). The key `menu.hero.pill.desserts` stays — the Menu page still uses it.
@@ -855,14 +855,14 @@
 
 ## Landing URL — /planinski-dom-na-travni-gori renamed to /social
 **Date:** 2026-10-07
-**Status:** done — not committed
+**Status:** done
 **Summary:** At the user's request the landing moved from `/planinski-dom-na-travni-gori` to `/social` (and `/sl/social`, `/ru/social`). The page file name is the URL, so `src/pages/[...lang]/planinski-dom-na-travni-gori.astro` became `social.astro`; the two other places that name the path were updated with it — the sitemap filter in `astro.config.mjs` and the `Disallow` lines in `public/robots.txt` — plus every comment that referred to the old address. Because "social" is a short, common word, both rules now match the page exactly instead of by prefix: the sitemap filter tests for `/social` as the last path segment, and robots.txt lists `/social$`, `/social/`, `/*/social$`, `/*/social/` — so a future page or image whose name merely starts with "social" is not swept up. The dictionary keys keep their `lp.*` prefix. No redirect from the old address: that page file was never committed, so it was never deployed and nothing can link to it. The page is still `noindex, nofollow`, out of the sitemap and not linked from the nav. Wherever the entries above say `/planinski-dom-na-travni-gori` (or `/lp`), read `/social`.
 **Verified:** `npm run build` — 24 pages; the three landing pages build at `/social`, `/sl/social`, `/ru/social` with `noindex, nofollow` and the right `og:url`, and no folder of the old name remains; sitemap 21 URLs, none of them the landing; language switcher targets are the new paths; no other page links to it; no built file names the old address. Dev server: the three new addresses answer 200, the old one 404.
 **Files changed:** src/pages/[...lang]/social.astro (renamed from planinski-dom-na-travni-gori.astro), astro.config.mjs, public/robots.txt, comments in src/** and scripts/make-image-derivatives.mjs
 
 ## Home — welcome block on the same line as the hero (ad-hoc, outside tasks.json)
 **Date:** 2026-10-07
-**Status:** done — not committed
+**Status:** done
 **Summary:** The user pointed out that the home hero and the content under it did not start on one line. On screens wider than about 1340px the hero copy started 48px further left than the welcome block's copy: the hero, the header and every other section sit in a 75rem container, the welcome block alone was capped at 70rem. The welcome block now uses 75rem too, so the logo, the hero title and buttons, the welcome copy and the sections after it share one left edge. The block's copy moved 48px left and its circular photo 48px right; nothing changes below 960px, where the block is a centred single column. The hero itself was not moved — shifting it instead would have lined it up with this one block but knocked it off the logo's line and every other section's. The same block opens the landing (`/social`), which is aligned the same way.
 **Found on the way — dev server, not the site:** after `npm run build` had been run several times beside the user's running `astro dev`, and the dev server then restarted (the edit to `astro.config.mjs` for the URL rename), every React island failed to hydrate there and vanished — hero, language switcher, mobile menu, galleries ("Cannot read properties of null (reading 'useRef')", two copies of React from a Vite dependency cache in `node_modules/.vite/deps` that the build had overwritten). The built site was never affected. Fixed by making the dev server restart once more (`touch astro.config.mjs`), which rebuilt the cache; verified that the islands hydrate with no console errors.
 **Verified:** Playwright on the dev server, home EN / SL / RU and the landing × 390 / 768 / 1024 / 1366 / 1440 / 1603 / 1920 / 2560px: logo, hero title, hero button, welcome title and welcome text share the same left edge at every width from 1024px up (38 / 38 / 38 / 120 / 278 / 598px); no horizontal overflow. No production build was run for this one-value change, to leave the dev server's cache alone.
@@ -870,7 +870,7 @@
 
 ## Accommodation — mobile houses: the client's naming, description and photos (ad-hoc, outside tasks.json)
 **Date:** 2026-10-08
-**Status:** done — not committed
+**Status:** done
 **Summary:** The client described the standalone units (in Russian): two mobile houses — no. 1 for 6 guests (three rooms, kitchen, two WCs, shower, terrace) and no. 3, "house three", for 5 guests — plus the sauna, which in summer is let as a mobile house for 2. The user added the photos (`images-aps/Mob-hiš-1`, `images-aps/Mob-hiš-3`, AVIF) and asked for the houses block to follow.
 - **Naming.** The two tabs of the houses showcase on the Apartments page are now "Mobile house 1" and "Mobile house 3" (SL "Mobilna hiška 1 / 3", RU "Мобильный домик 1 / 3") instead of the MOCK "Family house" / "Mobile house"; the group heading is "Mobile houses". There is no number 2 — that is the client's own numbering. Dictionary keys follow it: `accommodation.units.house2.*` became `accommodation.units.house3.*`.
 - **Copy.** House 1 says exactly what the client listed (pills: up to 6 persons, 3 rooms, kitchen, 2 WCs · shower, terrace). For house 3 the client gave only the capacity (5); the rest of its text and pills (kitchen, sofa corner, two lofts, bathroom with shower, terrace) describes what the client's photos show and is marked as such in the dictionaries — **confirm with the client**. The group intro names both houses and adds the sauna's summer use. Removed as unconfirmed MOCK: the "44 m²" / "35 m²" pills, "BBQ equipment", "1 bedroom", and the "Wood-fired sauna" pill on each house (the sauna is not private to a house). SL and RU are my translation of the EN wording — **need a native read**. The Sauna block's own copy is unchanged (the RU text there is the client's).
@@ -887,7 +887,7 @@
 
 ## Accommodation — room selector: every room with its own photos and guest count (ad-hoc, outside tasks.json)
 **Date:** 2026-10-08
-**Status:** done — not committed
+**Status:** done
 **Summary:** The client listed the rooms of the main house with how many people each sleeps — 1 (also called 101) – 2, 2 – 5, 3 – 4, 4 – 5, 5 – 3, 7 – 4, 9 – 6, 10 – 6, 11 – 3 — and the user added the photos, one folder per room (`images-aps/r1` … `r13`). The "Rooms in the main house" group on the Apartments page showed one mixed gallery under "Cozy rooms upstairs"; it now has a room selector.
 - **Selector.** A row of nine tiles above the gallery, under the label "Choose a room": each tile has the room name and its guest count (people icon + number). Picking a tile swaps the gallery, the room name and the pills. One row on desktop, five across from 1024px down, three across on phones. It sits above the gallery — not in the panel like the two house pills — so on a phone it comes before the photos it changes. It is the same switcher as the houses' (`HouseShowcase.jsx`, new prop `selector="tiles"`; the houses keep the default `pills`), with the same sliding highlight; tiles are buttons, so they work from the keyboard, and each reads to a screen reader as "Room 2 — Up to 5 persons". Without JavaScript the first room is shown with its tile highlighted.
 - **Guest counts** are the client's numbers, shown on the tile and as the first pill ("Up to 5 persons" / "Do 5 oseb" / "До 5 человек").
@@ -904,7 +904,7 @@
 
 ## Showcase slider — thumbnail strip: one line, one size, no scrollbar (ad-hoc, outside tasks.json)
 **Date:** 2026-10-08
-**Status:** done — not committed
+**Status:** done
 **Summary:** Three user requests in a row about the thumbnails under the shared slider (houses, rooms, sauna block, the landing's feature rows): they must not wrap to a second line on desktop; the scrollbar that then appeared under the 13-photo sauna strip is ugly — show exactly as many as fit and centre the shorter strips; and the thumbs must be the same size in every slider.
 - **One size everywhere.** A thumb is `--thumb-size` wide (4rem; one value on `.house-showcase__thumbs`), whatever the gallery's length or the slider's width. Before, the size depended on how many photos shared the row (49px in the sauna, 106px in a five-photo house, on the same page).
 - **One row, centred, no scrollbar.** The strip is a flex row only as wide as its thumbs and centred under the photo, so a short gallery sits in the middle. The scrollbar is hidden; the row never wraps.
@@ -918,7 +918,7 @@
 
 ## Sauna — new photo set in the Sauna block and on the landing (ad-hoc, outside tasks.json)
 **Date:** 2026-10-08
-**Status:** done — not committed
+**Status:** done
 **Summary:** The user added 38 sauna photos (`images-aps/sauna/`, AVIF) and asked for them on the site. The sauna gallery went from 2 photos (3 on the landing) to 13, the same set everywhere the sauna is shown: the Sauna block on the Apartments and Activities pages and the sauna row of the landing (`/social`).
 - **The set, in order:** sauna room in warm light · stove and benches · stove with stones · glass door and lockers · shower with the dousing bucket · rest room with the sofa · its round table and chairs · covered terrace · plunge tub in the terrace floor · terrace chairs with the view · foggy view from the terrace table · the cabin from outside · the terrace in the evening. Each photo has its own alt text in EN / SL / RU (SL and RU are my translation — native read needed).
 - **One list.** The set is defined once, in `src/components/sections/saunaPhotos.ts` (file order = gallery order, one alt key per photo); `Sauna.astro` and `social.astro` both read it. To add a photo: next numbered file in `public/images/sauna/`, run `node scripts/make-image-derivatives.mjs`, add its alt key to the list.
@@ -928,3 +928,17 @@
 **Verified:** `npm run build` clean, 24 pages. Playwright on the user's running dev server (`localhost:4321`): 13 photos in the Sauna block on `/accommodation` and `/activities` and in the landing's sauna row (EN, SL, RU; 1440 / 1024 / 390px), every photo and thumbnail decodes, no horizontal overflow, no console or network errors. The build was run beside that dev server; the home hero and the galleries still hydrate there afterwards.
 **Not verified:** real devices; Lighthouse.
 **Files changed:** src/components/sections/saunaPhotos.ts (new), src/components/sections/Sauna.astro, src/pages/[...lang]/social.astro, src/i18n/{en,sl,ru}.ts, public/images/sauna/ (13 photos + thumbs), translations/{en,sl,ru}.json
+
+## Bentral reservation widget — real embed in place of the placeholder (ad-hoc, outside tasks.json)
+**Date:** 2026-10-21
+**Status:** done
+**Summary:** The user configured the Bentral booking widget (colours matched to the site tokens: headers forest `#3e5a40` / white, section rows surface-warm `#f9f3ed` / forest, rows white / text `#3a2e26`, button terracotta `#a65a3a` / bg `#fbf8f3` like `.btn--primary`, border mist `#b8bca8`) and pasted Bentral's embed code. It now replaces the placeholder on `/rezervacija` and at the bottom of `/social`, in all three languages — still in `BentralEmbed.astro` only.
+- **Not pasted as a script.** Bentral's code is `<script src="//www.bentral.com/service/embed/booking.js?…">`, which `document.write()`s an iframe of `service/embed/booking.html?…` (same parameters) and resizes it from `postMessage`. The component renders that iframe itself — no render-blocking third-party script, no `document.write`, and the iframe keeps its `title` (i18n `booking.widgetTitle`), `loading="lazy"` and `.booking__frame` class. A small bundled script does the resize: the widget posts `<frame id>_<height>` on load and on every height change; the iframe whose `contentWindow` sent it gets height + 30px (Bentral's own headroom). Messages from any origin other than `https://www.bentral.com` are ignored. Matching by `event.source`, not by Bentral's frame id, because that id is a hash of the URL parameters and changes per language.
+- **Language:** `lang=sl` on Slovenian pages, `lang=en` on English and Russian ones — Bentral has no Russian widget (`lang=ru` returns the English page).
+- **To change the object, key or colours:** edit the `params` list in `BentralEmbed.astro` (the values are the ones in Bentral's embed code).
+- The placeholder note is gone; its dictionary key `booking.placeholder` and the `.booking__placeholder` style are now unused and were left in place.
+- Bentral lists the units as Room 1, 2, 3, 4, 5, 7, 9, 10, 11 and Mob.hiška 1–3 — the same rooms as the Apartments page, and room 1 is "Room 1" (not 101).
+- Bentral's response carries `X-Frame-Options: ALLOW-FROM *`, which Chrome reports in the console as an invalid header (and ignores). It comes from Bentral, not from the site; Lighthouse may count it under "Browser errors logged to the console".
+**Verified:** Playwright (Chromium) on the dev server, `/rezervacija`, `/sl/rezervacija`, `/ru/rezervacija`, `/social`, `/sl/social` × 1440 / 390px: one widget per page, right language, iframe sized to the widget (≈790px at start, grows to 1200px after picking a unit), no horizontal overflow, no errors apart from Bentral's header warning. `npm run build` clean, 24 pages; the built pages carry the iframe with title + lazy loading.
+**Not verified:** a full test booking through to step 3; real devices; Lighthouse.
+**Files changed:** src/components/booking/BentralEmbed.astro
