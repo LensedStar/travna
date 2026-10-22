@@ -976,3 +976,10 @@
 **Verified:** `tsc --strict` on sl.ts against UIDict passes. Playwright (Chromium) on the running dev server, `/sl/`, `/sl/accommodation`, `/sl/activities`, `/sl/menu` × 1280 / 375 / 320px: status 200, 44 new strings present, the replaced headings and the old dish name gone, no horizontal overflow, no console or page errors. Both badges measured: text inside the circle at every width (menu badge 1 + 2 lines in 154px, activities 1 + 2 in 134px). Menu badge looked at in EN / SL / RU at 1280 and 320px. All four home tabs screenshotted at 1280 and 375px; nothing clipped.
 **Not verified:** `npm run build` (not run beside the user's dev server, see the dev-cache note); a native read of the strings I did not get from the client.
 **Files changed:** src/i18n/sl.ts, src/content/{activities,destinations,menu}/sl/*.json, src/styles/blocks/_menu.scss, translations/sl.json
+
+## Menu hero photo — restored after line-ending corruption (ad-hoc, outside tasks.json)
+**Date:** 2026-10-22
+**Status:** done
+**Summary:** `public/images/hero-menu.png` had not displayed on `/menu` in any language since 48ba747: the file in that commit is the earlier photo with every CR LF pair turned into LF (31 bytes shorter, PNG signature broken). Byte check confirmed it is exactly the f2a0b39 file with that one change, so the f2a0b39 bytes were restored. `.gitattributes` already marks `*.png` as binary, so the damage likely came from a tool rewriting the file, not from git. All 257 images under `public/` were decoded with sharp; this was the only broken one.
+**Verified:** the file decodes (PNG 1448×1086); `/menu`, `/sl/menu`, `/ru/menu` show the photo at 1280 and 320px.
+**Files changed:** public/images/hero-menu.png
