@@ -3,6 +3,8 @@
 // Reworked 2026-10-21 to read as Slovenian written from scratch rather than a word-for-word
 // translation: vikanje throughout, Slovenian punctuation (spaced en dash, sparingly), declined
 // brand and place names in running text. The facts are unchanged — TODO(Webline): native read.
+// 2026-10-22: the client's own Slovenian copy is now in the home, apartments, activities and menu
+// pages (and the sl/ activities, destinations and menu entries) — keep it as the client wrote it.
 //
 // Do NOT hardcode visible strings in components — always read them through the helpers in './index.ts'.
 // Section comments mirror en.ts line for line so the two dictionaries diff cleanly.
@@ -48,8 +50,8 @@ export const sl: UIDict = {
   // --- Home: hero ---
   'home.hero.title': 'Planinski dom na Travni gori',
   'home.hero.subtitle': 'Kjer čas teče počasneje',
-  // TODO: replace with client-approved copy — atmospheric draft, makes no factual claims.
-  'home.hero.intro': 'Topel les, tiha jutra in svež gozdni zrak. Planinski dom za dneve brez hitenja, dolge večere ob ognju in urnik, v katerem skoraj nič ne piše.',
+  // Client's copy (2026-10-22).
+  'home.hero.intro': 'Topel les, tiha jutra in svež gozdni zrak. Planinski dom za dneve brez hitenja, dolge večere ob ognju in trenutke, ko ni treba gledati na uro.',
   'home.hero.ratingsLabel': 'Ocene gostov',
   'home.hero.bookingLabel': 'Booking.com',
   'home.hero.bookingScale': 'od 10',
@@ -70,7 +72,7 @@ export const sl: UIDict = {
   // --- Home: welcome / the house (first section after the hero) ---
   'home.welcome.title': 'Domačni apartmaji sredi gozda',
   'home.welcome.lead':
-    'Pustite mesto za seboj in si poiščite mir na Travni gori, visoki gozdnati planoti nad Ribniško dolino. Med drevesi se odpirajo travniki, gozd sega vse do vašega apartmaja, zrak pa diši po gozdu, ne po prometu. Pridite se umirit, globoko zadihat in spoznat miren kotiček Slovenije, za katerega ve le malokdo.',
+    'Pustite mestni vrvež za seboj in poiščite svoj mir na Travni gori, gozdnati planoti nad Ribniško dolino. Med drevesi se razprostirajo travniki, gozd sega vse do vašega apartmaja, svež zrak pa vabi, da globoko zadihate. Pridite se sprostit, uživat v naravi in odkrit miren kotiček Slovenije, ki ga pozna le malokdo.',
   'home.welcome.imageAlt': 'Planinski dom na Travni gori sredi gozda', // MOCK — real photo alt
   'home.welcome.pill.apartments': 'Domačni apartmaji', // MOCK
   'home.welcome.pill.kitchen': 'Domača kuhinja', // MOCK
@@ -82,11 +84,11 @@ export const sl: UIDict = {
   'home.heritage.eyebrow': 'Naša zgodba', // MOCK
   'home.heritage.title': 'Ena hiša, več rodov', // MOCK
   'home.heritage.intro':
-    'Dopust lahko preživite v hiši, ki že skoraj sto let sprejema popotnike in planince – seveda danes s sodobnim udobjem.',
+    'V hiši, ki že skoraj stoletje sprejema popotnike in planince, se danes prepletata bogata zgodovina in sodobno udobje.',
   'home.heritage.m1.era': '1927',
   'home.heritage.m1.title': 'Koča na gori', // TODO: confirm the opening year with the client (a local source dates the dom to 1958)
   'home.heritage.m1.body':
-    'Leta 1927 je hiša odprla vrata kot planinski dom. Pohodniki in popotniki so se tu ustavljali, da so se po dnevu na poti odpočili, najedli in pogreli.',
+    'Leta 1927 je hiša odprla svoja vrata kot planinski dom. Pohodniki in popotniki so se tu ustavljali, da bi si po dolgi poti odpočili, se okrepčali in pogreli.',
   'home.heritage.m1.alt': 'Stara fotografija hiše iz prvih let, pred vhodom konj z vozom',
   'home.heritage.m2.era': '19—', // TODO: confirm real year
   'home.heritage.m2.title': 'Dolge mize, polna hiša', // MOCK
@@ -96,12 +98,12 @@ export const sl: UIDict = {
   'home.heritage.m3.era': '1969',
   'home.heritage.m3.title': 'Smučarska leta',
   'home.heritage.m3.body':
-    'Konec šestdesetih let je na pobočju pod hišo že obratovalo majhno smučišče z vlečnico in lesenimi bungalovi. Pozimi so na goro za ves dan prihajale cele družine.',
+    'Konec šestdesetih let je na pobočju pod hišo že obratovalo majhno smučišče z vlečnico in lesenimi bungalovi. Pozimi so sem za ves dan prihajale cele družine.',
   'home.heritage.m3.alt': 'Stara razglednica Travne gore: smučarji na pobočju pod hišo in lesen bungalov',
   'home.heritage.m4.era': '2026',
   'home.heritage.m4.title': 'Hiša danes',
   'home.heritage.m4.body':
-    'Skoraj sto let pozneje hiša še vedno stoji. Skrbno je obnovljena, opremljena s sodobnim udobjem in pripravljena, da vas sprejme na oddih, ki si ga boste zapomnili.',
+    'Skoraj sto let pozneje hiša še vedno stoji. Skrbno obnovljena združuje bogato zgodovino s sodobnim udobjem in vas vabi, da si vzamete čas zase ter uživate v miru in naravi.',
   'home.heritage.m4.alt': 'Današnja podoba hiše na barvni fotografiji',
 
   // --- Home: apartments showcase (icon-tabbed photo slider) ---
@@ -110,41 +112,41 @@ export const sl: UIDict = {
   'home.apartments.title': 'Prostor, kjer se nikamor ne mudi', // MOCK
   'home.apartments.intro':
     'Tople sobe z dušo sredi slovenskega podeželja. Okoli hiše gozd, na mizi domača hrana.', // MOCK
-  'home.apartments.hint': 'Izberite ikono za podrobnosti', // MOCK — shown as an on-image hint, not in the subheader
+  'home.apartments.hint': 'Izberite ikono za več informacij', // MOCK — shown as an on-image hint, not in the subheader
   'home.apartments.rooms.title': 'Sobe za vsakogar',
   'home.apartments.rooms.text':
-    'Čiste, udobne sobe za manjše in večje skupine. Enako toplo sprejmemo velike družine, pare in tiste, ki potujejo sami.',
+    'Udobne, prijetno urejene sobe za pare, družine, prijatelje in posamezne popotnike. Pri nas boste našli prostor za sproščen oddih v dvoje ali v družbi najbližjih.',
   'home.apartments.rooms.tab': 'Sobe', // MOCK — short label for the icon tab
   'home.apartments.rooms.b1':
-    'Najamete lahko celo hišo zase, z ločenim vhodom in lastno kuhinjo, za 1–6 oseb.',
-  'home.apartments.rooms.b2': 'Ali pa samo sobo, za 1–4 osebe.',
-  'home.apartments.rooms.b3': 'Pogrejte se v savni na drva, sami s svojo družbo ali skupaj z drugimi gosti.',
+    'Na voljo je tudi najem celotne hiše za 1–6 oseb, z zasebnim vhodom in lastno kuhinjo.',
+  'home.apartments.rooms.b2': 'Lahko pa izberete posamezno sobo za 1–4 osebe.',
+  'home.apartments.rooms.b3': 'Sprostite se v savni na drva – v zasebnosti svoje družbe ali skupaj z drugimi gosti.',
   'home.apartments.rooms.alt': 'Toplo osvetljena notranjost apartmaja z lesenim pohištvom', // MOCK — replace with real photo
   'home.apartments.slovenia.title': 'V srcu Slovenije',
   'home.apartments.slovenia.text':
-    'Lega je kot nalašč za izlete po Sloveniji. Ljubljana, kraške jame, jezera, gozdovi in gradovi so od tu oddaljeni približno uro vožnje.',
+    'Travna gora je odlično izhodišče za raziskovanje Slovenije. V približno uri vožnje lahko obiščete Ljubljano, znamenite kraške jame in številne druge zanimivosti. Po dnevu, polnem doživetij, pa se vrnete v mir in tišino narave.',
   'home.apartments.slovenia.tab': 'Slovenija', // MOCK — short label for the icon tab
-  'home.apartments.slovenia.b1': 'Do večine znamenitosti približno uro vožnje',
-  'home.apartments.slovenia.b2': 'Blizu Ljubljane ter Postojnske in Križne jame',
+  'home.apartments.slovenia.b1': 'Odlično izhodišče za izlete po Sloveniji.',
+  'home.apartments.slovenia.b2': 'Na dosegu Ljubljane, Postojnske in Križne jame.',
   // TODO(Webline): confirm before launch — the nearby Krokar & Rajhenavski Rog beech primeval
   // forests are UNESCO-listed; naming them explicitly is an option once the client approves.
-  'home.apartments.slovenia.b3': 'Na robu gozdov, ki sodijo med najstarejše in najbolje ohranjene v Evropi',
+  'home.apartments.slovenia.b3': 'V bližini prostranih gozdov Kočevske in Ribniške doline.',
   'home.apartments.slovenia.alt': 'Hiša od zunaj, obdana s slovenskim podeželjem', // MOCK — replace with real photo
   'home.apartments.nature.title': 'Za ljubitelje narave',
   'home.apartments.nature.text':
-    'Zbujali se boste ob enem najlepših gozdov v Evropi in zaspali ob petju ptic. Če boste imeli srečo, se bo pred hišo pokazala tudi srna.',
+    'Zjutraj vas bo prebudilo ptičje petje, čez dan pa boste lahko raziskovali okoliške gozdove in travnike. Če boste imeli srečo, boste kar pred hišo zagledali tudi srno.',
   'home.apartments.nature.tab': 'Narava', // MOCK — short label for the icon tab
-  'home.apartments.nature.b1': 'Čist zrak in končno nekaj dni brez vsakdanjega hitenja',
-  'home.apartments.nature.b2': 'Slovenija s svoje najbolj zelene strani',
-  'home.apartments.nature.b3': 'Z vodnikom na opazovanje rjavih medvedov v naravnem okolju',
+  'home.apartments.nature.b1': 'Čist zrak in nekaj dni brez vsakdanjega hitenja.',
+  'home.apartments.nature.b2': 'Slovenija s svoje najbolj zelene strani.',
+  'home.apartments.nature.b3': 'Možnost opazovanja rjavih medvedov v naravnem okolju z izkušenim vodnikom.',
   'home.apartments.nature.alt': 'Gozd in travnik okoli planinskega doma', // MOCK — replace with real photo
   'home.apartments.food.title': 'Domača kuhinja',
   'home.apartments.food.text':
-    'Kuhamo po domače, na tradicionalni slovenski način: izdatno, okusno in z ljubeznijo.',
+    'Pri nas kuhamo po domače. Na mizo postrežemo okusne, izdatne jedi, pripravljene iz lokalnih in sezonskih sestavin.',
   'home.apartments.food.tab': 'Hrana', // MOCK — short label for the icon tab
-  'home.apartments.food.b1': 'Tradicionalne jedi, skuhane z ljubeznijo',
-  'home.apartments.food.b2': 'Izdatni obroki iz lokalnih sezonskih sestavin',
-  'home.apartments.food.b3': 'Zajtrk po dogovoru',
+  'home.apartments.food.b1': 'Tradicionalne slovenske jedi.',
+  'home.apartments.food.b2': 'Doma pripravljeni, izdatni obroki.',
+  'home.apartments.food.b3': 'Zajtrk po dogovoru.',
   'home.apartments.food.alt': 'Lesena miza, polna domače hrane', // MOCK — replace with real photo
 
   // --- Home: editorial gallery block ---
@@ -193,13 +195,13 @@ export const sl: UIDict = {
   // --- Home: book-direct value strip ---
   'home.bookDirect.title': 'Rezervirajte neposredno pri nas',
   'home.bookDirect.intro':
-    'Če rezervirate neposredno pri nas, dobite najboljšo ceno, za vse drugo pa poskrbimo osebno, od prvega sporočila do odhoda.', // MOCK — review claims before launch
+    'Ob neposredni rezervaciji vam zagotovimo najboljšo ceno, za vse ostalo pa poskrbimo osebno – od prvega sporočila do vašega odhoda.', // MOCK — review claims before launch
   'home.bookDirect.benefit1Title': 'Takojšnja potrditev',
-  'home.bookDirect.benefit1Desc': 'Rezervacija je potrjena takoj, brez čakanja in zapletov.',
+  'home.bookDirect.benefit1Desc': 'Rezervacijo potrdimo brez nepotrebnega čakanja in zapletov.',
   'home.bookDirect.benefit2Title': 'Najboljša cena',
-  'home.bookDirect.benefit2Desc': 'Pri neposredni rezervaciji vam zagotavljamo najugodnejšo ceno.', // MOCK — best-price claim, confirm with client
+  'home.bookDirect.benefit2Desc': 'Ob neposredni rezervaciji vam zagotovimo najugodnejšo ceno.', // MOCK — best-price claim, confirm with client
   'home.bookDirect.benefit3Title': 'Osebni stik',
-  'home.bookDirect.benefit3Desc': 'Pišete in govorite neposredno z nami, gostitelji, ki vam z veseljem pomagamo.',
+  'home.bookDirect.benefit3Desc': 'Z nami ste v neposrednem stiku. Z veseljem odgovorimo na vaša vprašanja in vam pomagamo pri načrtovanju bivanja.',
 
   // --- Accommodation page ---
   'accommodation.title': 'Apartmaji',
@@ -220,9 +222,9 @@ export const sl: UIDict = {
   'accommodation.hero.eyebrow': 'Naša hiša', // MOCK
   'accommodation.hero.title': 'Domačni apartmaji s pogledom na neokrnjeno naravo', // MOCK
   'accommodation.hero.lead':
-    'Naša hiša stoji visoko na Travni gori, tik ob robu gozda, kjer je zrak svež, zjutraj pa se nad drevesi počasi vleče megla. Dva domačna apartmaja, topla od lesa in tišine, sta namenjena vsem, ki si želijo nekaj dni brez naglice.',
+    'Naša hiša stoji na Travni gori, tik ob robu gozda. Tu vas pričakajo svež zrak, jutra, ko se nad drevesi počasi dviga megla, in dva prijetna apartmaja, opremljena v toplih lesenih tonih. Kot nalašč za vse, ki si želijo nekaj dni oddiha brez naglice.',
   'accommodation.hero.body':
-    'Cesta se vije skozi gozd in se nato odpre na planoto, parkirate pa brezplačno tik pred vrati. S terase seže pogled čez krošnje vse do doline. Kot nalašč za jutranjo kavo ali kozarec vina, ko se prikrade megla.',
+    'Do hiše vodi cesta skozi gozd, parkirate pa lahko brezplačno tik pred vhodom. S terase se odpira pogled na okoliške travnike in gozdove. Prijeten kotiček za jutranjo kavo ali kozarec vina ob koncu dneva.',
   'accommodation.hero.imageAlt': 'Hiša na Travni gori, obdana z gozdom', // MOCK — replace with real photo
   'accommodation.hero.badge.title': 'Narava', // MOCK
   'accommodation.hero.badge.sub': 'vsenaokrog', // MOCK
@@ -312,7 +314,7 @@ export const sl: UIDict = {
   // TODO(Webline): confirm with the client. New strings translated from EN — native read needed.
   'accommodation.units.rooms.title': 'Sobe v glavni hiši', // MOCK
   'accommodation.units.rooms.text':
-    'Tople sobe z lesenimi oblogami pod streho glavne hiše. Klasičen planinski slog, čisto in sveže, vsaka soba pa ima svojo kopalnico in pogled na gozd ali dolino.',
+    'Prijetne sobe z lesenimi oblogami v mansardi glavne hiše. Opremljene so v tradicionalnem planinskem slogu, vsaka pa ima svojo kopalnico in pogled na gozd ali dolino.',
   'accommodation.units.rooms.choose': 'Izberite sobo', // label above the room selector
   'accommodation.units.rooms.name': 'Soba {n}', // {n} = the room number
   'accommodation.units.rooms.capacity': 'Do {n} oseb', // {n} = number of guests
@@ -336,11 +338,11 @@ export const sl: UIDict = {
   'accommodation.kitchen.lead':
     'Ni lepšega kot zjutraj, ko po hiši zadiši po svežem kruhu in kavi. Zajtrk je pri nas domač, brez hitenja in pripravljen kot nekoč: iz lokalnih sezonskih sestavin, ne iz vrečke.',
   'accommodation.kitchen.body':
-    'Pojejte ga na terasi, dokler je gorski zrak še hladen, ali pa ostanite za mizo, kolikor dolgo vam prija. Na Travni gori se zjutraj nikamor ne mudi. Če bi raje kuhali sami, je gostom na voljo popolnoma opremljena kuhinja, ki vas čaka, kadar koli vas prime lakota.',
+    'Privoščite si zajtrk na terasi, ko je jutranji zrak še prijetno svež, ali pa v jedilnici uživajte ob skodelici kave in domačih dobrotah. Na Travni gori se zjutraj nikamor ne mudi. Če si raje kuhate sami, vam je na voljo tudi popolnoma opremljena kuhinja.',
   'accommodation.kitchen.imageAlt': 'Lesena miza, pogrnjena za domač zajtrk', // MOCK — replace with real photo
-  'accommodation.kitchen.point1': 'Domač zajtrk, vsako jutro svež',
-  'accommodation.kitchen.point2': 'Sezonske sestavine iz bližnje okolice',
-  'accommodation.kitchen.point4': 'Z veseljem upoštevamo alergije in posebne prehranske želje',
+  'accommodation.kitchen.point1': 'Vsako jutro sveže pripravljen domač zajtrk',
+  'accommodation.kitchen.point2': 'Sezonske sestavine iz lokalnega okolja',
+  'accommodation.kitchen.point4': 'Po predhodnem dogovoru upoštevamo tudi alergije in posebne prehranske želje',
   'accommodation.kitchen.cta': 'Oglejte si jedilnik',
 
   // --- Sauna (shared block: apartments page + activities page) ---
@@ -350,10 +352,10 @@ export const sl: UIDict = {
   'sauna.title': 'Savna na drva',
   'sauna.shortTitle': 'Savna', // heading used where the block stands on its own (activities page)
   'sauna.body':
-    'Po dnevu v gozdu ni boljšega kot toplota, les in tišina. Savno kurimo na drva, tako kot tu od nekdaj. Počakajte, da se dobro segreje, potem pa stopite ven na hladen gorski zrak.',
-  'sauna.point1': 'Sodobno opremljena savna',
-  'sauna.point2': 'Sprostitev po dolgem dnevu',
-  'sauna.point3': 'Dobro de telesu in duši',
+    'Po dnevu, preživetem v naravi, se prileže sprostitev v prijetno ogreti savni. Pri nas jo še vedno kurimo na drva, kar ji daje poseben čar. Prepustite se toplini, nato pa se osvežite na svežem gorskem zraku.',
+  'sauna.point1': 'Savna s pečjo na drva',
+  'sauna.point2': 'Prijetna sprostitev po aktivnem dnevu',
+  'sauna.point3': 'Toplina in oddih za telo in duha',
   // Alt texts of the sauna photos, one per photo — the order is set in components/sections/saunaPhotos.ts.
   'sauna.photo.room': 'Notranjost savne na drva: lesene klopi v topli svetlobi ob peči',
   'sauna.photo.benches': 'Peč s košaro kamnov ob lesenih klopeh v dveh vrstah',
@@ -412,11 +414,11 @@ export const sl: UIDict = {
   'activities.eyebrow': 'Okoli Travne gore',
   'activities.title': 'S Travne gore po Sloveniji',
   'activities.intro':
-    'Travna gora je kraj, kjer si vzamete čas zase, a od tu lahko v enem dnevu obiščete marsikatero znano slovensko znamenitost. Zbudite se ob petju ptic in vonju gozda, nato pa se odpravite do jam, gradov, jezer ali v prestolnico. Do večine je približno ura vožnje.',
+    'Travna gora je odlično izhodišče za raziskovanje Slovenije. Po mirnem jutru sredi narave se lahko odpravite na izlet do kraških jam, gradov, jezer ali Ljubljane. Številne priljubljene izletniške točke so oddaljene približno uro vožnje.',
   'activities.hero.imageAlt': 'Gozdnata pokrajina okoli Travne gore', // MOCK photo — TODO(Webline): swap alt with real photo
   // Badge figure restates the approximate drive time already in the intro copy — confirm before launch.
   'activities.hero.badge.title': '≈ 1 ura',
-  'activities.hero.badge.sub': 'do večine znamenitosti',
+  'activities.hero.badge.sub': 'do številnih znamenitosti',
   // Highlight pills — the sight types named in the intro copy.
   'activities.hero.pill.caves': 'Kraške jame',
   'activities.hero.pill.castles': 'Gradovi',
@@ -427,39 +429,39 @@ export const sl: UIDict = {
   'activities.doorstep.eyebrow': 'Tik pred vrati',
   'activities.doorstep.title': 'Vse se začne pred hišo',
   'activities.doorstep.intro':
-    'Daleč vam ni treba. Poti, gozdne ceste in razgledišča se začnejo že na Travni gori in okoli bližnje Koče na Kamnem griču.',
+    'Za prijeten izlet se vam ni treba odpraviti daleč. Pohodniške poti, gozdne ceste in razgledišča vas čakajo že na Travni gori in v okolici bližnje Koče na Kamnem griču.',
 
   // Day-trip destinations — cards rendered from the `destinations` content collection.
   'activities.trips.eyebrow': 'Enodnevni izleti',
   'activities.trips.title': 'Slovenija na dosegu roke',
   'activities.trips.intro':
-    'Travna gora leži med Ljubljano in znamenitimi kraškimi jamami, zato je odlično izhodišče za izlete. Do večine spodnjih krajev je precej manj kot ura vožnje.',
+    'Travna gora je priročno izhodišče za izlete po Notranjski, Dolenjski in drugih delih Slovenije. Številne zanimivosti so oddaljene manj kot uro vožnje.',
   'activities.trips.driveLabel': 'Vožnja z avtom', // label prefix on each distance badge
   'activities.trips.directions': 'Navodila za pot', // link out to Google Maps, opens in a new tab
 
   // Day-trip sub-section headings (grouping the `destinations` collection by `section`).
-  'activities.trips.section.forests': 'Gozdni sprehodi',
+  'activities.trips.section.forests': 'Jezera in pohodniške poti',
   'activities.trips.section.caves': 'Jame',
   'activities.trips.section.wildlife': 'Divje živali',
-  'activities.trips.section.history': 'Zgodovina in gradovi',
+  'activities.trips.section.history': 'Mesta in gradovi',
 
   // Why guests love it — benefits list (icon + text).
   'activities.why.eyebrow': 'Zakaj je gostom všeč',
   'activities.why.title': 'Miren kotiček, pa vendar blizu vsega',
-  'activities.why.b1': 'Pravi mir, daleč od mestnega hrupa',
-  'activities.why.b2': 'Ob robu gozdov, ki so med največjimi v Evropi',
-  'activities.why.b3': 'Možnost, da v naravi vidite rjavega medveda',
-  'activities.why.b4': 'Med Ljubljano in kraškimi jamami',
+  'activities.why.b1': 'Daleč od mestnega hrupa in vsakdanjega vrveža',
+  'activities.why.b2': 'Sredi prostranih gozdov Notranjske',
+  'activities.why.b3': 'Možnost opazovanja rjavih medvedov z izkušenim vodnikom',
+  'activities.why.b4': 'Odlično izhodišče za obisk Ljubljane in kraških jam',
 
   // --- Menu page ---
   'menu.title': 'Jedilnik',
   'menu.intro': 'Domače jedi iz lokalnih sestavin, ki jih postrežemo v naši jedilnici.', // MOCK
   'menu.hero.eyebrow': 'Iz naše kuhinje', // MOCK
   'menu.hero.lead':
-    'Vse skuhamo sami, tako kot od nekdaj: po družinskih receptih, iz lokalnih sezonskih sestavin in brez vrečk. Dan se začne z domačim zajtrkom, pozneje so na vrsti tople juhe in izdatne planinske jedi, za konec pa še kaj sladkega.', // TODO(Webline): confirm meal times & dish claims with the client
+    'Vse jedi pripravljamo sami, po preizkušenih družinskih receptih, iz lokalnih in sezonskih sestavin. Dan se začne z domačim zajtrkom, pozneje pa so na vrsti okusne juhe, izdatne glavne jedi in za konec še kaj sladkega.', // TODO(Webline): confirm meal times & dish claims with the client
   'menu.hero.imageAlt': 'Jedilnica, pogrnjena za obed', // MOCK — real photo, alt TODO(Webline)
-  'menu.hero.badge.title': 'Domače', // MOCK
-  'menu.hero.badge.sub': 'družinski recepti', // MOCK
+  'menu.hero.badge.title': 'Domače jedi', // MOCK
+  'menu.hero.badge.sub': 'po družinskih receptih', // MOCK
   'menu.hero.pill.breakfast': 'Zajtrk',
   'menu.hero.pill.mains': 'Izdatne glavne jedi',
   'menu.hero.pill.soups': 'Juhe in solate',
@@ -469,7 +471,7 @@ export const sl: UIDict = {
   'menu.pdf.fallback': 'Odpri jedilnik v novem zavihku',
   'menu.price': 'Cena',
   'menu.legend.title': 'Alergeni',
-  'menu.legend.note': 'Prosimo, da nam ob naročilu poveste za morebitne alergije ali prehranske omejitve.',
+  'menu.legend.note': 'Prosimo, da nas ob naročilu opozorite na morebitne alergije ali posebne prehranske zahteve.',
 
   // --- Contact page + form ---
   'contact.title': 'Kontakt',

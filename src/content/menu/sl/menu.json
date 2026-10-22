@@ -29,7 +29,7 @@
       "items": [
         {
           "name": "Italijanski zajtrk",
-          "description": "Palačinke po družinskem receptu ali dva rogljička, s čokolado, marmelado ali karamelnim prelivom po izbiri. Pijača je vključena.",
+          "description": "Palačinke po družinskem receptu ali dva rogljička s prelivom po izbiri – čokoladnim, marmeladnim ali karamelnim. Pijača je vključena.",
           "price": "6,00 €",
           "allergens": [
             "GP",
@@ -39,7 +39,7 @@
         },
         {
           "name": "Tradicionalni zajtrk",
-          "description": "Hrustljav toast, klobasa, sir, kuhano jajce, maslo in sadna marmelada. Pijača je vključena.",
+          "description": "Hrustljav popečen kruh, klobasa, sir, kuhano jajce, maslo in sadna marmelada. Pijača je vključena.",
           "price": "6,00 €",
           "allergens": [
             "GP",
@@ -49,7 +49,7 @@
         },
         {
           "name": "Domači zajtrk",
-          "description": "Po izbiri jajca na oko, jajce, zapečeno v toastu, ali omleta. Zraven solata iz sveže zelenjave in klobasa. Pijača je vključena.",
+          "description": "Izbirate lahko med jajci na oko, jajcem, pečenim v kruhu, ali omleto. Postrežemo jih s svežo zelenjavno solato in klobaso. Pijača je vključena.",
           "price": "10,00 €",
           "allergens": [
             "GP",
@@ -75,7 +75,7 @@
         },
         {
           "name": "Grška solata",
-          "description": "Svež paradižnik, kumare, paprika, zelena solata, korenje, čebula in mehak sir feta. Preliv po izbiri: limonin sok, bučno ali oljčno olje.",
+          "description": "Svež paradižnik, kumare, paprika, zelena solata, korenje, čebula in sir feta. Preliv po izbiri: limonin sok, bučno ali oljčno olje.",
           "price": "6,00 €",
           "allergens": [
             "L"
@@ -83,7 +83,7 @@
         },
         {
           "name": "Solatni krožnik",
-          "description": "Narezana sveža zelenjava s prelivom cezar. Zraven po izbiri sočen piščančji file, ocvrta riba (R), svinjski zrezek, kuhano jajce (J) ali mehka omleta (J).",
+          "description": "Sveža narezana zelenjava s cezarjevim prelivom. Po izbiri dodamo sočen piščančji file, ocvrto ribo (R), svinjski zrezek, kuhano jajce (J) ali omleto (J).",
           "price": "9,00 €",
           "allergens": [
             "GP",
@@ -137,7 +137,7 @@
         },
         {
           "name": "Sezonska juha",
-          "description": "Izdatna juha z mehkim mesom in zelenjavo, ki je takrat v sezoni.",
+          "description": "Krepka juha z mehkim mesom in sezonsko zelenjavo.",
           "price": "6,00 €"
         }
       ]
@@ -178,8 +178,8 @@
           ]
         },
         {
-          "name": "Vareniki z krompirom",
-          "description": "Mehki testeni žepki s krompirjevim nadevom, zabeljeni s stopljenim maslom.",
+          "name": "Vareniki s krompirjem",
+          "description": "Mehki testeni žepki s krompirjevim nadevom, preliti s stopljenim maslom.",
           "price": "9,50 €",
           "allergens": [
             "GP",
@@ -188,7 +188,7 @@
         },
         {
           "name": "Čevapčiči s pomfrijem",
-          "description": "Čevapčiči iz mletega mesa z ajvarjem in sesekljano čebulo.",
+          "description": "Sočni čevapčiči z ajvarjem in sesekljano čebulo, postreženi s pomfrijem.",
           "price": "13,00 €"
         },
         {
@@ -198,17 +198,17 @@
         },
         {
           "name": "Domača klobasa",
-          "description": "Tradicionalna klobasa iz Sodražice z ajvarjem in sesekljano čebulo. Zraven pomfri ali lahka solata iz sveže zelenjave z bučnim oljem in limoninim sokom.",
+          "description": "Tradicionalna klobasa iz Sodražice z ajvarjem in sesekljano čebulo. Za prilogo lahko izberete pomfri ali svežo zelenjavno solato z bučnim oljem in limoninim sokom.",
           "price": "14,00 €"
         },
         {
           "name": "Piščanec s pomfrijem",
-          "description": "Sočni ocvrti piščančji koščki brez kosti in kože. Zraven pomfri ali lahka solata iz sveže zelenjave z bučnim oljem in limoninim sokom.",
+          "description": "Sočni ocvrti piščančji koščki brez kosti in kože. Za prilogo lahko izberete pomfri ali svežo zelenjavno solato z bučnim oljem in limoninim sokom.",
           "price": "13,00 €"
         },
         {
           "name": "Dunajski zrezek",
-          "description": "Klasičen paniran zrezek, ocvrt do zlate barve.",
+          "description": "Klasičen paniran zrezek, zlato ocvrt in hrustljav.",
           "price": "13,00 €",
           "allergens": [
             "GP"
@@ -216,7 +216,7 @@
         },
         {
           "name": "Riba s solato",
-          "description": "File soma, nežno popečen v ponvi, z lahko solato iz sveže zelenjave, bučnim oljem in limoninim sokom.",
+          "description": "V ponvi nežno popečen file soma, postrežen s svežo zelenjavno solato, bučnim oljem in limoninim sokom.",
           "price": "14,00 €",
           "allergens": [
             "R"
@@ -248,7 +248,7 @@
         },
         {
           "name": "Palačinke oladji (5 kosov)",
-          "description": "Male palačinke po družinskem receptu, s čokolado, marmelado ali karamelnim prelivom po izbiri.",
+          "description": "Majhne puhaste palačinke po družinskem receptu, s čokolado, marmelado ali karamelnim prelivom po izbiri.",
           "price": "4,50 €",
           "featured": true,
           "allergens": [

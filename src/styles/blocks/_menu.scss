@@ -119,9 +119,11 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  width: 7rem;
-  height: 7rem;
-  padding: var(--space-md);
+  // A size up from the activities badge: the Slovenian label ("Domače jedi / po družinskih
+  // receptih") needs the room — at 7rem it ran to five lines and out of the circle.
+  width: 8rem;
+  height: 8rem;
+  padding: var(--space-sm);
   border-radius: 50%;
   text-align: center;
   background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
