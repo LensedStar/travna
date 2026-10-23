@@ -991,3 +991,12 @@
 **Verified:** Playwright on the running dev server, `/contact`, `/sl/contact`, `/ru/contact`: status 200, the island hydrates, no `input[type=date]`, fields are form-name / bot-field / name / email / phone / message / consent, no console or page errors. `tsc --strict` on the three dictionaries passes.
 **Not verified:** `npm run build` (not run beside the user's dev server, see the dev-cache note).
 **Files changed:** src/islands/ContactForm.jsx, src/pages/[...lang]/contact.astro, src/styles/blocks/_contact.scss, src/i18n/{en,sl,ru}.ts, translations/{en,sl,ru}.json
+
+## Home page — content no longer creeps upward after load (ad-hoc, outside tasks.json)
+**Date:** 2026-10-23
+**Status:** done
+**Summary:** On desktop (≥64rem) every block on the page slid up by ~7px in 1px steps for about four seconds after load, on every page. Cause: a feedback loop in the header. The logo's height was `calc(var(--header-height) - var(--space-sm) * 2)`, and the inline script in BaseLayout measures the header and writes the result back into `--header-height` on every resize. Since 3e5c645 the script measures with fractional `getBoundingClientRect().height` (it used whole-pixel `offsetHeight`, which happened to settle at once), so each round lost a sub-pixel to rounding and the header shrank from 86.4px to 79.6px a frame at a time, dragging the body padding and all content with it. Fix: a new `--header-bar-height: 4.5rem` design value sizes the desktop logo, and `--header-height` falls back to it; the measured value now only drives the content offset, scroll padding and mobile-nav top, never the header itself. The desktop bar now holds the size it already showed on first paint (86.4px, logo 57.6px) instead of shrinking to 79.6px. Phones and tablets were not affected (their logo has its own fixed size) and are unchanged.
+**Verified:** Playwright on the running dev server, per-frame trace of the home page for 7s: header height and logo size constant at 1920 / 1440 / 1100 / 1024 / 800 / 390px; hero text finishes its entrance at ~1.7s and nothing moves after it; sections below the hero no longer shift. No header overflow in EN / SL at 1024 / 1100 / 1440px; no console or page errors.
+**Seen, not touched:** RU at 1024–1100px — the header row is ~94px wider than the viewport (nav labels are longer). Same result with the code before this fix.
+**Not verified:** `npm run build` (not run beside the user's dev server, see the dev-cache note).
+**Files changed:** src/styles/blocks/_header.scss

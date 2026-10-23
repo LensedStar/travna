@@ -35,8 +35,12 @@
 // have no header and add no class). `--header-height` is measured at runtime in BaseLayout; the
 // fallback covers the pre-script paint. `scroll-padding-top` keeps in-page anchor / skip-link
 // targets from landing behind the bar.
+// `--header-bar-height` is the desktop bar's design height; the logo is sized from it, never from
+// the measured `--header-height` — feeding the measurement back into the logo made a loop that
+// shrank the header a sub-pixel per frame, so the whole page crept upward for seconds after load.
 :root {
-  --header-height: 4.5rem;
+  --header-bar-height: 4.5rem;
+  --header-height: var(--header-bar-height);
 }
 
 html {
@@ -68,7 +72,7 @@ html {
 // max-width cap above). The badge is square, so width tracks height via aspect-ratio.
 .site-header__logo {
   display: block;
-  block-size: calc(var(--header-height) - var(--space-sm) * 2);
+  block-size: calc(var(--header-bar-height) - var(--space-sm) * 2);
   inline-size: auto;
   aspect-ratio: 1 / 1;
   object-fit: contain;
@@ -112,7 +116,7 @@ html {
 // Phones + tablets: hide the inline desktop nav — the MobileNav island (TASK-012) takes over here.
 // On tablets the Book CTA stays beside the burger (phones drop it below). With the nav
 // gone the bar only carries brand + actions, so the logo gets an explicit height (instead of
-// tracking the desktop --header-height), sized so the badge stays legible on a phone screen.
+// tracking the desktop --header-bar-height), sized so the badge stays legible on a phone screen.
 @media (max-width: 63.99rem) {
   .site-header__nav {
     display: none;
