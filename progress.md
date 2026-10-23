@@ -983,3 +983,11 @@
 **Summary:** `public/images/hero-menu.png` had not displayed on `/menu` in any language since 48ba747: the file in that commit is the earlier photo with every CR LF pair turned into LF (31 bytes shorter, PNG signature broken). Byte check confirmed it is exactly the f2a0b39 file with that one change, so the f2a0b39 bytes were restored. `.gitattributes` already marks `*.png` as binary, so the damage likely came from a tool rewriting the file, not from git. All 257 images under `public/` were decoded with sharp; this was the only broken one.
 **Verified:** the file decodes (PNG 1448×1086); `/menu`, `/sl/menu`, `/ru/menu` show the photo at 1280 and 320px.
 **Files changed:** public/images/hero-menu.png
+
+## Contact form — check-in / check-out date fields removed (ad-hoc, outside tasks.json)
+**Date:** 2026-10-23
+**Status:** done
+**Summary:** At the user's request the two date pickers (Check-in / Check-out, SL "Prihod" / "Odhod", RU "Заезд" / "Выезд") are gone from the contact form in every locale. The form now has Name, Email, Phone, Message and the consent checkbox. Removed with them: the `contact.form.checkin` / `contact.form.checkout` keys in en/sl/ru and translations/*.json, the strings passed from contact.astro, and the `.contact-form__row` rule, which only the date pair used. Netlify will stop receiving `checkin` / `checkout` values; earlier submissions are unaffected. This departs from CLAUDE.md §13 and TASK-022, which list the date fields; tasks.json is unchanged.
+**Verified:** Playwright on the running dev server, `/contact`, `/sl/contact`, `/ru/contact`: status 200, the island hydrates, no `input[type=date]`, fields are form-name / bot-field / name / email / phone / message / consent, no console or page errors. `tsc --strict` on the three dictionaries passes.
+**Not verified:** `npm run build` (not run beside the user's dev server, see the dev-cache note).
+**Files changed:** src/islands/ContactForm.jsx, src/pages/[...lang]/contact.astro, src/styles/blocks/_contact.scss, src/i18n/{en,sl,ru}.ts, translations/{en,sl,ru}.json

@@ -443,8 +443,6 @@ export const ru: UIDict = {
   'contact.form.name': 'Имя',
   'contact.form.email': 'Эл. почта',
   'contact.form.phone': 'Телефон',
-  'contact.form.checkin': 'Заезд',
-  'contact.form.checkout': 'Выезд',
   'contact.form.message': 'Сообщение',
   'contact.form.consent': 'Я принимаю политику конфиденциальности.',
   'contact.form.submit': 'Отправить сообщение',

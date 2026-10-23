@@ -4,8 +4,8 @@
 // configured in Netlify, not in code). The form markup is rendered to static HTML by Astro at build
 // time, so Netlify's build-time form detection picks it up (data-netlify + a hidden form-name field).
 //
-// Fields: Name (required), Email (required), Phone (optional), Check-in / Check-out (optional),
-// Message (optional), plus a REQUIRED privacy-consent checkbox.
+// Fields: Name (required), Email (required), Phone (optional), Message (optional), plus a REQUIRED
+// privacy-consent checkbox. (Check-in / Check-out date fields were removed at the client's request.)
 //
 // Client-side validation runs before submission; if anything is invalid we preventDefault and show
 // inline messages. When valid, the native POST goes to Netlify and redirects to /thank-you/
@@ -120,21 +120,6 @@ export default function ContactForm({ strings = {}, formName = 'contact-en', act
           {strings.phone}
         </label>
         <input className="contact-form__input" id="contact-phone" name="phone" type="tel" />
-      </div>
-
-      <div className="contact-form__row">
-        <div className="contact-form__field">
-          <label className="contact-form__label" htmlFor="contact-checkin">
-            {strings.checkin}
-          </label>
-          <input className="contact-form__input" id="contact-checkin" name="checkin" type="date" />
-        </div>
-        <div className="contact-form__field">
-          <label className="contact-form__label" htmlFor="contact-checkout">
-            {strings.checkout}
-          </label>
-          <input className="contact-form__input" id="contact-checkout" name="checkout" type="date" />
-        </div>
       </div>
 
       <div className="contact-form__field">

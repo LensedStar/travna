@@ -480,8 +480,6 @@ export const sl: UIDict = {
   'contact.form.name': 'Ime',
   'contact.form.email': 'E-pošta',
   'contact.form.phone': 'Telefon',
-  'contact.form.checkin': 'Prihod',
-  'contact.form.checkout': 'Odhod',
   'contact.form.message': 'Sporočilo',
   'contact.form.consent': 'Strinjam se s politiko zasebnosti.',
   'contact.form.submit': 'Pošlji sporočilo',

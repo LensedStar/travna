@@ -475,8 +475,6 @@ export const en = {
   'contact.form.name': 'Name',
   'contact.form.email': 'Email',
   'contact.form.phone': 'Phone',
-  'contact.form.checkin': 'Check-in',
-  'contact.form.checkout': 'Check-out',
   'contact.form.message': 'Message',
   'contact.form.consent': 'I agree to the privacy policy.',
   'contact.form.submit': 'Send message',
