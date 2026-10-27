@@ -8,6 +8,7 @@
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
+import { contactPhones } from '../ui/contactPhones';
 import { useTranslations } from '../../i18n';
 
 // `showSprig` toggles the decorative botanical watermark — off on the accommodation page.
@@ -28,9 +29,9 @@ const propertyQuery = encodeURIComponent('"Planinski dom na Travni gori" d.o.o.,
 const mapEmbedUrl = `https://maps.google.com/maps?q=${propertyCoords}&z=12&output=embed`;
 const mapPlaceUrl = `https://www.google.com/maps/search/?api=1&query=${propertyQuery}`;
 const mapDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${propertyCoords}`;
-// Contact hrefs (not UI copy). TODO(Webline): replace with the real phone/email at launch.
-const telHref = 'tel:+3860000000';
-const mailHref = 'mailto:info@example.com';
+// Contact links are derived from the dictionary values.
+const phones = contactPhones(t);
+const mailHref = `mailto:${t('footer.contact.email')}`;
 
 // Compact travel facts — line-icon + i18n key. Reorder/extend here without touching the layout.
 const facts = [
@@ -80,10 +81,13 @@ const facts = [
 
       <div class="find-us__info">
         <ul class="find-us__contact">
-          <li class="find-us__contact-item">
-            <Icon name="phone" class="find-us__contact-icon" />
-            <a class="find-us__contact-link" href={telHref}>{t('footer.contact.phone')}</a>
-          </li>
+          {phones.map(({ label, number, href }) => (
+            <li class="find-us__contact-item">
+              <Icon name="phone" class="find-us__contact-icon" />
+              <a class="find-us__contact-link" href={href}>{number}</a>
+              <span class="find-us__contact-label">{label}</span>
+            </li>
+          ))}
           <li class="find-us__contact-item">
             <Icon name="mail" class="find-us__contact-icon" />
             <a class="find-us__contact-link" href={mailHref}>{t('footer.contact.email')}</a>

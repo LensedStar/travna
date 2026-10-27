@@ -6,6 +6,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import ContactForm from '../../islands/ContactForm.jsx';
+import { contactPhones } from '../../components/ui/contactPhones';
 import { useTranslations, localizePath, resolveLocale, localeStaticPaths } from '../../i18n';
 
 const lang = resolveLocale(Astro.currentLocale);
@@ -31,10 +32,10 @@ const formStrings = {
 const formName = `contact-${lang}`;
 const thankYouPath = localizePath('/thank-you/', lang);
 
-// config values (non-visible hrefs — not UI copy). Mirror the footer's placeholders.
-// TODO(Webline): replace with the real phone, email and social profiles at launch.
-const telHref = 'tel:+3860000000'; // TODO
-const mailHref = 'mailto:info@example.com'; // TODO
+// Phone and email links are derived from the dictionary values (non-visible hrefs — not UI copy).
+// TODO(Webline): replace with the real social profiles at launch.
+const phones = contactPhones(t);
+const mailHref = `mailto:${t('footer.contact.email')}`;
 const instagramUrl = 'https://instagram.com/'; // TODO
 const facebookUrl = 'https://facebook.com/'; // TODO
 
@@ -60,9 +61,12 @@ export const getStaticPaths = localeStaticPaths;
         <aside class="contact__details">
           <h2 class="contact__details-title">{t('contact.details.title')}</h2>
           <ul class="contact__details-list">
-            <li>
-              <a class="contact__details-link" href={telHref}>{t('footer.contact.phone')}</a>
-            </li>
+            {phones.map(({ label, number, href }) => (
+              <li>
+                <span class="contact__details-label">{label}:</span>{' '}
+                <a class="contact__details-link" href={href}>{number}</a>
+              </li>
+            ))}
             <li>
               <a class="contact__details-link" href={mailHref}>{t('footer.contact.email')}</a>
             </li>

@@ -160,6 +160,13 @@
   }
 }
 
+// "Landline:" / "Mobile:" before each phone number.
+.contact__details-label {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-forest);
+}
+
 // --- Thank-you page (TASK-023): form success state -------------------------------------
 .thank-you {
   padding-block: var(--space-3xl);

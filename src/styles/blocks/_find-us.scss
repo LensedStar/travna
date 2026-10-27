@@ -263,6 +263,12 @@
   }
 }
 
+// Which line a number is (landline / mobile) — quiet, after the number.
+.find-us__contact-label {
+  font-size: var(--text-small);
+  color: var(--color-forest);
+}
+
 // --- Road tip: left-aligned text on the left, route map alongside on the right ----
 .find-us__story {
   display: grid;

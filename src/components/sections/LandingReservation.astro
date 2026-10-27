@@ -8,6 +8,7 @@
 import SectionHeader from '../ui/SectionHeader.astro';
 import Icon from '../ui/Icon.astro';
 import BentralEmbed from '../booking/BentralEmbed.astro';
+import { contactPhones } from '../ui/contactPhones';
 import { useTranslations } from '../../i18n';
 import { landingGoals } from './landingGoal';
 
@@ -20,11 +21,10 @@ const perks = [
   { icon: 'message-circle', label: t('home.bookDirect.benefit3Title') },
 ];
 
-// Contact links are derived from the dictionary values, so replacing the placeholder phone / email
-// there updates the links too. TODO(Webline): real phone + email before launch.
-const phone = t('footer.contact.phone');
+// Contact links are derived from the dictionary values. One number only (the first listed) keeps
+// the help line short on a phone; the full list is on the Contact page.
+const { number: phone, href: telHref } = contactPhones(t)[0];
 const email = t('footer.contact.email');
-const telHref = `tel:${phone.replace(/[^\d+]/g, '')}`;
 const mailHref = `mailto:${email}`;
 ---
 <section class="landing-book" id={landingGoals.booking.anchor}>

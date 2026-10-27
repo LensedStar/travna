@@ -183,7 +183,7 @@ export const en = {
   'home.findUs.cta': 'Get directions',
   // Road-tip (centered icon + title + subtitle, with the route map beneath)
   'home.findUs.tip.title': 'The easier way up the mountain', // MOCK
-  'home.findUs.tip.text': 'It is not about saving minutes — it is about a calmer drive. Take the marked route through Sodražica: it stays wide and well-kept the whole way up. The road further south is narrower and runs along a steep cliff edge, so we suggest leaving that one to the locals.',
+  'home.findUs.tip.text': 'It is not about saving minutes — it is about a calmer drive. Take the marked route through Sodražica: it stays wide and well-kept the whole way up. The road further south, via Nova Štifta, is narrower and runs along a steep cliff edge, so we suggest leaving that one to the locals.',
   'home.findUs.tip.alt': 'Route map showing the easier, well-kept drive up to Planinski dom na Travni gori', // MOCK — replace with final route map
   'home.findUs.tip.zoom': 'Enlarge the route map',
   'home.findUs.tip.close': 'Close the enlarged route map',
@@ -253,9 +253,9 @@ export const en = {
   'accommodation.bonuses.b5.text': 'Lorem ipsum — trailheads just steps from the terrace.', // MOCK
   'accommodation.bonuses.b6.title': 'Homemade breakfast', // MOCK
   'accommodation.bonuses.b6.text': 'Lorem ipsum — a hearty start to the day, on request.', // MOCK
-  'accommodation.bonuses.score.value': '8.8',
+  'accommodation.bonuses.score.value': '9.0',
   'accommodation.bonuses.score.scale': 'out of 10',
-  'accommodation.bonuses.score.label': 'Rated on Booking.com', // MOCK — confirm live score
+  'accommodation.bonuses.score.label': 'Rated on Booking.com',
   'accommodation.bonuses.score.logoAlt': 'Booking.com',
 
   // --- Accommodation page: units — houses + rooms (MOCK) ---
@@ -367,7 +367,7 @@ export const en = {
   'sauna.photo.evening': 'The covered terrace of the sauna house in the evening, lamps lit over the table and chairs',
 
   // --- Testimonials (real guest reviews, translated from Booking.com) ---
-  'testimonials.score.value': '8.8',
+  'testimonials.score.value': '9.0',
   'testimonials.score.label': 'Excellent',
   'testimonials.score.meta': 'Based on 400 reviews on Booking.com',
   'testimonials.eyebrow': 'Guest voices', // MOCK
@@ -578,8 +578,12 @@ export const en = {
 
   // --- Footer ---
   'footer.contact.title': 'Contact',
-  'footer.contact.phone': '+386 0 000 000',
-  'footer.contact.email': 'info@example.com',
+  'footer.contact.landlineLabel': 'Landline',
+  'footer.contact.landline': '+386 1 836 11 78',
+  'footer.contact.mobileLabel': 'Mobile',
+  'footer.contact.mobile1': '+386 70 619 469',
+  'footer.contact.mobile2': '+386 70 619 768',
+  'footer.contact.email': 'ktg310@gmail.com',
   'footer.social.title': 'Follow us',
   'footer.social.instagram': 'Instagram', // brand name (link label / aria-label)
   'footer.social.facebook': 'Facebook', // brand name (link label / aria-label)
@@ -590,10 +594,13 @@ export const en = {
   'footer.nav.book': 'Book now',
   'footer.nav.privacy': 'Privacy policy',
   'footer.legal.title': 'Legal',
-  'footer.legal.entity': 'Planinski dom na Travni gori d.o.o.', // MOCK — replace with real legal entity
-  'footer.legal.address': 'Street 1, 0000 City', // MOCK — replace with real address
-  'footer.legal.country': 'Slovenia', // MOCK
-  'footer.legal.taxId': 'VAT ID: SI00000000', // MOCK — replace with real VAT/DDV number
+  'footer.legal.entity': 'Dom na TRAVNI GORI d.o.o.',
+  'footer.legal.address': 'Travna Gora 42, 1317 Sodražica',
+  'footer.legal.country': 'Slovenia',
+  'footer.legal.regNo': 'Company reg. no.: 7178034000',
+  'footer.legal.taxId': 'VAT ID: SI91573777',
+  'footer.legal.iban': 'IBAN: SI56 0284 3026 3423 662',
+  'footer.legal.bank': 'Nova Ljubljanska Banka d.d., BIC (SWIFT): LJBASI2X',
   'footer.directions': 'Short “how to reach us” note.',
   'footer.rights': 'All rights are reserved',
   'footer.credit.text': 'Design & Developed by',

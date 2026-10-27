@@ -64,12 +64,14 @@ const lodgingSchema = {
   description: t('site.tagline'), // TODO
   url: siteRoot,
   image: ogImageURL, // TODO: real OG/property image
-  telephone: t('footer.contact.phone'), // TODO
-  email: t('footer.contact.email'), // TODO
+  telephone: t('footer.contact.landline'),
+  email: t('footer.contact.email'),
   address: {
     '@type': 'PostalAddress',
-    streetAddress: t('footer.legal.address'), // TODO
-    addressCountry: 'SI', // Slovenia — region stated in the PRD, not invented
+    streetAddress: 'Travna Gora 42',
+    postalCode: '1317',
+    addressLocality: 'Sodražica',
+    addressCountry: 'SI',
   },
   // TODO: add geo (lat/lng), priceRange, starRating and amenityFeature once the client
   // provides real data — placeholders only here, no invented facts.

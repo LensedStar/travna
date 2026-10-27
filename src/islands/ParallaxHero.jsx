@@ -122,7 +122,7 @@ export default function ParallaxHero({
         </div>
         <div className="hero__ratings" role="group" aria-label={ratingsLabel}>
           <div className="hero__rating">
-            <strong className="hero__rating-score">8.8</strong>
+            <strong className="hero__rating-score">9.0</strong>
             <span className="hero__rating-details">
               <img
                 className="hero__rating-logo hero__rating-logo--booking"

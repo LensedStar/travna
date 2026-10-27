@@ -1,9 +1,9 @@
 ---
 // AccommodationBonuses.astro — Apartments page "good to know" block.
-// A prominent Booking.com score badge (8.8) sits beside a grid of bonus cards — pet-friendly first,
+// A prominent Booking.com score badge (9.0) sits beside a grid of bonus cards — pet-friendly first,
 // then parking, Wi-Fi, sauna, forest access and homemade breakfast. Pure .astro, zero client JS.
 // Visible strings come from the i18n dictionary; styling lives in src/styles/blocks/_accommodation-bonuses.scss.
-// Copy is MOCK; the score is a placeholder — TODO(Webline): confirm the live Booking.com rating.
+// Copy is MOCK; the score is the client-confirmed Booking.com rating (2026-10-27).
 import SectionHeader from '../ui/SectionHeader.astro';
 import Icon from '../ui/Icon.astro';
 import { useTranslations } from '../../i18n';
@@ -28,7 +28,7 @@ const bonuses = [
       align="center"
     />
 
-    <!-- Booking.com score badge — the 8.8 social-proof figure. -->
+    <!-- Booking.com score badge — the 9.0 social-proof figure. -->
     <div class="bonuses__score" aria-label={`${t('accommodation.bonuses.score.value')} ${t('accommodation.bonuses.score.scale')} — ${t('accommodation.bonuses.score.label')}`}>
       <span class="bonuses__score-value">{t('accommodation.bonuses.score.value')}</span>
       <span class="bonuses__score-meta">
